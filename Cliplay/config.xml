@@ -63,9 +63,6 @@
     <feature name="FileTransfer">
         <param name="ios-package" value="CDVFileTransfer" />
     </feature>
-    <feature name="YoikScreenOrientation">
-        <param name="ios-package" value="YoikScreenOrientation" />
-    </feature>
     <feature name="SQLitePlugin">
         <param name="ios-package" value="SQLitePlugin" />
     </feature>
