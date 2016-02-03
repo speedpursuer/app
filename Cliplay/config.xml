@@ -34,6 +34,7 @@
 	<preference name="BackupWebStorage" value="none" />
 	<preference name="AutoHideSplashScreen" value="false" />
 	<preference name="ShowSplashScreenSpinner" value="false" />
+	<preference name="Orientation" value="portrait" />	
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>

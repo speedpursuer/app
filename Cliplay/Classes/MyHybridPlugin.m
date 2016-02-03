@@ -11,29 +11,6 @@
 #import "ClipPlayController.h"
 
 @implementation MyHybridPlugin
--(void)playClip_:(CDVInvokedUrlCommand*) command {
-    NSString* clipURL = [command.arguments objectAtIndex:0];
-    
-    if(clipURL) {
-		
-        MainViewController* mvc = (MainViewController*)[self viewController];
-		
-		ClipPlayController *vc = [ClipPlayController new];
-		
-		vc.clipURL = clipURL;
-		
-		[mvc.navigationController pushViewController:vc animated:YES];
-		[mvc.navigationController setNavigationBarHidden:NO];
-		mvc.navigationController.navigationBar.tintColor = [UIColor blackColor];
-		mvc.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-		
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    } else {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }
-}
 
 -(void)playClip:(CDVInvokedUrlCommand*) command {
 	NSString* clipURL = [command.arguments objectAtIndex:0];
@@ -65,4 +42,52 @@
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	}
 }
+
+-(void)showMessage:(CDVInvokedUrlCommand*) command {
+	NSString* title = [command.arguments objectAtIndex:0];
+	NSString* desc = [command.arguments objectAtIndex:1];
+	
+	if(title && desc) {
+		
+		//MainViewController* mvc = (MainViewController*)[self viewController];
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+														message:desc
+													   delegate:nil
+											  cancelButtonTitle:@"确定"
+											  otherButtonTitles:nil];
+		[alert show];
+		
+		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	} else {
+		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	}
+}
+/*
+ -(void)playClip_:(CDVInvokedUrlCommand*) command {
+ NSString* clipURL = [command.arguments objectAtIndex:0];
+ 
+ if(clipURL) {
+ 
+ MainViewController* mvc = (MainViewController*)[self viewController];
+ 
+ ClipPlayController *vc = [ClipPlayController new];
+ 
+ vc.clipURL = clipURL;
+ 
+ [mvc.navigationController pushViewController:vc animated:YES];
+ [mvc.navigationController setNavigationBarHidden:NO];
+ mvc.navigationController.navigationBar.tintColor = [UIColor blackColor];
+ mvc.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+ 
+ CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+ [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+ } else {
+ CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+ [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+ }
+ }
+*/
 @end

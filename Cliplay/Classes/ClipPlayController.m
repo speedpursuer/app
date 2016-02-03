@@ -25,9 +25,8 @@
 @implementation ClipPlayController {
 	YYAnimatedImageView *imageView;
 	BOOL loaded;
+	BOOL download;
 	BOOL iniFavorite;
-	//UIImage *likeImamge;
-	//UIImage *notLikeImage;
 }
 
 - (void)viewDidLoad {
@@ -46,6 +45,7 @@
 	imageView = [YYAnimatedImageView new];
 	
 	loaded = false;
+	download = false;
 	
 //	imageView.height = self.view.size.height - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
 
@@ -104,17 +104,27 @@
 			
 			[UIImageJPEGRepresentation(image1, 0.8f) writeToFile:filePath atomically:YES];
 			
-			//download = true;
+			download = true;
 			
 			//[self performSelectorOnMainThread:@selector(updateClip) withObject:nil waitUntilDone:NO];
 			
 			return image;
 		}
 		completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error){
+			
 			if (stage == YYWebImageStageFinished) {
-				[_progressBar setValue: 100 animateWithDuration:1];
-				_progressBar.hidden = YES;
-				loaded = true;
+				if(!error) {
+					[_progressBar setValue: 100 animateWithDuration:1];
+					_progressBar.hidden = YES;
+					loaded = true;
+				}else {
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法下载"
+																	message:@"请您检查是否已连接网络."
+																   delegate:nil
+														  cancelButtonTitle:@"确定"
+														  otherButtonTitles:nil];
+					[alert show];
+				}
 			}
 		}
 	];
@@ -167,23 +177,6 @@
 		
 		if(self.favorite) [heartButton select];
 		[self.view addSubview:heartButton];
-		
-		/*
-		_likeButton = [[UIButton alloc] initWithFrame:CGRectMake(self.view.size.width - 36,[UIApplication sharedApplication].statusBarFrame.size.height,36,36)];
-		[_likeButton addTarget:self action:@selector(addFavorite) forControlEvents:UIControlEventTouchUpInside];
-		likeImamge = [UIImage imageNamed:@"heart.png"];
-		notLikeImage = [UIImage imageNamed:@"like.png"];
-		[self updateLikeButton: TRUE];
-		[self.view addSubview:_likeButton];
-		*/
-	}
-}
-
-- (void) updateClip {
-	if (self.showLike) {
-		[self callJSFunction:@"updateClipThumb();"];
-	}else {
-		[self callJSFunction:@"updateClipThumbForFavorite();"];
 	}
 }
 
@@ -194,7 +187,6 @@
 	} else {
 		[sender select];
 	}
-	//[self callJSFunction:@"updateClipFavorite();"];
 }
 
 - (void)cancelAction{
@@ -205,10 +197,6 @@
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)callJSFunction: (NSString*) fun {
-	[self.delegate.webView stringByEvaluatingJavaScriptFromString:fun];
-}
-
 - (void)showProgress{
 	if (!loaded) {
 		_progressBar.hidden = NO;
@@ -217,16 +205,30 @@
 
 - (void)emitActionToJS{
 	
-	if (loaded) {
-		if (iniFavorite != self.favorite) {
-			[self callJSFunction:@"updateClipBoth();"];
-		} else {
-			[self updateClip];
-		}
-	} else if (iniFavorite != self.favorite) {
-		[self callJSFunction:@"updateClipFavorite();"];
+	NSString *favorite = @"", *load = @"", *from = @"";
+	
+	if (iniFavorite != self.favorite) {
+		favorite = @"favorite";
 	}
+	
+	if(download) {
+		load = @"download";
+	} else if (loaded) {
+		load = @"load";
+	}
+	
+	if (self.showLike) {
+		from = @"clip";
+	}
+	
+	[self callJSFunction: favorite load:load from:from];
 }
+
+- (void)callJSFunction: (NSString*) favorite load:(NSString*) load from:(NSString*) from  {
+	[self.delegate.webView stringByEvaluatingJavaScriptFromString:
+	 [NSString stringWithFormat:@"updateClip('%@', '%@', '%@')", favorite, load, from]];
+}
+
 /*
  -(void) viewWillDisappear:(BOOL)animated {
 	if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
@@ -248,5 +250,34 @@
 	[self callJSFunction:@"updateClipFavorite();"];
 	[self updateLikeButton: FALSE];
 }
+ - (void)callJSFunction: (NSString*) fun {
+	[self.delegate.webView stringByEvaluatingJavaScriptFromString:fun];
+ }
+ 
+ - (void)callJSFunction__: (NSString*) input {
+	[self.delegate.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"test_test('%@')", input]];
+}
+
+ - (void) updateClip {
+	if (self.showLike) {
+ [self callJSFunction:@"updateClipThumb();"];
+	}else {
+ [self callJSFunction:@"updateClipThumbForFavorite();"];
+	}
+ }
+ - (void)emitActionToJS{
+	
+	if (loaded) {
+ if (iniFavorite != self.favorite) {
+ [self callJSFunction:@"updateClipBoth();"];
+ 
+ } else {
+ [self updateClip];
+ }
+	} else if (iniFavorite != self.favorite) {
+ [self callJSFunction:@"updateClipFavorite();"];
+	}
+ }
+
 */
 @end

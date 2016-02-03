@@ -24,4 +24,8 @@
     [self setNavigationBarHidden:YES];
 }
 
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
+}
+
 @end
