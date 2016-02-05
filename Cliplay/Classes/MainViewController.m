@@ -167,4 +167,8 @@
     return [super execute:command];
 }
 
+- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
+}
+
 @end

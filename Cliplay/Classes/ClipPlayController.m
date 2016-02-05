@@ -18,9 +18,9 @@
 #import "DOFavoriteButton.h"
 
 @interface ClipPlayController()<UIGestureRecognizerDelegate>
-@property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) MBCircularProgressBarView *progressBar;
-@property (nonatomic, strong) UIButton *likeButton;
+@property (nonatomic, strong) DOFavoriteButton *heartButton;
+@property (nonatomic, strong) FRDLivelyButton *closeButton;
 @end
 @implementation ClipPlayController {
 	YYAnimatedImageView *imageView;
@@ -121,7 +121,7 @@
 					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法下载"
 																	message:@"请您检查是否已连接网络."
 																   delegate:nil
-														  cancelButtonTitle:@"确定"
+														  cancelButtonTitle:@"好"
 														  otherButtonTitles:nil];
 					[alert show];
 				}
@@ -147,21 +147,21 @@
 	
 	iniFavorite = self.favorite;
 	
-	FRDLivelyButton *closeButton = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(6,[UIApplication sharedApplication].statusBarFrame.size.height+6,36,28)];
-	[closeButton setStyle:kFRDLivelyButtonStyleClose animated:NO];
-	[closeButton addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
-	[closeButton setOptions:@{ kFRDLivelyButtonLineWidth: @(2.0f),
+	_closeButton = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(6,[UIApplication sharedApplication].statusBarFrame.size.height+6,36,28)];
+	[_closeButton setStyle:kFRDLivelyButtonStyleClose animated:NO];
+	[_closeButton addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
+	[_closeButton setOptions:@{ kFRDLivelyButtonLineWidth: @(2.0f),
 							   kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]}];
 	
-	[self.view addSubview:closeButton];
+	[self.view addSubview:_closeButton];
 	
 	if (self.showLike) {
 		
-		DOFavoriteButton *heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"heart"]];
+		_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"heart"]];
 		
-		heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-		heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-		heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		
 		/*
 		heartButton.imageColorOn = [UIColor colorWithRed:56.0 / 255.0 green:126.0 / 255.0 blue:245.0 / 255.0 alpha:1.0];
@@ -173,10 +173,10 @@
 		heartButton.lineColor = [UIColor colorWithRed:40.0 / 255.0 green:195.0 / 255.0 blue:85.0 / 255.0 alpha:1.0];
 		*/
 		
-		[heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
+		[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
 		
-		if(self.favorite) [heartButton select];
-		[self.view addSubview:heartButton];
+		if(self.favorite) [_heartButton select];
+		[self.view addSubview:_heartButton];
 	}
 }
 
@@ -229,7 +229,55 @@
 	 [NSString stringWithFormat:@"updateClip('%@', '%@', '%@')", favorite, load, from]];
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	imageView.size = self.view.size;
+	if(toInterfaceOrientation == UIInterfaceOrientationPortrait) {
+		[self showButton];
+	} else {
+		[self hideButton];
+	}
+}
+
+- (void)showButton {
+	_heartButton.hidden = FALSE;
+	_closeButton.hidden = FALSE;
+}
+
+- (void)hideButton {
+	_heartButton.hidden = TRUE;
+	_closeButton.hidden = TRUE;
+}
+
+
 /*
+ //- (void)willAnimateSecondHalfOfRotationFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation duration:(NSTimeInterval)duration {
+ //
+ //	[super willAnimateSecondHalfOfRotationFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
+ //
+ //	imageView.size = self.view.size;
+ //}
+ 
+ //- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+ //	//[super didRotateFromInterfaceOrientation:fromInterfaceOrientation duration:duration];
+ //	imageView.size = self.view.size;
+ //}
+ 
+ 
+ //- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+ //	imageView.size = self.view.size;
+ //	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+ //	imageView.size = self.view.size;
+ //}
+ //
+ //- (void)viewWillLayoutSubviews{
+ //	imageView.size = self.view.size;
+ //}
+ //
+ //- (void)viewDidLayoutSubviews{
+ //	imageView.size = self.view.size;
+ //}
+ 
+
  -(void) viewWillDisappear:(BOOL)animated {
 	if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
 		// back button was pressed.  We know this is true because self is no longer

@@ -46,6 +46,7 @@
 -(void)showMessage:(CDVInvokedUrlCommand*) command {
 	NSString* title = [command.arguments objectAtIndex:0];
 	NSString* desc = [command.arguments objectAtIndex:1];
+	NSString* retry = [command.arguments objectAtIndex:2];
 	
 	if(title && desc) {
 		
@@ -53,8 +54,8 @@
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
 														message:desc
-													   delegate:nil
-											  cancelButtonTitle:@"确定"
+													   delegate:[retry isEqual: @"true"]? self: nil
+											  cancelButtonTitle:[retry isEqual: @"true"]? @"重试": @"好" 
 											  otherButtonTitles:nil];
 		[alert show];
 		
@@ -65,7 +66,21 @@
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	}
 }
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	[self callJSFunction:@"retryInstall();"];
+}
+
+- (void)callJSFunction: (NSString*) fun {
+	MainViewController* mvc = (MainViewController*)[self viewController];
+	[mvc.webView stringByEvaluatingJavaScriptFromString:fun];
+}
+
+
 /*
+ - (void)alertViewCancel:(UIAlertView *)alertView {
+	NSLog(@"alertViewCancel");
+ }
  -(void)playClip_:(CDVInvokedUrlCommand*) command {
  NSString* clipURL = [command.arguments objectAtIndex:0];
  
