@@ -40,6 +40,9 @@
             }];
         }];
     }];
+	
+	tap.numberOfTapsRequired = 2;
+	
     [view addGestureRecognizer:tap];
 }
 

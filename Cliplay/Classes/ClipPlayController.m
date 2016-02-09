@@ -27,13 +27,15 @@
 	BOOL loaded;
 	BOOL download;
 	BOOL iniFavorite;
+	CGSize imageSize;
 }
 
 - (void)viewDidLoad {
 
 	[super viewDidLoad];
 	
-	self.view.backgroundColor = [UIColor colorWithWhite:0.863 alpha:1.000];
+//	self.view.backgroundColor = [UIColor colorWithWhite:0.863 alpha:1.000];
+	self.view.backgroundColor = [UIColor whiteColor];
 	
 	[self loadImage: self.clipURL];
 	
@@ -49,12 +51,16 @@
 	
 //	imageView.height = self.view.size.height - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
 
-	imageView.size = self.view.size;
+	//imageView.size = self.view.size;
 	imageView.clipsToBounds = YES;
 	imageView.contentMode = UIViewContentModeScaleAspectFit;
 	imageView.backgroundColor = [UIColor whiteColor];
 	
-	_progressBar = [[MBCircularProgressBarView alloc] initWithFrame:CGRectMake((imageView.width-100)/2, (imageView.height-100)/2, 100, 100)];
+//	_progressBar = [[MBCircularProgressBarView alloc] initWithFrame:CGRectMake((imageView.width-100)/2, (imageView.height-100)/2, 100, 100)];
+	
+	_progressBar = [[MBCircularProgressBarView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-100)/2, (self.view.bounds.size.height-100)/2, 100, 100)];
+
+	
 	_progressBar.backgroundColor = [UIColor clearColor];
 	_progressBar.hidden = YES;
 	
@@ -116,10 +122,12 @@
 				if(!error) {
 					[_progressBar setValue: 100 animateWithDuration:1];
 					_progressBar.hidden = YES;
+					imageSize = image.size;
 					loaded = true;
+					[self setImageViewSize];
 				}else {
 					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法下载"
-																	message:@"请您检查是否已连接网络."
+																	message:@"请检查是否已连接互联网。"
 																   delegate:nil
 														  cancelButtonTitle:@"好"
 														  otherButtonTitles:nil];
@@ -139,6 +147,89 @@
 	}
 }
 
+- (void) setImageViewSize {
+	
+//	CGFloat a = self.view.frame.size.width;
+//	CGFloat a1 = self.view.size.width;
+//	CGFloat a2 = self.view.bounds.size.width;
+//	CGFloat b =self.view.frame.size.height;
+//	CGFloat b1 =self.view.size.height;
+//	CGFloat b2 =self.view.bounds.size.height;
+	
+	if(!loaded) return;
+	
+	CGFloat imageWidthToHeight = imageSize.width / imageSize.height;
+	CGFloat viewWidthToHeight = self.view.bounds.size.width / self.view.bounds.size.height;
+	
+	if(viewWidthToHeight > imageWidthToHeight) {
+		CGFloat imageViewWidth = self.view.bounds.size.height * imageWidthToHeight;
+		CGFloat left = (self.view.bounds.size.width - imageViewWidth) / 2;
+		CGRect frame = CGRectMake(left, 0.0f, imageViewWidth, self.view.bounds.size.height);
+		imageView.frame = frame;
+		
+	}else {
+		
+		if(self.interfaceOrientation == UIInterfaceOrientationPortrait) {
+			CGRect frame = CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+			imageView.frame = frame;
+		}else {
+			CGFloat imageViewHeight = self.view.bounds.size.width / imageWidthToHeight;
+			CGFloat top = (self.view.bounds.size.height - imageViewHeight) / 2;
+			CGRect frame = CGRectMake(0.0f, top, self.view.bounds.size.width, imageViewHeight);
+			imageView.frame = frame;
+		}
+	}
+}
+
+- (void) setImageViewSize1 {
+	
+	if(!loaded) return;
+	
+	CGFloat imageWidthToHeight = imageSize.width / imageSize.height;
+	CGFloat viewWidthToHeight = self.view.bounds.size.width / self.view.bounds.size.height;
+	
+	if(viewWidthToHeight > imageWidthToHeight) {
+		CGFloat imageViewWidth = self.view.bounds.size.height * imageWidthToHeight;
+		CGFloat left = (self.view.bounds.size.width - imageViewWidth) / 2;
+		CGRect frame = CGRectMake(left, 0.0f, imageViewWidth, self.view.bounds.size.height);
+		imageView.frame = frame;
+		
+	}else {
+		CGRect frame = CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, self.view.bounds.size.height);
+		imageView.frame = frame;
+	}
+	
+	
+}
+
+
+- (void) setImageViewSize_ {
+	
+	if(!loaded) return;
+	
+	CGFloat imageWidthToHeight = imageSize.width / imageSize.height;
+	CGFloat viewWidthToHeight = self.view.bounds.size.width / self.view.bounds.size.height;
+	
+	CGFloat imageViewHeight, imageViewWidth;
+	
+	if(viewWidthToHeight > imageWidthToHeight) {
+		imageViewHeight = self.view.bounds.size.height;
+		imageViewWidth = imageViewHeight * imageWidthToHeight;
+		
+	}else {
+		imageViewWidth = self.view.bounds.size.width;
+		imageViewHeight = imageViewWidth / imageWidthToHeight;
+	}
+	
+	CGFloat top = (self.view.bounds.size.height - imageViewHeight) / 2;
+	
+	CGFloat left = (self.view.bounds.size.width - imageViewWidth) / 2;
+	
+	CGRect frame = CGRectMake(left, top, imageViewWidth, imageViewHeight);
+	imageView.frame = frame;
+}
+
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return YES;
 }
@@ -157,7 +248,7 @@
 	
 	if (self.showLike) {
 		
-		_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"heart"]];
+		_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"heart"]];
 		
 		_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
@@ -193,6 +284,10 @@
 	[imageView yy_cancelCurrentImageRequest];
 	
 	[self emitActionToJS];
+	
+	[[UIDevice currentDevice] setValue:
+	 [NSNumber numberWithInteger: UIInterfaceOrientationPortrait]
+								forKey:@"orientation"];
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -230,11 +325,15 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	imageView.size = self.view.size;
+	
+	[self resetUIPosition];
+	
 	if(toInterfaceOrientation == UIInterfaceOrientationPortrait) {
-		[self showButton];
+		//[self showButton];
+		[self setPortaitMode];
 	} else {
-		[self hideButton];
+		//[self hideButton];
+		[self setLandscapeMode];
 	}
 }
 
@@ -247,6 +346,74 @@
 	_heartButton.hidden = TRUE;
 	_closeButton.hidden = TRUE;
 }
+
+- (void)setPortaitMode {
+	_heartButton.imageColorOff = [UIColor colorWithRed:136.0 / 255.0 green:153.0 / 255.0 blue:166.0 / 255.0 alpha:1.0];
+	[_progressBar setEmptyLineColor:[UIColor lightGrayColor]];
+	[_progressBar setFontColor:[UIColor darkGrayColor]];
+	
+	[_closeButton setOptions:@{
+						  kFRDLivelyButtonLineWidth: @(2.0f),
+						  kFRDLivelyButtonHighlightedColor: [UIColor lightGrayColor],
+						  kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]
+						  }];
+	self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)setLandscapeMode {
+	_heartButton.imageColorOff = [UIColor whiteColor];
+	[_progressBar setEmptyLineColor:[UIColor whiteColor]];
+	[_progressBar setFontColor:[UIColor whiteColor]];
+	[_closeButton setOptions:@{
+							   kFRDLivelyButtonLineWidth: @(2.0f),
+							   kFRDLivelyButtonHighlightedColor: [UIColor colorWithRed:230.0 / 255.0 green:230.0 / 255.0 blue:230.0 / 255.0 alpha:1.0],
+							   kFRDLivelyButtonColor: [UIColor whiteColor]
+							   }];
+	self.view.backgroundColor = [UIColor blackColor];
+}
+
+- (void)resetUIPosition {
+	
+	[self setImageViewSize];
+	//imageView.size = self.view.bounds.size;
+	
+	CGRect f1 = CGRectMake((self.view.bounds.size.width-100)/2, (self.view.bounds.size.height-100)/2, 100, 100);
+	_progressBar.frame = f1;
+	
+	CGFloat statusBarHeight;
+	
+	if(IsAtLeastiOSVersion(@"7.0")) {
+		if (self.interfaceOrientation == UIInterfaceOrientationPortrait) {
+			statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+		}else{
+			statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.width;
+		}
+	}else{
+		statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+	}
+	
+	CGRect f2 = CGRectMake(self.view.bounds.size.width - 44, statusBarHeight, 44, 44);
+	_heartButton.frame = f2;
+	
+	CGRect f3 = CGRectMake(6, statusBarHeight + 6,36,28);
+	_closeButton.frame = f3;
+	
+	[_progressBar setValue: _progressBar.value animateWithDuration:1];
+}
+
+-(void)changeOrientation {
+	[[UIDevice currentDevice] setValue:
+	 [NSNumber numberWithInteger: UIDeviceOrientationLandscapeRight]
+								forKey:@"orientation"];
+}
+
+
+//-(void) viewWillDisappear:(BOOL)animated {
+//	[[UIDevice currentDevice] setValue:
+//	 [NSNumber numberWithInteger: UIInterfaceOrientationPortrait]
+//								forKey:@"orientation"];
+//	[super viewWillDisappear:animated];
+//}
 
 
 /*

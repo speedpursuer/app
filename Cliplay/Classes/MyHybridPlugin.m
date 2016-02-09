@@ -76,6 +76,12 @@
 	[mvc.webView stringByEvaluatingJavaScriptFromString:fun];
 }
 
+-(void)changeOrientation {
+	[[UIDevice currentDevice] setValue:
+	 [NSNumber numberWithInteger: UIDeviceOrientationLandscapeRight]
+								forKey:@"orientation"];
+}
+
 
 /*
  - (void)alertViewCancel:(UIAlertView *)alertView {
