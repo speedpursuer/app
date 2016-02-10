@@ -126,8 +126,18 @@
 					loaded = true;
 					[self setImageViewSize];
 				}else {
-					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无法下载"
-																	message:@"请检查是否已连接互联网。"
+					
+					NSString *title, *message;
+					if(error.code == -1009){
+						title = @"无法下载";
+						message = @"请检查是否已连接互联网。";
+					}else{
+						title = @"下载出现异常";
+						message = @"非常抱歉，请稍候再尝试。";
+					}
+					
+					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+																	message:message
 																   delegate:nil
 														  cancelButtonTitle:@"好"
 														  otherButtonTitles:nil];
