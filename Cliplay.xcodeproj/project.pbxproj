@@ -82,10 +82,10 @@
 		7605C4E01C5BB514004E488A /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7605C4DF1C5BB514004E488A /* CDVStatusBar.m */; };
 		7605C4E51C5BB524004E488A /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7605C4E21C5BB524004E488A /* IonicKeyboard.m */; };
 		7605C4E61C5BB524004E488A /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7605C4E41C5BB524004E488A /* UIWebViewExtension.m */; };
+		7616739F1C7223E800E05422 /* Cliplay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7616739E1C7223E800E05422 /* Cliplay-Info.plist */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
 		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
 		767A558C1C47572A00992D0F /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A558B1C47572A00992D0F /* WebP.framework */; };
-		76D9C7D91C5F81AD005C93E7 /* Cliplay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7D71C5F81AD005C93E7 /* Cliplay-Info.plist */; };
 		76D9C7DC1C5F832A005C93E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */; };
 		8A88FA600567418E9CC06334 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8B680D991549EB8F229D9F /* SystemConfiguration.framework */; };
 		9E300325C4F74EB7AE3CB472 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8501F447D22045F9A0CBEDDA /* WebKit.framework */; };
@@ -224,10 +224,10 @@
 		7605C4E31C5BB524004E488A /* UIWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewExtension.h; path = "Cliplay/Plugins/ionic-plugin-keyboard/UIWebViewExtension.h"; sourceTree = SOURCE_ROOT; };
 		7605C4E41C5BB524004E488A /* UIWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewExtension.m; path = "Cliplay/Plugins/ionic-plugin-keyboard/UIWebViewExtension.m"; sourceTree = SOURCE_ROOT; };
 		7605C4EB1C5BB827004E488A /* Cliplay-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Cliplay-Prefix.pch"; path = "Cliplay/Cliplay-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		7616739E1C7223E800E05422 /* Cliplay-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Cliplay-Info.plist"; path = "Cliplay/Cliplay-Info.plist"; sourceTree = SOURCE_ROOT; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
 		767A558B1C47572A00992D0F /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Pods/YYWebImage/Vendor/WebP.framework; sourceTree = "<group>"; };
-		76D9C7D81C5F81AD005C93E7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "Cliplay/zh-Hans.lproj/Cliplay-Info.plist"; sourceTree = SOURCE_ROOT; };
 		76D9C7DD1C5F832A005C93E7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		8501F447D22045F9A0CBEDDA /* WebKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		ADAE07AC79223E2D5854CF72 /* Pods-Cliplay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cliplay.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cliplay/Pods-Cliplay.release.xcconfig"; sourceTree = "<group>"; };
@@ -317,8 +317,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7616739E1C7223E800E05422 /* Cliplay-Info.plist */,
 				763D76241C6838420010C239 /* Images.xcassets */,
-				76D9C7D71C5F81AD005C93E7 /* Cliplay-Info.plist */,
 				7605C4671C5BB3B0004E488A /* heart@2x.png */,
 				308D052D1370CCF300D202BF /* icons */,
 				308D05311370CCF300D202BF /* splash */,
@@ -575,8 +575,8 @@
 				7605C4B81C5BB3EB004E488A /* Default~iphone.png in Resources */,
 				7605C4891C5BB3CC004E488A /* Icon-60.png in Resources */,
 				7605C41F1C5BB2D7004E488A /* MainViewController.xib in Resources */,
-				76D9C7D91C5F81AD005C93E7 /* Cliplay-Info.plist in Resources */,
 				7605C4B61C5BB3EB004E488A /* Default@2x~iphone.png in Resources */,
+				7616739F1C7223E800E05422 /* Cliplay-Info.plist in Resources */,
 				7605C48E1C5BB3CC004E488A /* Icon-76.png in Resources */,
 				763D76251C6838420010C239 /* Images.xcassets in Resources */,
 				7605C40E1C5BB291004E488A /* config.xml in Resources */,
@@ -722,14 +722,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		76D9C7D71C5F81AD005C93E7 /* Cliplay-Info.plist */ = {
-			isa = PBXVariantGroup;
-			children = (
-				76D9C7D81C5F81AD005C93E7 /* zh-Hans */,
-			);
-			name = "Cliplay-Info.plist";
-			sourceTree = "<group>";
-		};
 		76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -754,10 +746,6 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/HybridIOSApp/Plugins/cordova-plugin-webserver",
-					"HybridIOSApp/Plugins/cordova-plugin-webserver",
-					"HybridIOSApp/Plugins/cordova-plugin-webserver",
-					"HybridIOSApp/Plugins/cordova-plugin-webserver",
 					"$(PROJECT_DIR)/Pods/YYWebImage/Vendor",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -775,7 +763,7 @@
 					"${PODS_ROOT}/Headers/Public",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
@@ -785,7 +773,7 @@
 				PRODUCT_NAME = Cliplay;
 				PROVISIONING_PROFILE = "";
 				"SDKROOT[arch=*]" = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -802,10 +790,6 @@
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/HybridIOSApp/Plugins/cordova-plugin-webserver",
-					"HybridIOSApp/Plugins/cordova-plugin-webserver",
-					"HybridIOSApp/Plugins/cordova-plugin-webserver",
-					"HybridIOSApp/Plugins/cordova-plugin-webserver",
 					"$(PROJECT_DIR)/Pods/YYWebImage/Vendor",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -821,16 +805,17 @@
 					"${PODS_ROOT}/Headers/Public/YYWebImage",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lee.cliplay;
 				PRODUCT_NAME = Cliplay;
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -859,7 +844,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
@@ -905,7 +890,7 @@
 					"\"$(OBJROOT)/UninstalledProducts/include\"",
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",

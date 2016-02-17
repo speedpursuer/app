@@ -22,6 +22,8 @@
 #import <Cordova/CDVScreenOrientationDelegate.h>
 #import "CDVViewController+SplashScreen.h"
 
+
+
 #define kSplashScreenDurationDefault 3000.0f
 
 
@@ -44,6 +46,11 @@
     [self setVisible:NO];
 }
 
+- (void)addProgress:(CDVInvokedUrlCommand*)command
+{
+	[self showProgressBar];
+}
+
 - (void)pageDidLoad
 {
     id autoHideSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"AutoHideSplashScreen" lowercaseString]];
@@ -53,6 +60,7 @@
         [self setVisible:NO];
     }
 }
+
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
@@ -137,6 +145,11 @@
     _imageView = nil;
     _activityView = nil;
     _curImageName = nil;
+	if(activityIndicatorView) {
+		[activityIndicatorView removeFromSuperview];
+		activityIndicatorView = nil;
+	}
+
 
     self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
     [self.viewController.view removeObserver:self forKeyPath:@"frame"];
@@ -371,6 +384,22 @@
              ];
         }
     }
+}
+
+- (void)showProgressBar
+{
+	if(activityIndicatorView) {
+		return;
+	}
+	UIView* parentView = self.viewController.view;
+	
+	activityIndicatorView = [[DGActivityIndicatorView alloc] initWithType:(DGActivityIndicatorAnimationType)[@(DGActivityIndicatorAnimationTypeLineScale) integerValue] tintColor:[UIColor whiteColor]];
+	
+	CGFloat size = parentView.bounds.size.height * 0.1f;
+	
+	activityIndicatorView.frame = CGRectMake((parentView.bounds.size.width - size) / 2, parentView.bounds.size.height * 0.6, size, size);
+	[parentView addSubview:activityIndicatorView];
+	[activityIndicatorView startAnimating];
 }
 
 @end

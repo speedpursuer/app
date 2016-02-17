@@ -17,10 +17,14 @@
  under the License.
  */
 //
-// Prefix header for all source files of the 'HybridIOSApp' target in the 'HybridIOSApp' project
+// Prefix header for all source files of the 'Cliplay' target in the 'Cliplay' project
 //
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
+#endif
+
+#ifndef DEBUG
+	#define NSLog(...);
 #endif

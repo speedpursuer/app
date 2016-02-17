@@ -1,6 +1,6 @@
 //
 //  ClipPlayController.m
-//  HybridIOSApp
+//  Cliplay
 //
 //  Created by 邢磊 on 16/1/14.
 //
@@ -65,7 +65,7 @@
 	_progressBar.hidden = YES;
 	
 	
-	[NSTimer scheduledTimerWithTimeInterval:0.1
+	[NSTimer scheduledTimerWithTimeInterval:0.3
 									 target:self
 								   selector:@selector(showProgress)
 								   userInfo:nil
@@ -109,6 +109,8 @@
 			//NSLog(@"filePath = %@", filePath);
 			
 			[UIImageJPEGRepresentation(image1, 0.8f) writeToFile:filePath atomically:YES];
+			
+			image1 = nil;
 			
 			download = true;
 			
@@ -158,13 +160,6 @@
 }
 
 - (void) setImageViewSize {
-	
-//	CGFloat a = self.view.frame.size.width;
-//	CGFloat a1 = self.view.size.width;
-//	CGFloat a2 = self.view.bounds.size.width;
-//	CGFloat b =self.view.frame.size.height;
-//	CGFloat b1 =self.view.size.height;
-//	CGFloat b2 =self.view.bounds.size.height;
 	
 	if(!loaded) return;
 	
@@ -300,6 +295,14 @@
 								forKey:@"orientation"];
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
+	
+	//[self destroy];
+	
+//	[NSTimer scheduledTimerWithTimeInterval:1
+//									 target:self
+//								   selector:@selector(destroy)
+//								   userInfo:nil
+//									repeats:NO];
 }
 
 - (void)showProgress{
@@ -392,7 +395,7 @@
 	
 	CGFloat statusBarHeight;
 	
-	if(IsAtLeastiOSVersion(@"7.0")) {
+	if(IsAtLeastiOSVersion(@"7.0") && UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
 		if (self.interfaceOrientation == UIInterfaceOrientationPortrait) {
 			statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 		}else{
@@ -415,6 +418,17 @@
 	[[UIDevice currentDevice] setValue:
 	 [NSNumber numberWithInteger: UIDeviceOrientationLandscapeRight]
 								forKey:@"orientation"];
+}
+
+- (void) destroy {
+	[_closeButton removeFromSuperview];
+	[_progressBar removeFromSuperview];
+	[_heartButton removeFromSuperview];
+	[imageView removeFromSuperview];
+	_closeButton = nil;
+	_progressBar = nil;
+	_heartButton = nil;
+	imageView = nil;
 }
 
 

@@ -1,6 +1,6 @@
 //
 //  MyTableViewController.m
-//  HybridIOSApp
+//  Cliplay
 //
 //  Created by Holly Schinsky on 6/25/15.
 //

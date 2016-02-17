@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  HybridIOSApp
+//  Cliplay
 //
 //  Created by 邢磊 on 16/1/14.
 //

@@ -19,6 +19,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVPlugin.h>
+#import "DGActivityIndicatorView.h"
 
 typedef struct {
     BOOL iPhone;
@@ -35,9 +36,10 @@ typedef struct {
     UIImageView* _imageView;
     NSString* _curImageName;
     BOOL _visible;
+	DGActivityIndicatorView *activityIndicatorView;
 }
 
 - (void)show:(CDVInvokedUrlCommand*)command;
 - (void)hide:(CDVInvokedUrlCommand*)command;
-
+- (void)addProgress:(CDVInvokedUrlCommand*)command;
 @end

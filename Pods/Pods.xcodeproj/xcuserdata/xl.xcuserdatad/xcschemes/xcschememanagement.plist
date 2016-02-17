@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>DGActivityIndicatorView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Cliplay.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,12 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>82E2A8CF397A5232DF15F02D2D58F9E7</key>
+		<key>12AC35F9C569FA2A4543EFEDD802D2C9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E3A23D98512EBCE1E5E43E931D82C704</key>
+		<key>26776CA84E15258788B3F0C1FA404D5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CDBCA9873F1DB828ECEB903FDD457FF8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

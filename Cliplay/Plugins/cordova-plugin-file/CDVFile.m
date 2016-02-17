@@ -649,16 +649,18 @@ NSString* const kCDVFilesystemURLPrefix = @"cdvfile";
  */
 - (void)getFile:(CDVInvokedUrlCommand*)command
 {
-    NSString* baseURIstr = [command argumentAtIndex:0];
-    CDVFilesystemURL* baseURI = [self fileSystemURLforArg:baseURIstr];
-    NSString* requestedPath = [command argumentAtIndex:1];
-    NSDictionary* options = [command argumentAtIndex:2 withDefault:nil];
-
-    NSObject<CDVFileSystem> *fs = [self filesystemForURL:baseURI];
-    CDVPluginResult* result = [fs getFileForURL:baseURI requestedPath:requestedPath options:options];
-
-
-    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+	[self.commandDelegate runInBackground:^{
+		
+		NSString* baseURIstr = [command argumentAtIndex:0];
+		CDVFilesystemURL* baseURI = [self fileSystemURLforArg:baseURIstr];
+		NSString* requestedPath = [command argumentAtIndex:1];
+		NSDictionary* options = [command argumentAtIndex:2 withDefault:nil];
+		
+		NSObject<CDVFileSystem> *fs = [self filesystemForURL:baseURI];
+		CDVPluginResult* result = [fs getFileForURL:baseURI requestedPath:requestedPath options:options];
+		
+		[self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+	}];
 }
 
 /*

@@ -1,12 +1,15 @@
 PODS:
+  - DGActivityIndicatorView (2.0)
   - YYWebImage (0.9.13)
 
 DEPENDENCIES:
+  - DGActivityIndicatorView
   - YYWebImage
 
 SPEC CHECKSUMS:
+  DGActivityIndicatorView: 52875b025a6ccf6a431a905285c12e2bb95eb559
   YYWebImage: c0825e5595bac2e972cdce0f305a7cd04f3185f7
 
-PODFILE CHECKSUM: 7d35dcc865b1d6636826757eb05d3e1e84d6c199
+PODFILE CHECKSUM: 3a4aee857cf402439ca624c24a738e302a98bdc5
 
 COCOAPODS: 1.0.0.beta.2

@@ -1,6 +1,6 @@
 //
 //  MyHybridPlugin.m
-//  HybridIOSApp
+//  Cliplay
 //
 //  Created by 邢磊 on 16/1/14.
 //
@@ -65,6 +65,13 @@
 		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 	}
+}
+
+-(void)dbString:(CDVInvokedUrlCommand*) command {
+	CDVPluginResult* pluginResult =
+		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://121.40.197.226:4984/"];
+	
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {

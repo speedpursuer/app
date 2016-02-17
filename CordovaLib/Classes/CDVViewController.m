@@ -25,6 +25,8 @@
 #import "CDVWebViewDelegate.h"
 #import <AVFoundation/AVFoundation.h>
 #import "CDVHandleOpenURL.h"
+#import <CommonCrypto/CommonCryptor.h>
+#import <CommonCrypto/CommonDigest.h>
 
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
@@ -472,6 +474,15 @@
         if (appURL) {
             NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
             [self.webView loadRequest:appReq];
+			
+//			NSString *html = [self readIndex];
+//			if (html != nil && [html length] > 0) {
+//				[self.webView loadHTMLString:html baseURL:appURL];
+//			} else {
+//				NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+//				[self.webView loadRequest:appReq];
+//			}
+			
         } else {
             NSString* loadErr = [NSString stringWithFormat:@"ERROR: Start Page at '%@/%@' was not found.", self.wwwFolderName, self.startPage];
             NSLog(@"%@", loadErr);
@@ -487,6 +498,52 @@
             }
         }
     }];
+}
+
+- (NSString *)toMD5:(NSString *)data {
+	const char *cstr = [data UTF8String];
+	unsigned char result[16];
+	CC_MD5(cstr, strlen(cstr), result);
+	
+	return [NSString stringWithFormat:
+			@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+			result[0], result[1], result[2], result[3],
+			result[4], result[5], result[6], result[7],
+			result[8], result[9], result[10], result[11],
+			result[12], result[13], result[14], result[15]
+			];
+}
+
+- (NSString *) readIndex
+{
+	NSString* password = @"iPhone5S";
+	NSMutableString* k = [NSMutableString string];
+	[k appendString:password];
+	[k appendString:[self toMD5:password]];
+	const char* key = [[self toMD5:password] UTF8String];
+	const char* iv = [[[self toMD5:k] substringToIndex:16] UTF8String];
+	
+	NSStringEncoding encoding = NSUTF8StringEncoding;
+	NSError* error;
+	NSString *indexPath1 = [[NSBundle mainBundle] pathForResource:@"www/index" ofType:@"html"];
+	NSString *base64String = [NSString stringWithContentsOfFile:indexPath1 usedEncoding:&encoding error:&error];
+	NSData *d = [NSData dataFromBase64String:base64String];
+	
+	size_t bytesMoved = 0;
+	NSUInteger dataLength = [d length];
+	size_t bufferSize = dataLength + kCCBlockSizeAES128;
+	void *buffer_decrypt = malloc(bufferSize);
+	CCCryptorStatus result = CCCrypt(kCCDecrypt , kCCAlgorithmAES128, kCCOptionPKCS7Padding,
+									 key, kCCKeySizeAES256, iv,
+									 [d bytes], [d length],
+									 buffer_decrypt, bufferSize, &bytesMoved );
+	
+	NSString *html;
+	if (result == kCCSuccess) {
+		NSMutableData *output_decrypt = [NSMutableData dataWithBytesNoCopy:buffer_decrypt length:bytesMoved];
+		html = [[NSString alloc] initWithData:output_decrypt encoding:NSUTF8StringEncoding];
+	}
+	return html;
 }
 
 - (id)settingForKey:(NSString*)key
