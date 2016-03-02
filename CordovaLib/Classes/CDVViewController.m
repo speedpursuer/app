@@ -473,7 +473,7 @@
         [CDVUserAgentUtil setUserAgent:self.userAgent lockToken:lockToken];
         if (appURL) {
             NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-            [self.webView loadRequest:appReq];
+            [self.webView loadRequest:appReq];			
 			
 //			NSString *html = [self readIndex];
 //			if (html != nil && [html length] > 0) {

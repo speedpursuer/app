@@ -70,4 +70,12 @@
     <feature name="MyHybridPlugin">
         <param name="ios-package" value="MyHybridPlugin" />
     </feature>
+	<feature name="LongPressFix">
+		<param name="ios-package" value="LongPressFix" />
+		<param name="onload" value="true" />
+	</feature>
+<!--	<preference name="Suppress3DTouch" value="true" />-->
+	<feature name="NetworkStatus">
+		<param name="ios-package" value="CDVConnection" />
+	</feature>
 </widget>

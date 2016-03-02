@@ -16,15 +16,19 @@
  specific language governing permissions and limitations
  under the License.
  */
-//
-// Prefix header for all source files of the 'Cliplay' target in the 'Cliplay' project
-//
 
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
-#endif
+#import <Foundation/Foundation.h>
+#import <Cordova/CDVPlugin.h>
+#import "CDVReachability.h"
 
-//#ifndef DEBUG
-//	#define NSLog(...);
-//#endif
+@interface CDVConnection : CDVPlugin {
+    NSString* type;
+    NSString* _callbackId;
+
+    CDVReachability* internetReach;
+}
+
+@property (copy) NSString* connectionType;
+@property (strong) CDVReachability* internetReach;
+
+@end

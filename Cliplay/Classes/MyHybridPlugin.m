@@ -69,7 +69,7 @@
 
 -(void)dbString:(CDVInvokedUrlCommand*) command {
 	CDVPluginResult* pluginResult =
-		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://121.40.197.226:4984/"];
+		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://121.40.197.226:4984/ ,ionic.min.css"];
 	
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }

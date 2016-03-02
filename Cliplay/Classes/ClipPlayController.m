@@ -17,6 +17,8 @@
 #import "SHA1.h"
 #import "DOFavoriteButton.h"
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 @interface ClipPlayController()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) MBCircularProgressBarView *progressBar;
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
@@ -132,7 +134,7 @@
 					NSString *title, *message;
 					if(error.code == -1009){
 						title = @"无法下载";
-						message = @"请检查是否已连接互联网。";
+						message = @"请确认互联网连接。";
 					}else{
 						title = @"下载出现异常";
 						message = @"非常抱歉，请稍候再尝试。";
@@ -395,14 +397,14 @@
 	
 	CGFloat statusBarHeight;
 	
-	if(IsAtLeastiOSVersion(@"7.0") && UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+		statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+	}else{
 		if (self.interfaceOrientation == UIInterfaceOrientationPortrait) {
 			statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 		}else{
 			statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.width;
 		}
-	}else{
-		statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 	}
 	
 	CGRect f2 = CGRectMake(self.view.bounds.size.width - 44, statusBarHeight, 44, 44);
