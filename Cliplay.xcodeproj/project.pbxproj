@@ -86,6 +86,7 @@
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
 		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
 		767A558C1C47572A00992D0F /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A558B1C47572A00992D0F /* WebP.framework */; };
+		76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */; };
 		76D9C7DC1C5F832A005C93E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */; };
 		76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D9E94E1C7447AB004BB117 /* LongPressFix.m */; };
 		76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 76E424BE1C7AB30A00FA5962 /* ionic.min.css */; };
@@ -232,6 +233,8 @@
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
 		767A558B1C47572A00992D0F /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Pods/YYWebImage/Vendor/WebP.framework; sourceTree = "<group>"; };
+		76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRImagePlaceholderHelper.h; path = Cliplay/Classes/DRImagePlaceholderHelper.h; sourceTree = "<group>"; };
+		76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRImagePlaceholderHelper.m; path = Cliplay/Classes/DRImagePlaceholderHelper.m; sourceTree = "<group>"; };
 		76D9C7DD1C5F832A005C93E7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		76D9E94D1C7447AB004BB117 /* LongPressFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LongPressFix.h; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.h"; sourceTree = SOURCE_ROOT; };
 		76D9E94E1C7447AB004BB117 /* LongPressFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LongPressFix.m; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.m"; sourceTree = SOURCE_ROOT; };
@@ -463,6 +466,8 @@
 		763B6CB61C4752D800752B77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */,
+				76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */,
 				7605C4221C5BB2F3004E488A /* CALayer+YYAdd.h */,
 				7605C4231C5BB2F3004E488A /* CALayer+YYAdd.m */,
 				7605C4241C5BB2F3004E488A /* CircleProgressBar.h */,
@@ -706,6 +711,7 @@
 				7605C4421C5BB2F3004E488A /* DOFavoriteButton.m in Sources */,
 				76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */,
 				76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */,
+				76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */,
 				7605C44C1C5BB2F3004E488A /* UIView+YYAdd.m in Sources */,
 				7605C4211C5BB2D7004E488A /* RootViewController.m in Sources */,
 				7605C4451C5BB2F3004E488A /* MBCircularProgressBarLayer.m in Sources */,
@@ -775,6 +781,11 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cliplay/Cliplay-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"DISABLE_PUSH_NOTIFICATIONS=1",
+				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
@@ -782,7 +793,7 @@
 					"$(CORDOVALIB)/Classes/**",
 					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include/**",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
+				INFOPLIST_FILE = "Cliplay/Cliplay-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -815,6 +826,11 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cliplay/Cliplay-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"DISABLE_PUSH_NOTIFICATIONS=1",
+				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
@@ -824,7 +840,7 @@
 					"${PODS_ROOT}/Headers/Public",
 					"${PODS_ROOT}/Headers/Public/YYWebImage",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
+				INFOPLIST_FILE = "Cliplay/Cliplay-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

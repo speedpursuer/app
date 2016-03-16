@@ -11,6 +11,9 @@
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
 #import "UIGestureRecognizer+YYAdd.h"
+#import "YYImageExampleHelper.h"
+#import "ClipPlayController.h"
+#import "DRImagePlaceholderHelper.h"
 
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
@@ -20,14 +23,18 @@
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, assign) BOOL downLoaded;
 @end
 
 @implementation YYWebImageExampleCell
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    
+	
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.backgroundColor = [UIColor clearColor];
-    self.contentView.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor whiteColor];
+//	self.backgroundColor = [UIColor clearColor];
+//  self.contentView.backgroundColor = [UIColor clearColor];
+	self.contentView.backgroundColor = [UIColor whiteColor];
     self.size = CGSizeMake(kScreenWidth, kCellHeight);
     self.contentView.size = self.size;
     _webImageView = [YYAnimatedImageView new];
@@ -41,12 +48,12 @@
     _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     _indicator.center = CGPointMake(self.width / 2, self.height / 2);
     _indicator.hidden = YES;
-    //[self.contentView addSubview:_indicator]; //use progress bar instead..
-    
+//    [self.contentView addSubview:_indicator]; //use progress bar instead..
+	
     _label = [UILabel new];
     _label.size = self.size;
     _label.textAlignment = NSTextAlignmentCenter;
-    _label.text = @"Load fail, tap to reload.";
+    _label.text = @"下载异常, 点击重试";
     _label.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
     _label.hidden = YES;
     _label.userInteractionEnabled = YES;
@@ -60,7 +67,9 @@
     [path addLineToPoint:CGPointMake(_webImageView.width, _progressLayer.height / 2)];
     _progressLayer.lineWidth = lineHeight;
     _progressLayer.path = path.CGPath;
-    _progressLayer.strokeColor = [UIColor colorWithRed:0.000 green:0.640 blue:1.000 alpha:0.720].CGColor;
+//    _progressLayer.strokeColor = [UIColor colorWithRed:0.000 green:0.640 blue:1.000 alpha:0.720].CGColor;
+	
+	_progressLayer.strokeColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor;
     _progressLayer.lineCap = kCALineCapButt;
     _progressLayer.strokeStart = 0;
     _progressLayer.strokeEnd = 0;
@@ -72,11 +81,67 @@
     }];
     [_label addGestureRecognizer:g];
 	
-    
+	[self addClickControlToAnimatedImageView:_webImageView];
+	
+	for (UIGestureRecognizer *g in _webImageView.gestureRecognizers) {
+		g.delegate = self;
+	}
+	
     return self;
 }
 
+- (void)addClickControlToAnimatedImageView:(YYAnimatedImageView *)view {
+	if (!view) return;
+	view.userInteractionEnabled = YES;
+	__weak typeof(view) _view = view;
+	
+	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+		if ([_view isAnimating]) [_view stopAnimating];
+		else [_view startAnimating];
+	}];
+	
+	singleTap.numberOfTapsRequired = 1;
+	
+	[view addGestureRecognizer:singleTap];
+	
+	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+		
+		if(!_downLoaded) return;
+		
+		[_view stopAnimating];
+		
+		YYWebImageExample* mvc = (YYWebImageExample*)[self viewController];
+		
+		mvc.fullScreen = true;
+		
+		//[mvc showBar];
+		
+		ClipPlayController *vc = [[ClipPlayController alloc] init];
+		
+		vc.clipURL = [[_view yy_imageURL] absoluteString];
+		
+		vc.favorite = TRUE;
+		vc.showLike = FALSE;
+		
+		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+		
+		vc.delegate = mvc;
+		
+		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+		
+		[mvc presentViewController:vc animated:YES completion:nil];
+		
+	}];
+	
+	doubleTap.numberOfTapsRequired = 2;
+	
+	[view addGestureRecognizer:doubleTap];
+	
+//	[singleTap requireGestureRecognizerToFail:doubleTap];
+}
+
 - (void)setImageURL:(NSURL *)url {
+	
     _label.hidden = YES;
     _indicator.hidden = NO;
     [_indicator startAnimating];
@@ -87,9 +152,17 @@
     self.progressLayer.hidden = YES;
     self.progressLayer.strokeEnd = 0;
     [CATransaction commit];
-
+	
+	_downLoaded = FALSE;
+	
+	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text: @"球路"];
+	
+	_webImageView.autoPlayAnimatedImage = FALSE;
+	//UIImage<YYAnimatedImage> *image = (id)_webImageView.image;
+	//_webImageView.animatedImageFrameCount = 1;
+	
     [_webImageView yy_setImageWithURL:url
-                          placeholder:nil
+                          placeholder:placeholderImage
                           options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
                           progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                               if (expectedSize > 0 && receivedSize > 0) {
@@ -106,6 +179,10 @@
                                   [_self.indicator stopAnimating];
                                   _self.indicator.hidden = YES;
                                   if (!image) _self.label.hidden = NO;
+								  
+								  if(!error) {
+									  _downLoaded = TRUE;
+								  }
                               }
                          }];
 }
@@ -118,93 +195,64 @@
 
 
 @implementation YYWebImageExample {
-    NSArray *_imageLinks;
+    //NSArray *_imageLinks;
+	CGPoint lastOffset;
+	BOOL hideBar;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
-    self.navigationItem.rightBarButtonItem = button;
-    self.view.backgroundColor = [UIColor colorWithWhite:0.217 alpha:1.000];
+	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	//hideBar = false;
 	
-    NSArray *links = @[
-        /*
-         You can add your image url here.
-         */
-                                              
-        @"http://i2.hoopchina.com.cn/blogfile/201203/10/133138138420385.gif",
-		
-		/*
-		@"http://i2.hoopchina.com.cn/blogfile/201203/10/133138171870238.gif",
-        @"http://ww2.sinaimg.cn/large/e2828e10jw1ezohav2w2jg20960554qp.gif",
-        @"http://print.dpnet.com.cn/webimages8/album/photos/5C57AC2D-3380-44D8-9186-81F0C126E9AC/c0f50094-ac0b-4d8c-9a91-3ca1f0587c62/634385095472031250_view.gif",
-        
-        // progressive jpeg
-        @"https://s-media-cache-ak0.pinimg.com/1200x/2e/0c/c5/2e0cc5d86e7b7cd42af225c29f21c37f.jpg",
-        
-        // animated gif: http://cinemagraphs.com/
-        @"http://i.imgur.com/uoBwCLj.gif",
-        @"http://i.imgur.com/8KHKhxI.gif",
-        @"http://i.imgur.com/WXJaqof.gif",
-        
-        // animated gif: https://dribbble.com/markpear
-        @"https://d13yacurqjgara.cloudfront.net/users/345826/screenshots/1780193/dots18.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/345826/screenshots/1809343/dots17.1.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/345826/screenshots/1845612/dots22.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/345826/screenshots/1820014/big-hero-6.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/345826/screenshots/1819006/dots11.0.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/345826/screenshots/1799885/dots21.gif",
-        
-        // animaged gif: https://dribbble.com/jonadinges
-        @"https://d13yacurqjgara.cloudfront.net/users/288987/screenshots/2025999/batman-beyond-the-rain.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/288987/screenshots/1855350/r_nin.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/288987/screenshots/1963497/way-back-home.gif",
-        @"https://d13yacurqjgara.cloudfront.net/users/288987/screenshots/1913272/depressed-slurp-cycle.gif",
-        
-        // jpg: https://dribbble.com/snootyfox
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/2047158/beerhenge.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/2016158/avalanche.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1839353/pilsner.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1833469/porter.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1521183/farmers.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1391053/tents.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1399501/imperial_beer.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1488711/fishin.jpg",
-        @"https://d13yacurqjgara.cloudfront.net/users/26059/screenshots/1466318/getaway.jpg",
-        
-        // animated webp and apng: http://littlesvr.ca/apng/gif_apng_webp.html
-        @"http://littlesvr.ca/apng/images/BladeRunner.png",
-        @"http://littlesvr.ca/apng/images/Contact.webp",
-		*/
-    ];
-    
-    _imageLinks = links;
+	//UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
+	//self.navigationItem.rightBarButtonItem = button;
+    //self.view.backgroundColor = [UIColor colorWithWhite:0.217 alpha:1.000];
+	
     [self.tableView reloadData];
-    //[self scrollViewDidScroll:self.tableView];
+    [self scrollViewDidScroll:self.tableView];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+	
+	_fullScreen = false;
+	//self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    self.navigationController.navigationBar.tintColor = nil;
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-    
-    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+//    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+//    self.navigationController.navigationBar.tintColor = nil;
+//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+	
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
         // back button was pressed.  We know this is true because self is no longer
         // in the navigation stack.
         [self.navigationController setNavigationBarHidden:YES];
     }
-    [super viewWillDisappear:animated];
+	
+//	if(!_fullScreen) {
+//		for (YYWebImageExampleCell *cell in [self.tableView visibleCells]) {
+//			[cell.webImageView yy_cancelCurrentImageRequest];
+//		}
+//	}
+	
+//    [super viewWillDisappear:animated];
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	if(!_fullScreen) {
+		for (YYWebImageExampleCell *cell in [self.tableView visibleCells]) {
+			[cell.webImageView yy_cancelCurrentImageRequest];
+		}
+	}
+	[[YYImageCache sharedCache].memoryCache removeAllObjects];
 }
 
 - (void)reload {
@@ -218,7 +266,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _imageLinks.count * 4;
+	return _imageLinks.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -226,13 +274,19 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    YYWebImageExampleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) cell = [[YYWebImageExampleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    [cell setImageURL:[NSURL URLWithString:_imageLinks[indexPath.row % _imageLinks.count]]];
-    return cell;
+    YYWebImageExampleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
+
+	if (!cell){
+		cell = [[YYWebImageExampleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+	}
+	
+	[cell setImageURL:[NSURL URLWithString:_imageLinks[indexPath.row]]];
+
+	return cell;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	
     CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
     for (YYWebImageExampleCell *cell in [self.tableView visibleCells]) {
         CGFloat y = cell.centerY - scrollView.contentOffset.y;
@@ -244,5 +298,41 @@
     }
 }
 
+//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//	if (scrollView.contentOffset.y < lastOffset.y) {
+//		[self hideBar];
+//	} else if (scrollView.contentOffset.y > lastOffset.y){
+//		[self showBar];
+//	}
+//}
+//
+////-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView
+////				 willDecelerate:(BOOL)decelerate {
+////	if (scrollView.contentOffset.y < lastOffset.y) {
+////		[self hideBar];
+////	} else{
+////		[self showBar];
+////	}
+////}
+//
+//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+//	lastOffset = scrollView.contentOffset;
+//}
+//
+//- (BOOL)prefersStatusBarHidden {
+//	return hideBar;
+//}
+
+- (void)showBar {
+	[[[self navigationController] navigationBar] setHidden:NO];
+	hideBar = false;
+	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
+- (void)hideBar {
+	[[[self navigationController] navigationBar] setHidden:YES];
+	hideBar = true;
+	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
 
 @end

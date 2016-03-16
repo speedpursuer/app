@@ -3,6 +3,22 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[YYWebImageExample scrollViewDidEndDragging:willDecelerate:]:YYWebImageExample.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "scrollView.contentOffset">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[YYWebImageExampleCell initWithStyle:reuseIdentifier:]:YYWebImageExample.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[ClipPlayController setImageViewSize]:ClipPlayController.m">
          <PersistentStrings>
             <PersistentString

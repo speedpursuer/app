@@ -9,31 +9,42 @@
 #import "MyHybridPlugin.h"
 #import "MainViewController.h"
 #import "ClipPlayController.h"
+#import "YYWebImageExample.h"
 
 @implementation MyHybridPlugin
 
 -(void)playClip:(CDVInvokedUrlCommand*) command {
-	NSString* clipURL = [command.arguments objectAtIndex:0];
-	NSString* favorite = [command.arguments objectAtIndex:1];
-	NSString* showLike = [command.arguments objectAtIndex:2];
 	
-	if(clipURL) {
+
+	if(command.arguments.count > 0) {
 		
 		MainViewController* mvc = (MainViewController*)[self viewController];
-				
 		
-		ClipPlayController *vc = [[ClipPlayController alloc] init];
-		
-		vc.clipURL = clipURL;
-		vc.favorite = [favorite isEqual: @"true"];
-		vc.showLike = [showLike isEqual: @"true"];
-		//vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-		//vc.modalPresentationStyle = UIModalPresentationPageSheet;
-		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
-		
-		vc.delegate = mvc;
-		
-		[mvc presentViewController:vc animated:YES completion:nil];
+		if(command.arguments.count == 1) {
+			ClipPlayController *vc = [[ClipPlayController alloc] init];
+			
+			vc.clipURL = [command.arguments objectAtIndex: 0];
+			
+			vc.favorite = TRUE;
+			vc.showLike = FALSE;
+			
+			vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+			
+			vc.delegate = mvc;
+			vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+			
+			[mvc presentViewController:vc animated:YES completion:nil];
+			
+		}else {
+			YYWebImageExample *vc = [[YYWebImageExample alloc] init];
+			
+			vc.imageLinks = command.arguments;
+			
+			[mvc.navigationController pushViewController:vc animated:YES];
+			[mvc.navigationController setNavigationBarHidden:NO];
+			//mvc.navigationController.navigationBar.tintColor = [UIColor blackColor];
+			//mvc.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+		}
 		
 		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -69,7 +80,7 @@
 
 -(void)dbString:(CDVInvokedUrlCommand*) command {
 	CDVPluginResult* pluginResult =
-		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://121.40.197.226:4984/ ,ionic.min.css"];
+		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://app_viewer:Cliplay1234@121.40.197.226:4984/,ionic.min.css"];
 	
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }

@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface YYWebImageExample : UITableViewController
-
+@property (nonatomic, strong) NSArray *imageLinks;
+@property (nonatomic, assign) BOOL fullScreen;
+- (void) showBar;
 @end

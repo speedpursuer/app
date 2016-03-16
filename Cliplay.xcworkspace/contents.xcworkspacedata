@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Cliplay.xcodeproj">
+      location = "group:/Users/xl/Documents/App/CliplayPro/Cliplay.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

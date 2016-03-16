@@ -13,6 +13,9 @@
 #import "UIGestureRecognizer+YYAdd.h"
 #import <ImageIO/ImageIO.h>
 #import <Accelerate/Accelerate.h>
+#import "ClipPlayController.h"
+#import "ClipPlayController.h"
+#import "MainViewController.h"
 //#import <bpg/libbpg.h>
 
 @implementation YYImageExampleHelper

@@ -30,6 +30,7 @@
 	BOOL download;
 	BOOL iniFavorite;
 	CGSize imageSize;
+	BOOL hideBar;
 }
 
 - (void)viewDidLoad {
@@ -42,6 +43,8 @@
 	[self loadImage: self.clipURL];
 	
 	[self initButtons];
+	
+	hideBar = FALSE;
 }
 
 - (void)loadImage: (NSString *)url {
@@ -130,7 +133,7 @@
 					loaded = true;
 					[self setImageViewSize];
 				}else {
-					
+					[_progressBar setValue: 0 animateWithDuration:1];
 					NSString *title, *message;
 					if(error.code == -1009){
 						title = @"无法下载";
@@ -188,55 +191,6 @@
 	}
 }
 
-- (void) setImageViewSize1 {
-	
-	if(!loaded) return;
-	
-	CGFloat imageWidthToHeight = imageSize.width / imageSize.height;
-	CGFloat viewWidthToHeight = self.view.bounds.size.width / self.view.bounds.size.height;
-	
-	if(viewWidthToHeight > imageWidthToHeight) {
-		CGFloat imageViewWidth = self.view.bounds.size.height * imageWidthToHeight;
-		CGFloat left = (self.view.bounds.size.width - imageViewWidth) / 2;
-		CGRect frame = CGRectMake(left, 0.0f, imageViewWidth, self.view.bounds.size.height);
-		imageView.frame = frame;
-		
-	}else {
-		CGRect frame = CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, self.view.bounds.size.height);
-		imageView.frame = frame;
-	}
-	
-	
-}
-
-
-- (void) setImageViewSize_ {
-	
-	if(!loaded) return;
-	
-	CGFloat imageWidthToHeight = imageSize.width / imageSize.height;
-	CGFloat viewWidthToHeight = self.view.bounds.size.width / self.view.bounds.size.height;
-	
-	CGFloat imageViewHeight, imageViewWidth;
-	
-	if(viewWidthToHeight > imageWidthToHeight) {
-		imageViewHeight = self.view.bounds.size.height;
-		imageViewWidth = imageViewHeight * imageWidthToHeight;
-		
-	}else {
-		imageViewWidth = self.view.bounds.size.width;
-		imageViewHeight = imageViewWidth / imageWidthToHeight;
-	}
-	
-	CGFloat top = (self.view.bounds.size.height - imageViewHeight) / 2;
-	
-	CGFloat left = (self.view.bounds.size.width - imageViewWidth) / 2;
-	
-	CGRect frame = CGRectMake(left, top, imageViewWidth, imageViewHeight);
-	imageView.frame = frame;
-}
-
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
     return YES;
 }
@@ -290,11 +244,13 @@
 - (void)cancelAction{
 	[imageView yy_cancelCurrentImageRequest];
 	
-	[self emitActionToJS];
+	//[self emitActionToJS];
 	
 	[[UIDevice currentDevice] setValue:
 	 [NSNumber numberWithInteger: UIInterfaceOrientationPortrait]
 								forKey:@"orientation"];
+	
+	[[YYImageCache sharedCache].memoryCache removeAllObjects];
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
 	
@@ -373,6 +329,7 @@
 						  kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]
 						  }];
 	self.view.backgroundColor = [UIColor whiteColor];
+	[self showBar];
 }
 
 - (void)setLandscapeMode {
@@ -385,6 +342,7 @@
 							   kFRDLivelyButtonColor: [UIColor whiteColor]
 							   }];
 	self.view.backgroundColor = [UIColor blackColor];
+	[self hideBar];
 }
 
 - (void)resetUIPosition {
@@ -432,6 +390,19 @@
 	_heartButton = nil;
 	imageView = nil;
 }
+
+- (void)showBar {
+	[[[self navigationController] navigationBar] setHidden:NO];
+	hideBar = false;
+	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
+- (void)hideBar {
+	[[[self navigationController] navigationBar] setHidden:YES];
+	hideBar = true;
+	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
 
 
 //-(void) viewWillDisappear:(BOOL)animated {
