@@ -8,6 +8,7 @@
 
 #import "RootViewController.h"
 #import "MainViewController.h"
+#import "YYImageExample.h"
 
 @interface RootViewController ()
 
@@ -19,6 +20,7 @@
     [super viewDidLoad];
 	
     MainViewController *vc = [MainViewController new];
+//	YYImageExample *vc = [YYImageExample new];
 	[self.interactivePopGestureRecognizer setEnabled:NO];
     [self pushViewController:vc animated:NO];	
     [self setNavigationBarHidden:YES];

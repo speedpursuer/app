@@ -23,21 +23,22 @@
 @property (nonatomic, strong) MBCircularProgressBarView *progressBar;
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
 @property (nonatomic, strong) FRDLivelyButton *closeButton;
+@property (nonatomic, assign) BOOL loaded;
+@property (nonatomic, assign) CGSize imageSize;
+
 @end
 @implementation ClipPlayController {
 	YYAnimatedImageView *imageView;
-	BOOL loaded;
 	BOOL download;
 	BOOL iniFavorite;
-	CGSize imageSize;
 	BOOL hideBar;
 }
 
 - (void)viewDidLoad {
-
+	
 	[super viewDidLoad];
 	
-//	self.view.backgroundColor = [UIColor colorWithWhite:0.863 alpha:1.000];
+	//	self.view.backgroundColor = [UIColor colorWithWhite:0.863 alpha:1.000];
 	self.view.backgroundColor = [UIColor whiteColor];
 	
 	[self loadImage: self.clipURL];
@@ -51,24 +52,25 @@
 	
 	imageView = [YYAnimatedImageView new];
 	
-	loaded = false;
+	_loaded = false;
 	download = false;
 	
-//	imageView.height = self.view.size.height - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
-
+	//	imageView.height = self.view.size.height - self.navigationController.navigationBar.frame.size.height - [UIApplication sharedApplication].statusBarFrame.size.height;
+	
 	//imageView.size = self.view.size;
 	imageView.clipsToBounds = YES;
 	imageView.contentMode = UIViewContentModeScaleAspectFit;
 	imageView.backgroundColor = [UIColor whiteColor];
 	
-//	_progressBar = [[MBCircularProgressBarView alloc] initWithFrame:CGRectMake((imageView.width-100)/2, (imageView.height-100)/2, 100, 100)];
+	//	_progressBar = [[MBCircularProgressBarView alloc] initWithFrame:CGRectMake((imageView.width-100)/2, (imageView.height-100)/2, 100, 100)];
 	
 	_progressBar = [[MBCircularProgressBarView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-100)/2, (self.view.bounds.size.height-100)/2, 100, 100)];
-
+	
 	
 	_progressBar.backgroundColor = [UIColor clearColor];
 	_progressBar.hidden = YES;
 	
+	__weak typeof(self) _self = self;
 	
 	[NSTimer scheduledTimerWithTimeInterval:0.3
 									 target:self
@@ -77,82 +79,82 @@
 									repeats:NO];
 	
 	[imageView yy_setImageWithURL:[NSURL URLWithString:url]
-		placeholder:nil
-		options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
-		progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-			_progressBar.hidden = NO;
-			if (expectedSize > 0 && receivedSize > 0) {
-				CGFloat progress = (CGFloat)receivedSize / expectedSize;
-				progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;				
-				if (_progressBar.hidden && progress != 1) _progressBar.hidden = NO;
-				[_progressBar setValue: progress * 100 animateWithDuration:1];
-			}
-		}
-		//transform:nil
-		transform:^UIImage *(UIImage *image, NSURL *url) {
-			
-			UIImage *image1 = [image yy_imageByResizeToSize:CGSizeMake(80, 80) contentMode:UIViewContentModeCenter];
-			
-			NSString *ext = @".jpg";
-			
-			SHA1 *sha1 = [SHA1 sha1WithString: [url.absoluteString  stringByAppendingString: ext]];
-			
-			//NSLog(@"absoluteString = %@", url.absoluteString);
-			
-			//NSLog(@"sha1 = %@", sha1);
-			
-			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-			
-			NSMutableString *string = [NSMutableString stringWithString:@"/imgcache/"];
-			
-			[string appendFormat: @"%@", sha1];
-			
-			[string appendString: ext];
-			
-			NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent: string];
-			
-			//NSLog(@"filePath = %@", filePath);
-			
-			[UIImageJPEGRepresentation(image1, 0.8f) writeToFile:filePath atomically:YES];
-			
-			image1 = nil;
-			
-			download = true;
-			
-			//[self performSelectorOnMainThread:@selector(updateClip) withObject:nil waitUntilDone:NO];
-			
-			return image;
-		}
-		completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error){
-			
-			if (stage == YYWebImageStageFinished) {
-				if(!error) {
-					[_progressBar setValue: 100 animateWithDuration:1];
-					_progressBar.hidden = YES;
-					imageSize = image.size;
-					loaded = true;
-					[self setImageViewSize];
-				}else {
-					[_progressBar setValue: 0 animateWithDuration:1];
-					NSString *title, *message;
-					if(error.code == -1009){
-						title = @"无法下载";
-						message = @"请确认互联网连接。";
-					}else{
-						title = @"下载出现异常";
-						message = @"非常抱歉，请稍候再尝试。";
-					}
-					
-					UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-																	message:message
-																   delegate:nil
-														  cancelButtonTitle:@"好"
-														  otherButtonTitles:nil];
-					[alert show];
-				}
-			}
-		}
-	];
+					  placeholder:nil
+						  options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
+						 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+							 _progressBar.hidden = NO;
+							 if (expectedSize > 0 && receivedSize > 0) {
+								 CGFloat progress = (CGFloat)receivedSize / expectedSize;
+								 progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
+								 if (_self.progressBar.hidden && progress != 1) _self.progressBar.hidden = NO;
+								 [_self.progressBar setValue: progress * 100 animateWithDuration:1];
+							 }
+						 }
+						transform:nil
+	 //		transform:^UIImage *(UIImage *image, NSURL *url) {
+	 //
+	 //			UIImage *image1 = [image yy_imageByResizeToSize:CGSizeMake(80, 80) contentMode:UIViewContentModeCenter];
+	 //
+	 //			NSString *ext = @".jpg";
+	 //
+	 //			SHA1 *sha1 = [SHA1 sha1WithString: [url.absoluteString  stringByAppendingString: ext]];
+	 //
+	 //			//NSLog(@"absoluteString = %@", url.absoluteString);
+	 //
+	 //			//NSLog(@"sha1 = %@", sha1);
+	 //
+	 //			NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	 //
+	 //			NSMutableString *string = [NSMutableString stringWithString:@"/imgcache/"];
+	 //
+	 //			[string appendFormat: @"%@", sha1];
+	 //
+	 //			[string appendString: ext];
+	 //
+	 //			NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent: string];
+	 //
+	 //			//NSLog(@"filePath = %@", filePath);
+	 //
+	 //			[UIImageJPEGRepresentation(image1, 0.8f) writeToFile:filePath atomically:YES];
+	 //
+	 //			image1 = nil;
+	 //
+	 //			download = true;
+	 //
+	 //			//[self performSelectorOnMainThread:@selector(updateClip) withObject:nil waitUntilDone:NO];
+	 //
+	 //			return image;
+	 //		}
+					   completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error){
+						   
+						   if (stage == YYWebImageStageFinished) {
+							   if(!error) {
+								   [_self.progressBar setValue: 100 animateWithDuration:1];
+								   _self.progressBar.hidden = YES;
+								   _self.imageSize = image.size;
+								   _self.loaded = true;
+								   [_self setImageViewSize];
+							   }else {
+								   [_self.progressBar setValue: 0 animateWithDuration:1];
+								   NSString *title, *message;
+								   if(error.code == -1009){
+									   title = @"无法下载";
+									   message = @"请确认互联网连接。";
+								   }else{
+									   title = @"下载出现异常";
+									   message = @"非常抱歉，请稍候再尝试。";
+								   }
+								   
+								   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+																				   message:message
+																				  delegate:nil
+																		 cancelButtonTitle:@"好"
+																		 otherButtonTitles:nil];
+								   [alert show];
+							   }
+						   }
+					   }
+	 ];
 	
 	[self.view addSubview:imageView];
 	[self.view addSubview:_progressBar];
@@ -166,9 +168,9 @@
 
 - (void) setImageViewSize {
 	
-	if(!loaded) return;
+	if(!_loaded) return;
 	
-	CGFloat imageWidthToHeight = imageSize.width / imageSize.height;
+	CGFloat imageWidthToHeight = _imageSize.width / _imageSize.height;
 	CGFloat viewWidthToHeight = self.view.bounds.size.width / self.view.bounds.size.height;
 	
 	if(viewWidthToHeight > imageWidthToHeight) {
@@ -192,7 +194,7 @@
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-    return YES;
+	return YES;
 }
 
 - (void) initButtons {
@@ -203,7 +205,7 @@
 	[_closeButton setStyle:kFRDLivelyButtonStyleClose animated:NO];
 	[_closeButton addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
 	[_closeButton setOptions:@{ kFRDLivelyButtonLineWidth: @(2.0f),
-							   kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]}];
+								kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]}];
 	
 	[self.view addSubview:_closeButton];
 	
@@ -216,14 +218,14 @@
 		_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		
 		/*
-		heartButton.imageColorOn = [UIColor colorWithRed:56.0 / 255.0 green:126.0 / 255.0 blue:245.0 / 255.0 alpha:1.0];
-		heartButton.circleColor = [UIColor colorWithRed:56.0 / 255.0 green:126.0 / 255.0 blue:245.0 / 255.0 alpha:1.0];
-		heartButton.lineColor = [UIColor colorWithRed:40.0 / 255.0 green:120.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
-
-		heartButton.imageColorOn = [UIColor colorWithRed:51.0 / 255.0 green:205.0 / 255.0 blue:95.0 / 255.0 alpha:1.0];
-		heartButton.circleColor = [UIColor colorWithRed:51.0 / 255.0 green:205.0 / 255.0 blue:95.0 / 255.0 alpha:1.0];
-		heartButton.lineColor = [UIColor colorWithRed:40.0 / 255.0 green:195.0 / 255.0 blue:85.0 / 255.0 alpha:1.0];
-		*/
+		 heartButton.imageColorOn = [UIColor colorWithRed:56.0 / 255.0 green:126.0 / 255.0 blue:245.0 / 255.0 alpha:1.0];
+		 heartButton.circleColor = [UIColor colorWithRed:56.0 / 255.0 green:126.0 / 255.0 blue:245.0 / 255.0 alpha:1.0];
+		 heartButton.lineColor = [UIColor colorWithRed:40.0 / 255.0 green:120.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
+		 
+		 heartButton.imageColorOn = [UIColor colorWithRed:51.0 / 255.0 green:205.0 / 255.0 blue:95.0 / 255.0 alpha:1.0];
+		 heartButton.circleColor = [UIColor colorWithRed:51.0 / 255.0 green:205.0 / 255.0 blue:95.0 / 255.0 alpha:1.0];
+		 heartButton.lineColor = [UIColor colorWithRed:40.0 / 255.0 green:195.0 / 255.0 blue:85.0 / 255.0 alpha:1.0];
+		 */
 		
 		[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
 		
@@ -250,21 +252,14 @@
 	 [NSNumber numberWithInteger: UIInterfaceOrientationPortrait]
 								forKey:@"orientation"];
 	
-	[[YYImageCache sharedCache].memoryCache removeAllObjects];
+	if(_standalone) [[YYImageCache sharedCache].memoryCache removeAllObjects];
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
-	
-	//[self destroy];
-	
-//	[NSTimer scheduledTimerWithTimeInterval:1
-//									 target:self
-//								   selector:@selector(destroy)
-//								   userInfo:nil
-//									repeats:NO];
+
 }
 
 - (void)showProgress{
-	if (!loaded) {
+	if (!_loaded) {
 		_progressBar.hidden = NO;
 	}
 }
@@ -279,7 +274,7 @@
 	
 	if(download) {
 		load = @"download";
-	} else if (loaded) {
+	} else if (_loaded) {
 		load = @"load";
 	}
 	
@@ -324,10 +319,10 @@
 	[_progressBar setFontColor:[UIColor darkGrayColor]];
 	
 	[_closeButton setOptions:@{
-						  kFRDLivelyButtonLineWidth: @(2.0f),
-						  kFRDLivelyButtonHighlightedColor: [UIColor lightGrayColor],
-						  kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]
-						  }];
+							   kFRDLivelyButtonLineWidth: @(2.0f),
+							   kFRDLivelyButtonHighlightedColor: [UIColor lightGrayColor],
+							   kFRDLivelyButtonColor: [UIColor colorWithRed:68.0 / 255.0 green:68.0 / 255.0 blue:68.0 / 255.0 alpha:1.0]
+							   }];
 	self.view.backgroundColor = [UIColor whiteColor];
 	[self showBar];
 }
@@ -441,35 +436,35 @@
  //	imageView.size = self.view.size;
  //}
  
-
+ 
  -(void) viewWillDisappear:(BOOL)animated {
 	if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
-		// back button was pressed.  We know this is true because self is no longer
-		// in the navigation stack.
-		[self.navigationController setNavigationBarHidden:YES];
+ // back button was pressed.  We know this is true because self is no longer
+ // in the navigation stack.
+ [self.navigationController setNavigationBarHidden:YES];
 	}
 	[super viewWillDisappear:animated];
-}
-- (void)updateLikeButton: (BOOL) isInit{
+ }
+ - (void)updateLikeButton: (BOOL) isInit{
 	if(!isInit) self.favorite = !self.favorite;
 	if(self.favorite) {
-		[_likeButton setBackgroundImage:likeImamge forState:UIControlStateNormal];
+ [_likeButton setBackgroundImage:likeImamge forState:UIControlStateNormal];
 	}else {
-		[_likeButton setBackgroundImage:notLikeImage forState:UIControlStateNormal];
+ [_likeButton setBackgroundImage:notLikeImage forState:UIControlStateNormal];
 	}
-}
-- (void)addFavorite{
+ }
+ - (void)addFavorite{
 	[self callJSFunction:@"updateClipFavorite();"];
 	[self updateLikeButton: FALSE];
-}
+ }
  - (void)callJSFunction: (NSString*) fun {
 	[self.delegate.webView stringByEvaluatingJavaScriptFromString:fun];
  }
  
  - (void)callJSFunction__: (NSString*) input {
 	[self.delegate.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"test_test('%@')", input]];
-}
-
+ }
+ 
  - (void) updateClip {
 	if (self.showLike) {
  [self callJSFunction:@"updateClipThumb();"];
@@ -490,6 +485,6 @@
  [self callJSFunction:@"updateClipFavorite();"];
 	}
  }
-
-*/
+ 
+ */
 @end

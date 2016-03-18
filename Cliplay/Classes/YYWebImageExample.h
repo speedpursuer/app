@@ -11,5 +11,5 @@
 @interface YYWebImageExample : UITableViewController
 @property (nonatomic, strong) NSArray *imageLinks;
 @property (nonatomic, assign) BOOL fullScreen;
-- (void) showBar;
+- (void)showClipView:(NSString*)url;
 @end

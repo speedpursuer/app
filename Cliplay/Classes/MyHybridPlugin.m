@@ -8,42 +8,20 @@
 
 #import "MyHybridPlugin.h"
 #import "MainViewController.h"
-#import "ClipPlayController.h"
-#import "YYWebImageExample.h"
 
 @implementation MyHybridPlugin
 
 -(void)playClip:(CDVInvokedUrlCommand*) command {
 	
-
+	
 	if(command.arguments.count > 0) {
 		
 		MainViewController* mvc = (MainViewController*)[self viewController];
 		
 		if(command.arguments.count == 1) {
-			ClipPlayController *vc = [[ClipPlayController alloc] init];
-			
-			vc.clipURL = [command.arguments objectAtIndex: 0];
-			
-			vc.favorite = TRUE;
-			vc.showLike = FALSE;
-			
-			vc.modalPresentationStyle = UIModalPresentationCurrentContext;
-			
-			vc.delegate = mvc;
-			vc.modalPresentationStyle = UIModalPresentationCurrentContext;
-			
-			[mvc presentViewController:vc animated:YES completion:nil];
-			
+			[mvc showClipView: [command.arguments objectAtIndex: 0]];
 		}else {
-			YYWebImageExample *vc = [[YYWebImageExample alloc] init];
-			
-			vc.imageLinks = command.arguments;
-			
-			[mvc.navigationController pushViewController:vc animated:YES];
-			[mvc.navigationController setNavigationBarHidden:NO];
-			//mvc.navigationController.navigationBar.tintColor = [UIColor blackColor];
-			//mvc.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+			[mvc showYYView: command.arguments];
 		}
 		
 		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];

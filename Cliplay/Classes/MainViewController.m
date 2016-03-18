@@ -26,6 +26,8 @@
 //
 
 #import "MainViewController.h"
+#import "YYWebImageExample.h"
+#import "ClipPlayController.h"
 
 
 @implementation MainViewController
@@ -52,6 +54,35 @@
         // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
     }
     return self;
+}
+
+- (void)showYYView:(NSArray*)list {
+	
+	YYWebImageExample *vc = [YYWebImageExample new];
+	
+	vc.imageLinks = list;
+	
+	[self.navigationController pushViewController:vc animated:YES];
+	[self.navigationController setNavigationBarHidden:NO];
+	//self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	//self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+}
+
+- (void)showClipView:(NSString*)url {
+
+	ClipPlayController *vc = [ClipPlayController new];
+
+	vc.clipURL = url;
+	
+	vc.favorite = TRUE;
+	vc.showLike = FALSE;
+	vc.standalone = TRUE;
+	
+	vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+	
+	vc.delegate = self;
+	
+	[self presentViewController:vc animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

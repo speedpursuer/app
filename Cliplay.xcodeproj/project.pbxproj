@@ -92,6 +92,7 @@
 		76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 76E424BE1C7AB30A00FA5962 /* ionic.min.css */; };
 		76E61D931C79F28900CCC767 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D901C79F28900CCC767 /* CDVConnection.m */; };
 		76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D921C79F28900CCC767 /* CDVReachability.m */; };
+		76ECFB901C9AC8EA00FCABCF /* YYImageExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */; };
 		8A88FA600567418E9CC06334 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8B680D991549EB8F229D9F /* SystemConfiguration.framework */; };
 		9E300325C4F74EB7AE3CB472 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8501F447D22045F9A0CBEDDA /* WebKit.framework */; };
 		B9EEED15F5F47E71E3E9FFA7 /* libPods-Cliplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DAC936691E38912C30D8B14 /* libPods-Cliplay.a */; };
@@ -243,6 +244,8 @@
 		76E61D901C79F28900CCC767 /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVConnection.m"; sourceTree = SOURCE_ROOT; };
 		76E61D911C79F28900CCC767 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVReachability.h"; sourceTree = SOURCE_ROOT; };
 		76E61D921C79F28900CCC767 /* CDVReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVReachability.m"; sourceTree = SOURCE_ROOT; };
+		76ECFB8E1C9AC8EA00FCABCF /* YYImageExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYImageExample.h; path = Cliplay/Classes/YYImageExample.h; sourceTree = "<group>"; };
+		76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YYImageExample.m; path = Cliplay/Classes/YYImageExample.m; sourceTree = "<group>"; };
 		8501F447D22045F9A0CBEDDA /* WebKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		ADAE07AC79223E2D5854CF72 /* Pods-Cliplay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cliplay.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cliplay/Pods-Cliplay.release.xcconfig"; sourceTree = "<group>"; };
 		AF8B680D991549EB8F229D9F /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -466,6 +469,8 @@
 		763B6CB61C4752D800752B77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				76ECFB8E1C9AC8EA00FCABCF /* YYImageExample.h */,
+				76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */,
 				76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */,
 				76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */,
 				7605C4221C5BB2F3004E488A /* CALayer+YYAdd.h */,
@@ -704,6 +709,7 @@
 				7605C4441C5BB2F3004E488A /* LLARingSpinnerView.m in Sources */,
 				7605C4D71C5BB4F4004E488A /* YoikScreenOrientation.m in Sources */,
 				7605C4E61C5BB524004E488A /* UIWebViewExtension.m in Sources */,
+				76ECFB901C9AC8EA00FCABCF /* YYImageExample.m in Sources */,
 				7605C4471C5BB2F3004E488A /* MessageDigest.m in Sources */,
 				7605C4D01C5BB4D5004E488A /* CDVFile.m in Sources */,
 				7605C4651C5BB37E004E488A /* main.m in Sources */,
@@ -781,11 +787,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cliplay/Cliplay-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"DISABLE_PUSH_NOTIFICATIONS=1",
-				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
@@ -793,7 +794,7 @@
 					"$(CORDOVALIB)/Classes/**",
 					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include/**",
 				);
-				INFOPLIST_FILE = "Cliplay/Cliplay-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -826,11 +827,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cliplay/Cliplay-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-					"DISABLE_PUSH_NOTIFICATIONS=1",
-				);
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
@@ -840,7 +836,7 @@
 					"${PODS_ROOT}/Headers/Public",
 					"${PODS_ROOT}/Headers/Public/YYWebImage",
 				);
-				INFOPLIST_FILE = "Cliplay/Cliplay-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
