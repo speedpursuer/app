@@ -30,7 +30,7 @@
         else  [_view startAnimating];
         
         // add a "bounce" animation
-        UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
+        UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
         [UIView animateWithDuration:0.1 delay:0 options:op animations:^{
             _view.layer.transformScale = 0.97;
         } completion:^(BOOL finished) {
@@ -44,7 +44,7 @@
         }];
     }];
 	
-	tap.numberOfTapsRequired = 2;
+	tap.numberOfTapsRequired = 1;
 	
     [view addGestureRecognizer:tap];
 }
@@ -60,14 +60,23 @@
         if (![image conformsToProtocol:@protocol(YYAnimatedImage)]) return;
         UIPanGestureRecognizer *gesture = sender;
         CGPoint p = [gesture locationInView:gesture.view];
-        CGFloat progress = p.x / gesture.view.width;
+//        CGFloat progress = p.x / gesture.view.width;
+		
+		CGFloat progress = 0;
+		
+		if(p.x < 10 || p.x > gesture.view.width - 10) {
+			return;
+		}else{
+			progress = (p.x - 10) / (gesture.view.width - 20);
+		}
+		[_view stopAnimating];
         if (gesture.state == UIGestureRecognizerStateBegan) {
             previousIsPlaying = [_view isAnimating];
-            [_view stopAnimating];
+//            [_view stopAnimating];
             _view.currentAnimatedImageIndex = image.animatedImageFrameCount * progress;
         } else if (gesture.state == UIGestureRecognizerStateEnded ||
                    gesture.state == UIGestureRecognizerStateCancelled) {
-            if (previousIsPlaying) [_view startAnimating];
+//            if (previousIsPlaying) [_view startAnimating];
         } else {
             _view.currentAnimatedImageIndex = image.animatedImageFrameCount * progress;
         }

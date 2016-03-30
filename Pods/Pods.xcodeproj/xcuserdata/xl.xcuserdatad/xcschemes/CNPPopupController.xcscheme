@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5D4C9CFBB4FF51F4ACB4D610'
-               BlueprintName = 'DGActivityIndicatorView'
+               BlueprintIdentifier = '6897202C05AB5802F74FC230'
+               BlueprintName = 'CNPPopupController'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libDGActivityIndicatorView.a'>
+               BuildableName = 'libCNPPopupController.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

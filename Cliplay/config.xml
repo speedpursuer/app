@@ -64,9 +64,9 @@
     <feature name="FileTransfer">
         <param name="ios-package" value="CDVFileTransfer" />
     </feature>
-<!--    <feature name="SQLitePlugin">-->
-<!--        <param name="ios-package" value="SQLitePlugin" />-->
-<!--    </feature>-->
+    <feature name="SQLitePlugin">
+        <param name="ios-package" value="SQLitePlugin" />
+    </feature>
     <feature name="MyHybridPlugin">
         <param name="ios-package" value="MyHybridPlugin" />
     </feature>

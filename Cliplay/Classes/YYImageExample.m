@@ -11,7 +11,7 @@
 #import "UIView+YYAdd.h"
 #import <ImageIO/ImageIO.h>
 #import <WebP/demux.h>
-#import "YYWebImageExample.h"
+#import "PostController.h"
 
 @interface YYImageExample()
 @property (nonatomic, strong) NSMutableArray *titles;
@@ -81,7 +81,7 @@
     NSString *className = self.classNames[indexPath.row];
     Class class = NSClassFromString(className);
     if (class) {
-        YYWebImageExample *ctrl = class.new;
+        PostController *ctrl = class.new;
         ctrl.title = _titles[indexPath.row];
 		ctrl.imageLinks = list[indexPath.row];
 		[self.navigationController pushViewController:ctrl animated: YES];

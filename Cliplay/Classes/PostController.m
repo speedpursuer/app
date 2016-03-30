@@ -1,12 +1,12 @@
 //
-//  YYWebImageExample.m
+//  PostController.m
 //  YYKitExample
 //
 //  Created by ibireme on 15/7/19.
 //  Copyright (c) 2015 ibireme. All rights reserved.
 //
 
-#import "YYWebImageExample.h"
+#import "PostController.h"
 #import "YYWebImage.h"
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
@@ -14,19 +14,22 @@
 #import "YYImageExampleHelper.h"
 #import "ClipPlayController.h"
 #import "DRImagePlaceholderHelper.h"
+#import "DOFavoriteButton.h"
 
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
 
-@interface YYWebImageExampleCell : UITableViewCell
+@interface PostControllerCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
+@property (nonatomic, strong) UIImageView *errPage;
+@property (nonatomic, assign) CGFloat scale;
 @end
 
-@implementation YYWebImageExampleCell
+@implementation PostControllerCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	
@@ -50,14 +53,22 @@
 	_indicator.hidden = YES;
 	//    [self.contentView addSubview:_indicator]; //use progress bar instead..
 	
+	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text:@""];
+	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+	_errPage.image = img;
+	_errPage.hidden = YES;
+	[self.contentView addSubview:_errPage];
+	
 	_label = [UILabel new];
 	_label.size = self.size;
 	_label.textAlignment = NSTextAlignmentCenter;
 	_label.text = @"下载异常, 点击重试";
-	_label.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+//	_label.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+	_label.textColor = [UIColor whiteColor];
 	_label.hidden = YES;
 	_label.userInteractionEnabled = YES;
 	[self.contentView addSubview:_label];
+	
 	
 	CGFloat lineHeight = 4;
 	_progressLayer = [CAShapeLayer layer];
@@ -81,6 +92,8 @@
 	}];
 	[_label addGestureRecognizer:g];
 	
+	_scale = 1;
+	
 	return self;
 }
 
@@ -88,6 +101,7 @@
 	
 	_label.hidden = YES;
 	_indicator.hidden = NO;
+	_errPage.hidden = YES;
 	[_indicator startAnimating];
 	__weak typeof(self) _self = self;
 	
@@ -107,7 +121,7 @@
 	[_webImageView yy_setImageWithURL:url
 	                           placeholder:placeholderImage
 //						  placeholder: nil
-							  options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
+							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
 							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 								 if (expectedSize > 0 && receivedSize > 0) {
 									 CGFloat progress = (CGFloat)receivedSize / expectedSize;
@@ -122,7 +136,10 @@
 								   _self.progressLayer.hidden = YES;
 								   [_self.indicator stopAnimating];
 								   _self.indicator.hidden = YES;
-								   if (!image) _self.label.hidden = NO;
+								   if (!image) {
+									   _self.label.hidden = NO;
+									   _self.errPage.hidden = NO;
+								   }
 								   
 								   if(!error) {
 									   _self.downLoaded = TRUE;
@@ -138,13 +155,16 @@
 @end
 
 
-@implementation YYWebImageExample {
+@implementation PostController {
 	//	CGPoint lastOffset;
 	//	BOOL hideBar;
+	DOFavoriteButton *infoButton;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -156,8 +176,95 @@
 	//self.navigationItem.rightBarButtonItem = button;
 	//self.view.backgroundColor = [UIColor colorWithWhite:0.217 alpha:1.000];
 	
+	[self addInfoIcon];
+	
+	if(_showInfo) {
+		[self showPopup];
+	}
+	
 	[self.tableView reloadData];
 	[self scrollViewDidScroll:self.tableView];
+}
+
+- (void)showPopup {
+	
+	NSMutableParagraphStyle *paragraphStyle = NSMutableParagraphStyle.new;
+	paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+	paragraphStyle.alignment = NSTextAlignmentCenter;
+	
+	NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"操作说明" attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:24], NSParagraphStyleAttributeName : paragraphStyle}];
+	NSAttributedString *lineOne = [[NSAttributedString alloc] initWithString:@"单击短片播放/暂停" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
+	
+//	NSAttributedString *lineOne1 = [[NSAttributedString alloc] initWithString:@"" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
+	
+	NSAttributedString *lineTwo = [[NSAttributedString alloc] initWithString:@"双击进入滑屏慢放模式" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSForegroundColorAttributeName : [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
+	
+	CNPPopupButton *button = [[CNPPopupButton alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
+	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+	[button setTitle:@"知道了" forState:UIControlStateNormal];
+	button.backgroundColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	button.layer.cornerRadius = 4;
+	
+	UILabel *titleLabel = [[UILabel alloc] init];
+	titleLabel.numberOfLines = 0;
+	titleLabel.attributedText = title;
+	
+	UILabel *lineOneLabel = [[UILabel alloc] init];
+	lineOneLabel.numberOfLines = 0;
+	lineOneLabel.attributedText = lineOne;
+	
+//	UILabel *lineOneLabel1 = [[UILabel alloc] init];
+//	lineOneLabel1.numberOfLines = 0;
+//	lineOneLabel1.attributedText = lineOne1;
+	
+	UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip"]];
+	
+	UILabel *lineTwoLabel = [[UILabel alloc] init];
+	lineTwoLabel.numberOfLines = 0;
+	lineTwoLabel.attributedText = lineTwo;
+	
+	CNPPopupController *popupController = [[CNPPopupController alloc] initWithContents:@[titleLabel, lineOneLabel, lineTwoLabel, imageView, button]];
+	popupController.theme = [CNPPopupTheme defaultTheme];
+	popupController.theme.popupStyle = CNPPopupStyleCentered;
+	popupController.theme.cornerRadius = 10.0f;
+	
+	popupController.delegate = self;
+	
+	button.selectionHandler = ^(CNPPopupButton *button){
+		[popupController dismissPopupControllerAnimated:YES];
+	};
+	
+	[popupController presentPopupControllerAnimated:YES];
+}
+
+- (void)popupControllerDidDismiss:(CNPPopupController *)controller {
+	if(!infoButton.selected) [infoButton select];
+}
+
+- (void)addInfoIcon {
+	
+	if(!_showInfo) {
+		infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: true];
+	}else {
+		infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: false];
+	}
+	
+	//	infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"]];
+	
+	infoButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	infoButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	infoButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	
+	[infoButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
+	
+	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+	
+	self.navigationItem.rightBarButtonItem = button;
+}
+
+- (void)tappedButton:(DOFavoriteButton *)sender {
+	[self showPopup];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -166,6 +273,10 @@
 	//self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	//[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
+
+//- (void)viewDidAppear:(BOOL)animated {
+//	[infoButton select];
+//}
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
@@ -209,10 +320,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	YYWebImageExampleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
+	PostControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
 	
 	if (!cell){
-		cell = [[YYWebImageExampleCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+		cell = [[PostControllerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
 	}
 	
 	[cell setImageURL:[NSURL URLWithString:_imageLinks[indexPath.row]]];
@@ -222,15 +333,31 @@
 	return cell;
 }
 
-- (void)addClickControlToAnimatedImageView:(YYWebImageExampleCell *)cell {
+- (void)addClickControlToAnimatedImageView:(PostControllerCell *)cell {
 	if (!cell) return;
 	cell.webImageView.userInteractionEnabled = YES;
 	__weak typeof(cell.webImageView) _view = cell.webImageView;
 	__weak typeof(cell) _cell = cell;
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+		
+		if(!_cell.downLoaded) return;
+		
 		if ([_view isAnimating]) [_view stopAnimating];
 		else [_view startAnimating];
+		
+		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
+		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+			_view.layer.transformScale = 0.97 * _cell.scale;
+		} completion:^(BOOL finished) {
+			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+				_view.layer.transformScale = 1.008 * _cell.scale;
+			} completion:^(BOOL finished) {
+				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+					_view.layer.transformScale = 1 * _cell.scale;
+				} completion:NULL];
+			}];
+		}];
 	}];
 	
 	singleTap.numberOfTapsRequired = 1;
@@ -252,18 +379,20 @@
 	
 	[_view addGestureRecognizer:doubleTap];
 	
-	//		[singleTap requireGestureRecognizerToFail:doubleTap];
+//	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	
 	CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
-	for (YYWebImageExampleCell *cell in [self.tableView visibleCells]) {
+	for (PostControllerCell *cell in [self.tableView visibleCells]) {
 		CGFloat y = cell.centerY - scrollView.contentOffset.y;
 		CGFloat p = y - viewHeight / 2;
 		CGFloat scale = cos(p / viewHeight * 0.8) * 0.95;
+		cell.scale = scale;
 		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
 			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
+			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
 		} completion:NULL];
 	}
 }

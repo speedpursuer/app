@@ -26,8 +26,9 @@
 //
 
 #import "MainViewController.h"
-#import "YYWebImageExample.h"
+#import "PostController.h"
 #import "ClipPlayController.h"
+#import "PlayController.h"
 
 
 @implementation MainViewController
@@ -56,11 +57,35 @@
     return self;
 }
 
-- (void)showYYView:(NSArray*)list {
+- (void)showPostView:(NSArray*)list {
 	
-	YYWebImageExample *vc = [YYWebImageExample new];
+	PostController *vc = [PostController new];
 	
-	vc.imageLinks = list;
+	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
+	
+	vc.showInfo = [[list objectAtIndex: 0] boolValue];
+	
+	[tempArray removeObjectAtIndex: 0];
+	
+	vc.imageLinks = [NSArray arrayWithArray: tempArray];
+	
+	[self.navigationController pushViewController:vc animated:YES];
+	[self.navigationController setNavigationBarHidden:NO];
+	//self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	//self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+}
+
+- (void)showPlayView:(NSArray*)list {
+	
+	PlayController *vc = [PlayController new];
+	
+	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
+	
+	vc.showInfo = [[list objectAtIndex: 0] boolValue];
+	
+	[tempArray removeObjectAtIndex: 0];
+	
+	vc.imageLinks = [NSArray arrayWithArray: tempArray];
 	
 	[self.navigationController pushViewController:vc animated:YES];
 	[self.navigationController setNavigationBarHidden:NO];

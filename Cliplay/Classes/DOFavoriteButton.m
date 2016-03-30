@@ -44,7 +44,8 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image {
+- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image selected: (BOOL)selected {
+	self.selected = selected;
     self = [super initWithFrame:frame];
     if (self) {
         _image = image;

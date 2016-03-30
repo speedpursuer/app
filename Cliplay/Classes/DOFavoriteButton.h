@@ -19,7 +19,8 @@ IB_DESIGNABLE
 @property (nonatomic, strong) IBInspectable UIColor *imageColorOff;
 @property (nonatomic, assign) IBInspectable NSTimeInterval duration;
 
-- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image;
+//- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image;
+- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image selected: (BOOL)selected;
 - (void)select;
 - (void)deselect;
 

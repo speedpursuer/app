@@ -1,5 +1,5 @@
 //
-//  YYWebImageExample.h
+//  PlayController.h
 //  YYKitExample
 //
 //  Created by ibireme on 15/7/19.
@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CNPPopupController.h"
 
-@interface YYWebImageExample : UITableViewController
+@interface PlayController : UITableViewController
 @property (nonatomic, strong) NSArray *imageLinks;
 @property (nonatomic, assign) BOOL fullScreen;
+@property (nonatomic, assign) BOOL showInfo;
 - (void)showClipView:(NSString*)url;
+- (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 @end

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>CNPPopupController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>DGActivityIndicatorView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +32,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>26776CA84E15258788B3F0C1FA404D5C</key>
+		<key>4826A75B6E7BA5E45F88AA5EC22856F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CDBCA9873F1DB828ECEB903FDD457FF8</key>
+		<key>60AAA34B6E6F092552CF14EDB35F09E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>611A56531AE8BFDB2320359150B8A900</key>
 		<dict>
 			<key>primary</key>
 			<true/>

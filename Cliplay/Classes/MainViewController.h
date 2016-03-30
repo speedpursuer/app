@@ -30,8 +30,9 @@
 #import <Cordova/CDVCommandQueue.h>
 
 @interface MainViewController : CDVViewController
-- (void)showYYView:(NSArray*)list;
+- (void)showPostView:(NSArray*)list;
 - (void)showClipView:(NSString*)url;
+- (void)showPlayView:(NSArray*)list;
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

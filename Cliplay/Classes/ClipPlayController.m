@@ -16,6 +16,7 @@
 #import "FRDLivelyButton.h"
 #import "SHA1.h"
 #import "DOFavoriteButton.h"
+#import "UIGestureRecognizer+YYAdd.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -80,7 +81,7 @@
 	
 	[imageView yy_setImageWithURL:[NSURL URLWithString:url]
 					  placeholder:nil
-						  options:YYWebImageOptionProgressiveBlur | YYWebImageOptionShowNetworkActivity | YYWebImageOptionSetImageWithFadeAnimation
+						  options:YYWebImageOptionProgressiveBlur | YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
 						 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 							 _progressBar.hidden = NO;
 							 if (expectedSize > 0 && receivedSize > 0) {
@@ -161,9 +162,24 @@
 	
 	[YYImageExampleHelper addTapControlToAnimatedImageView:imageView];
 	[YYImageExampleHelper addPanControlToAnimatedImageView:imageView];
+	[self addTapControlToAnimatedImageView:imageView];
 	for (UIGestureRecognizer *g in imageView.gestureRecognizers) {
 		g.delegate = self;
 	}
+}
+
+- (void)addTapControlToAnimatedImageView:(YYAnimatedImageView *)view {
+	if (!view) return;
+	view.userInteractionEnabled = YES;
+	__weak typeof(self) _self = self;
+	
+	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+		[_self cancelAction];
+	}];
+	
+	tap.numberOfTapsRequired = 2;
+	
+	[view addGestureRecognizer:tap];
 }
 
 - (void) setImageViewSize {
@@ -211,7 +227,7 @@
 	
 	if (self.showLike) {
 		
-		_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"heart"]];
+		_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"heart"] selected: false];
 		
 		_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
