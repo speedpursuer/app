@@ -20,7 +20,7 @@
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
-@interface ClipPlayController()<UIGestureRecognizerDelegate>
+@interface ClipPlayController()
 @property (nonatomic, strong) MBCircularProgressBarView *progressBar;
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
 @property (nonatomic, strong) FRDLivelyButton *closeButton;
@@ -163,9 +163,9 @@
 	[YYImageExampleHelper addTapControlToAnimatedImageView:imageView];
 	[YYImageExampleHelper addPanControlToAnimatedImageView:imageView];
 	[self addTapControlToAnimatedImageView:imageView];
-	for (UIGestureRecognizer *g in imageView.gestureRecognizers) {
-		g.delegate = self;
-	}
+//	for (UIGestureRecognizer *g in imageView.gestureRecognizers) {
+//		g.delegate = self;
+//	}
 }
 
 - (void)addTapControlToAnimatedImageView:(YYAnimatedImageView *)view {
@@ -209,9 +209,9 @@
 	}
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
-	return YES;
-}
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+//	return YES;
+//}
 
 - (void) initButtons {
 	

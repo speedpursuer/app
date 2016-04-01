@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>UITableView+FDTemplateLayoutCell.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>YYWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,17 +37,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4826A75B6E7BA5E45F88AA5EC22856F2</key>
+		<key>3FFFDDE96308CF0F3616808069D18428</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>60AAA34B6E6F092552CF14EDB35F09E9</key>
+		<key>40F541EA6E9D84264B29FBD88B496F26</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>611A56531AE8BFDB2320359150B8A900</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>647DCE8E4D74543A168A61386440D6C2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -1,5 +1,5 @@
 //
-//  PostController.h
+//  TestController.h
 //  YYKitExample
 //
 //  Created by ibireme on 15/7/19.
@@ -10,11 +10,10 @@
 #import "CNPPopupController.h"
 #import "YYWebImage.h"
 
-@interface PostController : UITableViewController
-@property (nonatomic, strong) NSArray *imageLinks;
+@interface TestController : UITableViewController
+@property (nonatomic, strong) NSArray *articleDicts;
+@property (nonatomic, strong) NSString *headerText;
 @property (nonatomic, assign) BOOL fullScreen;
 @property (nonatomic, assign) BOOL showInfo;
-//- (void)showClipView:(NSString*)url;
-- (void)showClipView:(YYAnimatedImageView*)view;
 - (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 @end

@@ -29,6 +29,8 @@
 #import "PostController.h"
 #import "ClipPlayController.h"
 #import "PlayController.h"
+#import "ArticleController.h"
+#import "TestController.h"
 
 
 @implementation MainViewController
@@ -108,6 +110,46 @@
 	vc.delegate = self;
 	
 	[self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)showArticleView:(NSArray*)list {
+	
+//	ArticleController *vc = [ArticleController new];
+	
+	
+	
+//	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
+//	
+//	vc.showInfo = [[list objectAtIndex: 0] boolValue];
+//	
+//	[tempArray removeObjectAtIndex: 0];
+//	
+//	vc.imageLinks = [NSArray arrayWithArray: tempArray];
+	
+	TestController *vc = [TestController new];
+	
+//	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
+//	
+//	vc.showInfo = [[list objectAtIndex: 0] boolValue];
+//	
+//	[tempArray removeObjectAtIndex: 0];
+//	
+//	vc.imageLinks = [NSArray arrayWithArray: tempArray];
+	
+	NSString* data = [list objectAtIndex: 0];
+	
+	NSData* d = [data dataUsingEncoding: NSUTF8StringEncoding];
+	
+	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingAllowFragments error:nil];
+	NSArray *feedDicts = rootDict[@"image"];
+	
+	vc.articleDicts = feedDicts;
+	vc.headerText = rootDict[@"header"];
+
+	[self.navigationController pushViewController:vc animated:YES];
+	[self.navigationController setNavigationBarHidden:NO];
+	//self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+	//self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning

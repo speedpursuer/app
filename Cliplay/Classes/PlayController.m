@@ -210,8 +210,6 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];

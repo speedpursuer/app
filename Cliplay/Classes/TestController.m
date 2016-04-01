@@ -1,12 +1,12 @@
 //
-//  PostController.m
+//  TestController.m
 //  YYKitExample
 //
 //  Created by ibireme on 15/7/19.
 //  Copyright (c) 2015 ibireme. All rights reserved.
 //
 
-#import "PostController.h"
+#import "TestController.h"
 #import "YYWebImage.h"
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
@@ -15,12 +15,15 @@
 #import "ClipPlayController.h"
 #import "DRImagePlaceholderHelper.h"
 #import "DOFavoriteButton.h"
+#import "UITableView+FDTemplateLayoutCell.h"
+#import "ArticleEntity.h"
 
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
 
-@interface PostControllerCell : UITableViewCell
+@interface TestControllerCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
+@property (nonatomic, strong) UILabel *imageLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
@@ -29,46 +32,90 @@
 @property (nonatomic, assign) CGFloat scale;
 @end
 
-@implementation PostControllerCell
+@implementation TestControllerCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	self.backgroundColor = [UIColor whiteColor];
-	//	self.backgroundColor = [UIColor clearColor];
-	//  self.contentView.backgroundColor = [UIColor clearColor];
 	self.contentView.backgroundColor = [UIColor whiteColor];
-	self.size = CGSizeMake(kScreenWidth, kCellHeight);
-	self.contentView.size = self.size;
+//	self.contentView.bounds = [UIScreen mainScreen].bounds;
+//	self.size = CGSizeMake(kScreenWidth, kCellHeight);
+//	self.contentView.size = self.size;
+	
+	_imageLabel = [UILabel new];
+	_imageLabel.backgroundColor = [UIColor clearColor];
+	_imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
+	_imageLabel.textAlignment = NSTextAlignmentLeft;
+	_imageLabel.numberOfLines = 0;
+	[_imageLabel setTextColor:[UIColor darkGrayColor]];
+	[self.contentView addSubview:_imageLabel];
+	
 	_webImageView = [YYAnimatedImageView new];
-	_webImageView.size = self.size;
+	
+	_webImageView.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	_webImageView.size = CGSizeMake(kScreenWidth * 0.9, kCellHeight * 0.9);
+	_webImageView.centerX = self.width / 2;
 	_webImageView.clipsToBounds = YES;
+//	_webImageView.top = _imageLabel.bottom + 30;
 	_webImageView.contentMode = UIViewContentModeScaleAspectFill;
 	_webImageView.backgroundColor = [UIColor whiteColor];
+	
 	[self.contentView addSubview:_webImageView];
+	
+	[NSLayoutConstraint constraintWithItem:_webImageView
+								 attribute:NSLayoutAttributeTop
+								 relatedBy:NSLayoutRelationEqual
+									toItem:_imageLabel
+								 attribute:NSLayoutAttributeBottom
+								multiplier:1
+								  constant:10].active = true;
+	
+	[NSLayoutConstraint constraintWithItem:_webImageView
+									attribute:NSLayoutAttributeCenterX
+									relatedBy:NSLayoutRelationEqual
+										toItem:self.contentView
+									attribute:NSLayoutAttributeCenterX
+									multiplier:1
+									  constant:0].active = true;
+	
+	[NSLayoutConstraint constraintWithItem:_webImageView
+								 attribute:NSLayoutAttributeHeight
+								 relatedBy:NSLayoutRelationEqual
+									toItem:nil
+								 attribute:NSLayoutAttributeNotAnAttribute
+								multiplier:1
+								  constant:kCellHeight * 0.9].active = true;
+	
+	[NSLayoutConstraint constraintWithItem:_webImageView
+								 attribute:NSLayoutAttributeWidth
+								 relatedBy:NSLayoutRelationEqual
+									toItem:nil
+								 attribute:NSLayoutAttributeNotAnAttribute
+								multiplier:1
+								  constant:kScreenWidth * 0.9].active = true;
 	
 	
 	_indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	_indicator.center = CGPointMake(self.width / 2, self.height / 2);
 	_indicator.hidden = YES;
-	//    [self.contentView addSubview:_indicator]; //use progress bar instead..
 	
-	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text:@""];
-	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text:@""];
+	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, _webImageView.size.width, _webImageView.size.height)];
+	
 	_errPage.image = img;
 	_errPage.hidden = YES;
 	[self.contentView addSubview:_errPage];
 	
 	_label = [UILabel new];
-	_label.size = self.size;
+	_label.size = _webImageView.size;
 	_label.textAlignment = NSTextAlignmentCenter;
 	_label.text = @"下载异常, 点击重试";
-//	_label.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
 	_label.textColor = [UIColor whiteColor];
 	_label.hidden = YES;
 	_label.userInteractionEnabled = YES;
 	[self.contentView addSubview:_label];
-	
 	
 	CGFloat lineHeight = 4;
 	_progressLayer = [CAShapeLayer layer];
@@ -78,8 +125,6 @@
 	[path addLineToPoint:CGPointMake(_webImageView.width, _progressLayer.height / 2)];
 	_progressLayer.lineWidth = lineHeight;
 	_progressLayer.path = path.CGPath;
-	//    _progressLayer.strokeColor = [UIColor colorWithRed:0.000 green:0.640 blue:1.000 alpha:0.720].CGColor;
-	
 	_progressLayer.strokeColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor;
 	_progressLayer.lineCap = kCALineCapButt;
 	_progressLayer.strokeStart = 0;
@@ -94,8 +139,110 @@
 	
 	_scale = 1;
 	
+	[self addClickControlToAnimatedImageView: self];
+	
 	return self;
 }
+
+- (CGSize)sizeThatFits:(CGSize)size {
+	CGFloat totalHeight = 0;
+	totalHeight += self.webImageView.size.height;
+	totalHeight += self.imageLabel.size.height;
+	totalHeight += 40; // margins
+	return CGSizeMake(size.width, totalHeight);
+}
+
+
+- (void)addClickControlToAnimatedImageView:(TestControllerCell *)cell {
+	if (!cell) return;
+	cell.webImageView.userInteractionEnabled = YES;
+	__weak typeof(cell.webImageView) _view = cell.webImageView;
+	__weak typeof(cell) _cell = cell;
+	__weak typeof(self) _self = self;
+	TestController* tc = (TestController* )[self viewController];
+	__weak typeof(tc) _tc = tc;
+	
+	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+		
+		if(!_cell.downLoaded || _tc.fullScreen) return;
+		
+		if ([_view isAnimating]) [_view stopAnimating];
+		else [_view startAnimating];
+		
+		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
+		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+			_view.layer.transformScale = 0.97 * _cell.scale;
+		} completion:^(BOOL finished) {
+			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+				_view.layer.transformScale = 1.008 * _cell.scale;
+			} completion:^(BOOL finished) {
+				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+					_view.layer.transformScale = 1 * _cell.scale;
+				} completion:NULL];
+			}];
+		}];
+	}];
+	
+	singleTap.numberOfTapsRequired = 1;
+	
+	[_view addGestureRecognizer:singleTap];
+	
+	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+		
+		if(!_cell.downLoaded) return;
+		
+		[_view stopAnimating];
+		
+		[_self showClipView:[[_view yy_imageURL] absoluteString]];
+	}];
+	
+	doubleTap.numberOfTapsRequired = 2;
+	
+	[_view addGestureRecognizer:doubleTap];
+	
+	//	[singleTap requireGestureRecognizerToFail:doubleTap];
+}
+
+- (void)showClipView:(NSString*)url{
+	
+	TestController* tc = (TestController* )[self viewController];
+	
+	tc.fullScreen = true;
+	
+	ClipPlayController *_clipCtr = [ClipPlayController new];
+	
+	_clipCtr.clipURL = url;
+	_clipCtr.favorite = TRUE;
+	_clipCtr.showLike = FALSE;
+	_clipCtr.standalone = false;
+	
+	_clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
+	_clipCtr.delegate = self;
+	
+	[tc presentViewController:_clipCtr animated:YES completion:nil];
+}
+
+- (void)setCellData:(ArticleEntity*) entity {
+	
+	NSString *text = entity.desc;
+	
+	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+	
+	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+
+	[paragraphStyle setLineSpacing:10];
+	
+	[paragraphStyle setParagraphSpacing:11];
+	
+	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+	
+	self.imageLabel.attributedText = attributedString;
+	
+	[self.imageLabel sizeToFit];
+	
+	[self setImageURL:[NSURL URLWithString:entity.image]];
+}
+
 
 - (void)setImageURL:(NSURL *)url {
 	
@@ -116,12 +263,12 @@
 	_webImageView.autoPlayAnimatedImage = FALSE;
 
 	
-	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text: @"球路"];
+	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
 	
 	[_webImageView yy_setImageWithURL:url
 	                           placeholder:placeholderImage
-//						  placeholder: nil
 							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
+	 //| YYWebImageOptionRefreshImageCache
 							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 								 if (expectedSize > 0 && receivedSize > 0) {
 									 CGFloat progress = (CGFloat)receivedSize / expectedSize;
@@ -155,24 +302,21 @@
 @end
 
 
-@implementation PostController {
-	//	CGPoint lastOffset;
-	//	BOOL hideBar;
+@implementation TestController {
 	DOFavoriteButton *infoButton;
+	NSArray *data;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
+	self.tableView.fd_debugLogEnabled = NO;
+	
+	[self.tableView registerClass:[TestControllerCell class] forCellReuseIdentifier:@"cell"];
+	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-	
-	//hideBar = false;
-	
-	//UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStylePlain target:self action:@selector(reload)];
-	//self.navigationItem.rightBarButtonItem = button;
-	//self.view.backgroundColor = [UIColor colorWithWhite:0.217 alpha:1.000];
 	
 	[self addInfoIcon];
 	
@@ -180,8 +324,51 @@
 		[self showPopup];
 	}
 	
+	NSMutableArray *entities = @[].mutableCopy;
+	[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		[entities addObject:[[ArticleEntity alloc] initWithDictionary:obj]];
+	}];
+	
+	data = [entities mutableCopy];
+	
+	[self initHeader];
+	
 	[self.tableView reloadData];
-	[self scrollViewDidScroll:self.tableView];
+	//	[self scrollViewDidScroll:self.tableView];
+}
+
+- (void)initHeader {
+	UIView *header = [UIView new];
+	
+	UILabel *label = [UILabel new];
+	label.backgroundColor = [UIColor clearColor];
+	label.frame = CGRectMake(15, 20, self.view.width - 30, 60);
+	
+	label.textAlignment = NSTextAlignmentLeft;
+	label.numberOfLines = 0;
+	
+	NSString *text = _headerText;
+	
+	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+	
+	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	[paragraphStyle setLineSpacing:15];
+	
+	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+	
+	label.attributedText = attributedString;
+	
+	[label sizeToFit];
+	
+	[header addSubview:label];
+	
+	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, label.bottom + 20, self.view.width - 30, 1)];
+	lineView.backgroundColor = [UIColor lightGrayColor];
+	[header addSubview:lineView];
+	
+	header.size = CGSizeMake(self.view.width, lineView.bottom + 20);
+	
+	self.tableView.tableHeaderView = header;
 }
 
 - (void)showPopup {
@@ -310,91 +497,63 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return _imageLinks.count;
+	return data.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return kCellHeight;
+	//	return kCellHeight;
+	return [tableView fd_heightForCellWithIdentifier:@"cell" cacheByIndexPath:indexPath configuration:^(id cell) {
+		[self configureCell:cell atIndexPath:indexPath];
+	}];
+	
+//	return [tableView fd_heightForCellWithIdentifier:@"cell" configuration:^(TestControllerCell *cell) {
+//		[self configureCell:cell atIndexPath:indexPath];
+//	}];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	PostControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
+	TestControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
 	
-	if (!cell){
-		cell = [[PostControllerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-	}
-	
-	[cell setImageURL:[NSURL URLWithString:_imageLinks[indexPath.row]]];
-	
-	[self addClickControlToAnimatedImageView: cell];
+	[self configureCell:cell atIndexPath:indexPath];
 
 	return cell;
 }
 
-- (void)addClickControlToAnimatedImageView:(PostControllerCell *)cell {
-	if (!cell) return;
-	cell.webImageView.userInteractionEnabled = YES;
-	__weak typeof(cell.webImageView) _view = cell.webImageView;
-	__weak typeof(cell) _cell = cell;
-	__weak typeof(self) _self = self;
+- (void)configureCell:(TestControllerCell *)cell atIndexPath:(NSIndexPath *)indexPath {
 	
-	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-		
-		if(!_cell.downLoaded || _self.fullScreen) return;
-		
-		if ([_view isAnimating]) [_view stopAnimating];
-		else [_view startAnimating];
-		
-		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
-		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-			_view.layer.transformScale = 0.97 * _cell.scale;
-		} completion:^(BOOL finished) {
-			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-				_view.layer.transformScale = 1.008 * _cell.scale;
-			} completion:^(BOOL finished) {
-				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-					_view.layer.transformScale = 1 * _cell.scale;
-				} completion:NULL];
-			}];
-		}];
-	}];
+	cell.fd_enforceFrameLayout = YES; // Enable to use "-sizeThatFits:"
 	
-	singleTap.numberOfTapsRequired = 1;
+	[cell setCellData: data[indexPath.row]];
 	
-	[_view addGestureRecognizer:singleTap];
-	
-	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-		
-		if(!_cell.downLoaded) return;
-		
-		[_view stopAnimating];
-		
-//		[_self showClipView:[[_view yy_imageURL] absoluteString]];
-		
-		[_self showClipView:_view];
-	}];
-	
-	doubleTap.numberOfTapsRequired = 2;
-	
-	[_view addGestureRecognizer:doubleTap];
-	
-//	[singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
-	CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
-	for (PostControllerCell *cell in [self.tableView visibleCells]) {
-		CGFloat y = cell.centerY - scrollView.contentOffset.y;
-		CGFloat p = y - viewHeight / 2;
-		CGFloat scale = cos(p / viewHeight * 0.8) * 0.95;
-		cell.scale = scale;
-		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
-			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
-			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
-		} completion:NULL];
-	}
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//	
+//	return header;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//	return header.size.height;
+//}
+//
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//	return @"My Title";
+//}
+
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//	
+//	CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
+//	for (TestControllerCell *cell in [self.tableView visibleCells]) {
+//		CGFloat y = cell.centerY - scrollView.contentOffset.y;
+//		CGFloat p = y - viewHeight / 2;
+//		CGFloat scale = cos(p / viewHeight * 0.8) * 0.95;
+//		cell.scale = scale;
+//		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
+//			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
+//			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
+//		} completion:NULL];
+//	}
+//}
 
 
 //-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -432,47 +591,6 @@
 //	[[[self navigationController] navigationBar] setHidden:YES];
 //	hideBar = true;
 //	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-//}
-
-- (void)showClipView:(YYAnimatedImageView*)view {
-	
-	self.fullScreen = true;
-	
-	ClipPlayController *_clipCtr = [ClipPlayController new];
-	
-	_clipCtr.clipURL = [[view yy_imageURL] absoluteString];
-	_clipCtr.favorite = TRUE;
-	_clipCtr.showLike = FALSE;
-	_clipCtr.standalone = false;
-	
-	_clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
-	_clipCtr.delegate = self;
-	
-	[view stopAnimating];
-	
-	[self presentViewController:_clipCtr animated:YES completion:nil];
-}
-
-
-//- (void)showClipView1:(NSString*)url {
-//
-//	self.fullScreen = true;
-//	
-//	ClipPlayController *_clipCtr = [ClipPlayController new];
-//
-//	_clipCtr.clipURL = url;
-//	_clipCtr.favorite = TRUE;
-//	_clipCtr.showLike = FALSE;
-//	_clipCtr.standalone = false;
-//
-//	_clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
-//	_clipCtr.delegate = self;
-//
-//	[self presentViewController:_clipCtr animated:YES completion:nil];
-//}
-//
-//- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
-//	[self showBar];
 //}
 
 @end

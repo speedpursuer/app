@@ -33,6 +33,7 @@
 - (void)showPostView:(NSArray*)list;
 - (void)showClipView:(NSString*)url;
 - (void)showPlayView:(NSArray*)list;
+- (void)showArticleView:(NSArray*)list;
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

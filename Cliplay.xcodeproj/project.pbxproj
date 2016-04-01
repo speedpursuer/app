@@ -81,9 +81,11 @@
 		7605C4E01C5BB514004E488A /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7605C4DF1C5BB514004E488A /* CDVStatusBar.m */; };
 		7605C4E51C5BB524004E488A /* IonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7605C4E21C5BB524004E488A /* IonicKeyboard.m */; };
 		7605C4E61C5BB524004E488A /* UIWebViewExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7605C4E41C5BB524004E488A /* UIWebViewExtension.m */; };
+		760699991CAE5DE300B84734 /* ArticleEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 760699981CAE5DE300B84734 /* ArticleEntity.m */; };
 		760CD3071CA61B9C00EC0723 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 760CD3061CA61B9C00EC0723 /* info.png */; };
 		7616739F1C7223E800E05422 /* Cliplay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7616739E1C7223E800E05422 /* Cliplay-Info.plist */; };
 		76332C9B1CAB787200C3F494 /* ArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9A1CAB787200C3F494 /* ArticleController.m */; };
+		76332C9F1CACB9C200C3F494 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9E1CACB9C200C3F494 /* TestController.m */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
 		765FD5C81CA57D3F00F31F5D /* tip.png in Resources */ = {isa = PBXBuildFile; fileRef = 765FD5C71CA57D3F00F31F5D /* tip.png */; };
 		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
@@ -232,10 +234,14 @@
 		7605C4E31C5BB524004E488A /* UIWebViewExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIWebViewExtension.h; path = "Cliplay/Plugins/ionic-plugin-keyboard/UIWebViewExtension.h"; sourceTree = SOURCE_ROOT; };
 		7605C4E41C5BB524004E488A /* UIWebViewExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIWebViewExtension.m; path = "Cliplay/Plugins/ionic-plugin-keyboard/UIWebViewExtension.m"; sourceTree = SOURCE_ROOT; };
 		7605C4EB1C5BB827004E488A /* Cliplay-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Cliplay-Prefix.pch"; path = "Cliplay/Cliplay-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		760699971CAE5DB200B84734 /* ArticleEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ArticleEntity.h; path = Cliplay/Classes/ArticleEntity.h; sourceTree = SOURCE_ROOT; };
+		760699981CAE5DE300B84734 /* ArticleEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleEntity.m; path = Cliplay/Classes/ArticleEntity.m; sourceTree = SOURCE_ROOT; };
 		760CD3061CA61B9C00EC0723 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		7616739E1C7223E800E05422 /* Cliplay-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Cliplay-Info.plist"; path = "Cliplay/Cliplay-Info.plist"; sourceTree = SOURCE_ROOT; };
 		76332C991CAB787200C3F494 /* ArticleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ArticleController.h; path = Cliplay/Classes/ArticleController.h; sourceTree = SOURCE_ROOT; };
 		76332C9A1CAB787200C3F494 /* ArticleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleController.m; path = Cliplay/Classes/ArticleController.m; sourceTree = SOURCE_ROOT; };
+		76332C9D1CACB9C200C3F494 /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestController.h; path = Cliplay/Classes/TestController.h; sourceTree = SOURCE_ROOT; };
+		76332C9E1CACB9C200C3F494 /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestController.m; path = Cliplay/Classes/TestController.m; sourceTree = SOURCE_ROOT; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		765FD5C71CA57D3F00F31F5D /* tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip.png; sourceTree = "<group>"; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
@@ -288,6 +294,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				76332C9D1CACB9C200C3F494 /* TestController.h */,
+				76332C9E1CACB9C200C3F494 /* TestController.m */,
 				76332C991CAB787200C3F494 /* ArticleController.h */,
 				76332C9A1CAB787200C3F494 /* ArticleController.m */,
 				76A58C8B1CA571D400C2F582 /* PostController.m */,
@@ -306,6 +314,8 @@
 				7605C4181C5BB2D7004E488A /* MyHybridPlugin.m */,
 				7605C4191C5BB2D7004E488A /* RootViewController.h */,
 				7605C41A1C5BB2D7004E488A /* RootViewController.m */,
+				760699971CAE5DB200B84734 /* ArticleEntity.h */,
+				760699981CAE5DE300B84734 /* ArticleEntity.m */,
 			);
 			name = Classes;
 			path = HybridIOSApp/Classes;
@@ -722,6 +732,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7605C4431C5BB2F3004E488A /* FRDLivelyButton.m in Sources */,
+				76332C9F1CACB9C200C3F494 /* TestController.m in Sources */,
 				7605C44B1C5BB2F3004E488A /* UIGestureRecognizer+YYAdd.m in Sources */,
 				7605C4CF1C5BB4D5004E488A /* CDVAssetLibraryFilesystem.m in Sources */,
 				7605C4441C5BB2F3004E488A /* LLARingSpinnerView.m in Sources */,
@@ -757,6 +768,7 @@
 				7605C4DC1C5BB505004E488A /* CDVSplashScreen.m in Sources */,
 				7605C41C1C5BB2D7004E488A /* ClipPlayController.m in Sources */,
 				7605C44D1C5BB2F3004E488A /* YYImageExampleHelper.m in Sources */,
+				760699991CAE5DE300B84734 /* ArticleEntity.m in Sources */,
 				7605C4C51C5BB4B3004E488A /* CDVLogger.m in Sources */,
 				7605C4411C5BB2F3004E488A /* CircleProgressBar.m in Sources */,
 				76A58C8D1CA571D400C2F582 /* PostController.m in Sources */,

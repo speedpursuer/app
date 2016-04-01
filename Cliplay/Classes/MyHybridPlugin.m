@@ -53,6 +53,29 @@
 	}
 }
 
+-(void)showArticle:(CDVInvokedUrlCommand*) command {
+	
+	
+	if(command.arguments.count > 0) {
+		MainViewController* mvc = (MainViewController*)[self viewController];
+		[mvc showArticleView: command.arguments];
+		
+//		MainViewController* mvc = (MainViewController*)[self viewController];
+//		
+//		if(command.arguments.count == 2) {
+//			[mvc showClipView: [command.arguments objectAtIndex: 1]];
+//		}else {
+//			[mvc showPlayView: command.arguments];
+//		}
+//		
+//		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+//		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	} else {
+		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+	}
+}
+
 -(void)showMessage:(CDVInvokedUrlCommand*) command {
 	NSString* title = [command.arguments objectAtIndex:0];
 	NSString* desc = [command.arguments objectAtIndex:1];
