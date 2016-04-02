@@ -61,6 +61,59 @@
 
 - (void)showPostView:(NSArray*)list {
 	
+	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex:1] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+	
+	NSArray *images = rootDict[@"image"];
+	
+	if(images.count > 1) {
+		TestController *vc = [TestController new];
+		vc.showInfo = [[list objectAtIndex: 0] boolValue];
+		vc.articleURLs = images;
+		vc.headerText = rootDict[@"header"];
+		
+		[self.navigationController pushViewController:vc animated:YES];
+		[self.navigationController setNavigationBarHidden:NO];
+
+	}else{
+		ClipPlayController *vc = [ClipPlayController new];
+		
+		vc.clipURL = [images objectAtIndex:0];
+		vc.favorite = TRUE;
+		vc.showLike = FALSE;
+		vc.standalone = TRUE;
+		vc.delegate = self;
+		
+		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+		[self presentViewController:vc animated:YES completion:nil];
+	}
+	
+//	if(list.count > 1) {
+//		TestController *vc = [TestController new];
+//		
+//		NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 0] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+//		
+//		vc.articleURLs = rootDict[@"image"];
+//		vc.headerText = rootDict[@"header"];
+//		
+//		[self.navigationController pushViewController:vc animated:YES];
+//		[self.navigationController setNavigationBarHidden:NO];
+//		
+//	}else {
+//		ClipPlayController *vc = [ClipPlayController new];
+//		
+//		vc.clipURL = [list objectAtIndex:0];		
+//		vc.favorite = TRUE;
+//		vc.showLike = FALSE;
+//		vc.standalone = TRUE;
+//		vc.delegate = self;
+//		
+//		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
+//		[self presentViewController:vc animated:YES completion:nil];
+//	}
+}
+
+- (void)showPostView_:(NSArray*)list {
+	
 	PostController *vc = [PostController new];
 	
 	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
@@ -114,36 +167,12 @@
 
 - (void)showArticleView:(NSArray*)list {
 	
-//	ArticleController *vc = [ArticleController new];
-	
-	
-	
-//	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
-//	
-//	vc.showInfo = [[list objectAtIndex: 0] boolValue];
-//	
-//	[tempArray removeObjectAtIndex: 0];
-//	
-//	vc.imageLinks = [NSArray arrayWithArray: tempArray];
-	
 	TestController *vc = [TestController new];
 	
-//	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
-//	
-//	vc.showInfo = [[list objectAtIndex: 0] boolValue];
-//	
-//	[tempArray removeObjectAtIndex: 0];
-//	
-//	vc.imageLinks = [NSArray arrayWithArray: tempArray];
+	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 1] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
 	
-	NSString* data = [list objectAtIndex: 0];
-	
-	NSData* d = [data dataUsingEncoding: NSUTF8StringEncoding];
-	
-	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:d options:NSJSONReadingAllowFragments error:nil];
-	NSArray *feedDicts = rootDict[@"image"];
-	
-	vc.articleDicts = feedDicts;
+	vc.showInfo = [[list objectAtIndex: 0] boolValue];
+	vc.articleDicts = rootDict[@"image"];
 	vc.headerText = rootDict[@"header"];
 
 	[self.navigationController pushViewController:vc animated:YES];

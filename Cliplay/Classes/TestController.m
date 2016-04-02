@@ -17,13 +17,15 @@
 #import "DOFavoriteButton.h"
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "ArticleEntity.h"
+#import "TTTAttributedLabel.h"
 
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
 
 @interface TestControllerCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
-@property (nonatomic, strong) UILabel *imageLabel;
+//@property (nonatomic, strong) UILabel *imageLabel;
+@property (nonatomic, strong) TTTAttributedLabel *imageLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
@@ -43,9 +45,16 @@
 //	self.size = CGSizeMake(kScreenWidth, kCellHeight);
 //	self.contentView.size = self.size;
 	
-	_imageLabel = [UILabel new];
-	_imageLabel.backgroundColor = [UIColor clearColor];
-	_imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
+//	_imageLabel = [UILabel new];
+//	_imageLabel.backgroundColor = [UIColor clearColor];
+//	_imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
+//	_imageLabel.textAlignment = NSTextAlignmentLeft;
+//	_imageLabel.numberOfLines = 0;
+//	[_imageLabel setTextColor:[UIColor darkGrayColor]];
+//	[self.contentView addSubview:_imageLabel];
+
+	
+	_imageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
 	_imageLabel.textAlignment = NSTextAlignmentLeft;
 	_imageLabel.numberOfLines = 0;
 	[_imageLabel setTextColor:[UIColor darkGrayColor]];
@@ -139,7 +148,7 @@
 	
 	_scale = 1;
 	
-	[self addClickControlToAnimatedImageView: self];
+	[self addClickControlToAnimatedImageView];
 	
 	return self;
 }
@@ -148,36 +157,37 @@
 	CGFloat totalHeight = 0;
 	totalHeight += self.webImageView.size.height;
 	totalHeight += self.imageLabel.size.height;
-	totalHeight += 40; // margins
+	totalHeight += 30; // margins
 	return CGSizeMake(size.width, totalHeight);
 }
 
 
-- (void)addClickControlToAnimatedImageView:(TestControllerCell *)cell {
-	if (!cell) return;
-	cell.webImageView.userInteractionEnabled = YES;
-	__weak typeof(cell.webImageView) _view = cell.webImageView;
-	__weak typeof(cell) _cell = cell;
-	__weak typeof(self) _self = self;
+- (void)addClickControlToAnimatedImageView{
+	
+//	NSLog(@"addClickControlToAnimatedImageView");
+	
+	self.webImageView.userInteractionEnabled = YES;
 	TestController* tc = (TestController* )[self viewController];
+	__weak typeof(self.webImageView) _view = self.webImageView;
+	__weak typeof(self) _self = self;
 	__weak typeof(tc) _tc = tc;
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
-		if(!_cell.downLoaded || _tc.fullScreen) return;
+		if(!_self.downLoaded || _tc.fullScreen) return;
 		
 		if ([_view isAnimating]) [_view stopAnimating];
 		else [_view startAnimating];
 		
 		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
 		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-			_view.layer.transformScale = 0.97 * _cell.scale;
+			_view.layer.transformScale = 0.97 * _self.scale;
 		} completion:^(BOOL finished) {
 			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-				_view.layer.transformScale = 1.008 * _cell.scale;
+				_view.layer.transformScale = 1.008 * _self.scale;
 			} completion:^(BOOL finished) {
 				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-					_view.layer.transformScale = 1 * _cell.scale;
+					_view.layer.transformScale = 1 * _self.scale;
 				} completion:NULL];
 			}];
 		}];
@@ -189,10 +199,8 @@
 	
 	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
-		if(!_cell.downLoaded) return;
-		
+		if(!_self.downLoaded) return;
 		[_view stopAnimating];
-		
 		[_self showClipView:[[_view yy_imageURL] absoluteString]];
 	}];
 	
@@ -224,24 +232,73 @@
 
 - (void)setCellData:(ArticleEntity*) entity {
 	
-	NSString *text = entity.desc;
-	
-	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-	
-	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-
-	[paragraphStyle setLineSpacing:10];
-	
-	[paragraphStyle setParagraphSpacing:11];
-	
-	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-	
-	self.imageLabel.attributedText = attributedString;
-	
+	if(entity.desc) {
+//		NSString *text = entity.desc;
+//		
+//		NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+//		
+//		NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//		
+//		[paragraphStyle setLineSpacing:10];
+//		
+//		[paragraphStyle setParagraphSpacing:11];
+//		
+//		[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+//		
+//		self.imageLabel.attributedText = attributedString;
+		
+		NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+		style.lineSpacing = 10;
+		style.paragraphSpacing = 11;
+		
+		NSAttributedString *attString = [[NSAttributedString alloc] initWithString:entity.desc
+						attributes:@{
+//							(id)kCTForegroundColorAttributeName : (id)[UIColor redColor].CGColor,
+							NSFontAttributeName : [UIFont systemFontOfSize:16],
+//							NSKernAttributeName : [NSNull null],
+							(id)kCTParagraphStyleAttributeName : style,
+//							(id)kTTTBackgroundFillColorAttributeName : (id)[UIColor greenColor].CGColor
+						}];
+		
+		self.imageLabel.text = attString;
+		self.imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
+	}else {
+		self.imageLabel.size = CGSizeMake(0, 0);
+	}
 	[self.imageLabel sizeToFit];
 	
 	[self setImageURL:[NSURL URLWithString:entity.image]];
 }
+
+//- (void)setCellData:(ArticleEntity*) entity {
+//	
+//	if(entity.desc) {
+//		NSString *text = entity.desc;
+//		
+//		NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+//		
+//		NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//		
+//		[paragraphStyle setLineSpacing:10];
+//		
+//		[paragraphStyle setParagraphSpacing:11];
+//		
+//		[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+//		
+//		self.imageLabel.attributedText = attributedString;
+//		
+//		self.imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
+//		
+//		[self.imageLabel sizeToFit];
+//		
+//	}else {
+//		self.imageLabel.size = CGSizeMake(0, 0);
+//	}
+//	
+//	[self.imageLabel sizeToFit];
+//	
+//	[self setImageURL:[NSURL URLWithString:entity.image]];
+//}
 
 
 - (void)setImageURL:(NSURL *)url {
@@ -324,41 +381,77 @@
 		[self showPopup];
 	}
 	
-	NSMutableArray *entities = @[].mutableCopy;
-	[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		[entities addObject:[[ArticleEntity alloc] initWithDictionary:obj]];
-	}];
+	[self initData];
 	
-	data = [entities mutableCopy];
-	
-	[self initHeader];
+	if(_headerText) [self initHeader];
 	
 	[self.tableView reloadData];
 	//	[self scrollViewDidScroll:self.tableView];
 }
 
+- (void)initData {
+	NSMutableArray *entities = @[].mutableCopy;
+	
+	if(_articleURLs) {
+		for (NSString *url in _articleURLs) {
+			[entities addObject:[[ArticleEntity alloc] initWithURL:url]];
+		}
+	}else if(_articleDicts) {
+		
+		[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			[entities addObject:[[ArticleEntity alloc] initWithDictionary:obj]];
+		}];
+	}
+	
+	data = [entities mutableCopy];
+}
+
 - (void)initHeader {
+	
+//	NSLog(@"initHeader");
+	
+//	UIImageView *imageView = [UIImageView new];
+//	imageView.size = CGSizeMake(80, 80);
+//	imageView.centerX = self.view.centerX;
+//	imageView.top = 20;
+//	imageView.yy_imageURL = [NSURL URLWithString:@"http://ww1.sinaimg.cn/thumb180/6eb1dcc1gw1f1ezlym95kj20k00u0gqi.jpg"];
+//	
 	UIView *header = [UIView new];
 	
-	UILabel *label = [UILabel new];
+//	UILabel *label = [UILabel new];
+	TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
 	label.backgroundColor = [UIColor clearColor];
 	label.frame = CGRectMake(15, 20, self.view.width - 30, 60);
 	
 	label.textAlignment = NSTextAlignmentLeft;
 	label.numberOfLines = 0;
 	
-	NSString *text = _headerText;
+//	NSString *text = _headerText;
+//	
+//	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+//	
+//	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//	[paragraphStyle setLineSpacing:15];
+//	
+//	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+//	
+//	label.attributedText = attributedString;
 	
-	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+	style.lineSpacing = 15;
+//	style.paragraphSpacing = 11;
 	
-	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-	[paragraphStyle setLineSpacing:15];
+	NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_headerText
+						attributes:@{
+							NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
+							(id)kCTParagraphStyleAttributeName : style,
+						}];
 	
-	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-	
-	label.attributedText = attributedString;
+	label.text = attString;
 	
 	[label sizeToFit];
+	
+//	[header addSubview:imageView];
 	
 	[header addSubview:label];
 	
@@ -503,6 +596,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	//	return kCellHeight;
 	return [tableView fd_heightForCellWithIdentifier:@"cell" cacheByIndexPath:indexPath configuration:^(id cell) {
+//		NSLog(@"heightForRowAtIndexPath");
 		[self configureCell:cell atIndexPath:indexPath];
 	}];
 	
@@ -512,8 +606,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	TestControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
 	
+//	NSLog(@"cellForRowAtIndexPath");
+	
+	TestControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
 	[self configureCell:cell atIndexPath:indexPath];
 
 	return cell;
@@ -525,10 +621,32 @@
 	
 	[cell setCellData: data[indexPath.row]];
 	
+//	ArticleEntity *entity = data[indexPath.row];
+//	
+//	[cell setImageURL: [NSURL URLWithString:entity.image]];
+//	
+//	if(entity.desc) {
+//		
+//		self.navigationController.view.userInteractionEnabled = NO;
+//		
+//		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//			
+//			NSMutableAttributedString* desc = [cell calcDesc: entity.desc];
+//			
+//			dispatch_async(dispatch_get_main_queue(), ^{
+//				[cell setImageDesc:desc];
+//				self.navigationController.view.userInteractionEnabled = YES;
+////				[self.tableView reloadData];
+//			});
+//		});
+//
+//	}else {
+//		[cell resetImageDesc];
+//	}
 }
 
 //- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//	
+//
 //	return header;
 //}
 //

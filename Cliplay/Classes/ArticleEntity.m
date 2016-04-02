@@ -20,6 +20,17 @@
 	return self;
 }
 
+- (instancetype)initWithURL:(NSString *)url
+{
+	self = super.init;
+	if (self) {
+		_desc = nil;
+		_image = url;
+	}
+	return self;
+}
+
+
 @end
 
 

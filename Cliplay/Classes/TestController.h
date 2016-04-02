@@ -12,6 +12,7 @@
 
 @interface TestController : UITableViewController
 @property (nonatomic, strong) NSArray *articleDicts;
+@property (nonatomic, strong) NSArray *articleURLs;
 @property (nonatomic, strong) NSString *headerText;
 @property (nonatomic, assign) BOOL fullScreen;
 @property (nonatomic, assign) BOOL showInfo;

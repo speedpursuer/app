@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TTTAttributedLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>UITableView+FDTemplateLayoutCell.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,12 +42,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>3FFFDDE96308CF0F3616808069D18428</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>40F541EA6E9D84264B29FBD88B496F26</key>
+		<key>39212B3396908A0469A3E8C13571582F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +52,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>647DCE8E4D74543A168A61386440D6C2</key>
+		<key>BC33380271FA2FBBE8F42B6E9BE43BAA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E7EDBC8CD3A1D805304E366AA0100C6C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E9FFA5C447E89A9A7D6F07BF76160DD1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

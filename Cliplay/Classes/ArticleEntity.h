@@ -10,6 +10,7 @@
 @interface ArticleEntity : NSObject
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithURL:(NSString *)url;
 
 @property (nonatomic, copy, readonly) NSString *desc;
 @property (nonatomic, copy, readonly) NSString *image;
