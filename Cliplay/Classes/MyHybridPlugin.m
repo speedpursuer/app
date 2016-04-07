@@ -13,12 +13,12 @@
 
 -(void)play:(CDVInvokedUrlCommand*) command {
 	
-	
 	if(command.arguments.count > 1) {
 		
 		MainViewController* mvc = (MainViewController*)[self viewController];
 		
 		[mvc showPostView: command.arguments];
+		
 		
 		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
 		[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];

@@ -1,12 +1,12 @@
 //
-//  TestController.m
+//  GalleryController.m
 //  YYKitExample
 //
 //  Created by ibireme on 15/7/19.
 //  Copyright (c) 2015 ibireme. All rights reserved.
 //
 
-#import "TestController.h"
+#import "GalleryController.h"
 #import "YYWebImage.h"
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
@@ -15,19 +15,19 @@
 #import "ClipPlayController.h"
 #import "DRImagePlaceholderHelper.h"
 #import "DOFavoriteButton.h"
-#import "UITableView+FDTemplateLayoutCell.h"
+//#import "UITableView+FDTemplateLayoutCell.h"
 #import "ArticleEntity.h"
 #import "TTTAttributedLabel.h"
 
 //#define kCellHeight ceil((kScreenWidth) * 3.0 * 0.9 / 4.0)
-#define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
-#define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width * 0.9
+#define kCellHeight ceil((kScreenWidth) * 3.0 * 0.9/ 4.0)
+#define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
 #define sHeight [UIScreen mainScreen].bounds.size.height
 
-@interface TestControllerCell : UITableViewCell
+@interface GalleryControllerCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
 //@property (nonatomic, strong) UILabel *imageLabel;
-@property (nonatomic, strong) TTTAttributedLabel *imageLabel;
+//@property (nonatomic, strong) TTTAttributedLabel *imageLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
@@ -36,16 +36,18 @@
 @property (nonatomic, assign) CGFloat scale;
 @end
 
-@implementation TestControllerCell
+@implementation GalleryControllerCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	self.backgroundColor = [UIColor whiteColor];
 	self.contentView.backgroundColor = [UIColor whiteColor];
-//	self.contentView.bounds = [UIScreen mainScreen].bounds;
-//	self.size = CGSizeMake(kScreenWidth, kCellHeight);
-//	self.contentView.size = self.size;
+	self.contentView.bounds = [UIScreen mainScreen].bounds;
+	self.size = CGSizeMake(kScreenWidth, kCellHeight + 20);
+	self.contentView.size = self.size;
+//	self.backgroundView.size = CGSizeMake(kScreenWidth, kCellHeight + 50);
+	
 	
 //	_imageLabel = [UILabel new];
 //	_imageLabel.backgroundColor = [UIColor clearColor];
@@ -56,66 +58,67 @@
 //	[self.contentView addSubview:_imageLabel];
 
 	
-	_imageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-	_imageLabel.textAlignment = NSTextAlignmentLeft;
-	_imageLabel.numberOfLines = 0;
-	[_imageLabel setTextColor:[UIColor darkGrayColor]];
-	[self.contentView addSubview:_imageLabel];
+//	_imageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+//	_imageLabel.textAlignment = NSTextAlignmentLeft;
+//	_imageLabel.numberOfLines = 0;
+//	[_imageLabel setTextColor:[UIColor darkGrayColor]];
+//	[self.contentView addSubview:_imageLabel];
 	
 	_webImageView = [YYAnimatedImageView new];
 	
 	_webImageView.translatesAutoresizingMaskIntoConstraints = NO;
 	
-	_webImageView.size = CGSizeMake(kScreenWidth, kCellHeight);
+	_webImageView.size = CGSizeMake(kScreenWidth * 0.9, kCellHeight);
 	_webImageView.centerX = self.width / 2;
 	_webImageView.clipsToBounds = YES;
-//	_webImageView.top = _imageLabel.bottom + 30;
+	_webImageView.top = 20;
 	_webImageView.contentMode = UIViewContentModeScaleAspectFill;
 	_webImageView.backgroundColor = [UIColor whiteColor];
 	
 	[self.contentView addSubview:_webImageView];
 	
-	[NSLayoutConstraint constraintWithItem:_webImageView
-								 attribute:NSLayoutAttributeTop
-								 relatedBy:NSLayoutRelationEqual
-									toItem:_imageLabel
-								 attribute:NSLayoutAttributeBottom
-								multiplier:1
-								  constant:10].active = true;
-	
-	[NSLayoutConstraint constraintWithItem:_webImageView
-									attribute:NSLayoutAttributeCenterX
-									relatedBy:NSLayoutRelationEqual
-										toItem:self.contentView
-									attribute:NSLayoutAttributeCenterX
-									multiplier:1
-									  constant:0].active = true;
-	
-	[NSLayoutConstraint constraintWithItem:_webImageView
-								 attribute:NSLayoutAttributeHeight
-								 relatedBy:NSLayoutRelationEqual
-									toItem:nil
-								 attribute:NSLayoutAttributeNotAnAttribute
-								multiplier:1
-								  constant:kCellHeight].active = true;
-	
-	[NSLayoutConstraint constraintWithItem:_webImageView
-								 attribute:NSLayoutAttributeWidth
-								 relatedBy:NSLayoutRelationEqual
-									toItem:nil
-								 attribute:NSLayoutAttributeNotAnAttribute
-								multiplier:1
-								  constant:kScreenWidth].active = true;
+//	[NSLayoutConstraint constraintWithItem:_webImageView
+//								 attribute:NSLayoutAttributeTop
+//								 relatedBy:NSLayoutRelationEqual
+//									toItem:_imageLabel
+//								 attribute:NSLayoutAttributeBottom
+//								multiplier:1
+//								  constant:10].active = true;
+//	
+//	[NSLayoutConstraint constraintWithItem:_webImageView
+//									attribute:NSLayoutAttributeCenterX
+//									relatedBy:NSLayoutRelationEqual
+//										toItem:self.contentView
+//									attribute:NSLayoutAttributeCenterX
+//									multiplier:1
+//									  constant:0].active = true;
+//	
+//	[NSLayoutConstraint constraintWithItem:_webImageView
+//								 attribute:NSLayoutAttributeHeight
+//								 relatedBy:NSLayoutRelationEqual
+//									toItem:nil
+//								 attribute:NSLayoutAttributeNotAnAttribute
+//								multiplier:1
+//								  constant:kCellHeight].active = true;
+//	
+//	[NSLayoutConstraint constraintWithItem:_webImageView
+//								 attribute:NSLayoutAttributeWidth
+//								 relatedBy:NSLayoutRelationEqual
+//									toItem:nil
+//								 attribute:NSLayoutAttributeNotAnAttribute
+//								multiplier:1
+//								  constant:kScreenWidth].active = true;
 	
 	
 	_indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	_indicator.center = CGPointMake(self.width / 2, self.height / 2);
 	_indicator.hidden = YES;
 	
-	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text:@""];
+	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize: _webImageView.size text:@""];
 	_errPage = [UIImageView new];
 	_errPage.size = _webImageView.size;
-	_errPage.centerX = _webImageView.width / 2;
+	_errPage.centerX = self.width / 2;
+	_errPage.top = 20;
 	
 	_errPage.image = img;
 	_errPage.hidden = YES;
@@ -157,15 +160,6 @@
 	return self;
 }
 
-- (CGSize)sizeThatFits:(CGSize)size {
-	CGFloat totalHeight = 0;
-	totalHeight += self.webImageView.size.height;
-	totalHeight += self.imageLabel.size.height;
-	totalHeight += 30; // margins
-	return CGSizeMake(size.width, totalHeight);
-}
-
-
 - (void)addClickControlToAnimatedImageView{
 	
 //	NSLog(@"addClickControlToAnimatedImageView");
@@ -176,7 +170,7 @@
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
-		TestController* _tc = (TestController* )[_self viewController];
+		GalleryController* _tc = (GalleryController* )[_self viewController];
 		
 		if(!_self.downLoaded || _tc.fullScreen) return;
 		
@@ -217,7 +211,7 @@
 
 - (void)showClipView:(NSString*)url{
 	
-	TestController* tc = (TestController* )[self viewController];
+	GalleryController* tc = (GalleryController* )[self viewController];
 	
 	tc.fullScreen = true;
 	
@@ -233,78 +227,6 @@
 	
 	[tc presentViewController:_clipCtr animated:YES completion:nil];
 }
-
-- (void)setCellData:(ArticleEntity*) entity {
-	
-	if(entity.desc) {
-//		NSString *text = entity.desc;
-//		
-//		NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-//		
-//		NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//		
-//		[paragraphStyle setLineSpacing:10];
-//		
-//		[paragraphStyle setParagraphSpacing:11];
-//		
-//		[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-//		
-//		self.imageLabel.attributedText = attributedString;
-		
-		NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-		style.lineSpacing = 10;
-		style.paragraphSpacing = 11;
-		
-		NSAttributedString *attString = [[NSAttributedString alloc] initWithString:entity.desc
-						attributes:@{
-							(id)kCTForegroundColorAttributeName : (id)[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor,
-							NSFontAttributeName : [UIFont systemFontOfSize:16],
-//							NSKernAttributeName : [NSNull null],
-							(id)kCTParagraphStyleAttributeName : style,
-							(id)kTTTBackgroundFillColorAttributeName : (id)[UIColor yellowColor].CGColor,
-//							(id)kTTTBackgroundFillColorAttributeName : (id)[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor
-						}];
-		
-		self.imageLabel.text = attString;
-		self.imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
-	}else {
-		self.imageLabel.size = CGSizeMake(0, 0);
-	}
-	[self.imageLabel sizeToFit];
-	
-	[self setImageURL:[NSURL URLWithString:entity.image]];
-}
-
-//- (void)setCellData:(ArticleEntity*) entity {
-//	
-//	if(entity.desc) {
-//		NSString *text = entity.desc;
-//		
-//		NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-//		
-//		NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//		
-//		[paragraphStyle setLineSpacing:10];
-//		
-//		[paragraphStyle setParagraphSpacing:11];
-//		
-//		[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-//		
-//		self.imageLabel.attributedText = attributedString;
-//		
-//		self.imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
-//		
-//		[self.imageLabel sizeToFit];
-//		
-//	}else {
-//		self.imageLabel.size = CGSizeMake(0, 0);
-//	}
-//	
-//	[self.imageLabel sizeToFit];
-//	
-//	[self setImageURL:[NSURL URLWithString:entity.image]];
-//}
-
 
 - (void)setImageURL:(NSURL *)url {
 	
@@ -360,21 +282,31 @@
 						   }];
 }
 
-- (TestController *) getViewCtr {
-	TestController* tc = (TestController* )[self viewController];
+- (GalleryController *) getViewCtr {
+	GalleryController* tc = (GalleryController* )[self viewController];
 	return tc;
 }
 
 - (BOOL)isFullyInView {
-	TestController* ctr = [self getViewCtr];
+	GalleryController* ctr = [self getViewCtr];
 
-	 NSIndexPath *indexPath = [ctr.tableView indexPathForCell:self];
+	NSIndexPath *indexPath = [ctr.tableView indexPathForCell:self];
+	
+//	if(indexPath.row ==1) {
+//		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+//	}
+	
+//	if(indexPath.row ==1) {
+//		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+//	}
 
-	 CGRect rectOfCellInTableView = [ctr.tableView rectForRowAtIndexPath: indexPath];
-	 CGRect rectOfCellInSuperview = [ctr.tableView convertRect: rectOfCellInTableView toView: ctr.tableView.superview];
+	CGRect rectOfCellInTableView = [ctr.tableView rectForRowAtIndexPath: indexPath];
+	CGRect rectOfCellInSuperview = [ctr.tableView convertRect: rectOfCellInTableView toView: ctr.tableView.superview];
 
-	CGFloat h = self.imageLabel.height + 10;
+//	CGFloat h = self.imageLabel.height + 10;
+	CGFloat h = 20;
 	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight - h && rectOfCellInSuperview.origin.y >= 64 - h);
+	
 }
 
 - (void)prepareForReuse {
@@ -384,7 +316,7 @@
 @end
 
 
-@implementation TestController {
+@implementation GalleryController {
 	DOFavoriteButton *infoButton;
 	NSArray *data;
 }
@@ -394,9 +326,9 @@
 	
 	[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
 	
-	self.tableView.fd_debugLogEnabled = NO;
+//	self.tableView.fd_debugLogEnabled = NO;
 	
-	[self.tableView registerClass:[TestControllerCell class] forCellReuseIdentifier:@"cell"];
+//	[self.tableView registerClass:[GalleryControllerCell class] forCellReuseIdentifier:@"cell"];
 	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -410,7 +342,7 @@
 	
 	[self initData];
 	
-	if(_headerText) [self initHeader];
+//	if(_headerText) [self initHeader];
 	
 //	[[[self navigationController] navigationBar] setHidden:YES];
 	
@@ -435,63 +367,63 @@
 	data = [entities mutableCopy];
 }
 
-- (void)initHeader {
-	
-//	NSLog(@"initHeader");
-	
-//	UIImageView *imageView = [UIImageView new];
-//	imageView.size = CGSizeMake(80, 80);
-//	imageView.centerX = self.view.centerX;
-//	imageView.top = 20;
-//	imageView.yy_imageURL = [NSURL URLWithString:@"http://ww1.sinaimg.cn/thumb180/6eb1dcc1gw1f1ezlym95kj20k00u0gqi.jpg"];
+//- (void)initHeader {
 //	
-	UIView *header = [UIView new];
-	
-//	UILabel *label = [UILabel new];
-	TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-	label.backgroundColor = [UIColor clearColor];
-	label.frame = CGRectMake(15, 20, self.view.width - 30, 60);
-	
-	label.textAlignment = NSTextAlignmentLeft;
-	label.numberOfLines = 0;
-	
-//	NSString *text = _headerText;
+////	NSLog(@"initHeader");
 //	
-//	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+////	UIImageView *imageView = [UIImageView new];
+////	imageView.size = CGSizeMake(80, 80);
+////	imageView.centerX = self.view.centerX;
+////	imageView.top = 20;
+////	imageView.yy_imageURL = [NSURL URLWithString:@"http://ww1.sinaimg.cn/thumb180/6eb1dcc1gw1f1ezlym95kj20k00u0gqi.jpg"];
+////	
+//	UIView *header = [UIView new];
 //	
-//	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//	[paragraphStyle setLineSpacing:15];
+////	UILabel *label = [UILabel new];
+//	TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+//	label.backgroundColor = [UIColor clearColor];
+//	label.frame = CGRectMake(15, 20, self.view.width - 30, 60);
 //	
-//	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+//	label.textAlignment = NSTextAlignmentLeft;
+//	label.numberOfLines = 0;
 //	
-//	label.attributedText = attributedString;
-	
-	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-	style.lineSpacing = 15;
-//	style.paragraphSpacing = 11;
-	
-	NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_headerText
-						attributes:@{
-							NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
-							(id)kCTParagraphStyleAttributeName : style,
-						}];
-	
-	label.text = attString;
-	
-	[label sizeToFit];
-	
-//	[header addSubview:imageView];
-	
-	[header addSubview:label];
-	
-	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, label.bottom + 20, self.view.width - 30, 1)];
-	lineView.backgroundColor = [UIColor lightGrayColor];
-	[header addSubview:lineView];
-	
-	header.size = CGSizeMake(self.view.width, lineView.bottom + 20);
-	
-	self.tableView.tableHeaderView = header;
-}
+////	NSString *text = _headerText;
+////	
+////	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+////	
+////	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+////	[paragraphStyle setLineSpacing:15];
+////	
+////	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+////	
+////	label.attributedText = attributedString;
+//	
+//	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+//	style.lineSpacing = 15;
+////	style.paragraphSpacing = 11;
+//	
+//	NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_headerText
+//						attributes:@{
+//							NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
+//							(id)kCTParagraphStyleAttributeName : style,
+//						}];
+//	
+//	label.text = attString;
+//	
+//	[label sizeToFit];
+//	
+////	[header addSubview:imageView];
+//	
+//	[header addSubview:label];
+//	
+//	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, label.bottom + 20, self.view.width - 30, 1)];
+//	lineView.backgroundColor = [UIColor lightGrayColor];
+//	[header addSubview:lineView];
+//	
+//	header.size = CGSizeMake(self.view.width, lineView.bottom + 20);
+//	
+//	self.tableView.tableHeaderView = header;
+//}
 
 - (void)showPopup {
 	
@@ -623,60 +555,28 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//	return kCellHeight;
-	return [tableView fd_heightForCellWithIdentifier:@"cell" cacheByIndexPath:indexPath configuration:^(id cell) {
-//		NSLog(@"heightForRowAtIndexPath");
-		[self configureCell:cell atIndexPath:indexPath];
-	}];
-	
-//	return [tableView fd_heightForCellWithIdentifier:@"cell" configuration:^(TestControllerCell *cell) {
-//		[self configureCell:cell atIndexPath:indexPath];
-//	}];
+	return kCellHeight + 20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-//	NSLog(@"cellForRowAtIndexPath");
+	GalleryControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
 	
-	TestControllerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" ];
-	[self configureCell:cell atIndexPath:indexPath];
-
+	if (!cell){
+		cell = [[GalleryControllerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+	}
+	
+	ArticleEntity *entity = data[indexPath.row];
+	
+	[cell setImageURL:[NSURL URLWithString:entity.image]];
+	
 	return cell;
-}
-
-- (void)configureCell:(TestControllerCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-	
-	cell.fd_enforceFrameLayout = YES; // Enable to use "-sizeThatFits:"
-	
-	[cell setCellData: data[indexPath.row]];
-	
-//	ArticleEntity *entity = data[indexPath.row];
-//	
-//	[cell setImageURL: [NSURL URLWithString:entity.image]];
-//	
-//	if(entity.desc) {
-//		
-//		self.navigationController.view.userInteractionEnabled = NO;
-//		
-//		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//			
-//			NSMutableAttributedString* desc = [cell calcDesc: entity.desc];
-//			
-//			dispatch_async(dispatch_get_main_queue(), ^{
-//				[cell setImageDesc:desc];
-//				self.navigationController.view.userInteractionEnabled = YES;
-////				[self.tableView reloadData];
-//			});
-//		});
-//
-//	}else {
-//		[cell resetImageDesc];
-//	}
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
-	for (TestControllerCell *cell in [self.tableView visibleCells]) {
+	for (GalleryControllerCell *cell in [self.tableView visibleCells]) {
+		if(!cell.downLoaded) continue;
 		if([self isFullyInView: cell]) {
 			if(!cell.webImageView.isAnimating) [cell.webImageView startAnimating];
 		}else{
@@ -685,81 +585,15 @@
 	}
 }
 
-- (BOOL)isFullyInView:(TestControllerCell *)cell {
+- (BOOL)isFullyInView:(GalleryControllerCell *)cell {
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
 
 	CGRect rectOfCellInTableView = [self.tableView rectForRowAtIndexPath: indexPath];
 	CGRect rectOfCellInSuperview = [self.tableView convertRect: rectOfCellInTableView toView: self.tableView.superview];
 	
-	CGFloat h = cell.imageLabel.height + 10;
+	CGFloat h = 20;
 	
 	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight - h && rectOfCellInSuperview.origin.y >= 64 - h);
 }
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//
-//	return header;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//	return header.size.height;
-//}
-//
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//	return @"My Title";
-//}
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//	
-//	CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
-//	for (TestControllerCell *cell in [self.tableView visibleCells]) {
-//		CGFloat y = cell.centerY - scrollView.contentOffset.y;
-//		CGFloat p = y - viewHeight / 2;
-//		CGFloat scale = cos(p / viewHeight * 0.8) * 0.95;
-//		cell.scale = scale;
-//		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
-//			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
-//			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
-//		} completion:NULL];
-//	}
-//}
-
-
-//-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//	if (scrollView.contentOffset.y < lastOffset.y) {
-//		[self hideBar];
-//	} else if (scrollView.contentOffset.y > lastOffset.y){
-//		[self showBar];
-//	}
-//}
-//
-//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView
-//				 willDecelerate:(BOOL)decelerate {
-//	if (scrollView.contentOffset.y < lastOffset.y) {
-//		[self hideBar];
-//	} else{
-//		[self showBar];
-//	}
-//}
-//
-//- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-//	lastOffset = scrollView.contentOffset;
-//}
-//
-//- (BOOL)prefersStatusBarHidden {
-//	return false;
-//}
-
-//- (void)showBar {
-//	[[[self navigationController] navigationBar] setHidden:NO];
-//	hideBar = false;
-//	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-//}
-//
-//- (void)hideBar {
-//	[[[self navigationController] navigationBar] setHidden:YES];
-//	hideBar = true;
-//	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-//}
 
 @end

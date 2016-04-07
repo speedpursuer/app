@@ -90,6 +90,7 @@
 		765FD5C81CA57D3F00F31F5D /* tip.png in Resources */ = {isa = PBXBuildFile; fileRef = 765FD5C71CA57D3F00F31F5D /* tip.png */; };
 		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
 		767A558C1C47572A00992D0F /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A558B1C47572A00992D0F /* WebP.framework */; };
+		7684FF661CB6619C0017D23A /* GalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7684FF651CB6619C0017D23A /* GalleryController.m */; };
 		76A58C8D1CA571D400C2F582 /* PostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A58C8B1CA571D400C2F582 /* PostController.m */; };
 		76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */; };
 		76C7155A1CA01C3B00D278AE /* PlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C715591CA01C3B00D278AE /* PlayController.m */; };
@@ -246,6 +247,8 @@
 		765FD5C71CA57D3F00F31F5D /* tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip.png; sourceTree = "<group>"; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
 		767A558B1C47572A00992D0F /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Pods/YYWebImage/Vendor/WebP.framework; sourceTree = "<group>"; };
+		7684FF641CB6619C0017D23A /* GalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryController.h; path = Cliplay/Classes/GalleryController.h; sourceTree = SOURCE_ROOT; };
+		7684FF651CB6619C0017D23A /* GalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryController.m; path = Cliplay/Classes/GalleryController.m; sourceTree = SOURCE_ROOT; };
 		76A58C8B1CA571D400C2F582 /* PostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostController.m; path = Cliplay/Classes/PostController.m; sourceTree = SOURCE_ROOT; };
 		76A58C8C1CA571D400C2F582 /* PostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostController.h; path = Cliplay/Classes/PostController.h; sourceTree = SOURCE_ROOT; };
 		76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRImagePlaceholderHelper.h; path = Cliplay/Classes/DRImagePlaceholderHelper.h; sourceTree = "<group>"; };
@@ -294,6 +297,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				7684FF641CB6619C0017D23A /* GalleryController.h */,
+				7684FF651CB6619C0017D23A /* GalleryController.m */,
 				76332C9D1CACB9C200C3F494 /* TestController.h */,
 				76332C9E1CACB9C200C3F494 /* TestController.m */,
 				76332C991CAB787200C3F494 /* ArticleController.h */,
@@ -741,6 +746,7 @@
 				76ECFB901C9AC8EA00FCABCF /* YYImageExample.m in Sources */,
 				7605C4471C5BB2F3004E488A /* MessageDigest.m in Sources */,
 				7605C4D01C5BB4D5004E488A /* CDVFile.m in Sources */,
+				7684FF661CB6619C0017D23A /* GalleryController.m in Sources */,
 				7605C4651C5BB37E004E488A /* main.m in Sources */,
 				7605C4491C5BB2F3004E488A /* SHA1.m in Sources */,
 				7605C4421C5BB2F3004E488A /* DOFavoriteButton.m in Sources */,

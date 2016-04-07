@@ -31,6 +31,7 @@
 #import "PlayController.h"
 #import "ArticleController.h"
 #import "TestController.h"
+#import "GalleryController.h"
 
 
 @implementation MainViewController
@@ -66,7 +67,7 @@
 	NSArray *images = rootDict[@"image"];
 	
 	if(images.count > 1) {
-		TestController *vc = [TestController new];
+		GalleryController *vc = [GalleryController new];
 		vc.showInfo = [[list objectAtIndex: 0] boolValue];
 		vc.articleURLs = images;
 		vc.headerText = rootDict[@"header"];

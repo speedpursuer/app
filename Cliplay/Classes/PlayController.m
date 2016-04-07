@@ -113,7 +113,7 @@
 	
 	_self.downLoaded = FALSE;
 	
-	_webImageView.autoPlayAnimatedImage = FALSE;
+//	_webImageView.autoPlayAnimatedImage = FALSE;
 
 	
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text: @"球路"];
