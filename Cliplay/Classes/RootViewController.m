@@ -17,6 +17,8 @@
 @implementation RootViewController
 
 - (void)viewDidLoad {
+	
+	NSLog(@"viewDidLoad");
     [super viewDidLoad];
 	
     MainViewController *vc = [MainViewController new];

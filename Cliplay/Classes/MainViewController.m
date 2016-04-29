@@ -62,6 +62,12 @@
 
 - (void)showPostView:(NSArray*)list {
 	
+	UIViewController *top  = [self.navigationController topViewController];
+	if([top isKindOfClass:[GalleryController class]]) {
+		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+		return;
+	}
+	
 	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex:1] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
 	
 	NSArray *images = rootDict[@"image"];
@@ -133,6 +139,12 @@
 
 - (void)showPlayView:(NSArray*)list {
 	
+	UIViewController *top  = [self.navigationController topViewController];
+	if([top isKindOfClass:[PlayController class]]) {
+		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+		return;
+	}
+	
 	PlayController *vc = [PlayController new];
 	
 	NSMutableArray *tempArray = [NSMutableArray arrayWithArray:list];
@@ -168,6 +180,12 @@
 
 - (void)showArticleView:(NSArray*)list {
 	
+	UIViewController *top  = [self.navigationController topViewController];
+	if([top isKindOfClass:[TestController class]]) {
+		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+		return;
+	}
+	
 	TestController *vc = [TestController new];
 	
 	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 1] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
@@ -176,8 +194,8 @@
 	vc.articleDicts = rootDict[@"image"];
 	vc.headerText = rootDict[@"header"];
 
-	[self.navigationController pushViewController:vc animated:YES];
 	[self.navigationController setNavigationBarHidden:NO];
+	[self.navigationController pushViewController:vc animated:YES];
 	//self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	//self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 }

@@ -18,6 +18,8 @@
 //#import "UITableView+FDTemplateLayoutCell.h"
 #import "ArticleEntity.h"
 #import "TTTAttributedLabel.h"
+#import "Reachability.h"
+#import "FavoriateMgr.h"
 
 //#define kCellHeight ceil((kScreenWidth) * 3.0 * 0.9 / 4.0)
 #define kCellHeight ceil((kScreenWidth) * 3.0 * 0.9/ 4.0)
@@ -32,8 +34,9 @@
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
-@property (nonatomic, strong) UIImageView *errPage;
+//@property (nonatomic, strong) UIImageView *errPage;
 @property (nonatomic, assign) CGFloat scale;
+@property (nonatomic, strong) DOFavoriteButton *heartButton;
 @end
 
 @implementation GalleryControllerCell
@@ -71,7 +74,7 @@
 	_webImageView.size = CGSizeMake(kScreenWidth * 0.9, kCellHeight);
 	_webImageView.centerX = self.width / 2;
 	_webImageView.clipsToBounds = YES;
-	_webImageView.top = 20;
+//	_webImageView.top = 20;
 	_webImageView.contentMode = UIViewContentModeScaleAspectFill;
 	_webImageView.backgroundColor = [UIColor whiteColor];
 	
@@ -114,20 +117,22 @@
 	_indicator.center = CGPointMake(self.width / 2, self.height / 2);
 	_indicator.hidden = YES;
 	
-	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize: _webImageView.size text:@""];
-	_errPage = [UIImageView new];
-	_errPage.size = _webImageView.size;
-	_errPage.centerX = self.width / 2;
-	_errPage.top = 20;
-	
-	_errPage.image = img;
-	_errPage.hidden = YES;
-	[self.contentView addSubview:_errPage];
+//	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize: _webImageView.size text:@""];
+//	_errPage = [UIImageView new];
+//	_errPage.size = _webImageView.size;
+//	_errPage.centerX = self.width / 2;
+////	_errPage.top = 20;
+//	
+//	_errPage.image = img;
+//	_errPage.hidden = YES;
+//	[self.contentView addSubview:_errPage];
 	
 	_label = [UILabel new];
 	_label.size = _webImageView.size;
 	_label.textAlignment = NSTextAlignmentCenter;
 	_label.text = @"下载异常, 点击重试";
+	_label.centerX = self.centerX;
+	_label.centerY = _webImageView.centerY + _webImageView.height * 0.2;
 	_label.textColor = [UIColor whiteColor];
 	_label.hidden = YES;
 	_label.userInteractionEnabled = YES;
@@ -197,9 +202,26 @@
 	
 	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
+		[[FavoriateMgr sharedInstance] setFavoriate:[[_view yy_imageURL] absoluteString]];
+		
 		if(!_self.downLoaded) return;
 		[_view stopAnimating];
-		[_self showClipView:[[_view yy_imageURL] absoluteString]];
+//		[_self showClipView:[[_view yy_imageURL] absoluteString]];
+		GalleryController* tc = (GalleryController* )[_self viewController];
+		
+		tc.fullScreen = true;
+		
+		ClipPlayController *_clipCtr = [ClipPlayController new];
+		
+		_clipCtr.clipURL = [[_view yy_imageURL] absoluteString];
+		_clipCtr.favorite = TRUE;
+		_clipCtr.showLike = FALSE;
+		_clipCtr.standalone = false;
+		
+		_clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
+		_clipCtr.delegate = _self;
+		
+		[tc presentViewController:_clipCtr animated:YES completion:nil];
 	}];
 	
 	doubleTap.numberOfTapsRequired = 2;
@@ -232,7 +254,7 @@
 	
 	_label.hidden = YES;
 	_indicator.hidden = NO;
-	_errPage.hidden = YES;
+//	_errPage.hidden = YES;
 	[_indicator startAnimating];
 	__weak typeof(self) _self = self;
 	
@@ -269,7 +291,7 @@
 								   _self.indicator.hidden = YES;
 								   if (!image) {
 									   _self.label.hidden = NO;
-									   _self.errPage.hidden = NO;
+//									   _self.errPage.hidden = NO;
 								   }
 								   
 								   if(!error) {
@@ -277,6 +299,10 @@
 									   if ([_self isFullyInView]) {
 										   [_self.webImageView startAnimating];
 										}
+								   }
+								   
+								   if([[FavoriateMgr sharedInstance] isFavoriate:[url absoluteString]]) {
+									   NSLog(@"favoriate is %@", [url absoluteString]);
 								   }
 							   }
 						   }];
@@ -304,7 +330,7 @@
 	CGRect rectOfCellInSuperview = [ctr.tableView convertRect: rectOfCellInTableView toView: ctr.tableView.superview];
 
 //	CGFloat h = self.imageLabel.height + 10;
-	CGFloat h = 20;
+	CGFloat h = 0;
 	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight - h && rectOfCellInSuperview.origin.y >= 64 - h);
 	
 }
@@ -324,7 +350,13 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+	if (networkStatus == ReachableViaWWAN) {
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 1;
+	} else {
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+	}
 	
 //	self.tableView.fd_debugLogEnabled = NO;
 	
@@ -333,6 +365,8 @@
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+		
+	[self.navigationItem setTitle: _headerText];
 	
 	[self addInfoIcon];
 	
@@ -341,6 +375,8 @@
 	}
 	
 	[self initData];
+	
+	[self initHeader];
 	
 //	if(_headerText) [self initHeader];
 	
@@ -367,63 +403,14 @@
 	data = [entities mutableCopy];
 }
 
-//- (void)initHeader {
-//	
-////	NSLog(@"initHeader");
-//	
-////	UIImageView *imageView = [UIImageView new];
-////	imageView.size = CGSizeMake(80, 80);
-////	imageView.centerX = self.view.centerX;
-////	imageView.top = 20;
-////	imageView.yy_imageURL = [NSURL URLWithString:@"http://ww1.sinaimg.cn/thumb180/6eb1dcc1gw1f1ezlym95kj20k00u0gqi.jpg"];
-////	
-//	UIView *header = [UIView new];
-//	
-////	UILabel *label = [UILabel new];
-//	TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-//	label.backgroundColor = [UIColor clearColor];
-//	label.frame = CGRectMake(15, 20, self.view.width - 30, 60);
-//	
-//	label.textAlignment = NSTextAlignmentLeft;
-//	label.numberOfLines = 0;
-//	
-////	NSString *text = _headerText;
-////	
-////	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-////	
-////	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-////	[paragraphStyle setLineSpacing:15];
-////	
-////	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-////	
-////	label.attributedText = attributedString;
-//	
-//	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-//	style.lineSpacing = 15;
-////	style.paragraphSpacing = 11;
-//	
-//	NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_headerText
-//						attributes:@{
-//							NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
-//							(id)kCTParagraphStyleAttributeName : style,
-//						}];
-//	
-//	label.text = attString;
-//	
-//	[label sizeToFit];
-//	
-////	[header addSubview:imageView];
-//	
-//	[header addSubview:label];
-//	
-//	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, label.bottom + 20, self.view.width - 30, 1)];
-//	lineView.backgroundColor = [UIColor lightGrayColor];
-//	[header addSubview:lineView];
-//	
-//	header.size = CGSizeMake(self.view.width, lineView.bottom + 20);
-//	
-//	self.tableView.tableHeaderView = header;
-//}
+- (void)initHeader {
+	
+	UIView *header = [UIView new];
+	
+	header.size = CGSizeMake(self.view.width, 20);
+	
+	self.tableView.tableHeaderView = header;
+}
 
 - (void)showPopup {
 	
@@ -591,7 +578,7 @@
 	CGRect rectOfCellInTableView = [self.tableView rectForRowAtIndexPath: indexPath];
 	CGRect rectOfCellInSuperview = [self.tableView convertRect: rectOfCellInTableView toView: self.tableView.superview];
 	
-	CGFloat h = 20;
+	CGFloat h = 0;
 	
 	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight - h && rectOfCellInSuperview.origin.y >= 64 - h);
 }

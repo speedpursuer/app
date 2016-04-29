@@ -8,8 +8,21 @@
 
 #import "MyHybridPlugin.h"
 #import "MainViewController.h"
+#import "YYWebImage.h"
+#import "AppDelegate.h"
 
 @implementation MyHybridPlugin
+
+-(void)checkPush:(CDVInvokedUrlCommand*) command {
+	
+	AppDelegate *app = [[UIApplication sharedApplication] delegate];
+	[app webViewLaunched];
+	[app fetchData];
+	
+	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 
 -(void)play:(CDVInvokedUrlCommand*) command {
 	
@@ -72,7 +85,7 @@
 
 -(void)showArticle:(CDVInvokedUrlCommand*) command {
 	
-	
+	NSLog(@"showArticle in MyPlugin");
 	if(command.arguments.count > 1) {
 		MainViewController* mvc = (MainViewController*)[self viewController];
 		[mvc showArticleView: command.arguments];
@@ -95,8 +108,8 @@
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
 														message:desc
 													   delegate:[retry isEqual: @"true"]? self: nil
-											  cancelButtonTitle:[retry isEqual: @"true"]? @"重试": @"好" 
-											  otherButtonTitles:nil];
+											  cancelButtonTitle:[retry isEqual: @"true"]? @"清除": @"好"
+											  otherButtonTitles:[retry isEqual: @"true"]? @"取消": nil, nil];
 		[alert show];
 		
 		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -114,8 +127,19 @@
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	[self callJSFunction:@"retryInstall();"];
+//- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+//	[self callJSFunction:@"retryInstall();"];
+//}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	switch (buttonIndex) {
+		case 0:{
+			[[YYImageCache sharedCache].memoryCache removeAllObjects];
+			[[YYImageCache sharedCache].diskCache removeAllObjects];
+		}break;
+		default:
+		break;
+	}
 }
 
 - (void)callJSFunction: (NSString*) fun {

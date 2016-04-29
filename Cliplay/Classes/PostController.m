@@ -25,7 +25,7 @@
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
-@property (nonatomic, strong) UIImageView *errPage;
+//@property (nonatomic, strong) UIImageView *errPage;
 @property (nonatomic, assign) CGFloat scale;
 @end
 
@@ -53,16 +53,18 @@
 	_indicator.hidden = YES;
 	//    [self.contentView addSubview:_indicator]; //use progress bar instead..
 	
-	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text:@""];
-	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
-	_errPage.image = img;
-	_errPage.hidden = YES;
-	[self.contentView addSubview:_errPage];
+//	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text:@""];
+//	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+//	_errPage.image = img;
+//	_errPage.hidden = YES;
+//	[self.contentView addSubview:_errPage];
 	
 	_label = [UILabel new];
 	_label.size = self.size;
 	_label.textAlignment = NSTextAlignmentCenter;
 	_label.text = @"下载异常, 点击重试";
+	_label.centerX = self.centerX;
+	_label.centerY = _webImageView.centerY + 50;
 //	_label.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
 	_label.textColor = [UIColor whiteColor];
 	_label.hidden = YES;
@@ -101,7 +103,7 @@
 	
 	_label.hidden = YES;
 	_indicator.hidden = NO;
-	_errPage.hidden = YES;
+//	_errPage.hidden = YES;
 	[_indicator startAnimating];
 	__weak typeof(self) _self = self;
 	
@@ -138,7 +140,7 @@
 								   _self.indicator.hidden = YES;
 								   if (!image) {
 									   _self.label.hidden = NO;
-									   _self.errPage.hidden = NO;
+//									   _self.errPage.hidden = NO;
 								   }
 								   
 								   if(!error) {
@@ -391,7 +393,7 @@
 		cell.scale = scale;
 		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
 			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
-			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
+//			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
 		} completion:NULL];
 	}
 }

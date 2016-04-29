@@ -18,10 +18,12 @@
 #import "UITableView+FDTemplateLayoutCell.h"
 #import "ArticleEntity.h"
 #import "TTTAttributedLabel.h"
+#import "Reachability.h"
 
 //#define kCellHeight ceil((kScreenWidth) * 3.0 * 0.9 / 4.0)
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width * 0.9
+#define widthMargin ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width * 0.05
 #define sHeight [UIScreen mainScreen].bounds.size.height
 
 @interface TestControllerCell : UITableViewCell
@@ -32,8 +34,8 @@
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
-@property (nonatomic, strong) UIImageView *errPage;
-@property (nonatomic, assign) CGFloat scale;
+//@property (nonatomic, strong) UIImageView *errPage;
+//@property (nonatomic, assign) CGFloat scale;
 @end
 
 @implementation TestControllerCell
@@ -43,9 +45,9 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	self.backgroundColor = [UIColor whiteColor];
 	self.contentView.backgroundColor = [UIColor whiteColor];
-//	self.contentView.bounds = [UIScreen mainScreen].bounds;
-//	self.size = CGSizeMake(kScreenWidth, kCellHeight);
-//	self.contentView.size = self.size;
+	self.contentView.bounds = [UIScreen mainScreen].bounds;
+	self.size = CGSizeMake(kScreenWidth/0.9, kCellHeight/0.9);
+	self.contentView.size = self.size;
 	
 //	_imageLabel = [UILabel new];
 //	_imageLabel.backgroundColor = [UIColor clearColor];
@@ -56,7 +58,8 @@
 //	[self.contentView addSubview:_imageLabel];
 
 	
-	_imageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+//	_imageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+	_imageLabel = [TTTAttributedLabel new];
 	_imageLabel.textAlignment = NSTextAlignmentLeft;
 	_imageLabel.numberOfLines = 0;
 	[_imageLabel setTextColor:[UIColor darkGrayColor]];
@@ -112,23 +115,45 @@
 	_indicator.center = CGPointMake(self.width / 2, self.height / 2);
 	_indicator.hidden = YES;
 	
-	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text:@""];
-	_errPage = [UIImageView new];
-	_errPage.size = _webImageView.size;
-	_errPage.centerX = _webImageView.width / 2;
-	
-	_errPage.image = img;
-	_errPage.hidden = YES;
-	[self.contentView addSubview:_errPage];
+//	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text:@""];
+//	_errPage = [UIImageView new];
+//	_errPage.size = _webImageView.size;
+//	_errPage.centerX = _webImageView.width / 2;
+//	
+//	_errPage.image = img;
+//	_errPage.hidden = YES;
+//	[self.contentView addSubview:_errPage];
 	
 	_label = [UILabel new];
 	_label.size = _webImageView.size;
 	_label.textAlignment = NSTextAlignmentCenter;
 	_label.text = @"下载异常, 点击重试";
+//	_label.centerX = self.centerX;
+//	_label.centerY = _webImageView.centerY + 50;
 	_label.textColor = [UIColor whiteColor];
 	_label.hidden = YES;
 	_label.userInteractionEnabled = YES;
 	[self.contentView addSubview:_label];
+	
+	_label.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	CGFloat constant = _webImageView.height * 0.2;
+	
+	[NSLayoutConstraint constraintWithItem:_label
+									attribute:NSLayoutAttributeCenterY
+									relatedBy:NSLayoutRelationEqual
+									toItem:_webImageView
+									attribute:NSLayoutAttributeCenterY
+									multiplier:1
+									constant: constant].active = true;
+	
+	[NSLayoutConstraint constraintWithItem:_label
+									attribute:NSLayoutAttributeCenterX
+									relatedBy:NSLayoutRelationEqual
+									toItem:self.contentView
+									attribute:NSLayoutAttributeCenterX
+									multiplier:1
+									constant:0].active = true;
 	
 	CGFloat lineHeight = 4;
 	_progressLayer = [CAShapeLayer layer];
@@ -150,9 +175,9 @@
 	}];
 	[_label addGestureRecognizer:g];
 	
-	_scale = 1;
+//	_scale = 1;
 	
-	[self addClickControlToAnimatedImageView];
+	[_self addClickControlToAnimatedImageView];
 	
 	return self;
 }
@@ -161,7 +186,7 @@
 	CGFloat totalHeight = 0;
 	totalHeight += self.webImageView.size.height;
 	totalHeight += self.imageLabel.size.height;
-	totalHeight += 30; // margins
+	totalHeight += 40; // margins
 	return CGSizeMake(size.width, totalHeight);
 }
 
@@ -171,27 +196,29 @@
 //	NSLog(@"addClickControlToAnimatedImageView");
 	
 	self.webImageView.userInteractionEnabled = YES;
+//	YYAnimatedImageView *view = self.webImageView;
+	
 	__weak typeof(self.webImageView) _view = self.webImageView;
 	__weak typeof(self) _self = self;
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
-		TestController* _tc = (TestController* )[_self viewController];
+		TestController* tc = (TestController* )[_self viewController];
 		
-		if(!_self.downLoaded || _tc.fullScreen) return;
+		if(!_self.downLoaded || tc.fullScreen) return;
 		
 		if ([_view isAnimating]) [_view stopAnimating];
 		else [_view startAnimating];
 		
 		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
 		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-			_view.layer.transformScale = 0.97 * _self.scale;
+			_view.layer.transformScale = 0.97;
 		} completion:^(BOOL finished) {
 			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-				_view.layer.transformScale = 1.008 * _self.scale;
+				_view.layer.transformScale = 1.008;
 			} completion:^(BOOL finished) {
 				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-					_view.layer.transformScale = 1 * _self.scale;
+					_view.layer.transformScale = 1;
 				} completion:NULL];
 			}];
 		}];
@@ -205,7 +232,20 @@
 		
 		if(!_self.downLoaded) return;
 		[_view stopAnimating];
-		[_self showClipView:[[_view yy_imageURL] absoluteString]];
+//		[_self showClipView:[[_view yy_imageURL] absoluteString]];
+		
+		TestController* tc = (TestController* )[_self viewController];
+		ClipPlayController *clipCtr = [ClipPlayController new];
+		tc.fullScreen = true;
+		clipCtr.clipURL = [[_view yy_imageURL] absoluteString];
+		clipCtr.favorite = TRUE;
+		clipCtr.showLike = FALSE;
+		clipCtr.standalone = false;
+		clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
+		clipCtr.delegate = _self;
+		
+		[tc presentViewController:clipCtr animated:YES completion:nil];
+		
 	}];
 	
 	doubleTap.numberOfTapsRequired = 2;
@@ -221,17 +261,17 @@
 	
 	tc.fullScreen = true;
 	
-	ClipPlayController *_clipCtr = [ClipPlayController new];
+	ClipPlayController *clipCtr = [ClipPlayController new];
 	
-	_clipCtr.clipURL = url;
-	_clipCtr.favorite = TRUE;
-	_clipCtr.showLike = FALSE;
-	_clipCtr.standalone = false;
+	clipCtr.clipURL = url;
+	clipCtr.favorite = TRUE;
+	clipCtr.showLike = FALSE;
+	clipCtr.standalone = false;
 	
-	_clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
-	_clipCtr.delegate = self;
+	clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
+	clipCtr.delegate = self;
 	
-	[tc presentViewController:_clipCtr animated:YES completion:nil];
+	[tc presentViewController:clipCtr animated:YES completion:nil];
 }
 
 - (void)setCellData:(ArticleEntity*) entity {
@@ -266,11 +306,16 @@
 						}];
 		
 		self.imageLabel.text = attString;
-		self.imageLabel.frame = CGRectMake(15, 0, self.size.width - 30, 20);
+//		self.imageLabel.frame = CGRectMake(withMargin, 0, self.size.width - withMargin * 2, 0);
+		self.imageLabel.width = self.size.width - (widthMargin * 2);
+//		self.imageLabel.width = self.size.width;
+		self.imageLabel.centerX = self.centerX;
 	}else {
-		self.imageLabel.size = CGSizeMake(0, 0);
+		self.imageLabel.height = 0;
 	}
 	[self.imageLabel sizeToFit];
+	
+	self.contentView.size = CGSizeMake(kScreenWidth / 0.9, 10+_imageLabel.height+_webImageView.height);
 	
 	[self setImageURL:[NSURL URLWithString:entity.image]];
 }
@@ -310,7 +355,7 @@
 	
 	_label.hidden = YES;
 	_indicator.hidden = NO;
-	_errPage.hidden = YES;
+//	_errPage.hidden = YES;
 	[_indicator startAnimating];
 	__weak typeof(self) _self = self;
 	
@@ -347,7 +392,7 @@
 								   _self.indicator.hidden = YES;
 								   if (!image) {
 									   _self.label.hidden = NO;
-									   _self.errPage.hidden = NO;
+//									   _self.errPage.hidden = NO;
 								   }
 								   
 								   if(!error) {
@@ -392,7 +437,13 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+	if (networkStatus == ReachableViaWWAN) {
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 1;
+	} else {
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+	}
 	
 	self.tableView.fd_debugLogEnabled = NO;
 	
@@ -450,7 +501,7 @@
 //	UILabel *label = [UILabel new];
 	TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
 	label.backgroundColor = [UIColor clearColor];
-	label.frame = CGRectMake(15, 20, self.view.width - 30, 60);
+	label.frame = CGRectMake(widthMargin, 20, self.view.width - widthMargin * 2, 60);
 	
 	label.textAlignment = NSTextAlignmentLeft;
 	label.numberOfLines = 0;
@@ -484,7 +535,7 @@
 	
 	[header addSubview:label];
 	
-	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(15, label.bottom + 20, self.view.width - 30, 1)];
+	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(widthMargin, label.bottom + 20, self.view.width - widthMargin * 2, 1)];
 	lineView.backgroundColor = [UIColor lightGrayColor];
 	[header addSubview:lineView];
 	

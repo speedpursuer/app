@@ -15,9 +15,11 @@
 #import "ClipPlayController.h"
 #import "DRImagePlaceholderHelper.h"
 #import "DOFavoriteButton.h"
+#import "Reachability.h"
 
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
+#define cHeight ([UIScreen mainScreen].bounds.size.height - 64) / 2
 
 @interface PlayControllerCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
@@ -25,7 +27,7 @@
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
-@property (nonatomic, strong) UIImageView *errPage;
+//@property (nonatomic, strong) UIImageView *errPage;
 @property (nonatomic, assign) CGFloat scale;
 @end
 
@@ -38,10 +40,12 @@
 	//	self.backgroundColor = [UIColor clearColor];
 	//  self.contentView.backgroundColor = [UIColor clearColor];
 	self.contentView.backgroundColor = [UIColor whiteColor];
-	self.size = CGSizeMake(kScreenWidth, kCellHeight);
+	self.size = CGSizeMake(kScreenWidth, cHeight);
 	self.contentView.size = self.size;
 	_webImageView = [YYAnimatedImageView new];
-	_webImageView.size = self.size;
+	_webImageView.size = CGSizeMake(kScreenWidth * 0.9, cHeight - 40);
+	_webImageView.centerX = self.centerX;
+	_webImageView.top = 20;
 	_webImageView.clipsToBounds = YES;
 	_webImageView.contentMode = UIViewContentModeScaleAspectFill;
 	_webImageView.backgroundColor = [UIColor whiteColor];
@@ -53,16 +57,18 @@
 	_indicator.hidden = YES;
 	//    [self.contentView addSubview:_indicator]; //use progress bar instead..
 	
-	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text:@""];
-	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
-	_errPage.image = img;
-	_errPage.hidden = YES;
-	[self.contentView addSubview:_errPage];
+//	UIImage *img = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:CGSizeMake(self.width, self.height) text:@""];
+//	_errPage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+//	_errPage.image = img;
+//	_errPage.hidden = YES;
+//	[self.contentView addSubview:_errPage];
 	
 	_label = [UILabel new];
 	_label.size = self.size;
 	_label.textAlignment = NSTextAlignmentCenter;
 	_label.text = @"下载异常, 点击重试";
+	_label.centerX = self.centerX;
+	_label.centerY = _webImageView.centerY + _webImageView.height * 0.2;
 //	_label.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
 	_label.textColor = [UIColor whiteColor];
 	_label.hidden = YES;
@@ -101,7 +107,7 @@
 	
 	_label.hidden = YES;
 	_indicator.hidden = NO;
-	_errPage.hidden = YES;
+//	_errPage.hidden = YES;
 	[_indicator startAnimating];
 	__weak typeof(self) _self = self;
 	
@@ -138,7 +144,7 @@
 								   _self.indicator.hidden = YES;
 								   if (!image) {
 									   _self.label.hidden = NO;
-									   _self.errPage.hidden = NO;
+//									   _self.errPage.hidden = NO;
 								   }
 								   
 								   if(!error) {
@@ -168,20 +174,24 @@
 	
 	CGFloat imageWidthToHeight = size.width / size.height;
 	
-	CGFloat width = _self.size.width - 20;
-	CGFloat height = _self.size.height - 20;
+	CGFloat width = _self.size.width * 0.9;
+	CGFloat height = _self.size.height - 40;
+	CGFloat margin = _self.size.width * 0.05;
 	CGFloat viewWidthToHeight = width / height;
 	
 	if(viewWidthToHeight > imageWidthToHeight) {
 		CGFloat imageViewWidth = height * imageWidthToHeight;
 		CGFloat left = (width - imageViewWidth) / 2;
-		CGRect frame = CGRectMake(left + 10, 10.0f, imageViewWidth, height);
+		CGRect frame = CGRectMake(left + margin, 20, imageViewWidth, height);
 		_self.webImageView.frame = frame;
 		
 	}else {
 		CGFloat imageViewHeight = width / imageWidthToHeight;
 		CGFloat top = (height - imageViewHeight) / 2;
-		CGRect frame = CGRectMake(10.0f, top + 10, width, imageViewHeight);
+		
+//		if(top < 20) top = 20;
+//		CGRect frame = CGRectMake(margin, 20, width, imageViewHeight);
+		CGRect frame = CGRectMake(margin, top + 20, width, imageViewHeight);
 		_self.webImageView.frame = frame;
 		
 //		if(self.interfaceOrientation == UIInterfaceOrientationPortrait) {
@@ -209,6 +219,14 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+
+	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+	if (networkStatus == ReachableViaWWAN) {
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 1;
+	} else {
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+	}
 	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -227,7 +245,7 @@
 	}
 	
 	[self.tableView reloadData];
-	[self scrollViewDidScroll:self.tableView];
+//	[self scrollViewDidScroll:self.tableView];
 }
 
 - (void)showPopup {
@@ -356,7 +374,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return kCellHeight;
+//	return kCellHeight * 0.9 + 20;
+	return cHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -375,8 +394,10 @@
 
 - (void)addClickControlToAnimatedImageView:(PlayControllerCell *)cell {
 	if (!cell) return;
-	cell.webImageView.userInteractionEnabled = YES;
+//	cell.webImageView.userInteractionEnabled = YES;
+	cell.contentView.userInteractionEnabled = YES;
 	__weak typeof(cell.webImageView) _view = cell.webImageView;
+	__weak typeof(cell.contentView) _contentView = cell.contentView;
 	__weak typeof(cell) _cell = cell;
 	
 	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
@@ -402,7 +423,7 @@
 	
 	singleTap.numberOfTapsRequired = 1;
 	
-	[_view addGestureRecognizer:singleTap];
+	[_contentView addGestureRecognizer:singleTap];
 
 	__weak typeof(self) _self = self;
 	
@@ -417,7 +438,7 @@
 	
 	doubleTap.numberOfTapsRequired = 2;
 	
-	[_view addGestureRecognizer:doubleTap];
+	[_contentView addGestureRecognizer:doubleTap];
 	
 //	[singleTap requireGestureRecognizerToFail:doubleTap];
 
@@ -446,27 +467,28 @@
 			_view.currentAnimatedImageIndex = image.animatedImageFrameCount * progress;
 		}
 	}];
-	[_view addGestureRecognizer:pan];
+//	[_view addGestureRecognizer:pan];
+	[_contentView addGestureRecognizer:pan];
 	
-	for (UIGestureRecognizer *g in cell.webImageView.gestureRecognizers) {
-		g.delegate = self;
-	}
+//	for (UIGestureRecognizer *g in cell.webImageView.gestureRecognizers) {
+//		g.delegate = self;
+//	}
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
-	CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
-	for (PlayControllerCell *cell in [self.tableView visibleCells]) {
-		CGFloat y = cell.centerY - scrollView.contentOffset.y;
-		CGFloat p = y - viewHeight / 2;
-		CGFloat scale = cos(p / viewHeight * 0.8) * 0.95;
-		cell.scale = scale;
-		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
-			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
-			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
-		} completion:NULL];
-	}
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//	
+//	CGFloat viewHeight = scrollView.height + scrollView.contentInset.top;
+//	for (PlayControllerCell *cell in [self.tableView visibleCells]) {
+//		CGFloat y = cell.centerY - scrollView.contentOffset.y;
+//		CGFloat p = y - viewHeight / 2;
+//		CGFloat scale = cos(p / viewHeight * 0.8) * 0.95;
+//		cell.scale = scale;
+//		[UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState animations:^{
+//			cell.webImageView.transform = CGAffineTransformMakeScale(scale, scale);
+//			cell.errPage.transform = CGAffineTransformMakeScale(scale, scale);
+//		} completion:NULL];
+//	}
+//}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
 	return NO;

@@ -9,5 +9,6 @@
 #import <Cordova/CDVPlugin.h>
 
 @interface MyHybridPlugin : CDVPlugin
-- (void)playClip:(CDVInvokedUrlCommand*) command;
+-(void)playClip:(CDVInvokedUrlCommand*) command;
+-(void)showArticle:(CDVInvokedUrlCommand*) command;
 @end

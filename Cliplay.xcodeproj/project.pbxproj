@@ -87,10 +87,12 @@
 		76332C9B1CAB787200C3F494 /* ArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9A1CAB787200C3F494 /* ArticleController.m */; };
 		76332C9F1CACB9C200C3F494 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9E1CACB9C200C3F494 /* TestController.m */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
+		7647EDD81CCB135700587845 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7647EDD61CCB135700587845 /* libBPush.a */; };
 		765FD5C81CA57D3F00F31F5D /* tip.png in Resources */ = {isa = PBXBuildFile; fileRef = 765FD5C71CA57D3F00F31F5D /* tip.png */; };
 		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
 		767A558C1C47572A00992D0F /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A558B1C47572A00992D0F /* WebP.framework */; };
 		7684FF661CB6619C0017D23A /* GalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7684FF651CB6619C0017D23A /* GalleryController.m */; };
+		769BAC881CD37B4900DB235C /* FavoriateMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 769BAC871CD37B4900DB235C /* FavoriateMgr.m */; };
 		76A58C8D1CA571D400C2F582 /* PostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A58C8B1CA571D400C2F582 /* PostController.m */; };
 		76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */; };
 		76C7155A1CA01C3B00D278AE /* PlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C715591CA01C3B00D278AE /* PlayController.m */; };
@@ -99,7 +101,9 @@
 		76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 76E424BE1C7AB30A00FA5962 /* ionic.min.css */; };
 		76E61D931C79F28900CCC767 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D901C79F28900CCC767 /* CDVConnection.m */; };
 		76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D921C79F28900CCC767 /* CDVReachability.m */; };
+		76E92C011CB8DFE000F424AF /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E92C001CB8DFE000F424AF /* Reachability.m */; };
 		76ECFB901C9AC8EA00FCABCF /* YYImageExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */; };
+		76FAF3B31CCC6A5800D45E74 /* sound.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 76FAF3B21CCC6A5800D45E74 /* sound.m4r */; };
 		8A88FA600567418E9CC06334 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8B680D991549EB8F229D9F /* SystemConfiguration.framework */; };
 		9E300325C4F74EB7AE3CB472 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8501F447D22045F9A0CBEDDA /* WebKit.framework */; };
 		B9EEED15F5F47E71E3E9FFA7 /* libPods-Cliplay.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DAC936691E38912C30D8B14 /* libPods-Cliplay.a */; };
@@ -244,11 +248,15 @@
 		76332C9D1CACB9C200C3F494 /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestController.h; path = Cliplay/Classes/TestController.h; sourceTree = SOURCE_ROOT; };
 		76332C9E1CACB9C200C3F494 /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestController.m; path = Cliplay/Classes/TestController.m; sourceTree = SOURCE_ROOT; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		7647EDD51CCB135700587845 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
+		7647EDD61CCB135700587845 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
 		765FD5C71CA57D3F00F31F5D /* tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip.png; sourceTree = "<group>"; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
 		767A558B1C47572A00992D0F /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Pods/YYWebImage/Vendor/WebP.framework; sourceTree = "<group>"; };
 		7684FF641CB6619C0017D23A /* GalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryController.h; path = Cliplay/Classes/GalleryController.h; sourceTree = SOURCE_ROOT; };
 		7684FF651CB6619C0017D23A /* GalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryController.m; path = Cliplay/Classes/GalleryController.m; sourceTree = SOURCE_ROOT; };
+		769BAC861CD37B4900DB235C /* FavoriateMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoriateMgr.h; path = Cliplay/Classes/FavoriateMgr.h; sourceTree = "<group>"; };
+		769BAC871CD37B4900DB235C /* FavoriateMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoriateMgr.m; path = Cliplay/Classes/FavoriateMgr.m; sourceTree = "<group>"; };
 		76A58C8B1CA571D400C2F582 /* PostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostController.m; path = Cliplay/Classes/PostController.m; sourceTree = SOURCE_ROOT; };
 		76A58C8C1CA571D400C2F582 /* PostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostController.h; path = Cliplay/Classes/PostController.h; sourceTree = SOURCE_ROOT; };
 		76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRImagePlaceholderHelper.h; path = Cliplay/Classes/DRImagePlaceholderHelper.h; sourceTree = "<group>"; };
@@ -263,8 +271,11 @@
 		76E61D901C79F28900CCC767 /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVConnection.m"; sourceTree = SOURCE_ROOT; };
 		76E61D911C79F28900CCC767 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVReachability.h"; sourceTree = SOURCE_ROOT; };
 		76E61D921C79F28900CCC767 /* CDVReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVReachability.m"; sourceTree = SOURCE_ROOT; };
+		76E92BFF1CB8DFE000F424AF /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Cliplay/Classes/Reachability.h; sourceTree = "<group>"; };
+		76E92C001CB8DFE000F424AF /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Cliplay/Classes/Reachability.m; sourceTree = "<group>"; };
 		76ECFB8E1C9AC8EA00FCABCF /* YYImageExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYImageExample.h; path = Cliplay/Classes/YYImageExample.h; sourceTree = "<group>"; };
 		76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YYImageExample.m; path = Cliplay/Classes/YYImageExample.m; sourceTree = "<group>"; };
+		76FAF3B21CCC6A5800D45E74 /* sound.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.m4r; sourceTree = "<group>"; };
 		8501F447D22045F9A0CBEDDA /* WebKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		ADAE07AC79223E2D5854CF72 /* Pods-Cliplay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cliplay.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cliplay/Pods-Cliplay.release.xcconfig"; sourceTree = "<group>"; };
 		AF8B680D991549EB8F229D9F /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -287,6 +298,7 @@
 				8A88FA600567418E9CC06334 /* SystemConfiguration.framework in Frameworks */,
 				9E300325C4F74EB7AE3CB472 /* WebKit.framework in Frameworks */,
 				4A92D5B643054CE68555235F /* libsqlite3.dylib in Frameworks */,
+				7647EDD81CCB135700587845 /* libBPush.a in Frameworks */,
 				B9EEED15F5F47E71E3E9FFA7 /* libPods-Cliplay.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -502,6 +514,11 @@
 		763B6CB61C4752D800752B77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				769BAC861CD37B4900DB235C /* FavoriateMgr.h */,
+				769BAC871CD37B4900DB235C /* FavoriateMgr.m */,
+				7647EDD41CCB135700587845 /* normalversion */,
+				76E92BFF1CB8DFE000F424AF /* Reachability.h */,
+				76E92C001CB8DFE000F424AF /* Reachability.m */,
 				76ECFB8E1C9AC8EA00FCABCF /* YYImageExample.h */,
 				76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */,
 				76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */,
@@ -536,6 +553,16 @@
 				7605C43D1C5BB2F3004E488A /* YYImageExampleHelper.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7647EDD41CCB135700587845 /* normalversion */ = {
+			isa = PBXGroup;
+			children = (
+				76FAF3B21CCC6A5800D45E74 /* sound.m4r */,
+				7647EDD51CCB135700587845 /* BPush.h */,
+				7647EDD61CCB135700587845 /* libBPush.a */,
+			);
+			path = normalversion;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -573,6 +600,14 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = NFXT343F5P;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -650,6 +685,7 @@
 				7605C4921C5BB3CC004E488A /* Icon-Small@2x.png in Resources */,
 				7605C4931C5BB3CC004E488A /* Icon-Small@3x.png in Resources */,
 				7605C4851C5BB3CC004E488A /* Icon-40@2x.png in Resources */,
+				76FAF3B31CCC6A5800D45E74 /* sound.m4r in Resources */,
 				7605C41D1C5BB2D7004E488A /* Main.storyboard in Resources */,
 				7605C4911C5BB3CC004E488A /* Icon-Small.png in Resources */,
 				7605C4AB1C5BB3EB004E488A /* Default-667h.png in Resources */,
@@ -748,6 +784,7 @@
 				7605C4D01C5BB4D5004E488A /* CDVFile.m in Sources */,
 				7684FF661CB6619C0017D23A /* GalleryController.m in Sources */,
 				7605C4651C5BB37E004E488A /* main.m in Sources */,
+				769BAC881CD37B4900DB235C /* FavoriateMgr.m in Sources */,
 				7605C4491C5BB2F3004E488A /* SHA1.m in Sources */,
 				7605C4421C5BB2F3004E488A /* DOFavoriteButton.m in Sources */,
 				76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */,
@@ -770,6 +807,7 @@
 				7605C4DD1C5BB505004E488A /* CDVViewController+SplashScreen.m in Sources */,
 				7605C4D11C5BB4D5004E488A /* CDVLocalFilesystem.m in Sources */,
 				7605C4401C5BB2F3004E488A /* CALayer+YYAdd.m in Sources */,
+				76E92C011CB8DFE000F424AF /* Reachability.m in Sources */,
 				7605C4D41C5BB4E3004E488A /* CDVFileTransfer.m in Sources */,
 				7605C4DC1C5BB505004E488A /* CDVSplashScreen.m in Sources */,
 				7605C41C1C5BB2D7004E488A /* ClipPlayController.m in Sources */,
@@ -837,6 +875,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/normalversion",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lee.cliplay;
@@ -879,6 +918,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/normalversion",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "$(inherited)";
