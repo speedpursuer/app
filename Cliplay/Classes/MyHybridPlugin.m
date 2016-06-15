@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "YYWebImage.h"
 #import "AppDelegate.h"
+#import "DGTeaEncryptor.h"
 
 @implementation MyHybridPlugin
 
@@ -99,7 +100,7 @@
 -(void)showMessage:(CDVInvokedUrlCommand*) command {
 	NSString* title = [command.arguments objectAtIndex:0];
 	NSString* desc = [command.arguments objectAtIndex:1];
-	NSString* retry = [command.arguments objectAtIndex:2];
+	NSString* clean = [command.arguments objectAtIndex:2];
 	
 	if(title && desc) {
 		
@@ -107,9 +108,9 @@
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
 														message:desc
-													   delegate:[retry isEqual: @"true"]? self: nil
-											  cancelButtonTitle:[retry isEqual: @"true"]? @"清除": @"好"
-											  otherButtonTitles:[retry isEqual: @"true"]? @"取消": nil, nil];
+													   delegate:[clean isEqual: @"true"]? self: nil
+											  cancelButtonTitle:[clean isEqual: @"true"]? @"清除": @"好"
+											  otherButtonTitles:[clean isEqual: @"true"]? @"取消": nil, nil];
 		[alert show];
 		
 		CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -123,6 +124,32 @@
 -(void)dbString:(CDVInvokedUrlCommand*) command {
 	CDVPluginResult* pluginResult =
 		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://app_viewer:Cliplay1234@121.40.197.226:4984/,ionic.min.css"];
+	
+	NSString* libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+	
+	NSString* libPathNoSync = [libPath stringByAppendingPathComponent:@"NoCloud"];
+
+	NSString *fileName = [NSString stringWithFormat:@"%@/ionic.min.css",
+						  libPathNoSync];
+	
+	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName];
+	
+	if(!fileExists) {
+		NSString *filePath = [[NSBundle mainBundle]
+							  pathForResource: @"ionic.min" ofType: @"css"];
+		
+		NSString *data = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: nil];
+		
+//		NSLog(@"file data = %@", data);
+		
+		NSString *newData = [DGTeaEncryptor decrypt:data withPassword: @"jordan"];
+		
+		//	NSString *newData = [DGTeaEncryptor encrypt:data withPassword: @"jordan"];
+		
+//		NSLog(@"newData = %@", newData);
+		
+		[newData writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	}
 	
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }

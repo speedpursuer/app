@@ -152,7 +152,7 @@ static NSString *header;
 	// 在 App 启动时注册百度云推送服务，需要提供 Apikey
 	
 	#ifdef DEBUG
-	[BPush registerChannel:launchOptions apiKey:@"dGDKbPIrZ561HRPKbeECXGQv" pushMode:BPushModeDevelopment withFirstAction:@"打开" withSecondAction:nil withCategory:@"cliplay" useBehaviorTextInput:NO isDebug:NO];
+	[BPush registerChannel:launchOptions apiKey:@"dGDKbPIrZ561HRPKbeECXGQv" pushMode:BPushModeDevelopment withFirstAction:@"打开" withSecondAction:nil withCategory:@"cliplay" useBehaviorTextInput:NO isDebug:YES];
 	#else
 	[BPush registerChannel:launchOptions apiKey:@"dGDKbPIrZ561HRPKbeECXGQv" pushMode:BPushModeProduction withFirstAction:@"打开" withSecondAction:nil withCategory:@"cliplay" useBehaviorTextInput:NO isDebug:NO];
 	#endif
@@ -244,7 +244,7 @@ static NSString *header;
 	NSString *_header = header;
 //	__weak typeof(header) _header = header;
 	
-	NSURL *url = [NSURL URLWithString:[@"http://121.40.197.226:4985/cliplay_prod/" stringByAppendingString: pushID]];
+	NSURL *url = [NSURL URLWithString:[@"http://app_viewer:Cliplay1234@121.40.197.226:4984/cliplay_prod/" stringByAppendingString: pushID]];
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	[NSURLConnection sendAsynchronousRequest:request
 									   queue:[NSOperationQueue mainQueue]

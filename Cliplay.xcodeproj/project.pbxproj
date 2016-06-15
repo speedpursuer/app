@@ -87,6 +87,7 @@
 		76332C9B1CAB787200C3F494 /* ArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9A1CAB787200C3F494 /* ArticleController.m */; };
 		76332C9F1CACB9C200C3F494 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9E1CACB9C200C3F494 /* TestController.m */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
+		764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 764355441D0FFB8000807EBF /* DGTeaEncryptor.m */; };
 		7647EDD81CCB135700587845 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7647EDD61CCB135700587845 /* libBPush.a */; };
 		765FD5C81CA57D3F00F31F5D /* tip.png in Resources */ = {isa = PBXBuildFile; fileRef = 765FD5C71CA57D3F00F31F5D /* tip.png */; };
 		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
@@ -248,6 +249,8 @@
 		76332C9D1CACB9C200C3F494 /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestController.h; path = Cliplay/Classes/TestController.h; sourceTree = SOURCE_ROOT; };
 		76332C9E1CACB9C200C3F494 /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestController.m; path = Cliplay/Classes/TestController.m; sourceTree = SOURCE_ROOT; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		764355431D0FFB8000807EBF /* DGTeaEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGTeaEncryptor.h; path = Cliplay/Classes/DGTeaEncryptor.h; sourceTree = "<group>"; };
+		764355441D0FFB8000807EBF /* DGTeaEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGTeaEncryptor.m; path = Cliplay/Classes/DGTeaEncryptor.m; sourceTree = "<group>"; };
 		7647EDD51CCB135700587845 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
 		7647EDD61CCB135700587845 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
 		765FD5C71CA57D3F00F31F5D /* tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip.png; sourceTree = "<group>"; };
@@ -514,6 +517,8 @@
 		763B6CB61C4752D800752B77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				764355431D0FFB8000807EBF /* DGTeaEncryptor.h */,
+				764355441D0FFB8000807EBF /* DGTeaEncryptor.m */,
 				769BAC861CD37B4900DB235C /* FavoriateMgr.h */,
 				769BAC871CD37B4900DB235C /* FavoriateMgr.m */,
 				7647EDD41CCB135700587845 /* normalversion */,
@@ -775,6 +780,7 @@
 				7605C4431C5BB2F3004E488A /* FRDLivelyButton.m in Sources */,
 				76332C9F1CACB9C200C3F494 /* TestController.m in Sources */,
 				7605C44B1C5BB2F3004E488A /* UIGestureRecognizer+YYAdd.m in Sources */,
+				764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */,
 				7605C4CF1C5BB4D5004E488A /* CDVAssetLibraryFilesystem.m in Sources */,
 				7605C4441C5BB2F3004E488A /* LLARingSpinnerView.m in Sources */,
 				7605C4D71C5BB4F4004E488A /* YoikScreenOrientation.m in Sources */,

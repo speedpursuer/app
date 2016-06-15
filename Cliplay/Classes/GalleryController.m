@@ -160,9 +160,34 @@
 	
 	_scale = 1;
 	
+	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, kScreenWidth * 0.05, 44, 44) image:[UIImage imageNamed:@"heart"] selected: false];
+	
+	_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		
+	[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
+	
+	[_heartButton deselect];
+	
+	[self.contentView addSubview:_heartButton];
+	
+	_heartButton.hidden = true;
+	
 	[self addClickControlToAnimatedImageView];
 	
 	return self;
+}
+
+- (void)tappedButton:(DOFavoriteButton *)sender {
+//	self.favorite = !sender.selected;
+	if (sender.selected) {
+		[sender deselect];
+		[[FavoriateMgr sharedInstance] unsetFavoriate:[[_webImageView yy_imageURL] absoluteString]];
+	} else {
+		[sender select];
+		[[FavoriateMgr sharedInstance] setFavoriate:[[_webImageView yy_imageURL] absoluteString]];
+	}
 }
 
 - (void)addClickControlToAnimatedImageView{
@@ -201,8 +226,6 @@
 	[_view addGestureRecognizer:singleTap];
 	
 	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-		
-		[[FavoriateMgr sharedInstance] setFavoriate:[[_view yy_imageURL] absoluteString]];
 		
 		if(!_self.downLoaded) return;
 		[_view stopAnimating];
@@ -303,7 +326,12 @@
 								   
 								   if([[FavoriateMgr sharedInstance] isFavoriate:[url absoluteString]]) {
 									   NSLog(@"favoriate is %@", [url absoluteString]);
+									   [_heartButton select];
+								   }else {
+									   [_heartButton deselect];
 								   }
+								   
+								   _heartButton.hidden = false;
 							   }
 						   }];
 }

@@ -64,7 +64,7 @@
 	
 	UIViewController *top  = [self.navigationController topViewController];
 	if([top isKindOfClass:[GalleryController class]]) {
-		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+//		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
 		return;
 	}
 	
