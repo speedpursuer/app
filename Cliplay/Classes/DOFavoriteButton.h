@@ -22,6 +22,8 @@ IB_DESIGNABLE
 //- (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image;
 - (instancetype)initWithFrame:(CGRect)frame image:(UIImage *)image selected: (BOOL)selected;
 - (void)select;
+- (void)selectWithNoAnim;
 - (void)deselect;
+- (void)deselectWithNoAnim;
 
 @end

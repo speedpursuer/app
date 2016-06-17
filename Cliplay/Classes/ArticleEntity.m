@@ -30,6 +30,15 @@
 	return self;
 }
 
+- (instancetype)initWithData:(NSString *)url desc:(NSString *)desc
+{
+	self = super.init;
+	if (self) {
+		_desc = desc;
+		_image = url;
+	}
+	return self;
+}
 
 @end
 

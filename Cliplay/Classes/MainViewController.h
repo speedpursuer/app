@@ -34,6 +34,7 @@
 - (void)showClipView:(NSString*)url;
 - (void)showPlayView:(NSArray*)list;
 - (void)showArticleView:(NSArray*)list;
+- (void)showFavoriteView;
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

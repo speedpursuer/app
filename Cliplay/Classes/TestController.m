@@ -19,6 +19,7 @@
 #import "ArticleEntity.h"
 #import "TTTAttributedLabel.h"
 #import "Reachability.h"
+#import "FavoriateMgr.h"
 
 //#define kCellHeight ceil((kScreenWidth) * 3.0 * 0.9 / 4.0)
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
@@ -34,6 +35,7 @@
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
+@property (nonatomic, strong) DOFavoriteButton *heartButton;
 //@property (nonatomic, strong) UIImageView *errPage;
 //@property (nonatomic, assign) CGFloat scale;
 @end
@@ -69,7 +71,7 @@
 	
 	_webImageView.translatesAutoresizingMaskIntoConstraints = NO;
 	
-	_webImageView.size = CGSizeMake(kScreenWidth, kCellHeight);
+	_webImageView.size = CGSizeMake(kScreenWidth, kCellHeight/0.9);
 	_webImageView.centerX = self.width / 2;
 	_webImageView.clipsToBounds = YES;
 //	_webImageView.top = _imageLabel.bottom + 30;
@@ -84,7 +86,7 @@
 									toItem:_imageLabel
 								 attribute:NSLayoutAttributeBottom
 								multiplier:1
-								  constant:10].active = true;
+								  constant:5].active = true;
 	
 	[NSLayoutConstraint constraintWithItem:_webImageView
 									attribute:NSLayoutAttributeCenterX
@@ -177,16 +179,58 @@
 	
 //	_scale = 1;
 	
+	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40) image:[UIImage imageNamed:@"heart"] selected: false];
+	
+	_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	
+	[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
+	
+	//	[_heartButton deselect];
+	
+	[self.contentView addSubview:_heartButton];
+	
+	_heartButton.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	[NSLayoutConstraint constraintWithItem:_heartButton
+									attribute:NSLayoutAttributeTop
+									relatedBy:NSLayoutRelationEqual
+									toItem:_webImageView
+									attribute:NSLayoutAttributeTop
+									multiplier:1
+									constant:0].active = true;
+	
+	[NSLayoutConstraint constraintWithItem:_heartButton
+									attribute:NSLayoutAttributeLeft
+									relatedBy:NSLayoutRelationEqual
+									toItem:_webImageView
+									attribute:NSLayoutAttributeLeft
+								multiplier:1
+								  constant:0].active = true;
+	
 	[_self addClickControlToAnimatedImageView];
 	
 	return self;
+}
+
+- (void)tappedButton:(DOFavoriteButton *)sender {
+	//	self.favorite = !sender.selected;
+	if (sender.selected) {
+		[sender deselect];
+		[[FavoriateMgr sharedInstance] unsetFavoriate:[[_webImageView yy_imageURL] absoluteString]];
+	} else {
+		[sender select];
+		[[FavoriateMgr sharedInstance] setFavoriate:[[_webImageView yy_imageURL] absoluteString]];
+	}
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
 	CGFloat totalHeight = 0;
 	totalHeight += self.webImageView.size.height;
 	totalHeight += self.imageLabel.size.height;
-	totalHeight += 40; // margins
+//	totalHeight += self.imageLabel.size.height == 0? 0: self.imageLabel.size.height + 10;
+//	totalHeight += 20; // margins
 	return CGSizeMake(size.width, totalHeight);
 }
 
@@ -297,11 +341,11 @@
 		
 		NSAttributedString *attString = [[NSAttributedString alloc] initWithString:entity.desc
 						attributes:@{
-							(id)kCTForegroundColorAttributeName : (id)[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor,
+							(id)kCTForegroundColorAttributeName : (id)[UIColor darkGrayColor].CGColor,
 							NSFontAttributeName : [UIFont systemFontOfSize:16],
 //							NSKernAttributeName : [NSNull null],
 							(id)kCTParagraphStyleAttributeName : style,
-							(id)kTTTBackgroundFillColorAttributeName : (id)[UIColor yellowColor].CGColor,
+//							(id)kTTTBackgroundFillColorAttributeName : (id)[UIColor yellowColor].CGColor,
 //							(id)kTTTBackgroundFillColorAttributeName : (id)[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor
 						}];
 		
@@ -310,12 +354,13 @@
 		self.imageLabel.width = self.size.width - (widthMargin * 2);
 //		self.imageLabel.width = self.size.width;
 		self.imageLabel.centerX = self.centerX;
+		self.imageLabel.top = 5;
 	}else {
 		self.imageLabel.height = 0;
 	}
 	[self.imageLabel sizeToFit];
 	
-	self.contentView.size = CGSizeMake(kScreenWidth / 0.9, 10+_imageLabel.height+_webImageView.height);
+//	self.contentView.size = CGSizeMake(kScreenWidth / 0.9, 25+_imageLabel.height+_webImageView.height);
 	
 	[self setImageURL:[NSURL URLWithString:entity.image]];
 }
@@ -368,6 +413,8 @@
 	_self.downLoaded = FALSE;
 	
 	_webImageView.autoPlayAnimatedImage = FALSE;
+	
+	_heartButton.hidden = true;
 
 	
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
@@ -401,6 +448,14 @@
 										   [_self.webImageView startAnimating];
 										}
 								   }
+								   
+								   if([[FavoriateMgr sharedInstance] isFavoriate:[url absoluteString]]) {
+									   [_self.heartButton selectWithNoAnim];
+								   }else {
+									   [_self.heartButton deselectWithNoAnim];
+								   }
+								   
+								   _self.heartButton.hidden = false;
 							   }
 						   }];
 }
@@ -453,6 +508,10 @@
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
+	[self setFavorite];
+	
+	[self.navigationItem setTitle: _header];
+	
 	[self addInfoIcon];
 	
 	if(_showInfo) {
@@ -461,12 +520,19 @@
 	
 	[self initData];
 	
-	if(_headerText) [self initHeader];
+	[self initHeader];
 	
 //	[[[self navigationController] navigationBar] setHidden:YES];
 	
 //	[self.tableView reloadData];
 	//	[self scrollViewDidScroll:self.tableView];
+}
+
+- (void)setFavorite {
+	if(self.favorite) {
+		self.header = @"我的收藏";
+		self.articleURLs = [[FavoriateMgr sharedInstance] getFavoriateImages];
+	}
 }
 
 - (void)initData {
@@ -498,50 +564,60 @@
 //	
 	UIView *header = [UIView new];
 	
-//	UILabel *label = [UILabel new];
-	TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
-	label.backgroundColor = [UIColor clearColor];
-	label.frame = CGRectMake(widthMargin, 20, self.view.width - widthMargin * 2, 60);
+	if(_summary && [_summary length] != 0)  {
+
+		//	UILabel *label = [UILabel new];
+		TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+		label.backgroundColor = [UIColor clearColor];
+		label.frame = CGRectMake(widthMargin, 15, self.view.width - widthMargin * 2, 60);
+		
+		label.textAlignment = NSTextAlignmentLeft;
+		label.numberOfLines = 0;
+		
+		//	NSString *text = _headerText;
+		//
+		//	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
+		//
+		//	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+		//	[paragraphStyle setLineSpacing:15];
+		//
+		//	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
+		//
+		//	label.attributedText = attributedString;
+		
+		NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+		style.lineSpacing = 13;
+		//	style.paragraphSpacing = 11;
+		
+		NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_summary
+																		attributes:@{
+																					 NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
+																					 (id)kCTParagraphStyleAttributeName : style,
+																					 }];
+		
+		label.text = attString;
+		
+		[label sizeToFit];
+		
+		//	[header addSubview:imageView];
+		
+		[header addSubview:label];
+		
+		UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, label.bottom + 10, self.view.width, 0.5)];
+		lineView.backgroundColor = [UIColor lightGrayColor];
+		[header addSubview:lineView];
+		
+		header.size = CGSizeMake(self.view.width, lineView.bottom + 15);
+
+	}else {
+		header.size = CGSizeMake(self.view.width, 15);
+	}
 	
-	label.textAlignment = NSTextAlignmentLeft;
-	label.numberOfLines = 0;
-	
-//	NSString *text = _headerText;
-//	
-//	NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:text];
-//	
-//	NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//	[paragraphStyle setLineSpacing:15];
-//	
-//	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [text length])];
-//	
-//	label.attributedText = attributedString;
-	
-	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-	style.lineSpacing = 15;
-//	style.paragraphSpacing = 11;
-	
-	NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_headerText
-						attributes:@{
-							NSFontAttributeName : [UIFont boldSystemFontOfSize:16],
-							(id)kCTParagraphStyleAttributeName : style,
-						}];
-	
-	label.text = attString;
-	
-	[label sizeToFit];
-	
-//	[header addSubview:imageView];
-	
-	[header addSubview:label];
-	
-	UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(widthMargin, label.bottom + 20, self.view.width - widthMargin * 2, 1)];
-	lineView.backgroundColor = [UIColor lightGrayColor];
-	[header addSubview:lineView];
-	
-	header.size = CGSizeMake(self.view.width, lineView.bottom + 20);
+	UIView *footer = [UIView new];
+	footer.size = CGSizeMake(self.view.width, 10);
 	
 	self.tableView.tableHeaderView = header;
+	self.tableView.tableFooterView = footer;
 }
 
 - (void)showPopup {
@@ -603,9 +679,9 @@
 - (void)addInfoIcon {
 	
 	if(!_showInfo) {
-		infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: true];
+		infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 64,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: true];
 	}else {
-		infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: false];
+		infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 64,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: false];
 	}
 	
 	//	infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 44,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"]];

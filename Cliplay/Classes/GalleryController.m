@@ -160,7 +160,7 @@
 	
 	_scale = 1;
 	
-	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, kScreenWidth * 0.05, 44, 44) image:[UIImage imageNamed:@"heart"] selected: false];
+	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(kScreenWidth * 0.05, 0, 40, 40) image:[UIImage imageNamed:@"heart"] selected: false];
 	
 	_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 	_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
@@ -168,11 +168,11 @@
 		
 	[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
 	
-	[_heartButton deselect];
+//	[_heartButton deselect];
 	
 	[self.contentView addSubview:_heartButton];
 	
-	_heartButton.hidden = true;
+//	_heartButton.hidden = true;
 	
 	[self addClickControlToAnimatedImageView];
 	
@@ -290,6 +290,8 @@
 	_self.downLoaded = FALSE;
 	
 	_webImageView.autoPlayAnimatedImage = FALSE;
+	
+	_heartButton.hidden = true;
 
 	
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
@@ -325,13 +327,13 @@
 								   }
 								   
 								   if([[FavoriateMgr sharedInstance] isFavoriate:[url absoluteString]]) {
-									   NSLog(@"favoriate is %@", [url absoluteString]);
-									   [_heartButton select];
+//									   NSLog(@"favoriate is %@", [url absoluteString]);
+									   [_self.heartButton selectWithNoAnim];
 								   }else {
-									   [_heartButton deselect];
+									   [_self.heartButton deselectWithNoAnim];
 								   }
 								   
-								   _heartButton.hidden = false;
+								   _self.heartButton.hidden = false;
 							   }
 						   }];
 }

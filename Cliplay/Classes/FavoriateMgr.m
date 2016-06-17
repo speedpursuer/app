@@ -11,6 +11,8 @@
 @implementation FavoriateMgr
 
 static FavoriateMgr *sharedObject = nil;
+static NSUserDefaults *userDefaults = nil;
+static NSString* const key = @"favorite";
 
 + (FavoriateMgr *)sharedInstance
 {
@@ -27,7 +29,14 @@ static FavoriateMgr *sharedObject = nil;
 {
 	self = [super init];
 	if (self) {
-		images = [NSMutableArray array];
+		userDefaults = [NSUserDefaults standardUserDefaults];
+		NSArray *array = [userDefaults arrayForKey:key];
+		
+		if(array != nil) {
+			images = [NSMutableArray arrayWithArray:array];
+		}else {
+			images = [NSMutableArray array];
+		}
 	}
 	return self;
 }
@@ -36,6 +45,11 @@ static FavoriateMgr *sharedObject = nil;
 	if(![self isFavoriate:url]) {
 		[images insertObject:url atIndex: 0];
 	}
+}
+
+- (void)persistData {
+	[userDefaults setObject:[images copy] forKey:key];
+	[userDefaults synchronize];
 }
 
 - (void)unsetFavoriate:(NSString *)url {

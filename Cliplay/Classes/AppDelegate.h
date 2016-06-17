@@ -41,5 +41,7 @@
 
 - (void)fetchData;
 - (void)webViewLaunched;
+- (void)generateDBDump;
+- (NSString*)getDBString;
 
 @end

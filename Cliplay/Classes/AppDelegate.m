@@ -26,14 +26,24 @@
 //
 
 #import "AppDelegate.h"
-#import "GalleryController.h"
+#import "TestController.h"
 #import "MainViewController.h"
 #import "BPush.h"
 #import <Cordova/CDVPlugin.h>
+#import "DGTeaEncryptor.h"
+#import "FavoriateMgr.h"
 static BOOL isBackGroundActivateApplication;
 static BOOL webViewLaunched;
 static NSString *pushID;
 static NSString *header;
+static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:4984/";
+static NSString *const dbName = @"cliplay_prod_new";
+static NSString *const dumpFile = @"ionic.min";
+static NSString *const dumpFileType = @"css";
+static NSString *const encryptPWD = @"jordan";
+static NSString *const pushApiKey = @"dGDKbPIrZ561HRPKbeECXGQv";
+static NSString *const pushCat = @"cliplay";
+
 @implementation AppDelegate
 
 @synthesize window, viewController;
@@ -120,6 +130,15 @@ static NSString *header;
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	[[FavoriateMgr sharedInstance] persistData];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+	[[FavoriateMgr sharedInstance] persistData];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 		// iOS8 下需要使用新的 API
@@ -152,9 +171,9 @@ static NSString *header;
 	// 在 App 启动时注册百度云推送服务，需要提供 Apikey
 	
 	#ifdef DEBUG
-	[BPush registerChannel:launchOptions apiKey:@"dGDKbPIrZ561HRPKbeECXGQv" pushMode:BPushModeDevelopment withFirstAction:@"打开" withSecondAction:nil withCategory:@"cliplay" useBehaviorTextInput:NO isDebug:YES];
+	[BPush registerChannel:launchOptions apiKey:pushApiKey pushMode:BPushModeDevelopment withFirstAction:@"打开" withSecondAction:nil withCategory:pushCat useBehaviorTextInput:NO isDebug:YES];
 	#else
-	[BPush registerChannel:launchOptions apiKey:@"dGDKbPIrZ561HRPKbeECXGQv" pushMode:BPushModeProduction withFirstAction:@"打开" withSecondAction:nil withCategory:@"cliplay" useBehaviorTextInput:NO isDebug:NO];
+	[BPush registerChannel:launchOptions apiKey:pushApiKey pushMode:BPushModeProduction withFirstAction:@"打开" withSecondAction:nil withCategory:pushCat useBehaviorTextInput:NO isDebug:NO];
 	#endif
 	
 	// App 是用户点击推送消息启动
@@ -236,7 +255,7 @@ static NSString *header;
 	
 	UIViewController *top  = [nv topViewController];
 	
-	if([top isKindOfClass:[GalleryController class]]) {
+	if([top isKindOfClass:[TestController class]]) {
 		[nv popViewControllerAnimated:NO];
 	}
 	
@@ -244,7 +263,7 @@ static NSString *header;
 	NSString *_header = header;
 //	__weak typeof(header) _header = header;
 	
-	NSURL *url = [NSURL URLWithString:[@"http://app_viewer:Cliplay1234@121.40.197.226:4984/cliplay_prod/" stringByAppendingString: pushID]];
+	NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@/", dbURL, dbName]stringByAppendingString: pushID]];
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
 	[NSURLConnection sendAsynchronousRequest:request
 									   queue:[NSOperationQueue mainQueue]
@@ -257,12 +276,11 @@ static NSString *header;
 																	  options:0
 																		error:NULL];
 			 
-			 NSArray *images = dict[@"image"];
-			 
-			 GalleryController *vc = [GalleryController new];
+			 TestController *vc = [TestController new];
+			 vc.header = _header;
 			 vc.showInfo = false;
-			 vc.articleURLs = images;
-			 vc.headerText = _header;
+			 vc.articleDicts = dict[@"image"];
+			 vc.summary = dict[@"summary"];
 			 
 			 [_nv pushViewController:vc animated:YES];
 			 
@@ -331,6 +349,53 @@ static NSString *header;
 	if (buttonIndex == 1) {
 		[self fetchData];
 	}
+}
+
+- (NSString*)getDBString {
+	return [NSString stringWithFormat:@"%@,%@.%@,%@",
+			dbURL, dumpFile, dumpFileType, dbName];
+}
+
+- (void)generateDBDump {
+	NSString* libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+	
+	NSString* libPathNoSync = [libPath stringByAppendingPathComponent:@"NoCloud"];
+	
+	NSString *fileName = [NSString stringWithFormat:@"%@/%@.%@",
+						  libPathNoSync, dumpFile, dumpFileType];
+	
+	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName];
+	
+	//	[self encrypt];
+	
+	[self decrypt:fileExists fileName:fileName];
+}
+
+-(void)decrypt:(bool) fileExists fileName:(NSString*) fileName{
+	if(!fileExists) {
+		NSString *filePath = [[NSBundle mainBundle]
+							  pathForResource: dumpFile ofType: dumpFileType];
+		
+		NSString *data = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: nil];
+		
+		NSString *newData = [DGTeaEncryptor decrypt:data withPassword: encryptPWD];
+		
+		[newData writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	}
+}
+
+
+-(void)encrypt {
+	NSString *filePath = [[NSBundle mainBundle]
+						  pathForResource: dumpFile ofType: dumpFileType];
+	
+	NSString *data = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: nil];
+	
+	NSLog(@"file data = %@", data);
+	
+	NSString *newData = [DGTeaEncryptor encrypt:data withPassword: encryptPWD];
+	
+	NSLog(@"newData = %@", newData);
 }
 
 //- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo

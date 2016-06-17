@@ -141,7 +141,7 @@
 	
 	UIViewController *top  = [self.navigationController topViewController];
 	if([top isKindOfClass:[PlayController class]]) {
-		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+//		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
 		return;
 	}
 	
@@ -182,7 +182,7 @@
 	
 	UIViewController *top  = [self.navigationController topViewController];
 	if([top isKindOfClass:[TestController class]]) {
-		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+//		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
 		return;
 	}
 	
@@ -192,13 +192,30 @@
 	
 	vc.showInfo = [[list objectAtIndex: 0] boolValue];
 	vc.articleDicts = rootDict[@"image"];
-	vc.headerText = rootDict[@"header"];
+	vc.header = rootDict[@"header"];
+	vc.summary = rootDict[@"summary"];
 
 	[self.navigationController setNavigationBarHidden:NO];
 	[self.navigationController pushViewController:vc animated:YES];
 	//self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	//self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 }
+
+- (void)showFavoriteView{
+	
+	UIViewController *top  = [self.navigationController topViewController];
+	if([top isKindOfClass:[TestController class]]) {
+		return;
+	}
+	
+	TestController *vc = [TestController new];
+	
+	vc.favorite = true;
+	
+	[self.navigationController setNavigationBarHidden:NO];
+	[self.navigationController pushViewController:vc animated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

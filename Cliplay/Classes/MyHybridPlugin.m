@@ -10,7 +10,6 @@
 #import "MainViewController.h"
 #import "YYWebImage.h"
 #import "AppDelegate.h"
-#import "DGTeaEncryptor.h"
 
 @implementation MyHybridPlugin
 
@@ -86,7 +85,7 @@
 
 -(void)showArticle:(CDVInvokedUrlCommand*) command {
 	
-	NSLog(@"showArticle in MyPlugin");
+//	NSLog(@"showArticle in MyPlugin");
 	if(command.arguments.count > 1) {
 		MainViewController* mvc = (MainViewController*)[self viewController];
 		[mvc showArticleView: command.arguments];
@@ -122,34 +121,24 @@
 }
 
 -(void)dbString:(CDVInvokedUrlCommand*) command {
+	
+	AppDelegate *app = [[UIApplication sharedApplication] delegate];
+	
 	CDVPluginResult* pluginResult =
-		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: @"http://app_viewer:Cliplay1234@121.40.197.226:4984/,ionic.min.css"];
+		[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [app getDBString]];
 	
-	NSString* libPath = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+	[app generateDBDump];
 	
-	NSString* libPathNoSync = [libPath stringByAppendingPathComponent:@"NoCloud"];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
-	NSString *fileName = [NSString stringWithFormat:@"%@/ionic.min.css",
-						  libPathNoSync];
+-(void)showFavorite:(CDVInvokedUrlCommand*) command {
 	
-	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName];
+	MainViewController* mvc = (MainViewController*)[self viewController];
 	
-	if(!fileExists) {
-		NSString *filePath = [[NSBundle mainBundle]
-							  pathForResource: @"ionic.min" ofType: @"css"];
-		
-		NSString *data = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: nil];
-		
-//		NSLog(@"file data = %@", data);
-		
-		NSString *newData = [DGTeaEncryptor decrypt:data withPassword: @"jordan"];
-		
-		//	NSString *newData = [DGTeaEncryptor encrypt:data withPassword: @"jordan"];
-		
-//		NSLog(@"newData = %@", newData);
-		
-		[newData writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
-	}
+	[mvc showFavoriteView];
+	
+	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
 	
 	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -179,7 +168,6 @@
 	 [NSNumber numberWithInteger: UIDeviceOrientationLandscapeRight]
 								forKey:@"orientation"];
 }
-
 
 /*
  - (void)alertViewCancel:(UIAlertView *)alertView {

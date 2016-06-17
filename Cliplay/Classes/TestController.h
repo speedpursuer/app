@@ -13,8 +13,10 @@
 @interface TestController : UITableViewController
 @property (nonatomic, strong) NSArray *articleDicts;
 @property (nonatomic, strong) NSArray *articleURLs;
-@property (nonatomic, strong) NSString *headerText;
+@property (nonatomic, strong) NSString *header;
+@property (nonatomic, strong) NSString *summary;
 @property (nonatomic, assign) BOOL fullScreen;
 @property (nonatomic, assign) BOOL showInfo;
+@property (nonatomic, assign) BOOL favorite;
 - (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 @end

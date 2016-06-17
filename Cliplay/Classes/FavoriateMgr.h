@@ -17,6 +17,8 @@
 - (void)setFavoriate:(NSString *)url;
 - (void)unsetFavoriate:(NSString *)url;
 - (BOOL)isFavoriate:(NSString *)url;
+- (void)persistData;
+- (NSArray *)getFavoriateImages;
 
 @end
 
