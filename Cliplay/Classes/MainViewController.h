@@ -35,6 +35,7 @@
 - (void)showPlayView:(NSArray*)list;
 - (void)showArticleView:(NSArray*)list;
 - (void)showFavoriteView;
+- (void)disableScroll;
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

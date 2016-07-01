@@ -26,12 +26,13 @@
 //
 
 #import "AppDelegate.h"
-#import "TestController.h"
+#import "ClipController.h"
 #import "MainViewController.h"
 #import "BPush.h"
 #import <Cordova/CDVPlugin.h>
 #import "DGTeaEncryptor.h"
 #import "FavoriateMgr.h"
+
 static BOOL isBackGroundActivateApplication;
 static BOOL webViewLaunched;
 static NSString *pushID;
@@ -41,7 +42,7 @@ static NSString *const dbName = @"cliplay_prod_new";
 static NSString *const dumpFile = @"ionic.min";
 static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
-static NSString *const pushApiKey = @"dGDKbPIrZ561HRPKbeECXGQv";
+static NSString *const pushApiKey = @"10YipKN8jSfOn0t5e1NbBwXl";
 static NSString *const pushCat = @"cliplay";
 
 @implementation AppDelegate
@@ -255,7 +256,7 @@ static NSString *const pushCat = @"cliplay";
 	
 	UIViewController *top  = [nv topViewController];
 	
-	if([top isKindOfClass:[TestController class]]) {
+	if([top isKindOfClass:[ClipController class]]) {
 		[nv popViewControllerAnimated:NO];
 	}
 	
@@ -276,7 +277,7 @@ static NSString *const pushCat = @"cliplay";
 																	  options:0
 																		error:NULL];
 			 
-			 TestController *vc = [TestController new];
+			 ClipController *vc = [ClipController new];
 			 vc.header = _header;
 			 vc.showInfo = false;
 			 vc.articleDicts = dict[@"image"];

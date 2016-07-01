@@ -96,6 +96,7 @@
 		769BAC881CD37B4900DB235C /* FavoriateMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 769BAC871CD37B4900DB235C /* FavoriateMgr.m */; };
 		76A58C8D1CA571D400C2F582 /* PostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A58C8B1CA571D400C2F582 /* PostController.m */; };
 		76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */; };
+		76AD12591D24F45C0002A133 /* ClipController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AD12581D24F45C0002A133 /* ClipController.m */; };
 		76C7155A1CA01C3B00D278AE /* PlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C715591CA01C3B00D278AE /* PlayController.m */; };
 		76D9C7DC1C5F832A005C93E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */; };
 		76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D9E94E1C7447AB004BB117 /* LongPressFix.m */; };
@@ -264,6 +265,8 @@
 		76A58C8C1CA571D400C2F582 /* PostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostController.h; path = Cliplay/Classes/PostController.h; sourceTree = SOURCE_ROOT; };
 		76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRImagePlaceholderHelper.h; path = Cliplay/Classes/DRImagePlaceholderHelper.h; sourceTree = "<group>"; };
 		76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRImagePlaceholderHelper.m; path = Cliplay/Classes/DRImagePlaceholderHelper.m; sourceTree = "<group>"; };
+		76AD12571D24F45C0002A133 /* ClipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClipController.h; path = Cliplay/Classes/ClipController.h; sourceTree = SOURCE_ROOT; };
+		76AD12581D24F45C0002A133 /* ClipController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClipController.m; path = Cliplay/Classes/ClipController.m; sourceTree = SOURCE_ROOT; };
 		76C715581CA01C3B00D278AE /* PlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayController.h; path = Cliplay/Classes/PlayController.h; sourceTree = SOURCE_ROOT; };
 		76C715591CA01C3B00D278AE /* PlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayController.m; path = Cliplay/Classes/PlayController.m; sourceTree = SOURCE_ROOT; };
 		76D9C7DD1C5F832A005C93E7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -312,6 +315,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				76AD12571D24F45C0002A133 /* ClipController.h */,
+				76AD12581D24F45C0002A133 /* ClipController.m */,
 				7684FF641CB6619C0017D23A /* GalleryController.h */,
 				7684FF651CB6619C0017D23A /* GalleryController.m */,
 				76332C9D1CACB9C200C3F494 /* TestController.h */,
@@ -800,6 +805,7 @@
 				7605C44C1C5BB2F3004E488A /* UIView+YYAdd.m in Sources */,
 				7605C4211C5BB2D7004E488A /* RootViewController.m in Sources */,
 				7605C4451C5BB2F3004E488A /* MBCircularProgressBarLayer.m in Sources */,
+				76AD12591D24F45C0002A133 /* ClipController.m in Sources */,
 				7605C4461C5BB2F3004E488A /* MBCircularProgressBarView.m in Sources */,
 				7605C4C81C5BB4C1004E488A /* CDVDevice.m in Sources */,
 				7605C4481C5BB2F3004E488A /* MyTableViewController.m in Sources */,

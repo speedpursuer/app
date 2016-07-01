@@ -30,8 +30,8 @@
 #import "ClipPlayController.h"
 #import "PlayController.h"
 #import "ArticleController.h"
-#import "TestController.h"
 #import "GalleryController.h"
+#import "ClipController.h"
 
 
 @implementation MainViewController
@@ -58,6 +58,13 @@
         // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
     }
     return self;
+}
+
+- (void)disableScroll {
+//	self.webView.scrollView.scrollEnabled = NO;
+//	self.webView.scrollView.bounces = NO;
+	((UIScrollView*)[self.webView scrollView]).scrollEnabled = NO;
+	((UIScrollView*)[self.webView scrollView]).bounces = NO;
 }
 
 - (void)showPostView:(NSArray*)list {
@@ -93,30 +100,6 @@
 		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
 		[self presentViewController:vc animated:YES completion:nil];
 	}
-	
-//	if(list.count > 1) {
-//		TestController *vc = [TestController new];
-//		
-//		NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 0] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
-//		
-//		vc.articleURLs = rootDict[@"image"];
-//		vc.headerText = rootDict[@"header"];
-//		
-//		[self.navigationController pushViewController:vc animated:YES];
-//		[self.navigationController setNavigationBarHidden:NO];
-//		
-//	}else {
-//		ClipPlayController *vc = [ClipPlayController new];
-//		
-//		vc.clipURL = [list objectAtIndex:0];		
-//		vc.favorite = TRUE;
-//		vc.showLike = FALSE;
-//		vc.standalone = TRUE;
-//		vc.delegate = self;
-//		
-//		vc.modalPresentationStyle = UIModalPresentationCurrentContext;
-//		[self presentViewController:vc animated:YES completion:nil];
-//	}
 }
 
 - (void)showPostView_:(NSArray*)list {
@@ -181,12 +164,11 @@
 - (void)showArticleView:(NSArray*)list {
 	
 	UIViewController *top  = [self.navigationController topViewController];
-	if([top isKindOfClass:[TestController class]]) {
-//		NSLog(@"XXXXXXXXXXXXXXXXXXXXXX");
+	if([top isKindOfClass:[ClipController class]]) {
 		return;
 	}
 	
-	TestController *vc = [TestController new];
+	ClipController *vc = [ClipController new];
 	
 	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 1] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
 	
@@ -204,11 +186,11 @@
 - (void)showFavoriteView{
 	
 	UIViewController *top  = [self.navigationController topViewController];
-	if([top isKindOfClass:[TestController class]]) {
+	if([top isKindOfClass:[ClipController class]]) {
 		return;
 	}
 	
-	TestController *vc = [TestController new];
+	ClipController *vc = [ClipController new];
 	
 	vc.favorite = true;
 	
@@ -238,7 +220,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     // Do any additional setup after loading the view from its nib.
 	//self.webView.scrollView.scrollEnabled = NO;
 	//self.webView.scrollView.bounces = NO;
