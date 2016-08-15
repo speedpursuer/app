@@ -14,6 +14,31 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>JSBadgeView-JSBadgeView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JSBadgeView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>JTTableViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>LoopBack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Masonry.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Cliplay.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,27 +67,52 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>39212B3396908A0469A3E8C13571582F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>611A56531AE8BFDB2320359150B8A900</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BC33380271FA2FBBE8F42B6E9BE43BAA</key>
+		<key>78B943B4EAD1E272103D6C8ABDD6D05C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E7EDBC8CD3A1D805304E366AA0100C6C</key>
+		<key>9B6D99D28D0F4A22DF351E06FFDDBA94</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E9FFA5C447E89A9A7D6F07BF76160DD1</key>
+		<key>A4C26AA01C88E8BF8CC09A93C42FFE2F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ABEAA29CF33D2F962956C7DEA8662A4A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BCCC0F4081C473B2448DD2FB829E748C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E63EA3FC3E0A88A11341641DBAC04F9F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E97C4042A6D578C311F51DC4CDE91E70</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EB85CF0AF43DC0632E334AC9DB22AF72</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F2DD172957D39963092DD9A25229B850</key>
 		<dict>
 			<key>primary</key>
 			<true/>

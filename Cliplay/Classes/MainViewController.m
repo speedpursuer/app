@@ -170,9 +170,10 @@
 	
 	ClipController *vc = [ClipController new];
 	
-	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 1] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+	NSDictionary *rootDict = [NSJSONSerialization JSONObjectWithData:[[list objectAtIndex: 2] dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
 	
 	vc.showInfo = [[list objectAtIndex: 0] boolValue];
+	vc.postID = [list objectAtIndex: 1];
 	vc.articleDicts = rootDict[@"image"];
 	vc.header = rootDict[@"header"];
 	vc.summary = rootDict[@"summary"];

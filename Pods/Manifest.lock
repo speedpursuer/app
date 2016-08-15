@@ -1,6 +1,11 @@
 PODS:
   - CNPPopupController (0.3.1)
   - DGActivityIndicatorView (2.0)
+  - JSBadgeView (1.4.1)
+  - JTTableViewController (1.0.9):
+    - Masonry
+  - LoopBack (1.3.0)
+  - Masonry (1.0.0)
   - TTTAttributedLabel (1.13.4)
   - UITableView+FDTemplateLayoutCell (1.4)
   - YYWebImage (0.9.13)
@@ -8,17 +13,33 @@ PODS:
 DEPENDENCIES:
   - CNPPopupController
   - DGActivityIndicatorView
+  - JSBadgeView
+  - JTTableViewController (~> 1.0)
+  - LoopBack (from `https://github.com/strongloop/loopback-sdk-ios.git`)
   - TTTAttributedLabel
   - UITableView+FDTemplateLayoutCell
   - YYWebImage
 
+EXTERNAL SOURCES:
+  LoopBack:
+    :git: https://github.com/strongloop/loopback-sdk-ios.git
+
+CHECKOUT OPTIONS:
+  LoopBack:
+    :commit: 7ac1ea58ef94822101b7dddab206def64f1bd135
+    :git: https://github.com/strongloop/loopback-sdk-ios.git
+
 SPEC CHECKSUMS:
   CNPPopupController: 67dc2ca5a3f88cd49a27bb1b0aeb78a24d423d79
   DGActivityIndicatorView: 52875b025a6ccf6a431a905285c12e2bb95eb559
+  JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
+  JTTableViewController: b264c7724c6ec66bc4c694e3080b9079702a371c
+  LoopBack: 0ae752b0c1d3f572e1d949945a7651f61c433f9e
+  Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   UITableView+FDTemplateLayoutCell: 234e1582bcc4e18461af91155123bb96538ed030
   YYWebImage: c0825e5595bac2e972cdce0f305a7cd04f3185f7
 
-PODFILE CHECKSUM: cf5640d10398b4fd29fee72435a1667a134499f0
+PODFILE CHECKSUM: 322e9ab38bd19c0aa9137def98bf9ccdb221bbab
 
 COCOAPODS: 1.0.0.beta.2

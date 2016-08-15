@@ -17,6 +17,16 @@
 #import "TTTAttributedLabel.h"
 #import "Reachability.h"
 #import "FavoriateMgr.h"
+#import "AppDelegate.h"
+#import "Client.h"
+#import <JSBadgeView.h>
+#import "MyLBAdapter.h"
+#import "EBCommentsView.h"
+#import "EBCommentsTableView.h"
+#import "EBCommentCell.h"
+#import "EBCommentsViewController.h"
+#import "ModelComment.h"
+
 
 #define cellMargin 10
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
@@ -30,6 +40,9 @@
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
+@property (nonatomic, strong) JSBadgeView *badgeView;
+@property (nonatomic, strong) UIButton *commentBtn;
+//@property (nonatomic, strong) UIImageView *imgView;
 @end
 
 @interface TitleCell : UITableViewCell
@@ -146,6 +159,58 @@
 	_heartButton.left = _webImageView.left;
 	
 	[_self addClickControlToAnimatedImageView];
+	
+	[[JSBadgeView appearance] setBadgePositionAdjustment:CGPointMake(-15, 15)];
+	
+	_badgeView = [[JSBadgeView alloc] initWithParentView:_webImageView alignment:JSBadgeViewAlignmentTopRight];
+	
+	UITapGestureRecognizer *g1 = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+//		[_self setImageURL:_self.webImageView.yy_imageURL];
+//		NSLog(@"url of the clicked image is %@", _self.webImageView.yy_imageURL);
+		[_self displayComment];
+	}];
+
+	[_badgeView addGestureRecognizer:g1];
+	
+	UIImage* commentsImage = [self getCommentIcon: 0];
+	
+//	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+	
+//	UIButton *button =[[UIButton alloc]init];
+//	
+//	[button setFrame:CGRectMake(135,120,60,30)];
+	
+	
+	_commentBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+	_commentBtn.frame = CGRectMake(0, 0, 45, 45);
+	
+	[_commentBtn setImage:commentsImage forState:UIControlStateNormal];
+	[_commentBtn setImage:commentsImage forState:UIControlStateHighlighted];
+	[_commentBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.4]];
+//	[_commentBtn setTintColor:[UIColor whiteColor]];
+//	[_commentBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//	[_commentBtn setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	
+	
+	[self.contentView addSubview:_commentBtn];
+	
+	_commentBtn.top = _webImageView.top;
+	_commentBtn.right = _webImageView.right;
+	
+	[_commentBtn addTarget:self action:@selector(displayComment) forControlEvents:UIControlEventTouchUpInside];
+	
+
+//	_imgView = 	[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+//	
+//	_imgView.clipsToBounds = YES;
+//	
+//	_imgView.tintColor = [UIColor whiteColor];
+//	_imgView.backgroundColor = [UIColor whiteColor];
+//	
+//	[self.contentView addSubview:_imgView];
+//	
+//	_imgView.bottom = _webImageView.bottom;
+//	_imgView.right = _webImageView.right;
 	
 	return self;
 }
@@ -267,8 +332,10 @@
 	_webImageView.autoPlayAnimatedImage = FALSE;
 	
 	_heartButton.hidden = true;
-
+	_commentBtn.hidden = true;
 	
+//	_badgeView.hidden = true;
+
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
 	
 	[_webImageView yy_setImageWithURL:url
@@ -302,7 +369,19 @@
 									   }else {
 										   [_self.heartButton deselectWithNoAnim];
 									   }
+									   
+									   NSString* qty = (NSString *)[_self getCommentQty: [url absoluteString]];
+									   
+									   [_self updateCommentQty:qty];
+									   
+//									   NSLog(@"Qty of clip %@ is %@", [url absoluteString], qty);
+									   
+//									   _self.badgeView.badgeText = qty;
+									   
 									   _self.heartButton.hidden = false;
+									   _self.commentBtn.hidden = false;
+									   
+//									   _self.badgeView.hidden = false;
 								   }
 							   }
 						   }];
@@ -324,16 +403,133 @@
 	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight && rectOfCellInSuperview.origin.y >= 64);
 }
 
+- (NSString *)getCommentQty:(NSString *)url {
+	ClipController* ctr = [self getViewCtr];
+	NSString *qty = [ctr getCommentQty:url];
+	return qty? qty: @"0";
+}
+
+- (void)displayComment {
+	ClipController* ctr = [self getViewCtr];
+	
+	[ctr showComments:[self.webImageView.yy_imageURL absoluteString]];
+	
+//	[ctr getCommentDetail:[self.webImageView.yy_imageURL absoluteString] callback:^(NSArray* list) {
+//		NSLog(@"count of comments = %li", list.count);
+////		[ctr setComments:list];
+////		[ctr setCommentsHidden:NO];
+//	}];
+}
+
+- (void)updateCommentQty:(NSString*)qty {
+	UIImage* commentsImage = [self getCommentIcon: [qty intValue]];
+	[_commentBtn setImage:commentsImage forState:UIControlStateNormal];
+	[_commentBtn setImage:commentsImage forState:UIControlStateHighlighted];
+//	[_imgView setImage:commentsImage];
+}
+
+- (UIImage *)getCommentIcon:(NSInteger)count {
+	
+	CGSize iconSize = CGSizeMake(25, 27);
+	
+	UIGraphicsBeginImageContextWithOptions(iconSize, NO, 0.0);
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
+	CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
+	
+	CGRect bubbleRect = CGRectMake(1, 1+iconSize.height*0.05, iconSize.width-2, (iconSize.height*0.69)-2);
+	
+	CGFloat minx = CGRectGetMinX(bubbleRect), midx = CGRectGetMidX(bubbleRect), maxx = CGRectGetMaxX(bubbleRect);
+	CGFloat miny = CGRectGetMinY(bubbleRect), midy = CGRectGetMidY(bubbleRect), maxy = CGRectGetMaxY(bubbleRect);
+	
+	CGFloat radius = 3.0;
+	// Start at 1
+	CGContextMoveToPoint(context, minx, midy);
+	// Add an arc through 2 to 3
+	CGContextAddArcToPoint(context, minx, miny, midx, miny, radius);
+	// Add an arc through 4 to 5
+	CGContextAddArcToPoint(context, maxx, miny, maxx, midy, radius);
+	
+	// Add an arc through 6 to 7
+	CGContextAddArcToPoint(context, maxx, maxy, midx, maxy, radius);
+	
+	CGContextAddLineToPoint(context, midx, maxy);
+	CGContextAddLineToPoint(context, midx-5, maxy+5);
+	CGContextAddLineToPoint(context, midx-5, maxy);
+	
+	// Add an arc through 8 to 9
+	CGContextAddArcToPoint(context, minx, maxy, minx, midy, radius);
+	// Close the path
+	CGContextClosePath(context);
+	
+	// Fill & stroke the path
+	CGRect countLabelRect = CGRectOffset(bubbleRect, 0, -1);
+	UILabel *countLabel = [[UILabel alloc] initWithFrame:countLabelRect];
+	NSString *fontName = @"HelveticaNeue-Bold";
+	[countLabel setFont:[UIFont fontWithName:fontName size:12]];
+	NSString *labelString;
+	
+	if(count == 0){
+		labelString = @"0";
+	} else if (count > 99) {
+		labelString = @"99+";
+	} else {
+		labelString = [NSString stringWithFormat:@"%li", (long)count];
+	}
+	
+	[countLabel setText:labelString];
+	[countLabel setTextAlignment:NSTextAlignmentCenter];
+	if(true){
+		CGContextFillPath(context);
+		CGContextSaveGState(context);
+		CGContextSetBlendMode(context, kCGBlendModeSourceOut);
+		[countLabel drawTextInRect:countLabelRect];
+		CGContextRestoreGState(context);
+	} else {
+		CGContextStrokePath(context);
+		[countLabel drawTextInRect:countLabelRect];
+	}
+	
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return image;
+}
+
 @end
 
 
 @implementation ClipController {
 	DOFavoriteButton *infoButton;
 	NSArray *data;
+	TencentOAuth *oauth;
+//	ClientModelRepository *repository;
+	MyLBAdapter *adapter;
+	LBModelRepository *clientRep;
+	LBPersistedModelRepository *commentRep;
+	LBModelRepository *postRep;
+	NSString* newCommentClipID;
+	NSString* newCommentText;
+	NSDictionary* commentList;
 }
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
+	oauth = [[TencentOAuth alloc] initWithAppId:@"1105320149"
+									andDelegate:self];
+	
+	adapter = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).adapter;
+	
+//	repository = (ClientModelRepository *)[adapter repositoryWithClass:[ClientModelRepository class]];
+
+	commentRep = [adapter repositoryWithPersistedModelName:@"comments"];
+	clientRep = [adapter repositoryWithModelName:@"clients"];
+	postRep = [adapter repositoryWithModelName:@"posts"];
+	
+	[self fetchPostComments:[self postID]];
 	
 	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
 	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
@@ -366,9 +562,121 @@
 	
 	[self initHeader];
 	
+//	[self loadCommentsView:baseView];
+	
 	[self.tableView reloadData];
 }
 
+- (void)login {
+	NSArray* permissions = [NSArray arrayWithObjects:
+							kOPEN_PERMISSION_GET_USER_INFO,
+							kOPEN_PERMISSION_GET_SIMPLE_USER_INFO,
+							kOPEN_PERMISSION_ADD_ALBUM,
+							kOPEN_PERMISSION_ADD_ONE_BLOG,
+							kOPEN_PERMISSION_ADD_SHARE,
+							kOPEN_PERMISSION_ADD_TOPIC,
+							kOPEN_PERMISSION_CHECK_PAGE_FANS,
+							kOPEN_PERMISSION_GET_INFO,
+							kOPEN_PERMISSION_GET_OTHER_INFO,
+							kOPEN_PERMISSION_LIST_ALBUM,
+							kOPEN_PERMISSION_UPLOAD_PIC,
+							kOPEN_PERMISSION_GET_VIP_INFO,
+							kOPEN_PERMISSION_GET_VIP_RICH_INFO,
+							nil];
+	
+	[oauth authorize:permissions inSafari:NO];
+}
+
+// 登录成功后的回调
+- (void)tencentDidLogin {
+	
+//	[oauth accessToken];
+//	[oauth openId];
+//	[oauth expirationDate];
+//	[oauth getUserInfo];
+	
+	if (oauth.accessToken && 0 != [oauth.accessToken length])
+	{
+//		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"openId"
+//															message:oauth.openId delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+//		[alertView show];
+		[oauth getUserInfo];
+	}
+}
+
+- (void)getUserInfoResponse:(APIResponse*) response {
+	if (URLREQUEST_SUCCEED == response.retCode
+		&& kOpenSDKErrorSuccess == response.detailRetCode) {
+//		NSMutableString *str = [NSMutableString stringWithFormat:@""];
+//		for (id key in response.jsonResponse) {
+//			[str appendString: [NSString stringWithFormat:
+//								@"%@:%@\n", key, [response.jsonResponse objectForKey:key]]];
+//		}
+//		
+////		NSLog([NSString stringWithFormat:@"%@",str]);
+//		
+//		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"操作成功"
+//														message:[NSString stringWithFormat:@"%@",str]
+//													   delegate:self
+//											  cancelButtonTitle:@"我知道啦"
+//											  otherButtonTitles: nil];
+//		[alert show];
+		
+//		[adapter setAccessToken:@"RP9j4swbggEjMreP1xSGSOotyM1n51VdAbxcRSQh0DXUa4mAMBu9trL6fDjjlLOl"];
+		
+		
+//		LBPersistedModel *model = (LBPersistedModel*)[commentRep modelWithDictionary:@{
+//																@"id_clip": @"http://3.gif",
+//																@"text": @"太酷了！"
+//																}];
+//		[model saveWithSuccess:^{
+//			NSLog(@"Successfully saved %@", model);
+//		} failure:^(NSError *error) {
+//			NSLog(@"Failed to save %@ with %@", model, error);
+//		}];
+		
+		
+//		[clientRep invokeStaticMethod:@"register"
+//							parameters:@{
+//											@"platform": @"qq",
+//											@"openID": oauth.openId,
+//											@"name": [response.jsonResponse objectForKey:@"nickname"],
+//											@"avatar": [response.jsonResponse objectForKey:@"figureurl_qq_1"]
+//										 }
+//							   success:^(id value) {
+//								   NSLog(@"Successfully loaded all Client models.");
+//							   }
+//							   failure:^(NSError *error) {
+//								   NSLog(@"Successfully loaded all Client models.");
+//							   }];
+		[self registerClient:@"qq" userName:[response.jsonResponse objectForKey:@"nickname"] avatar:[response.jsonResponse objectForKey:@"figureurl_qq_2"]];
+		
+	} else {
+		NSString *errMsg = [NSString stringWithFormat:@"errorMsg:%@\n%@",
+							response.errorMsg, [response.jsonResponse objectForKey:@"msg"]];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"操作失败"
+														message:errMsg
+													   delegate:self
+											  cancelButtonTitle:@"我知道啦"
+											  otherButtonTitles: nil];
+		[alert show];
+	}
+}
+
+// 登录失败后的回调
+- (void)tencentDidNotLogin:(BOOL)cancelled {
+	if (!cancelled) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"结果" message:@"登录失败" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+		[alertView show];
+	}
+}
+
+// 登录时网络有问题的回调
+- (void)tencentDidNotNetWork{
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"结果" message:@"登录失败" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+	[alertView show];
+	
+}
 - (void)setFavorite {
 	if(self.favorite) {
 		self.header = @"我的收藏";
@@ -513,7 +821,9 @@
 }
 
 - (void)tappedButton:(DOFavoriteButton *)sender {
-	[self showPopup];
+//	[self showPopup];
+//	[self login];
+	[self submitComment:@"http://2.gif" comment:@"太酷了太酷了太酷了！"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -613,4 +923,124 @@
 	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight && rectOfCellInSuperview.origin.y >= 64);
 }
 
+- (void)registerClient:(NSString *)platform userName:(NSString *)name avatar:(NSString *)avatar {
+	[clientRep invokeStaticMethod:@"register"
+							parameters:@{
+											@"platform": platform,
+											@"openID": oauth.openId,
+											@"name": name,
+											@"avatar": avatar
+										 }
+							success:^(id value) {
+								NSLog(@"Successfully loaded all Client models.");
+								[adapter setAccessToken:[[value objectForKey:@"data"] objectForKey:@"accesstoken"]];
+								[self submitComment:newCommentClipID comment:newCommentText];
+							}
+							failure:^(NSError *error) {
+								NSLog(@"failed loaded all Client models.");
+							}];
+}
+
+- (void)submitComment:(NSString *)id_clip comment:(NSString *)text {
+	LBPersistedModel *model = (LBPersistedModel*)[commentRep modelWithDictionary:@{
+																						  @"id_clip": id_clip,
+																						  @"text": text
+																						  }];
+	[model saveWithSuccess:^{
+		NSLog(@"Successfully saved %@", model);
+		newCommentClipID = @"";
+		newCommentText = @"";
+		[self displayAll];
+	} failure:^(NSError *error) {
+		NSLog(@"Failed to save %@ with %@", model, error);
+		newCommentClipID = id_clip;
+		newCommentText = text;
+		[self login];
+	}];
+}
+
+- (void)fetchPostComments:(NSString *)id_post {
+	[postRep invokeStaticMethod:@"getCommentQty"
+					   parameters:@{@"id_post": id_post}
+						  success:^(id value) {
+//							  commentList = [[value objectForKey:@"data"] objectForKey:@"commentQtyList"];
+							  [self generateCommentList:[[value objectForKey:@"data"] objectForKey:@"commentQtyList"]];
+							  NSLog(@"Successfully loaded all comments.");
+						  }
+						  failure:^(NSError *error) {
+							  NSLog(@"failed loaded all comments.");
+						  }];
+}
+
+- (void)generateCommentList:(NSArray *)comments {
+	
+	NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:0];
+	
+	for (NSDictionary *comment in comments) {
+		[dict setObject:[comment objectForKey:@"comment_quantity"] forKey:[comment objectForKey:@"id_clip"]];
+	}
+	
+	commentList = [dict copy];
+}
+
+- (NSString *)getCommentQty:(NSString *)clipID {
+	return [[commentList objectForKey:clipID] stringValue];
+}
+
+- (void)getCommentDetail:(NSString *)clipID callback: (void(^)(NSArray*))handler {
+	[commentRep invokeStaticMethod:@"commentsByClip"
+					 parameters:@{@"id_clip": clipID}
+						success:^(id value) {
+							NSArray *list = (NSArray*)[[value objectForKey:@"data"] objectForKey:@"commentsList"];
+//							[self.delegate setComments:list];
+//							[self.delegate loadComments:list];
+							[self.delegate showComments];
+							handler(list);
+							NSLog(@"Successfully loaded all comments.");
+						}
+						failure:^(NSError *error) {
+							NSLog(@"failed loaded all comments.");
+						}];
+}
+
+- (void)showComments:(NSString *)clipID {
+	[commentRep invokeStaticMethod:@"commentsByClip"
+					 parameters:@{@"id_clip": clipID}
+						   success:^(id value) {
+							   NSArray *list = (NSArray*)[[value objectForKey:@"data"] objectForKey:@"commentsList"];
+							   //							[self.delegate setComments:list];
+							   //							[self.delegate loadComments:list];
+//							   [self.delegate showComments];
+							   [self showCommentsView:list];
+							   NSLog(@"Successfully loaded all comments.");
+						   }
+						   failure:^(NSError *error) {
+							   NSLog(@"failed loaded all comments.");
+						   }];
+}
+
+- (void) displayAll {
+	
+}
+
+- (void)showCommentsView: (NSArray *)list {
+	
+	NSMutableArray* comments = [[NSMutableArray alloc] init];
+	
+	for(NSDictionary *dict in list) {
+		ModelComment *comment = [ModelComment commentWithProperties:dict];
+		[comments addObject:comment];
+	}
+	
+	EBCommentsViewController *clipCtr = [[EBCommentsViewController alloc] initWithComments:[comments copy]];
+	clipCtr.modalPresentationStyle = UIModalPresentationOverFullScreen;
+	[self presentViewController:clipCtr animated:YES completion:nil];
+}
+
+//- (void)loadCommentsView {
+//	EBCommentsViewController *ctr = [[EBCommentsViewController alloc] initWithScreenSize: self.view.size];
+//	[self setDelegate:ctr];
+//}
+
 @end
+

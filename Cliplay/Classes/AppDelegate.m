@@ -32,18 +32,20 @@
 #import <Cordova/CDVPlugin.h>
 #import "DGTeaEncryptor.h"
 #import "FavoriateMgr.h"
+#import <TencentOpenAPI/TencentOAuth.h>
 
 static BOOL isBackGroundActivateApplication;
 static BOOL webViewLaunched;
 static NSString *pushID;
 static NSString *header;
 static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:4984/";
-static NSString *const dbName = @"cliplay_prod_new";
+static NSString *const dbName = @"cliplay_staging";
 static NSString *const dumpFile = @"ionic.min";
 static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
 static NSString *const pushApiKey = @"10YipKN8jSfOn0t5e1NbBwXl";
 static NSString *const pushCat = @"cliplay";
+static NSString *const serverAPIRoot = @"http://localhost:3000/api";
 
 @implementation AppDelegate
 
@@ -85,7 +87,13 @@ static NSString *const pushCat = @"cliplay";
     // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
 
-    return YES;
+//    return YES;
+	return [TencentOAuth HandleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	return [TencentOAuth HandleOpenURL:url];
 }
 
 // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
@@ -189,6 +197,9 @@ static NSString *const pushCat = @"cliplay";
 	[self setUpNavBar];
 	
 	pushID = nil;
+	
+	self.adapter = (MyLBAdapter*)[LBRESTAdapter adapterWithURL:[NSURL URLWithString:serverAPIRoot]];
+	
 	/*
 	 // 测试本地通知
 	 [self performSelector:@selector(testLocalNotifi) withObject:nil afterDelay:1.0];
