@@ -7,7 +7,7 @@
 //
 
 #import "MyTableViewController.h"
-#import "YYImage.h"
+#import <YYWebImage/YYWebImage.h>
 
 @interface MyTableViewController ()
 

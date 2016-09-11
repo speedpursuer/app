@@ -12,7 +12,7 @@
 
 
 #import "EBCommentCell.h"
-#import <YYWebImage.h>
+#import <YYWebImage/YYWebImage.h>
 
 @interface EBCommentCell()
 @property (strong, readwrite) UIImageView *authorAvatar;
@@ -107,14 +107,15 @@
     UILabel *textLabel = [UILabel new];
     [textLabel setBackgroundColor:[UIColor redColor]];
     [textLabel setAutoresizingMask:UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth];
-    [textLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
+//    [textLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14]];
+	[textLabel setFont:[UIFont systemFontOfSize:13]];
     [textLabel setTextColor:[UIColor whiteColor]];
     [textLabel setShadowColor:[UIColor colorWithWhite:0 alpha:0.5]];
     [textLabel setShadowOffset:CGSizeMake(0, 1)];
     [textLabel setBackgroundColor:[UIColor clearColor]];
     [textLabel setNumberOfLines:10000];
     
-    [textLabel setFrame:CGRectMake(55, 18, 255, 25)];
+    [textLabel setFrame:CGRectMake(55, 20, 255, 25)];
     [self setCommentTextLabel:textLabel];
     [self addSubview:textLabel];
     
@@ -166,7 +167,19 @@
     }
     
     if([comment respondsToSelector:@selector(commentText)]) {
+		
         [self.commentTextLabel setText:[comment commentText]];
+		
+//		NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[comment commentText]];
+//		
+//		NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//		[paragraphStyle setLineSpacing:15];
+//		
+//		[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [[comment commentText] length])];
+//		
+//		[self.commentTextLabel setAttributedText:attributedString];
+//		
+//		[self.commentTextLabel sizeToFit];
     }
     
     [self resizeTextLabel];

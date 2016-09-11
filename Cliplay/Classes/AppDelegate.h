@@ -29,7 +29,7 @@
 
 #import <Cordova/CDVViewController.h>
 
-#import "MyLBAdapter.h"
+//#import "MyLBAdapter.h"
 
 
 
@@ -42,7 +42,7 @@
 
 @property (nonatomic, strong) IBOutlet UIWindow* window;
 @property (nonatomic, strong) IBOutlet CDVViewController* viewController;
-@property (strong, nonatomic) MyLBAdapter *adapter;
+//@property (nonatomic, strong) MyLBAdapter *adapter;
 
 - (void)fetchData;
 - (void)webViewLaunched;

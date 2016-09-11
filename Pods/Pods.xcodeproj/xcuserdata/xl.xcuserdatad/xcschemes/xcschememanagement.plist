@@ -14,12 +14,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>JSBadgeView-JSBadgeView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>JSBadgeView.xcscheme</key>
+		<key>FontAwesomeKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -30,6 +25,11 @@
 			<false/>
 		</dict>
 		<key>LoopBack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>MRProgress.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -54,6 +54,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>YYCache.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>YYImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>YYWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -67,12 +77,42 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>2E9D314EB55EEA964FC9D1B03695174A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4514B86FBBBC2CF7B4FA03918D26D753</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>611A56531AE8BFDB2320359150B8A900</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>78B943B4EAD1E272103D6C8ABDD6D05C</key>
+		<key>739A530B79D80A8EDAB17B3A2BF92791</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7C0AD37D7697879C8131020EA9CA5D2D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8404075883633CC2D3E8F7028DB5F7BC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8570A42CA7975311B4D2DDCB2303977B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8884740D039F725A09EFD3020AD5B405</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,32 +122,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A4C26AA01C88E8BF8CC09A93C42FFE2F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>ABEAA29CF33D2F962956C7DEA8662A4A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BCCC0F4081C473B2448DD2FB829E748C</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E63EA3FC3E0A88A11341641DBAC04F9F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E97C4042A6D578C311F51DC4CDE91E70</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EB85CF0AF43DC0632E334AC9DB22AF72</key>
+		<key>E820852921FCFAD830CCF44577718573</key>
 		<dict>
 			<key>primary</key>
 			<true/>

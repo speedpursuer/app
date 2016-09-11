@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  Cliplay
+
+  Created by 邢磊 on 16/8/19.
+
+*/
+"Write a comment..."="我说两句...";
+"post"="发表";
+"User login error, please try again later"="不能连接服务器，请稍后再试";
+"You're not allowed to comment because you cancelled login"="您必须登录后才能操作";
+"You're exceeding share limit per day"="您已超出单日分享限额";
+"Some errors, please try again later"="服务器忙，请稍后再试";
+"This NBA GIF is shared from Cliplay APP"="分享自 “球路App” (NBA动图专家)";
+"Sending..."="发送中...";
+"Succeed"="已发送";
+"REComposeSheetView_Post"="发送";
+"REComposeSheetView_Cancel"="取消";

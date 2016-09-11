@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7139BCF1A7E4489BB7F4F40E'
+               BlueprintIdentifier = 'F2DD172957D39963092DD9A25229B850'
                BlueprintName = 'LoopBack'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libLoopBack.a'>

@@ -7,7 +7,7 @@
 //
 
 #import "PostController.h"
-#import "YYWebImage.h"
+#import <YYWebImage/YYWebImage.h>
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
 #import "UIGestureRecognizer+YYAdd.h"

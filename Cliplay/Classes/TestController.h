@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CNPPopupController.h"
-#import "YYWebImage.h"
+#import <YYWebImage/YYWebImage.h>
 
 @interface TestController : UITableViewController
 @property (nonatomic, strong) NSArray *articleDicts;

@@ -63,13 +63,13 @@
         lineOpacity = [CAKeyframeAnimation animationWithKeyPath:@"opacity"];
         imageTransform = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
         
-        [self createLayers:_image];
+        [self createLayers];
         [self addTargets];
     }
     return self;
 }
 
-- (void)createLayers:(UIImage *)image {
+- (void)createLayers {
     self.layer.sublayers = nil;
     
     CGRect imageFrame = CGRectMake(self.frame.size.width / 2.0 - 8.0, self.frame.size.height / 2.0 - 8.0, 16.0, 16.0);
@@ -110,12 +110,16 @@
         line.strokeColor = _lineColor.CGColor;
         line.lineWidth = 1.25;
         line.miterLimit = 1.25;
-        line.path = ({
-            CGMutablePathRef path = CGPathCreateMutable();
-            CGPathMoveToPoint(path, nil, CGRectGetMidX(lineFrame), CGRectGetMidY(lineFrame));
-            CGPathAddLineToPoint(path, nil, lineFrame.origin.x + lineFrame.size.width / 2, lineFrame.origin.y);
-            path;
-        });
+//        line.path = ({
+//            CGMutablePathRef path = CGPathCreateMutable();
+//            CGPathMoveToPoint(path, nil, CGRectGetMidX(lineFrame), CGRectGetMidY(lineFrame));
+//            CGPathAddLineToPoint(path, nil, lineFrame.origin.x + lineFrame.size.width / 2, lineFrame.origin.y);
+//            path;
+//        });
+		CGMutablePathRef path = CGPathCreateMutable();
+		CGPathMoveToPoint(path, nil, CGRectGetMidX(lineFrame), CGRectGetMidY(lineFrame));
+		CGPathAddLineToPoint(path, nil, lineFrame.origin.x + lineFrame.size.width / 2, lineFrame.origin.y);
+		line.path = path;
         line.lineCap = kCALineCapRound;
         line.lineJoin = kCALineJoinRound;
         line.strokeStart = 0.0;
@@ -124,6 +128,7 @@
         line.transform = CATransform3DMakeRotation(M_PI / 5.0 * (i * 2.0 + 1.0), 0.0, 0.0, 1.0);
         [self.layer addSublayer:line];
         [lines addObject:line];
+		CGPathRelease(path);
     }
     
     //===============
@@ -304,7 +309,7 @@
 
 - (void)setImage:(UIImage *)image {
     _image = image;
-    [self createLayers:_image];
+    [self createLayers];
 }
 
 - (void)setCircleColor:(UIColor *)circleColor {

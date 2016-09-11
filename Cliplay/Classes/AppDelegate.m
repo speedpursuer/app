@@ -32,7 +32,9 @@
 #import <Cordova/CDVPlugin.h>
 #import "DGTeaEncryptor.h"
 #import "FavoriateMgr.h"
-#import <TencentOpenAPI/TencentOAuth.h>
+//#import <TencentOpenAPI/TencentOAuth.h>
+#import "MyLBService.h"
+//#import <WeiboSDK/WeiboSDK.h>
 
 static BOOL isBackGroundActivateApplication;
 static BOOL webViewLaunched;
@@ -45,9 +47,11 @@ static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
 static NSString *const pushApiKey = @"10YipKN8jSfOn0t5e1NbBwXl";
 static NSString *const pushCat = @"cliplay";
-static NSString *const serverAPIRoot = @"http://localhost:3000/api";
+//static NSString *const serverAPIRoot = @"http://localhost:3000/api";
 
-@implementation AppDelegate
+@implementation AppDelegate {
+	MyLBService *service;
+}
 
 @synthesize window, viewController;
 
@@ -87,13 +91,12 @@ static NSString *const serverAPIRoot = @"http://localhost:3000/api";
     // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
 
-//    return YES;
-	return [TencentOAuth HandleOpenURL:url];
+	return [service handleOpenURL:url];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-	return [TencentOAuth HandleOpenURL:url];
+	return [service handleOpenURL:url];
 }
 
 // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
@@ -198,7 +201,7 @@ static NSString *const serverAPIRoot = @"http://localhost:3000/api";
 	
 	pushID = nil;
 	
-	self.adapter = (MyLBAdapter*)[LBRESTAdapter adapterWithURL:[NSURL URLWithString:serverAPIRoot]];
+	service = [MyLBService sharedManager];
 	
 	/*
 	 // 测试本地通知

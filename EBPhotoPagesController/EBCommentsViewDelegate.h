@@ -19,6 +19,4 @@
 - (void)commentsView:(EBCommentsView *)view
    didPostNewComment:(NSString *)commentText;
 
-- (void)closeCommentsView;
-
 @end

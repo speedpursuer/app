@@ -1,10 +1,14 @@
 target "Cliplay" do
-pod "YYWebImage"
 pod 'DGActivityIndicatorView'
 pod 'CNPPopupController'
 pod 'UITableView+FDTemplateLayoutCell'
 pod 'TTTAttributedLabel'
 pod 'LoopBack', :git => 'https://github.com/strongloop/loopback-sdk-ios.git'
-pod 'JSBadgeView'
 pod 'JTTableViewController', '~> 1.0'
+pod 'WeiboSDK', :git => 'https://github.com/sinaweibosdk/weibo_ios_sdk.git'
+pod 'YYImage/WebP'
+pod 'YYWebImage'
+pod 'FontAwesomeKit/FontAwesome'
+pod 'MRProgress'
+#pod 'REComposeViewController', '~> 2.3.2'
 end

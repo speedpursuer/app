@@ -39,7 +39,7 @@
 
 - (NSDate *)dateFromString:(NSString *)string {
 	NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-	[formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'.000Z'"];
+	[formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.zzz'Z'"];
 //	NSTimeZone *timezone = [NSTimeZone systemTimeZone];
 //	[formatter setTimeZone:timezone];
 	return [formatter dateFromString:string];

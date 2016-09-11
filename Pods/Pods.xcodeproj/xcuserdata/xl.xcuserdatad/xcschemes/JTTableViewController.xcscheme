@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'EC1EBDB90E14E6B2E750A965'
+               BlueprintIdentifier = 'ABEAA29CF33D2F962956C7DEA8662A4A'
                BlueprintName = 'JTTableViewController'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libJTTableViewController.a'>

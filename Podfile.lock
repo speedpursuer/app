@@ -1,45 +1,96 @@
 PODS:
   - CNPPopupController (0.3.1)
   - DGActivityIndicatorView (2.0)
-  - JSBadgeView (1.4.1)
+  - FontAwesomeKit/Core (2.2.0)
+  - FontAwesomeKit/FontAwesome (2.2.0):
+    - FontAwesomeKit/Core
   - JTTableViewController (1.0.9):
     - Masonry
   - LoopBack (1.3.0)
   - Masonry (1.0.0)
+  - MRProgress (0.8.3):
+    - MRProgress/ActivityIndicator (= 0.8.3)
+    - MRProgress/Blur (= 0.8.3)
+    - MRProgress/Circular (= 0.8.3)
+    - MRProgress/Icons (= 0.8.3)
+    - MRProgress/NavigationBarProgress (= 0.8.3)
+    - MRProgress/Overlay (= 0.8.3)
+  - MRProgress/ActivityIndicator (0.8.3):
+    - MRProgress/Stopable
+  - MRProgress/Blur (0.8.3):
+    - MRProgress/Helper
+  - MRProgress/Circular (0.8.3):
+    - MRProgress/Helper
+    - MRProgress/ProgressBaseClass
+    - MRProgress/Stopable
+  - MRProgress/Helper (0.8.3)
+  - MRProgress/Icons (0.8.3)
+  - MRProgress/NavigationBarProgress (0.8.3):
+    - MRProgress/ProgressBaseClass
+  - MRProgress/Overlay (0.8.3):
+    - MRProgress/ActivityIndicator
+    - MRProgress/Blur
+    - MRProgress/Circular
+    - MRProgress/Helper
+    - MRProgress/Icons
+  - MRProgress/ProgressBaseClass (0.8.3)
+  - MRProgress/Stopable (0.8.3):
+    - MRProgress/Helper
   - TTTAttributedLabel (1.13.4)
   - UITableView+FDTemplateLayoutCell (1.4)
-  - YYWebImage (0.9.13)
+  - WeiboSDK (3.1.4)
+  - YYCache (1.0.2)
+  - YYImage (1.0.1):
+    - YYImage/Core (= 1.0.1)
+  - YYImage/Core (1.0.1)
+  - YYImage/WebP (1.0.1):
+    - YYImage/Core
+  - YYWebImage (1.0.3):
+    - YYCache
+    - YYImage
 
 DEPENDENCIES:
   - CNPPopupController
   - DGActivityIndicatorView
-  - JSBadgeView
+  - FontAwesomeKit/FontAwesome
   - JTTableViewController (~> 1.0)
   - LoopBack (from `https://github.com/strongloop/loopback-sdk-ios.git`)
+  - MRProgress
   - TTTAttributedLabel
   - UITableView+FDTemplateLayoutCell
+  - WeiboSDK (from `https://github.com/sinaweibosdk/weibo_ios_sdk.git`)
+  - YYImage/WebP
   - YYWebImage
 
 EXTERNAL SOURCES:
   LoopBack:
     :git: https://github.com/strongloop/loopback-sdk-ios.git
+  WeiboSDK:
+    :git: https://github.com/sinaweibosdk/weibo_ios_sdk.git
 
 CHECKOUT OPTIONS:
   LoopBack:
     :commit: 7ac1ea58ef94822101b7dddab206def64f1bd135
     :git: https://github.com/strongloop/loopback-sdk-ios.git
+  WeiboSDK:
+    :commit: 6031a8da4ce17867ff5887b8dfc59ea45930274e
+    :git: https://github.com/sinaweibosdk/weibo_ios_sdk.git
 
 SPEC CHECKSUMS:
   CNPPopupController: 67dc2ca5a3f88cd49a27bb1b0aeb78a24d423d79
   DGActivityIndicatorView: 52875b025a6ccf6a431a905285c12e2bb95eb559
-  JSBadgeView: 3861ddee41094284d9468e6d0af5107f703aaac5
+  FontAwesomeKit: 025fd4dd1017fe4e3f8d47b03e024deedbb33cd4
   JTTableViewController: b264c7724c6ec66bc4c694e3080b9079702a371c
   LoopBack: 0ae752b0c1d3f572e1d949945a7651f61c433f9e
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
+  MRProgress: 16de7cc9f347e8846797a770db102a323fe7ef09
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
   UITableView+FDTemplateLayoutCell: 234e1582bcc4e18461af91155123bb96538ed030
-  YYWebImage: c0825e5595bac2e972cdce0f305a7cd04f3185f7
+  WeiboSDK: bceab625ec59b7039ba721cc4ba9f5868804f63e
+  YYCache: c159ab4bb51e1ca4872ddadaf1778f9ec4ae40bb
+  YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
+  YYWebImage: 8da75a611fd0d2e0f58a273f9ca0bc731614cb0d
 
-PODFILE CHECKSUM: 322e9ab38bd19c0aa9137def98bf9ccdb221bbab
+PODFILE CHECKSUM: f54f8c5b17a150a1b4be7558f089542d5e4271f0
 
-COCOAPODS: 1.0.0.beta.2
+COCOAPODS: 1.1.0.beta.1

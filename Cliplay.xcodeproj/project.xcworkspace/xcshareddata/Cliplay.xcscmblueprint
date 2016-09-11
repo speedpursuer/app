@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BDE549DB2CA424DA1B1B0767CF5BF5EA2246336F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BDE549DB2CA424DA1B1B0767CF5BF5EA2246336F" : 0,
+    "482A90B723CA374319D8E7970B4551BD494B14BC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C50FC19F-FEE4-462A-9EFB-E1E7AE094659",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BDE549DB2CA424DA1B1B0767CF5BF5EA2246336F" : "Cliplay\/",
+    "482A90B723CA374319D8E7970B4551BD494B14BC" : "..\/..\/..\/..\/Applications\/XAMPP\/xamppfiles\/htdocs\/Cliplay-web-pro"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Cliplay",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Cliplay.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/speedpursuer\/www.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "482A90B723CA374319D8E7970B4551BD494B14BC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/speedpursuer\/test.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BDE549DB2CA424DA1B1B0767CF5BF5EA2246336F"
+    }
+  ]
+}

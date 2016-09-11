@@ -10,7 +10,7 @@
 #import "YYImage.h"
 #import "UIView+YYAdd.h"
 #import <ImageIO/ImageIO.h>
-#import <WebP/demux.h>
+//#import <WebP/demux.h>
 #import "PostController.h"
 
 @interface YYImageExample()

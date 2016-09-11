@@ -7,7 +7,7 @@
 //
 
 #import "ClipPlayController.h"
-#import "YYImage.h"
+#import <YYWebImage/YYWebImage.h>
 #import "UIView+YYAdd.h"
 #import "YYImageExampleHelper.h"
 #import <sys/sysctl.h>

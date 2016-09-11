@@ -8,10 +8,31 @@
 
 #import "MyHybridPlugin.h"
 #import "MainViewController.h"
-#import "YYWebImage.h"
+#import <YYWebImage/YYWebImage.h>
 #import "AppDelegate.h"
+#import "MyLBService.h"
 
 @implementation MyHybridPlugin
+
+-(void)showLoader:(CDVInvokedUrlCommand*) command {
+	
+	MyLBService *service = [MyLBService sharedManager];
+	
+	[service showProgressViewWithText:(NSString *)[command.arguments objectAtIndex: 0]];
+	
+	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void)hideLoader:(CDVInvokedUrlCommand*) command {
+	
+	MyLBService *service = [MyLBService sharedManager];
+	
+	[service hideProgressView];
+	
+	CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+	[self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
 
 -(void)checkPush:(CDVInvokedUrlCommand*) command {
 	

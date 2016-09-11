@@ -91,32 +91,49 @@
 		762F317B1D5ECC2900D349B5 /* ModelComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 762F317A1D5ECC2900D349B5 /* ModelComment.m */; };
 		76332C9B1CAB787200C3F494 /* ArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9A1CAB787200C3F494 /* ArticleController.m */; };
 		76332C9F1CACB9C200C3F494 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76332C9E1CACB9C200C3F494 /* TestController.m */; };
+		7633BA8F1D75ABF500A3FB09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA831D75ABF500A3FB09 /* DEComposeRuledView.m */; };
+		7633BA901D75ABF500A3FB09 /* DEComposeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA851D75ABF500A3FB09 /* DEComposeTextView.m */; };
+		7633BA911D75ABF500A3FB09 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA871D75ABF500A3FB09 /* RECommonFunctions.m */; };
+		7633BA921D75ABF500A3FB09 /* REComposeBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA891D75ABF500A3FB09 /* REComposeBackgroundView.m */; };
+		7633BA931D75ABF500A3FB09 /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA8B1D75ABF500A3FB09 /* REComposeSheetView.m */; };
+		7633BA941D75ABF500A3FB09 /* REComposeViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7633BA8C1D75ABF500A3FB09 /* REComposeViewController.bundle */; };
+		7633BA951D75ABF500A3FB09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA8E1D75ABF500A3FB09 /* REComposeViewController.m */; };
+		76394B271D719B540045E9D1 /* clip2.gif in Resources */ = {isa = PBXBuildFile; fileRef = 76394B261D719B540045E9D1 /* clip2.gif */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
 		764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 764355441D0FFB8000807EBF /* DGTeaEncryptor.m */; };
 		7647EDD81CCB135700587845 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7647EDD61CCB135700587845 /* libBPush.a */; };
 		765FD5C81CA57D3F00F31F5D /* tip.png in Resources */ = {isa = PBXBuildFile; fileRef = 765FD5C71CA57D3F00F31F5D /* tip.png */; };
-		7674F6301D543112005D1432 /* MyLBAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7674F62F1D543112005D1432 /* MyLBAdapter.m */; };
-		767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A55891C4755D300992D0F /* libYYWebImage.a */; };
-		767A558C1C47572A00992D0F /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 767A558B1C47572A00992D0F /* WebP.framework */; };
 		7684FF661CB6619C0017D23A /* GalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7684FF651CB6619C0017D23A /* GalleryController.m */; };
 		769342C21D5C972B00316263 /* EBCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C11D5C972B00316263 /* EBCommentCell.m */; };
 		769342C91D5C973D00316263 /* EBCommentsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C41D5C973D00316263 /* EBCommentsTableView.m */; };
 		769342CA1D5C973D00316263 /* EBCommentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C61D5C973D00316263 /* EBCommentsView.m */; };
-		769342CD1D5D718100316263 /* EBCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342CC1D5D718100316263 /* EBCommentsViewController.m */; };
 		769342D01D5DD37A00316263 /* EBShadedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342CF1D5DD37A00316263 /* EBShadedView.m */; };
 		769BAC881CD37B4900DB235C /* FavoriateMgr.m in Sources */ = {isa = PBXBuildFile; fileRef = 769BAC871CD37B4900DB235C /* FavoriateMgr.m */; };
+		76A15C491D6C360E00018FF5 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A15C481D6C360E00018FF5 /* User.m */; };
+		76A2D4661D6C550500543D6A /* EBCommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A2D4651D6C550500543D6A /* EBCommentsViewController.m */; };
+		76A2D4691D6C553900543D6A /* MyLBAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A2D4681D6C553900543D6A /* MyLBAdapter.m */; };
+		76A2D46D1D6C8BE400543D6A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A2D46C1D6C8BE400543D6A /* QuartzCore.framework */; };
+		76A2D46F1D6C8BEF00543D6A /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A2D46E1D6C8BEF00543D6A /* ImageIO.framework */; };
+		76A2D4701D6C8C0600543D6A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762EB6741D4DCA9500204EA0 /* Security.framework */; };
+		76A2D4721D6C8C1800543D6A /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A2D4711D6C8C1800543D6A /* CoreText.framework */; };
+		76A2D4741D6C8C2100543D6A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A2D4731D6C8C2100543D6A /* UIKit.framework */; };
+		76A2D4761D6C8C3400543D6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A2D4751D6C8C3400543D6A /* Foundation.framework */; };
+		76A2D47F1D6F28F200543D6A /* AAShareBubbles.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 76A2D47C1D6F28F200543D6A /* AAShareBubbles.bundle */; };
+		76A2D4801D6F28F200543D6A /* AAShareBubbles.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A2D47E1D6F28F200543D6A /* AAShareBubbles.m */; };
 		76A58C8D1CA571D400C2F582 /* PostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A58C8B1CA571D400C2F582 /* PostController.m */; };
 		76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */; };
+		76AA8A641D6556AE00D03852 /* MyLBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA8A631D6556AE00D03852 /* MyLBService.m */; };
+		76AA8A671D65602900D03852 /* ClipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA8A661D65602900D03852 /* ClipCell.m */; };
+		76AA8A6A1D66B21800D03852 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76AA8A6C1D66B21800D03852 /* Localizable.strings */; };
 		76AD12591D24F45C0002A133 /* ClipController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AD12581D24F45C0002A133 /* ClipController.m */; };
 		76C7155A1CA01C3B00D278AE /* PlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C715591CA01C3B00D278AE /* PlayController.m */; };
 		76D9C7DC1C5F832A005C93E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */; };
 		76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D9E94E1C7447AB004BB117 /* LongPressFix.m */; };
+		76DF78AE1D61B30D00728696 /* FakeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DF78AD1D61B30D00728696 /* FakeService.m */; };
 		76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 76E424BE1C7AB30A00FA5962 /* ionic.min.css */; };
 		76E61D931C79F28900CCC767 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D901C79F28900CCC767 /* CDVConnection.m */; };
 		76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D921C79F28900CCC767 /* CDVReachability.m */; };
 		76E92C011CB8DFE000F424AF /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E92C001CB8DFE000F424AF /* Reachability.m */; };
-		76ECFB901C9AC8EA00FCABCF /* YYImageExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */; };
-		76EE115E1D533413006CA084 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 76EE115D1D533413006CA084 /* Client.m */; };
 		76FAF3B31CCC6A5800D45E74 /* sound.m4r in Resources */ = {isa = PBXBuildFile; fileRef = 76FAF3B21CCC6A5800D45E74 /* sound.m4r */; };
 		8A88FA600567418E9CC06334 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF8B680D991549EB8F229D9F /* SystemConfiguration.framework */; };
 		9E300325C4F74EB7AE3CB472 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8501F447D22045F9A0CBEDDA /* WebKit.framework */; };
@@ -268,14 +285,27 @@
 		76332C9A1CAB787200C3F494 /* ArticleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ArticleController.m; path = Cliplay/Classes/ArticleController.m; sourceTree = SOURCE_ROOT; };
 		76332C9D1CACB9C200C3F494 /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestController.h; path = Cliplay/Classes/TestController.h; sourceTree = SOURCE_ROOT; };
 		76332C9E1CACB9C200C3F494 /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestController.m; path = Cliplay/Classes/TestController.m; sourceTree = SOURCE_ROOT; };
+		7633BA791D758A7200A3FB09 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		7633BA821D75ABF500A3FB09 /* DEComposeRuledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeRuledView.h; sourceTree = "<group>"; };
+		7633BA831D75ABF500A3FB09 /* DEComposeRuledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeRuledView.m; sourceTree = "<group>"; };
+		7633BA841D75ABF500A3FB09 /* DEComposeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeTextView.h; sourceTree = "<group>"; };
+		7633BA851D75ABF500A3FB09 /* DEComposeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeTextView.m; sourceTree = "<group>"; };
+		7633BA861D75ABF500A3FB09 /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
+		7633BA871D75ABF500A3FB09 /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
+		7633BA881D75ABF500A3FB09 /* REComposeBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeBackgroundView.h; sourceTree = "<group>"; };
+		7633BA891D75ABF500A3FB09 /* REComposeBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeBackgroundView.m; sourceTree = "<group>"; };
+		7633BA8A1D75ABF500A3FB09 /* REComposeSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeSheetView.h; sourceTree = "<group>"; };
+		7633BA8B1D75ABF500A3FB09 /* REComposeSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeSheetView.m; sourceTree = "<group>"; };
+		7633BA8C1D75ABF500A3FB09 /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
+		7633BA8D1D75ABF500A3FB09 /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
+		7633BA8E1D75ABF500A3FB09 /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
+		76394B261D719B540045E9D1 /* clip2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = clip2.gif; path = ../../../../../Downloads/clip2.gif; sourceTree = "<group>"; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		764355431D0FFB8000807EBF /* DGTeaEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGTeaEncryptor.h; path = Cliplay/Classes/DGTeaEncryptor.h; sourceTree = "<group>"; };
 		764355441D0FFB8000807EBF /* DGTeaEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGTeaEncryptor.m; path = Cliplay/Classes/DGTeaEncryptor.m; sourceTree = "<group>"; };
 		7647EDD51CCB135700587845 /* BPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BPush.h; sourceTree = "<group>"; };
 		7647EDD61CCB135700587845 /* libBPush.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBPush.a; sourceTree = "<group>"; };
 		765FD5C71CA57D3F00F31F5D /* tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip.png; sourceTree = "<group>"; };
-		7674F62E1D5430E8005D1432 /* MyLBAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLBAdapter.h; sourceTree = "<group>"; };
-		7674F62F1D543112005D1432 /* MyLBAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLBAdapter.m; sourceTree = "<group>"; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
 		767A558B1C47572A00992D0F /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Pods/YYWebImage/Vendor/WebP.framework; sourceTree = "<group>"; };
 		7684FF641CB6619C0017D23A /* GalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryController.h; path = Cliplay/Classes/GalleryController.h; sourceTree = SOURCE_ROOT; };
@@ -288,16 +318,34 @@
 		769342C61D5C973D00316263 /* EBCommentsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EBCommentsView.m; path = EBPhotoPagesController/EBCommentsView.m; sourceTree = "<group>"; };
 		769342C71D5C973D00316263 /* EBCommentsViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBCommentsViewDelegate.h; path = EBPhotoPagesController/EBCommentsViewDelegate.h; sourceTree = "<group>"; };
 		769342C81D5C973D00316263 /* EBPhotoCommentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBPhotoCommentProtocol.h; path = EBPhotoPagesController/EBPhotoCommentProtocol.h; sourceTree = "<group>"; };
-		769342CB1D5D70DB00316263 /* EBCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBCommentsViewController.h; sourceTree = "<group>"; };
-		769342CC1D5D718100316263 /* EBCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EBCommentsViewController.m; sourceTree = "<group>"; };
 		769342CE1D5DD37A00316263 /* EBShadedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBShadedView.h; path = EBPhotoPagesController/EBShadedView.h; sourceTree = "<group>"; };
 		769342CF1D5DD37A00316263 /* EBShadedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EBShadedView.m; path = EBPhotoPagesController/EBShadedView.m; sourceTree = "<group>"; };
 		769BAC861CD37B4900DB235C /* FavoriateMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoriateMgr.h; path = Cliplay/Classes/FavoriateMgr.h; sourceTree = "<group>"; };
 		769BAC871CD37B4900DB235C /* FavoriateMgr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoriateMgr.m; path = Cliplay/Classes/FavoriateMgr.m; sourceTree = "<group>"; };
+		76A15C471D6C360E00018FF5 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = Cliplay/Classes/User.h; sourceTree = "<group>"; };
+		76A15C481D6C360E00018FF5 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = Cliplay/Classes/User.m; sourceTree = "<group>"; };
+		76A2D4641D6C550500543D6A /* EBCommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBCommentsViewController.h; path = Cliplay/Classes/EBCommentsViewController.h; sourceTree = "<group>"; };
+		76A2D4651D6C550500543D6A /* EBCommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EBCommentsViewController.m; path = Cliplay/Classes/EBCommentsViewController.m; sourceTree = "<group>"; };
+		76A2D4671D6C553900543D6A /* MyLBAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyLBAdapter.h; path = Cliplay/Classes/MyLBAdapter.h; sourceTree = "<group>"; };
+		76A2D4681D6C553900543D6A /* MyLBAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyLBAdapter.m; path = Cliplay/Classes/MyLBAdapter.m; sourceTree = "<group>"; };
+		76A2D46C1D6C8BE400543D6A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		76A2D46E1D6C8BEF00543D6A /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		76A2D4711D6C8C1800543D6A /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		76A2D4731D6C8C2100543D6A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		76A2D4751D6C8C3400543D6A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		76A2D47C1D6F28F200543D6A /* AAShareBubbles.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AAShareBubbles.bundle; sourceTree = "<group>"; };
+		76A2D47D1D6F28F200543D6A /* AAShareBubbles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAShareBubbles.h; sourceTree = "<group>"; };
+		76A2D47E1D6F28F200543D6A /* AAShareBubbles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAShareBubbles.m; sourceTree = "<group>"; };
 		76A58C8B1CA571D400C2F582 /* PostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostController.m; path = Cliplay/Classes/PostController.m; sourceTree = SOURCE_ROOT; };
 		76A58C8C1CA571D400C2F582 /* PostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostController.h; path = Cliplay/Classes/PostController.h; sourceTree = SOURCE_ROOT; };
 		76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DRImagePlaceholderHelper.h; path = Cliplay/Classes/DRImagePlaceholderHelper.h; sourceTree = "<group>"; };
 		76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DRImagePlaceholderHelper.m; path = Cliplay/Classes/DRImagePlaceholderHelper.m; sourceTree = "<group>"; };
+		76AA8A621D6556AE00D03852 /* MyLBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyLBService.h; path = Cliplay/Classes/MyLBService.h; sourceTree = "<group>"; };
+		76AA8A631D6556AE00D03852 /* MyLBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyLBService.m; path = Cliplay/Classes/MyLBService.m; sourceTree = "<group>"; };
+		76AA8A651D65602900D03852 /* ClipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClipCell.h; path = Cliplay/Classes/ClipCell.h; sourceTree = SOURCE_ROOT; };
+		76AA8A661D65602900D03852 /* ClipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClipCell.m; path = Cliplay/Classes/ClipCell.m; sourceTree = SOURCE_ROOT; };
+		76AA8A6B1D66B21800D03852 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		76AA8A6D1D66F86E00D03852 /* MyLBDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyLBDelegate.h; path = Cliplay/Classes/MyLBDelegate.h; sourceTree = "<group>"; };
 		76AD12571D24F45C0002A133 /* ClipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClipController.h; path = Cliplay/Classes/ClipController.h; sourceTree = SOURCE_ROOT; };
 		76AD12581D24F45C0002A133 /* ClipController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClipController.m; path = Cliplay/Classes/ClipController.m; sourceTree = SOURCE_ROOT; };
 		76C715581CA01C3B00D278AE /* PlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayController.h; path = Cliplay/Classes/PlayController.h; sourceTree = SOURCE_ROOT; };
@@ -305,6 +353,8 @@
 		76D9C7DD1C5F832A005C93E7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		76D9E94D1C7447AB004BB117 /* LongPressFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LongPressFix.h; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.h"; sourceTree = SOURCE_ROOT; };
 		76D9E94E1C7447AB004BB117 /* LongPressFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LongPressFix.m; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.m"; sourceTree = SOURCE_ROOT; };
+		76DF78AC1D61B30D00728696 /* FakeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeService.h; path = Cliplay/Classes/FakeService.h; sourceTree = "<group>"; };
+		76DF78AD1D61B30D00728696 /* FakeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FakeService.m; path = Cliplay/Classes/FakeService.m; sourceTree = "<group>"; };
 		76E424BE1C7AB30A00FA5962 /* ionic.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ionic.min.css; sourceTree = "<group>"; };
 		76E61D8F1C79F28900CCC767 /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVConnection.h"; sourceTree = SOURCE_ROOT; };
 		76E61D901C79F28900CCC767 /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVConnection.m"; sourceTree = SOURCE_ROOT; };
@@ -312,10 +362,6 @@
 		76E61D921C79F28900CCC767 /* CDVReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVReachability.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVReachability.m"; sourceTree = SOURCE_ROOT; };
 		76E92BFF1CB8DFE000F424AF /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Reachability.h; path = Cliplay/Classes/Reachability.h; sourceTree = "<group>"; };
 		76E92C001CB8DFE000F424AF /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Reachability.m; path = Cliplay/Classes/Reachability.m; sourceTree = "<group>"; };
-		76ECFB8E1C9AC8EA00FCABCF /* YYImageExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YYImageExample.h; path = Cliplay/Classes/YYImageExample.h; sourceTree = "<group>"; };
-		76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YYImageExample.m; path = Cliplay/Classes/YYImageExample.m; sourceTree = "<group>"; };
-		76EE115C1D532F95006CA084 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
-		76EE115D1D533413006CA084 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		76FAF3B21CCC6A5800D45E74 /* sound.m4r */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.m4r; sourceTree = "<group>"; };
 		8501F447D22045F9A0CBEDDA /* WebKit.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		ADAE07AC79223E2D5854CF72 /* Pods-Cliplay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cliplay.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cliplay/Pods-Cliplay.release.xcconfig"; sourceTree = "<group>"; };
@@ -328,10 +374,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76A2D4761D6C8C3400543D6A /* Foundation.framework in Frameworks */,
+				76A2D4741D6C8C2100543D6A /* UIKit.framework in Frameworks */,
+				76A2D4721D6C8C1800543D6A /* CoreText.framework in Frameworks */,
+				76A2D4701D6C8C0600543D6A /* Security.framework in Frameworks */,
+				76A2D46F1D6C8BEF00543D6A /* ImageIO.framework in Frameworks */,
+				76A2D46D1D6C8BE400543D6A /* QuartzCore.framework in Frameworks */,
 				762EB67B1D4DCBC000204EA0 /* CoreTelephony.framework in Frameworks */,
 				762EB6791D4DCBAD00204EA0 /* libstdc++.tbd in Frameworks */,
-				767A558C1C47572A00992D0F /* WebP.framework in Frameworks */,
-				767A558A1C4755D300992D0F /* libYYWebImage.a in Frameworks */,
 				5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */,
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */,
@@ -355,6 +405,8 @@
 			children = (
 				76AD12571D24F45C0002A133 /* ClipController.h */,
 				76AD12581D24F45C0002A133 /* ClipController.m */,
+				76AA8A651D65602900D03852 /* ClipCell.h */,
+				76AA8A661D65602900D03852 /* ClipCell.m */,
 				7684FF641CB6619C0017D23A /* GalleryController.h */,
 				7684FF651CB6619C0017D23A /* GalleryController.m */,
 				76332C9D1CACB9C200C3F494 /* TestController.h */,
@@ -395,6 +447,10 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				7633BA811D75ABF400A3FB09 /* REComposeViewController */,
+				7633BA7C1D75A7EA00A3FB09 /* View */,
+				76A2D47B1D6F28F200543D6A /* AAShareBubbles */,
+				76AA8A5D1D65541700D03852 /* Service */,
 				769342BF1D5C96FD00316263 /* Comment */,
 				76EE115B1D532F4D006CA084 /* Model */,
 				7605C40D1C5BB291004E488A /* config.xml */,
@@ -427,6 +483,7 @@
 			children = (
 				762EB67F1D4DCCB600204EA0 /* TencentOpenApi_IOS_Bundle.bundle */,
 				760CD3061CA61B9C00EC0723 /* info.png */,
+				76394B261D719B540045E9D1 /* clip2.gif */,
 				765FD5C71CA57D3F00F31F5D /* tip.png */,
 				76E424BE1C7AB30A00FA5962 /* ionic.min.css */,
 				7616739E1C7223E800E05422 /* Cliplay-Info.plist */,
@@ -435,6 +492,7 @@
 				308D052D1370CCF300D202BF /* icons */,
 				308D05311370CCF300D202BF /* splash */,
 				76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */,
+				76AA8A6C1D66B21800D03852 /* Localizable.strings */,
 			);
 			name = Resources;
 			path = Cliplay/Resources;
@@ -443,6 +501,12 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7633BA791D758A7200A3FB09 /* Social.framework */,
+				76A2D4751D6C8C3400543D6A /* Foundation.framework */,
+				76A2D4731D6C8C2100543D6A /* UIKit.framework */,
+				76A2D4711D6C8C1800543D6A /* CoreText.framework */,
+				76A2D46E1D6C8BEF00543D6A /* ImageIO.framework */,
+				76A2D46C1D6C8BE400543D6A /* QuartzCore.framework */,
 				762EB67A1D4DCBC000204EA0 /* CoreTelephony.framework */,
 				762EB6781D4DCBAD00204EA0 /* libstdc++.tbd */,
 				762EB6741D4DCA9500204EA0 /* Security.framework */,
@@ -564,6 +628,34 @@
 			path = splash;
 			sourceTree = "<group>";
 		};
+		7633BA7C1D75A7EA00A3FB09 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		7633BA811D75ABF400A3FB09 /* REComposeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7633BA821D75ABF500A3FB09 /* DEComposeRuledView.h */,
+				7633BA831D75ABF500A3FB09 /* DEComposeRuledView.m */,
+				7633BA841D75ABF500A3FB09 /* DEComposeTextView.h */,
+				7633BA851D75ABF500A3FB09 /* DEComposeTextView.m */,
+				7633BA861D75ABF500A3FB09 /* RECommonFunctions.h */,
+				7633BA871D75ABF500A3FB09 /* RECommonFunctions.m */,
+				7633BA881D75ABF500A3FB09 /* REComposeBackgroundView.h */,
+				7633BA891D75ABF500A3FB09 /* REComposeBackgroundView.m */,
+				7633BA8A1D75ABF500A3FB09 /* REComposeSheetView.h */,
+				7633BA8B1D75ABF500A3FB09 /* REComposeSheetView.m */,
+				7633BA8C1D75ABF500A3FB09 /* REComposeViewController.bundle */,
+				7633BA8D1D75ABF500A3FB09 /* REComposeViewController.h */,
+				7633BA8E1D75ABF500A3FB09 /* REComposeViewController.m */,
+			);
+			name = REComposeViewController;
+			path = Cliplay/Classes/REComposeViewController;
+			sourceTree = "<group>";
+		};
 		763B6CB61C4752D800752B77 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,8 +667,6 @@
 				7647EDD41CCB135700587845 /* normalversion */,
 				76E92BFF1CB8DFE000F424AF /* Reachability.h */,
 				76E92C001CB8DFE000F424AF /* Reachability.m */,
-				76ECFB8E1C9AC8EA00FCABCF /* YYImageExample.h */,
-				76ECFB8F1C9AC8EA00FCABCF /* YYImageExample.m */,
 				76A946181C92E82A007542A8 /* DRImagePlaceholderHelper.h */,
 				76A946191C92E82A007542A8 /* DRImagePlaceholderHelper.m */,
 				7605C4221C5BB2F3004E488A /* CALayer+YYAdd.h */,
@@ -624,8 +714,8 @@
 		7674F62D1D5430B6005D1432 /* Loopback */ = {
 			isa = PBXGroup;
 			children = (
-				7674F62E1D5430E8005D1432 /* MyLBAdapter.h */,
-				7674F62F1D543112005D1432 /* MyLBAdapter.m */,
+				76A2D4671D6C553900543D6A /* MyLBAdapter.h */,
+				76A2D4681D6C553900543D6A /* MyLBAdapter.m */,
 			);
 			name = Loopback;
 			sourceTree = "<group>";
@@ -633,6 +723,10 @@
 		769342BF1D5C96FD00316263 /* Comment */ = {
 			isa = PBXGroup;
 			children = (
+				76A2D4641D6C550500543D6A /* EBCommentsViewController.h */,
+				76A2D4651D6C550500543D6A /* EBCommentsViewController.m */,
+				76DF78AC1D61B30D00728696 /* FakeService.h */,
+				76DF78AD1D61B30D00728696 /* FakeService.m */,
 				762F31791D5ECC2900D349B5 /* ModelComment.h */,
 				762F317A1D5ECC2900D349B5 /* ModelComment.m */,
 				769342CE1D5DD37A00316263 /* EBShadedView.h */,
@@ -645,17 +739,36 @@
 				769342C61D5C973D00316263 /* EBCommentsView.m */,
 				769342C71D5C973D00316263 /* EBCommentsViewDelegate.h */,
 				769342C81D5C973D00316263 /* EBPhotoCommentProtocol.h */,
-				769342CB1D5D70DB00316263 /* EBCommentsViewController.h */,
-				769342CC1D5D718100316263 /* EBCommentsViewController.m */,
 			);
 			name = Comment;
+			sourceTree = "<group>";
+		};
+		76A2D47B1D6F28F200543D6A /* AAShareBubbles */ = {
+			isa = PBXGroup;
+			children = (
+				76A2D47C1D6F28F200543D6A /* AAShareBubbles.bundle */,
+				76A2D47D1D6F28F200543D6A /* AAShareBubbles.h */,
+				76A2D47E1D6F28F200543D6A /* AAShareBubbles.m */,
+			);
+			name = AAShareBubbles;
+			path = Cliplay/Classes/AAShareBubbles;
+			sourceTree = "<group>";
+		};
+		76AA8A5D1D65541700D03852 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				76AA8A621D6556AE00D03852 /* MyLBService.h */,
+				76AA8A631D6556AE00D03852 /* MyLBService.m */,
+				76AA8A6D1D66F86E00D03852 /* MyLBDelegate.h */,
+			);
+			name = Service;
 			sourceTree = "<group>";
 		};
 		76EE115B1D532F4D006CA084 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				76EE115C1D532F95006CA084 /* Client.h */,
-				76EE115D1D533413006CA084 /* Client.m */,
+				76A15C471D6C360E00018FF5 /* User.h */,
+				76A15C481D6C360E00018FF5 /* User.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -667,13 +780,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Cliplay" */;
 			buildPhases = (
-				FDDC93B371F5B2500C5DEBCC /* Check Pods Manifest.lock */,
+				FDDC93B371F5B2500C5DEBCC /* [CP] Check Pods Manifest.lock */,
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				87680BD2C96A375F79E5C2A9 /* Embed Pods Frameworks */,
-				77E0053AD46DAEB5ED521580 /* Copy Pods Resources */,
+				87680BD2C96A375F79E5C2A9 /* [CP] Embed Pods Frameworks */,
+				77E0053AD46DAEB5ED521580 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -765,12 +878,15 @@
 				7605C4891C5BB3CC004E488A /* Icon-60.png in Resources */,
 				762EB6801D4DCCB600204EA0 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				7605C41F1C5BB2D7004E488A /* MainViewController.xib in Resources */,
+				76AA8A6A1D66B21800D03852 /* Localizable.strings in Resources */,
 				7605C4B61C5BB3EB004E488A /* Default@2x~iphone.png in Resources */,
+				76A2D47F1D6F28F200543D6A /* AAShareBubbles.bundle in Resources */,
 				7616739F1C7223E800E05422 /* Cliplay-Info.plist in Resources */,
 				7605C48E1C5BB3CC004E488A /* Icon-76.png in Resources */,
 				765FD5C81CA57D3F00F31F5D /* tip.png in Resources */,
 				763D76251C6838420010C239 /* Images.xcassets in Resources */,
 				7605C40E1C5BB291004E488A /* config.xml in Resources */,
+				7633BA941D75ABF500A3FB09 /* REComposeViewController.bundle in Resources */,
 				760CD3071CA61B9C00EC0723 /* info.png in Resources */,
 				7605C48B1C5BB3CC004E488A /* Icon-60@3x.png in Resources */,
 				7605C4881C5BB3CC004E488A /* Icon-50@2x.png in Resources */,
@@ -785,6 +901,7 @@
 				7605C41D1C5BB2D7004E488A /* Main.storyboard in Resources */,
 				7605C4911C5BB3CC004E488A /* Icon-Small.png in Resources */,
 				7605C4AB1C5BB3EB004E488A /* Default-667h.png in Resources */,
+				76394B271D719B540045E9D1 /* clip2.gif in Resources */,
 				7605C4901C5BB3CC004E488A /* Icon-83.5@2x.png in Resources */,
 				7605C4841C5BB3CC004E488A /* Icon-40.png in Resources */,
 				7605C4B21C5BB3EB004E488A /* Default-Portrait@2x~ipad.png in Resources */,
@@ -816,14 +933,14 @@
 			shellScript = "cordova/lib/copy-www-build-step.sh";
 			showEnvVarsInLog = 0;
 		};
-		77E0053AD46DAEB5ED521580 /* Copy Pods Resources */ = {
+		77E0053AD46DAEB5ED521580 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -831,14 +948,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cliplay/Pods-Cliplay-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		87680BD2C96A375F79E5C2A9 /* Embed Pods Frameworks */ = {
+		87680BD2C96A375F79E5C2A9 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -846,19 +963,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cliplay/Pods-Cliplay-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FDDC93B371F5B2500C5DEBCC /* Check Pods Manifest.lock */ = {
+		FDDC93B371F5B2500C5DEBCC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -869,27 +986,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				7605C4431C5BB2F3004E488A /* FRDLivelyButton.m in Sources */,
+				7633BA8F1D75ABF500A3FB09 /* DEComposeRuledView.m in Sources */,
 				76332C9F1CACB9C200C3F494 /* TestController.m in Sources */,
 				7605C44B1C5BB2F3004E488A /* UIGestureRecognizer+YYAdd.m in Sources */,
 				769342C21D5C972B00316263 /* EBCommentCell.m in Sources */,
-				7674F6301D543112005D1432 /* MyLBAdapter.m in Sources */,
 				764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */,
 				7605C4CF1C5BB4D5004E488A /* CDVAssetLibraryFilesystem.m in Sources */,
 				7605C4441C5BB2F3004E488A /* LLARingSpinnerView.m in Sources */,
-				76EE115E1D533413006CA084 /* Client.m in Sources */,
 				7605C4D71C5BB4F4004E488A /* YoikScreenOrientation.m in Sources */,
 				7605C4E61C5BB524004E488A /* UIWebViewExtension.m in Sources */,
-				769342CD1D5D718100316263 /* EBCommentsViewController.m in Sources */,
-				76ECFB901C9AC8EA00FCABCF /* YYImageExample.m in Sources */,
 				7605C4471C5BB2F3004E488A /* MessageDigest.m in Sources */,
 				7605C4D01C5BB4D5004E488A /* CDVFile.m in Sources */,
 				7684FF661CB6619C0017D23A /* GalleryController.m in Sources */,
+				76A15C491D6C360E00018FF5 /* User.m in Sources */,
 				7605C4651C5BB37E004E488A /* main.m in Sources */,
 				769342C91D5C973D00316263 /* EBCommentsTableView.m in Sources */,
 				769BAC881CD37B4900DB235C /* FavoriateMgr.m in Sources */,
 				7605C4491C5BB2F3004E488A /* SHA1.m in Sources */,
+				76A2D4691D6C553900543D6A /* MyLBAdapter.m in Sources */,
 				7605C4421C5BB2F3004E488A /* DOFavoriteButton.m in Sources */,
 				76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */,
+				7633BA951D75ABF500A3FB09 /* REComposeViewController.m in Sources */,
 				76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */,
 				76332C9B1CAB787200C3F494 /* ArticleController.m in Sources */,
 				76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */,
@@ -903,17 +1020,25 @@
 				76C7155A1CA01C3B00D278AE /* PlayController.m in Sources */,
 				7605C41B1C5BB2D7004E488A /* AppDelegate.m in Sources */,
 				76E61D931C79F28900CCC767 /* CDVConnection.m in Sources */,
+				7633BA921D75ABF500A3FB09 /* REComposeBackgroundView.m in Sources */,
 				7605C44A1C5BB2F3004E488A /* UIControl+YYAdd.m in Sources */,
 				7605C41E1C5BB2D7004E488A /* MainViewController.m in Sources */,
+				76A2D4801D6F28F200543D6A /* AAShareBubbles.m in Sources */,
 				7605C4201C5BB2D7004E488A /* MyHybridPlugin.m in Sources */,
 				7605C4C21C5BB4A4004E488A /* SQLitePlugin.m in Sources */,
 				7605C4DD1C5BB505004E488A /* CDVViewController+SplashScreen.m in Sources */,
 				7605C4D11C5BB4D5004E488A /* CDVLocalFilesystem.m in Sources */,
 				7605C4401C5BB2F3004E488A /* CALayer+YYAdd.m in Sources */,
 				76E92C011CB8DFE000F424AF /* Reachability.m in Sources */,
+				7633BA911D75ABF500A3FB09 /* RECommonFunctions.m in Sources */,
+				76AA8A641D6556AE00D03852 /* MyLBService.m in Sources */,
+				76AA8A671D65602900D03852 /* ClipCell.m in Sources */,
 				7605C4D41C5BB4E3004E488A /* CDVFileTransfer.m in Sources */,
+				7633BA931D75ABF500A3FB09 /* REComposeSheetView.m in Sources */,
 				769342CA1D5C973D00316263 /* EBCommentsView.m in Sources */,
+				76A2D4661D6C550500543D6A /* EBCommentsViewController.m in Sources */,
 				7605C4DC1C5BB505004E488A /* CDVSplashScreen.m in Sources */,
+				76DF78AE1D61B30D00728696 /* FakeService.m in Sources */,
 				7605C41C1C5BB2D7004E488A /* ClipPlayController.m in Sources */,
 				769342D01D5DD37A00316263 /* EBShadedView.m in Sources */,
 				7605C44D1C5BB2F3004E488A /* YYImageExampleHelper.m in Sources */,
@@ -921,6 +1046,7 @@
 				7605C4C51C5BB4B3004E488A /* CDVLogger.m in Sources */,
 				7605C4411C5BB2F3004E488A /* CircleProgressBar.m in Sources */,
 				76A58C8D1CA571D400C2F582 /* PostController.m in Sources */,
+				7633BA901D75ABF500A3FB09 /* DEComposeTextView.m in Sources */,
 				762F317B1D5ECC2900D349B5 /* ModelComment.m in Sources */,
 				7605C4E51C5BB524004E488A /* IonicKeyboard.m in Sources */,
 				7605C4E01C5BB514004E488A /* CDVStatusBar.m in Sources */,
@@ -938,6 +1064,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		76AA8A6C1D66B21800D03852 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76AA8A6B1D66B21800D03852 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -960,9 +1094,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/YYWebImage/Vendor",
 					"$(PROJECT_DIR)/SNS",
 					"$(PROJECT_DIR)",
 				);
@@ -1008,9 +1142,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/YYWebImage/Vendor",
 					"$(PROJECT_DIR)/SNS",
 					"$(PROJECT_DIR)",
 				);
@@ -1024,13 +1158,11 @@
 					"$(CORDOVALIB)/Classes/**",
 					"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include/**",
 					"${PODS_ROOT}/Headers/Public",
-					"${PODS_ROOT}/Headers/Public/YYWebImage",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Cliplay/Cliplay-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 					"$(PROJECT_DIR)/normalversion",
 				);
 				ONLY_ACTIVE_ARCH = NO;

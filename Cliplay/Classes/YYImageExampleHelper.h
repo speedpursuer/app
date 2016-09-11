@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "YYWebImage.h"
+#import <YYWebImage/YYWebImage.h>
 
 @interface YYImageExampleHelper : NSObject
 

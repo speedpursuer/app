@@ -8,15 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "CNPPopupController.h"
-#import "YYWebImage.h"
-#import <TencentOpenAPI/TencentOAuth.h>
-#import <TencentOpenAPI/TencentOAuthObject.h>
-#import <TencentOpenAPI/TencentApiInterface.h>
+#import <YYWebImage/YYWebImage.h>
 #import "EBCommentsViewDelegate.h"
 #import "EBCommentsViewController.h"
+#import "DOFavoriteButton.h"
+#import "MyLBDelegate.h"
 
-
-@interface ClipController : UITableViewController<TencentSessionDelegate, TencentApiInterfaceDelegate, TencentLoginDelegate>
+@interface ClipController : UITableViewController
 @property (nonatomic, strong) NSArray *articleDicts;
 @property (nonatomic, strong) NSArray *articleURLs;
 @property (nonatomic, strong) NSString *header;
@@ -25,11 +23,14 @@
 @property (nonatomic, assign) BOOL showInfo;
 @property (nonatomic, strong) NSString *postID;
 @property (nonatomic, assign) BOOL favorite;
-@property (strong) EBCommentsViewController *delegate;
+@property (weak) EBCommentsViewController *delegate;
+@property (strong) DOFavoriteButton *infoButton;
+
 - (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 - (NSString *)getCommentQty:(NSString *)clipID;
-- (void)getCommentDetail:(NSString *)clipID callback: (void(^)(NSArray*))handler;
 - (void)showComments:(NSString *)clipID;
+- (void)shareClip:(NSURL *)clipID;
+//- (void)getCommentDetail:(NSString *)clipID callback: (void(^)(NSArray*))handler;
 @end
 
 //@interface ClipController (Comments) <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate,EBCommentsViewDelegate>

@@ -23,7 +23,7 @@
 @end
 
 @interface EBGradientView : EBShadedView
-@property (nonatomic) CGGradientRef gradientRef;
+@property (nonatomic, assign) CGGradientRef gradientRef;
 - (void)setReversed:(BOOL)reverse;
 @end
 

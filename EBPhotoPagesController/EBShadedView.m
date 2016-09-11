@@ -26,7 +26,8 @@ static NSString *FrameKeyPath = @"frame";
 
 +(instancetype)lowerGradientWithFrame:(CGRect)frame
 {
-    EBShadedView *gradientView = [[EBGradientView alloc] initWithFrame:frame];
+    EBGradientView *gradientView = [[EBGradientView alloc] initWithFrame:frame];
+	[gradientView setReversed:NO];
     return gradientView;
 }
 
@@ -108,7 +109,7 @@ static NSString *FrameKeyPath = @"frame";
     [super initialize];
     [self setUserInteractionEnabled:NO];
     [self setOpaque:NO];
-    [self setGradientRef:[self blackFadeGradientRefReversed:NO]];
+//    [self setGradientRef:[self blackFadeGradientRefReversed:NO]];
 }
 
 - (void)setReversed:(BOOL)reverse{

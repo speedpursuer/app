@@ -15,6 +15,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "EBCommentsTableView.h"
 #import "EBShadedView.h"
+#import "UIView+YYAdd.h"
+
+#define topMargin 50
 
 @interface EBCommentsView ()
 @property (weak, readwrite) EBCommentsTableView *tableView;
@@ -60,8 +63,8 @@
     [self setClipsToBounds:NO];
     UIColor *backgroundColor = [UIColor colorWithWhite:0 alpha:0.75];
     [self setBackgroundColor:backgroundColor];
-	[self loadShadedView];
-    [self loadTableView];
+//	[self loadShadedView];
+	[self loadTableView];
     [self loadPostButton];
     [self loadCommentTextView];
     [self loadPlaceholderForTextView:self.commentTextView];
@@ -87,9 +90,8 @@
 	[self addSubview:lowerGradient];
 	[self setLowerGradient:lowerGradient];
 	
-	
-	gradientRect = CGRectMake(0, 0, gradientWidth, gradientHeight);
-	EBShadedView *upperGradient = [EBShadedView upperGradientWithFrame:gradientRect];
+	CGRect gradientRect1 = CGRectMake(0, 0, gradientWidth, gradientHeight);
+	EBShadedView *upperGradient = [EBShadedView upperGradientWithFrame:gradientRect1];
 	
 	[upperGradient setAutoresizingMask:UIViewAutoresizingFlexibleWidth|
 	 UIViewAutoresizingFlexibleBottomMargin |
@@ -102,9 +104,9 @@
 - (void)loadTableView
 {
     CGRect tableViewFrame = CGRectMake(0,
-                                       0,
+                                       topMargin,
                                        self.frame.size.width,
-                                       self.frame.size.height-40);
+                                       self.frame.size.height-40-topMargin);
     EBCommentsTableView *tableView = [[EBCommentsTableView alloc] initWithFrame:tableViewFrame
                                                           style:UITableViewStylePlain];
     [tableView setBackgroundColor:[UIColor clearColor]];
@@ -118,13 +120,22 @@
     [tableView setContentOffset:CGPointMake(0, CGFLOAT_MAX)];
 }
 
+- (void)updateTableViewWithHeight:(float)offset {
+	CGRect tableViewFrame = CGRectMake(0,
+									   topMargin+offset,
+									   self.frame.size.width,
+									   self.frame.size.height-40-topMargin-offset);
+	[self.tableView setFrame:tableViewFrame];
+	[self.tableView reloadData];
+}
+
 - (void)loadCommentTextView
 {
-    CGPoint textViewOrigin = CGPointMake(5, self.tableView.frame.size.height);
+    CGPoint textViewOrigin = CGPointMake(5, self.tableView.bottom);
     CGRect textViewFrame = CGRectMake(textViewOrigin.x,
                                       textViewOrigin.y,
                                       self.frame.size.width-(72+textViewOrigin.x),
-                                      self.frame.size.height-self.tableView.frame.size.height);
+                                      self.frame.size.height-self.tableView.bottom);
     
     
     
@@ -243,10 +254,10 @@
 
 - (void)didSelectPostButton:(id)sender
 {
-    if(self.commentTextView.isFirstResponder){
+//    if(self.commentTextView.isFirstResponder){
+	if(true) {
         NSString *commentText = self.commentTextView.text;
-        [self.commentTextView resignFirstResponder];
-//		[self.commentsDelegate closeCommentsView];
+//        [self.commentTextView resignFirstResponder];
         [self.commentsDelegate commentsView:self didPostNewComment:commentText];
     }
 }
@@ -274,9 +285,12 @@
 
 - (void)cancelCommenting
 {
-    [self.commentTextView resignFirstResponder];
+//	if(self.commentTextView.text == nil || [self.commentTextView.text isEqualToString:@""]) {
+//		[self.commentTextView resignFirstResponder];
+//	}
+	
+	[self.commentTextView resignFirstResponder];
 }
-
 
 #pragma mark - Colors and Text
 
@@ -296,7 +310,15 @@
     return NSLocalizedString(@"Commenting is disabled.", @"Appears in a text box to informa a user no new comments are being accepted for a photo.");
 }
 
-
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//	
+//	UITouch *touch = [[event allTouches] anyObject];
+//	UITextView *textView = self.commentTextView;
+//	if ([textView isFirstResponder] && [touch view] != textView) {
+//		[self cancelCommenting];
+//		[super touchesBegan:touches withEvent:event];
+//	}
+//}
 
 #pragma mark -
 //Leave this blank to prevent UITextView from scrolling the UIPageViewController when it becomes first responder.

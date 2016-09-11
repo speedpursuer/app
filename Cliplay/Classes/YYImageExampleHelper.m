@@ -7,7 +7,7 @@
 //
 
 #import "YYImageExampleHelper.h"
-#import "YYImage.h"
+#import <YYWebImage/YYWebImage.h>
 #import "UIView+YYAdd.h"
 #import "CALayer+YYAdd.h"
 #import "UIGestureRecognizer+YYAdd.h"

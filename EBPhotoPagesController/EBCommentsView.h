@@ -32,5 +32,6 @@
 
 - (void)startCommenting;
 - (void)cancelCommenting;
+- (void)updateTableViewWithHeight:(float)offset;
 
 @end
