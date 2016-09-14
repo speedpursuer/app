@@ -208,23 +208,9 @@
 		[self didFetchResults:results haveMoreData:hasMore];
 		[self hideActivityIndicator];
 	} failure:^{
-		[self didFailedToFetchResults];
+		[self failedToGetComments];
+		[self hideActivityIndicator];
 	}];
-	
-	//	[service retrieveDataWithOffset:0 success:^(NSArray *results, BOOL haveMoreData) {
-	//		[self didFetchResults:results haveMoreData:haveMoreData];
-	//		[self hideActivityIndicator];
-	//	} failure:^{
-	//		[self didFailedToFetchResults];
-	//	}];
-	
-	// Use this to test noResultsView
-	//
-	//    [service retrieveNoDataWithOffset:0 success:^(NSArray *results, BOOL haveMoreData) {
-	//        [self didFetchResults:results haveMoreData:haveMoreData];
-	//    } failure:^{
-	//        [self didFailedToFetchResults];
-	//    }];
 }
 
 // Must be implemented
@@ -235,14 +221,14 @@
 	[lbService getCommentsByClipID:self.clipID offset:self.results.count success:^(NSArray *results, BOOL hasMore) {
 		[self didFetchNextResults:results haveMoreData:hasMore];
 	} failure:^{
-		[self didFailedToFetchResults];
+		[self failedToGetComments];
 	}];
-	
-	//	[service retrieveDataWithOffset:self.results.count success:^(NSArray *results, BOOL haveMoreData) {
-	//		[self didFetchNextResults:results haveMoreData:haveMoreData];
-	//	} failure:^{
-	//		[self didFailedToFetchResults];
-	//	}];
+}
+
+- (void)failedToGetComments {
+	[self didFailedToFetchResults];
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"获取数据失败" message:@"请稍候再试" delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil];
+	[alertView show];
 }
 
 - (void)deleteCellWithNotification:(NSNotification *)notification
@@ -269,16 +255,10 @@
 		
 		//		[self.delegate photoViewController:self didDeleteComment:deletedComment];
 		
-		[self updateCommentIcon];
-		
 		[self.commentsView.tableView reloadData];
 		
 		//[self reloadData];
 	}
-}
-
-- (void)updateCommentIcon {
-	
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -294,7 +274,6 @@
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
 	return NO;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -43,8 +43,6 @@
 	lbService = [MyLBService sharedManager];
 //	[lbService setShareDelegate:self];
 	
-	[self fetchPostComments:[self postID]];
-	
 	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
 	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
 	if (networkStatus == ReachableViaWWAN) {
@@ -63,6 +61,8 @@
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
 	[self setFavorite];
+	
+	[self fetchPostComments:[self postID]];
 	
 	[self.navigationItem setTitle: _header];
 	
@@ -333,13 +333,20 @@
 
 - (void)fetchPostComments:(NSString *)id_post {
 	
-	if(!id_post) return;
-	
-	[lbService getCommentsSummaryByPostID:id_post success:^(NSArray *list) {
-		[self generateCommentList:list];
-	} failure:^{
+	if(self.favorite && self.articleURLs.count > 0) {
 		
-	}];
+		[lbService getCommentsSummaryByClipIDs:self.articleURLs success:^(NSArray *list) {
+			[self generateCommentList:list];
+		} failure:^{
+			
+		}];
+	}else if(id_post){
+		[lbService getCommentsSummaryByPostID:id_post success:^(NSArray *list) {
+			[self generateCommentList:list];
+		} failure:^{
+			
+		}];
+	}
 }
 
 - (void)generateCommentList:(NSArray *)comments {

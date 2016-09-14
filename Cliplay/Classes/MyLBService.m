@@ -114,8 +114,23 @@ static NSInteger const pageSize = 11;
 						}
 						failure:^(NSError *error) {
 							failure();
+						}];	
+}
+
+- (void)getCommentsSummaryByClipIDs:(NSArray *)clips
+							success:(void(^)(NSArray*))success
+							failure:(void(^)())failure
+{	
+	[postRep invokeStaticMethod:@"getCommentQtyByClips"
+					 parameters:@{@"clips": clips}
+						success:^(id value) {
+							success([[value objectForKey:@"data"] objectForKey:@"commentQtyList"]);
+						}
+						failure:^(NSError *error) {
+							failure();
 						}];
 }
+
 
 - (void)commentWithClipID:(NSString *)clipID
 				 withText:(NSString *)text
@@ -213,7 +228,7 @@ static NSInteger const pageSize = 11;
 
 -(void)aaShareBubblesDidHide:(AAShareBubbles *)bubbles {
 	if(bubbles.viewBackgroundTapped == YES){
-		[self failureWithErroCode:ERROR_CODE_LOGIN_CANCELLED];
+		[self failureWithErroCode:LoginCancelled];
 	}
 }
 
@@ -275,13 +290,16 @@ static NSInteger const pageSize = 11;
 	[model saveWithSuccess:^(id value){
 		[self commentSuccess:value];
 	} failure:^(NSError *error) {
-		
-		NSString *msg = error.userInfo[@"NSLocalizedRecoverySuggestion"];
-		
-		if (msg != nil && [msg rangeOfString:@"Authorization Required"].location != NSNotFound) {
-			[self socialButtonsForShare:NO];
-		}else{
-			[self commentfailure];
+		switch ([self lbErrorCodeWith: error]) {
+			case UserNotLoggedIn:
+				[self socialButtonsForShare:NO];
+				break;
+			case UserDisabled:
+				[self commentfailure:UserDisabled];
+				break;
+			default:
+				[self commentfailure:ServerError];
+				break;
 		}
 	}];
 }
@@ -302,8 +320,8 @@ static NSInteger const pageSize = 11;
 	newCommentText = nil;
 }
 
-- (void)commentfailure {
-	[self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+- (void)commentfailure:(NSInteger)code {
+	[self failureWithErroCode:code];
 	newCommentClipID = nil;
 	newCommentText = nil;
 }
@@ -331,7 +349,7 @@ static NSInteger const pageSize = 11;
 				[self hideProgressView];
 				[self loginWeibo];
 			}else{
-				[self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+				[self failureWithErroCode:ServerError];
 			}
 		}];
 	}
@@ -343,35 +361,96 @@ static NSInteger const pageSize = 11;
 	
 	[adapter setAccessToken:shareUser.lbAccessToken];
 	
-	[self shareClipWithClipID:[sharedClipID absoluteString] success:^() {
-		
-		[[YYImageCache sharedCache] getImageDataForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:sharedClipID] withBlock:^(NSData * _Nullable imageData) {
-			
-			WBImageObject *image = [WBImageObject object];
-			image.imageData = imageData;
-			
-			NSString *fromText = NSLocalizedString(@"This NBA GIF is shared from Cliplay APP", @"Post text");
-			
-			NSString *textToSend = (sharedText == nil || [sharedText isEqual: @""])? fromText: [NSString stringWithFormat:@"%@ -- %@", sharedText, fromText];
-			
-			[WBHttpRequest requestForShareAStatus:textToSend
-								contatinsAPicture:image
-									 orPictureUrl:nil
-								  withAccessToken:shareUser.wbAccessToken
-							   andOtherProperties:nil
-											queue:nil
-							withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-								if(error == nil) {
-									[self shareSuccess];
-								}else {
-									[self shareFailure:ERROR_CODE_ACTOIN_FAILED];
-								}
-							}
-			 ];
-		}];
-	} failure:^{
-		[self shareFailure:ERROR_CODE_SHARE_EXCEED_LIMIT];
-	}];
+	[visitRep invokeStaticMethod:@"shareClip"
+					  parameters:@{@"id_clip": [sharedClipID absoluteString]}
+						 success:^(id value) {
+							 [[YYImageCache sharedCache] getImageDataForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:sharedClipID] withBlock:^(NSData * _Nullable imageData) {
+								 
+								 WBImageObject *image = [WBImageObject object];
+								 image.imageData = imageData;
+								 
+								 NSString *fromText = NSLocalizedString(@"This NBA GIF is shared from Cliplay APP", @"Post text");
+								 
+								 NSString *textToSend = (sharedText == nil || [sharedText isEqual: @""])? fromText: [NSString stringWithFormat:@"%@ -- %@", sharedText, fromText];
+								 
+								 [WBHttpRequest requestForShareAStatus:textToSend
+													 contatinsAPicture:image
+														  orPictureUrl:nil
+													   withAccessToken:shareUser.wbAccessToken
+													andOtherProperties:nil
+																 queue:nil
+												 withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+													 if(error == nil) {
+														 [self shareSuccess];
+													 }else {
+														 [self shareFailure:ServerError];
+													 }
+												 }
+								  ];
+							 }];
+						 }
+						 failure:^(NSError *error) {
+							 switch ([self lbErrorCodeWith: error]) {
+								 case UserNotLoggedIn:
+									 [self hideProgressView];
+									 [self loginWeibo];
+									 break;
+								 case UserDisabled:
+									 [self shareFailure:UserDisabled];
+									 break;
+								 case ShareExceedLimit:
+									 [self shareFailure:ShareExceedLimit];
+									 break;
+								 default:
+									 [self shareFailure:ServerError];
+									 break;
+							 }
+						 }
+	 ];
+	
+//	[self shareClipWithClipID:[sharedClipID absoluteString] success:^() {
+//		
+//		[[YYImageCache sharedCache] getImageDataForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:sharedClipID] withBlock:^(NSData * _Nullable imageData) {
+//			
+//			WBImageObject *image = [WBImageObject object];
+//			image.imageData = imageData;
+//			
+//			NSString *fromText = NSLocalizedString(@"This NBA GIF is shared from Cliplay APP", @"Post text");
+//			
+//			NSString *textToSend = (sharedText == nil || [sharedText isEqual: @""])? fromText: [NSString stringWithFormat:@"%@ -- %@", sharedText, fromText];
+//			
+//			[WBHttpRequest requestForShareAStatus:textToSend
+//								contatinsAPicture:image
+//									 orPictureUrl:nil
+//								  withAccessToken:shareUser.wbAccessToken
+//							   andOtherProperties:nil
+//											queue:nil
+//							withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+//								if(error == nil) {
+//									[self shareSuccess];
+//								}else {
+//									[self shareFailure:ServerError];
+//								}
+//							}
+//			 ];
+//		}];
+//	} failure:^(NSError *error){
+//		switch ([self lbErrorCodeWith: error]) {
+//			case UserNotLoggedIn:
+//				[self hideProgressView];
+//				[self loginWeibo];
+//				break;
+//			case UserDisabled:
+//				[self shareFailure:UserDisabled];
+//				break;
+//			case ShareExceedLimit:
+//				[self shareFailure:ShareExceedLimit];
+//				break;
+//			default:
+//				[self shareFailure:ServerError];
+//				break;
+//		}
+//	}];
 }
 
 - (void)shareSuccess {
@@ -392,31 +471,20 @@ static NSInteger const pageSize = 11;
 	sharedText = nil;
 }
 
-- (void)shareClipWithClipID:(NSString *)clipID
-					success:(void(^)()) success
-					failure:(void(^)())failure
-{
-	[visitRep invokeStaticMethod:@"shareClip"
-					 parameters:@{@"id_clip": clipID}
-						success:^(id value) {
-							NSNumber *result = [[value objectForKey:@"data"] objectForKey:@"result"];
-							if([result isEqual: @(YES)]){
-								success();
-							}else{
-								failure();
-							}
-						}
-						failure:^(NSError *error) {
-							failure();
-						}];
-	
-//	if(shareTimes > 3) {
-//		failure();
-//	}else{
-//		success();
-//		shareTimes++;
-//	}
-}
+//- (void)shareClipWithClipID:(NSString *)clipID
+//					success:(void(^)())success
+//					failure:(void(^)(NSError *error))failure
+//{
+//	[visitRep invokeStaticMethod:@"shareClip"
+//					 parameters:@{@"id_clip": clipID}
+//						success:^(id value) {
+//							success();
+//						}
+//						failure:^(NSError *error) {
+//							failure(error);
+//						}
+//	 ];
+//}
 
 - (void)showComposeViewWithText {
 	[[YYImageCache sharedCache] getImageForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:sharedClipID] withType:YYImageCacheTypeAll withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
@@ -536,22 +604,22 @@ static NSInteger const pageSize = 11;
 		 ];
 		
 	} else {
-		[self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+		[self failureWithErroCode:ServerError];
 	}
 }
 
 // 登录失败后的回调
 - (void)tencentDidNotLogin:(BOOL)cancelled {
 	if (cancelled) {
-		[self failureWithErroCode:ERROR_CODE_LOGIN_CANCELLED];
+		[self failureWithErroCode:LoginCancelled];
 	}else {
-		[self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+		[self failureWithErroCode:ServerError];
 	}
 }
 
 // 登录时网络有问题的回调
 - (void)tencentDidNotNetWork{
-	[self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+	[self failureWithErroCode:ServerError];
 }
 
 
@@ -598,7 +666,7 @@ static NSInteger const pageSize = 11;
 							  }
 						  }
 						  failure:^(NSError *error) {
-							  [self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+							  [self failureWithErroCode:ServerError];
 						  }
 	];
 }
@@ -631,7 +699,7 @@ static NSInteger const pageSize = 11;
 		}
 		
 		if(((WBAuthorizeResponse *)response).statusCode ==WeiboSDKResponseStatusCodeUserCancel) {
-			[self failureWithErroCode:ERROR_CODE_LOGIN_CANCELLED];
+			[self failureWithErroCode:LoginCancelled];
 		}else {
 			NSString *userID = [(WBAuthorizeResponse *)response userID];
 			NSString *accessToken = [(WBAuthorizeResponse *)response accessToken];
@@ -653,7 +721,7 @@ static NSInteger const pageSize = 11;
 {
 	if (error)
 	{
-		[self failureWithErroCode:ERROR_CODE_ACTOIN_FAILED];
+		[self failureWithErroCode:ServerError];
 	}
 	else
 	{
@@ -699,14 +767,17 @@ static NSInteger const pageSize = 11;
 	NSString *reason;
 	
 	switch (code) {
-		case ERROR_CODE_ACTOIN_FAILED:
+		case ServerError:
 			reason = NSLocalizedString(@"User login error, please try again later", @"maybe network error");
 			break;
-		case ERROR_CODE_LOGIN_CANCELLED:
+		case LoginCancelled:
 			reason = NSLocalizedString(@"You're not allowed to comment because you cancelled login", @"User cancelled login");
 			break;
-		case ERROR_CODE_SHARE_EXCEED_LIMIT:
+		case ShareExceedLimit:
 			reason = NSLocalizedString(@"You're exceeding share limit per day", @"User cancelled login");
+			break;
+		case UserDisabled:
+			reason = NSLocalizedString(@"You're not allowed to function", @"User disabled");
 			break;
 		default:
 			reason = NSLocalizedString(@"Some errors, please try again later", @"Unknown error");
@@ -714,6 +785,19 @@ static NSInteger const pageSize = 11;
 	}
 	
 	[self performSelector:@selector(showAlertView:) withObject:reason afterDelay:0.6];
+}
+
+-(NSInteger)lbErrorCodeWith:(NSError *)error {
+	@try {
+		NSString *msg = error.localizedRecoverySuggestion;
+		
+		NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[msg dataUsingEncoding: NSUTF8StringEncoding] options:NSJSONReadingAllowFragments error:nil];
+		
+		return [(NSNumber *)[[dict objectForKey:@"error"] objectForKey:@"status"] integerValue];
+	}
+	@catch (NSException *exception) {
+		return 400;
+	}
 }
 
 - (void)showAlertView:(NSString *)reason {
