@@ -14,7 +14,9 @@
 #import <UIKit/UIKit.h>
 #import <JTTableViewController.h>
 #import "EBCommentsViewDelegate.h"
+#import "ClipController.h"
 #import "MyLBDelegate.h"
+
 
 @class EBCommentsView;
 //@interface EBCommentsViewController: JTTableViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, EBCommentsViewDelegate>
@@ -22,7 +24,7 @@
 @interface EBCommentsViewController: JTTableViewController <UITextViewDelegate,EBCommentsViewDelegate, CommentDelegate>
 
 
-@property (weak) id<EBCommentsViewDelegate> commentsDelegate;
+@property (weak) ClipController *delegate;
 @property (weak, readwrite) EBCommentsView *commentsView;
 //@property (weak, readonly) EBCommentsView *commentsView;
 @property (strong) NSString *clipID;

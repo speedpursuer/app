@@ -126,6 +126,7 @@
 		76AA8A671D65602900D03852 /* ClipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AA8A661D65602900D03852 /* ClipCell.m */; };
 		76AA8A6A1D66B21800D03852 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76AA8A6C1D66B21800D03852 /* Localizable.strings */; };
 		76AD12591D24F45C0002A133 /* ClipController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76AD12581D24F45C0002A133 /* ClipController.m */; };
+		76C082BE1D8B939D0032C487 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 76C082BD1D8B939D0032C487 /* www */; };
 		76C7155A1CA01C3B00D278AE /* PlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76C715591CA01C3B00D278AE /* PlayController.m */; };
 		76D9C7DC1C5F832A005C93E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */; };
 		76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D9E94E1C7447AB004BB117 /* LongPressFix.m */; };
@@ -163,7 +164,6 @@
 		203C0DDF2C9444DB809533D9 /* libz.dylib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
-		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		46DEEEB726ED7F0DEB7FEBF5 /* libPods-Cliplay.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Cliplay.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56BA64B0A744494A917711E6 /* CFNetwork.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -348,8 +348,10 @@
 		76AA8A6D1D66F86E00D03852 /* MyLBDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyLBDelegate.h; path = Cliplay/Classes/MyLBDelegate.h; sourceTree = "<group>"; };
 		76AD12571D24F45C0002A133 /* ClipController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClipController.h; path = Cliplay/Classes/ClipController.h; sourceTree = SOURCE_ROOT; };
 		76AD12581D24F45C0002A133 /* ClipController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ClipController.m; path = Cliplay/Classes/ClipController.m; sourceTree = SOURCE_ROOT; };
+		76C082BD1D8B939D0032C487 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
 		76C715581CA01C3B00D278AE /* PlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayController.h; path = Cliplay/Classes/PlayController.h; sourceTree = SOURCE_ROOT; };
 		76C715591CA01C3B00D278AE /* PlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayController.m; path = Cliplay/Classes/PlayController.m; sourceTree = SOURCE_ROOT; };
+		76CD086B1D891E6F004782CA /* Cliplay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Cliplay.entitlements; path = Cliplay/Cliplay.entitlements; sourceTree = "<group>"; };
 		76D9C7DD1C5F832A005C93E7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		76D9E94D1C7447AB004BB117 /* LongPressFix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LongPressFix.h; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.h"; sourceTree = SOURCE_ROOT; };
 		76D9E94E1C7447AB004BB117 /* LongPressFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LongPressFix.m; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.m"; sourceTree = SOURCE_ROOT; };
@@ -447,15 +449,16 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				76CD086B1D891E6F004782CA /* Cliplay.entitlements */,
 				7633BA811D75ABF400A3FB09 /* REComposeViewController */,
 				7633BA7C1D75A7EA00A3FB09 /* View */,
 				76A2D47B1D6F28F200543D6A /* AAShareBubbles */,
 				76AA8A5D1D65541700D03852 /* Service */,
+				76C082BD1D8B939D0032C487 /* www */,
 				769342BF1D5C96FD00316263 /* Comment */,
 				76EE115B1D532F4D006CA084 /* Model */,
 				7605C40D1C5BB291004E488A /* config.xml */,
 				763B6CB61C4752D800752B77 /* Supporting Files */,
-				301BF56E109A69640062928A /* www */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -889,6 +892,7 @@
 				7633BA941D75ABF500A3FB09 /* REComposeViewController.bundle in Resources */,
 				760CD3071CA61B9C00EC0723 /* info.png in Resources */,
 				7605C48B1C5BB3CC004E488A /* Icon-60@3x.png in Resources */,
+				76C082BE1D8B939D0032C487 /* www in Resources */,
 				7605C4881C5BB3CC004E488A /* Icon-50@2x.png in Resources */,
 				7605C48C1C5BB3CC004E488A /* Icon-72.png in Resources */,
 				7605C4AD1C5BB3EB004E488A /* Default-736h.png in Resources */,
@@ -1091,9 +1095,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Cliplay/Cliplay.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = NFXT343F5P;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1139,9 +1145,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Cliplay/Cliplay.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = NFXT343F5P;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

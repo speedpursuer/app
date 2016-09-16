@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7EC2F31155EB8C98E48C57790C23C65B'
-               BlueprintName = 'TTTAttributedLabel'
+               BlueprintIdentifier = '59B338D007FA512BE69149A9AD5ECA42'
+               BlueprintName = 'UINavigationItem+Margin'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libTTTAttributedLabel.a'>
+               BuildableName = 'libUINavigationItem+Margin.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

@@ -62,7 +62,7 @@
 	
 	[self setFavorite];
 	
-	[self fetchPostComments:[self postID]];
+//	[self fetchPostComments:[self postID]];
 	
 	[self.navigationItem setTitle: _header];
 	
@@ -175,6 +175,7 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	_fullScreen = false;
+	[self fetchPostComments];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -331,7 +332,9 @@
 
 #pragma mark - Comments
 
-- (void)fetchPostComments:(NSString *)id_post {
+- (void)fetchPostComments {
+	
+	NSString *id_post = [self postID];
 	
 	if(self.favorite && self.articleURLs.count > 0) {
 		
@@ -382,6 +385,7 @@
 - (void)showComments:(NSString *)clipID {
 	EBCommentsViewController *clipCtr = [[EBCommentsViewController alloc] init];
 	[clipCtr setClipID:clipID];
+	[clipCtr setDelegate:self];
 	clipCtr.modalPresentationStyle = UIModalPresentationOverFullScreen;
 	[self presentViewController:clipCtr animated:YES completion:nil];
 }

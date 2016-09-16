@@ -37,6 +37,7 @@ PODS:
   - MRProgress/Stopable (0.8.3):
     - MRProgress/Helper
   - TTTAttributedLabel (1.13.4)
+  - UINavigationItem+Margin (2.0.1)
   - UITableView+FDTemplateLayoutCell (1.4)
   - WeiboSDK (3.1.4)
   - YYCache (1.0.2)
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - LoopBack (from `https://github.com/strongloop/loopback-sdk-ios.git`)
   - MRProgress
   - TTTAttributedLabel
+  - UINavigationItem+Margin
   - UITableView+FDTemplateLayoutCell
   - WeiboSDK (from `https://github.com/sinaweibosdk/weibo_ios_sdk.git`)
   - YYImage/WebP
@@ -85,12 +87,13 @@ SPEC CHECKSUMS:
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MRProgress: 16de7cc9f347e8846797a770db102a323fe7ef09
   TTTAttributedLabel: 0a2ac7b2dd726d32a070dafb01446026b11e624f
+  UINavigationItem+Margin: a883ec580ab47923ca397d47721f35e89bf6f5ae
   UITableView+FDTemplateLayoutCell: 234e1582bcc4e18461af91155123bb96538ed030
   WeiboSDK: bceab625ec59b7039ba721cc4ba9f5868804f63e
   YYCache: c159ab4bb51e1ca4872ddadaf1778f9ec4ae40bb
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
   YYWebImage: 8da75a611fd0d2e0f58a273f9ca0bc731614cb0d
 
-PODFILE CHECKSUM: f54f8c5b17a150a1b4be7558f089542d5e4271f0
+PODFILE CHECKSUM: 8d4ce391340816f380f795264295c30c74a4113d
 
 COCOAPODS: 1.1.0.beta.1

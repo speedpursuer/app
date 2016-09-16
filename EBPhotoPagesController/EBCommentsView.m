@@ -112,7 +112,7 @@
     [tableView setBackgroundColor:[UIColor clearColor]];
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [tableView setIndicatorStyle:UIScrollViewIndicatorStyleWhite];
-    //[tableView setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
+//    [tableView setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
     [tableView setAutoresizingMask:UIViewAutoresizingFlexibleBottomMargin|UIViewAutoresizingFlexibleWidth];
     [self setTableView:tableView];
     [self addSubview:tableView];
@@ -126,6 +126,7 @@
 									   self.frame.size.width,
 									   self.frame.size.height-40-topMargin-offset);
 	[self.tableView setFrame:tableViewFrame];
+	
 	[self.tableView reloadData];
 }
 

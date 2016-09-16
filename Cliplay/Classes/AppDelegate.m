@@ -99,6 +99,18 @@ static NSString *const pushCat = @"cliplay";
 	return [service handleOpenURL:url];
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+	if (!url) {
+		return NO;
+	}
+	
+	// all plugins will get the notification, and their handlers will be called
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+	
+	return [service handleOpenURL:url];
+}
+
 // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
 //- (void)            application:(UIApplication*)application
 //    didReceiveLocalNotification:(UILocalNotification*)notification

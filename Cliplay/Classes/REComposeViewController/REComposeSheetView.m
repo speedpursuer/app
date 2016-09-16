@@ -26,6 +26,7 @@
 #import "REComposeSheetView.h"
 #import "REComposeViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UINavigationItem+Margin.h"
 
 @implementation REComposeSheetView
 
@@ -56,12 +57,18 @@
             _navigationItem.leftBarButtonItem = cancelButtonItem;
             _navigationItem.rightBarButtonItem = postButtonItem;
         } else {
-            UIBarButtonItem *leftSeperator = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-            leftSeperator.width = 5.0;
-            UIBarButtonItem *rightSeperator = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-            rightSeperator.width = 5.0;
-            _navigationItem.leftBarButtonItems = @[leftSeperator, cancelButtonItem];
-            _navigationItem.rightBarButtonItems = @[rightSeperator, postButtonItem];
+			
+//            UIBarButtonItem *leftSeperator = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//            leftSeperator.width = 10.0;
+//            UIBarButtonItem *rightSeperator = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//            rightSeperator.width = 10.0;
+//            _navigationItem.leftBarButtonItems = @[leftSeperator, cancelButtonItem];
+//            _navigationItem.rightBarButtonItems = @[rightSeperator, postButtonItem];
+			_navigationItem.leftBarButtonItem = cancelButtonItem;
+			_navigationItem.rightBarButtonItem = postButtonItem;
+			
+			_navigationItem.leftMargin = 20;
+			_navigationItem.rightMargin = 20;
         }
         
         

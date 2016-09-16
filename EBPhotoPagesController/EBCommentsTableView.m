@@ -86,7 +86,7 @@
 {
     [super reloadData];
 
-    [self recalculateContentInset];
+//    [self recalculateContentInset];
     [self recalculateScrollIndicator];
 }
 

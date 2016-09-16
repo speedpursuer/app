@@ -10,5 +10,6 @@ pod 'YYImage/WebP'
 pod 'YYWebImage'
 pod 'FontAwesomeKit/FontAwesome'
 pod 'MRProgress'
+pod 'UINavigationItem+Margin'
 #pod 'REComposeViewController', '~> 2.3.2'
 end

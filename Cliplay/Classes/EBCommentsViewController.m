@@ -18,7 +18,7 @@
 #import "EBShadedView.h"
 
 @interface EBCommentsViewController() {
-	FakeService *service;
+//	FakeService *service;
 	MyLBService *lbService;
 }
 @property (nonatomic, strong) FRDLivelyButton *closeButton;
@@ -67,6 +67,11 @@
 {
 //	[self showBar];
 	[self stopObservations];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	[self.delegate fetchPostComments];
 }
 
 - (void)loadUpperShadedView {
@@ -745,6 +750,8 @@
 	
 //	NSLog(@"Keyboard frame with conversion is %f,%f,%f,%f", keyboardFrame.origin.x, keyboardFrame.origin.y, keyboardFrame.size.width, keyboardFrame.size.height);
 	
+	[self.commentsView updateTableViewWithHeight:(self.commentsView.frame.size.height - keyboardFrame.origin.y)];
+	
 	CGPoint newCenter = CGPointMake(self.commentsView.frame.size.width*0.5,
 									keyboardFrame.origin.y - (self.commentsView.frame.size.height*0.5));
 	
@@ -755,8 +762,6 @@
 					 animations:^{
 						 [self.commentsView setCenter:newCenter];
 					 }completion:nil];
-	
-	[self.commentsView updateTableViewWithHeight:(self.commentsView.frame.size.height - keyboardFrame.origin.y)];
 }
 
 - (void)showBar {
@@ -767,6 +772,19 @@
 - (void)hideBar {
 	[[[self navigationController] navigationBar] setHidden:YES];
 	[self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+}
+
+- (BOOL)shouldAutorotate {
+	return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+	return UIInterfaceOrientationPortrait;
 }
 
 @end

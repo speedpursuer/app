@@ -10,7 +10,7 @@
 #import "CNPPopupController.h"
 #import <YYWebImage/YYWebImage.h>
 #import "EBCommentsViewDelegate.h"
-#import "EBCommentsViewController.h"
+//#import "EBCommentsViewController.h"
 #import "DOFavoriteButton.h"
 #import "MyLBDelegate.h"
 
@@ -23,13 +23,14 @@
 @property (nonatomic, assign) BOOL showInfo;
 @property (nonatomic, strong) NSString *postID;
 @property (nonatomic, assign) BOOL favorite;
-@property (weak) EBCommentsViewController *delegate;
+//@property (weak) EBCommentsViewController *delegate;
 @property (strong) DOFavoriteButton *infoButton;
 
 - (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 - (NSString *)getCommentQty:(NSString *)clipID;
 - (void)showComments:(NSString *)clipID;
 - (void)shareClip:(NSURL *)clipID;
+- (void)fetchPostComments;
 //- (void)getCommentDetail:(NSString *)clipID callback: (void(^)(NSArray*))handler;
 @end
 
