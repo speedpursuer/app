@@ -13,6 +13,7 @@
 #import <WeiboSDK/WeiboUser.h>
 #import <YYWebImage/YYWebImage.h>
 #import "MRProgress.h"
+#import "FCUUID.h"
 
 static NSInteger const pageSize = 11;
 
@@ -27,8 +28,8 @@ static NSInteger const pageSize = 11;
 	NSString *newCommentClipID;
 	NSURL *sharedClipID;
 	NSString *sharedText;
-	User *commentUser;
-	User *shareUser;
+	User *user;
+//	User *shareUser;
 	AAShareBubbles *shareBubbles;
 	NSInteger shareTimes;
 	REComposeViewController *composeView;
@@ -58,6 +59,8 @@ static NSInteger const pageSize = 11;
 		
 //		commentUser = [[User alloc] initWithType:COMMENT_USER];
 //		shareUser = [[User alloc] initWithType:SHARE_USER];
+		user = [User loadWithDefault];		
+		[self registerDevice];
 		
 		[WeiboSDK enableDebugMode:YES];
 		[WeiboSDK registerApp:weiboAppID];
@@ -67,8 +70,19 @@ static NSInteger const pageSize = 11;
 
 - (void)registerDevice {
 	if(adapter.accessToken == nil) {
-		
-	}	
+		NSString *uuid = [FCUUID uuidForDevice];
+		[clientRep invokeStaticMethod:@"register"
+							parameters:@{@"uuid":uuid}
+							   success:^(id value) {
+								   
+								   NSString *token = (NSString*)[[value objectForKey:@"data"] objectForKey:@"accesstoken"];
+								   
+								   adapter.accessToken = token;						   
+							   }
+							   failure:^(NSError *error) {
+							   }
+		];
+	}
 }
 
 #pragma mark - Public APIs
@@ -146,7 +160,7 @@ static NSInteger const pageSize = 11;
 	newCommentClipID = clipID;
 	newCommentText = text;
 	
-	if(commentUser.lbAccessToken == nil) {
+	if([user.name isEqual:@""]) {
 		[self socialButtonsForShare:NO];
 	}else {
 		[self performComment];
@@ -289,7 +303,7 @@ static NSInteger const pageSize = 11;
 	
 	if(newCommentClipID == nil || newCommentText == nil) return;
 	
-	[adapter setAccessToken:commentUser.lbAccessToken];
+//	[adapter setAccessToken:commentUser.lbAccessToken];
 	
 	LBPersistedModel *model = (LBPersistedModel*)[commentRep modelWithDictionary:@{@"id_clip":newCommentClipID,@"text":newCommentText}];
 	
@@ -313,8 +327,8 @@ static NSInteger const pageSize = 11;
 - (ModelComment *)generateCommentModel:(NSDictionary *)value{
 	NSMutableDictionary *commentInfo = [value mutableCopy];
 	[commentInfo setObject:@{
-						@"name": commentUser.name,
-						@"avatar": commentUser.avatar
+						@"name": user.name,
+						@"avatar": user.avatar
 					  }
 			 forKey:@"author"];
 	return [ModelComment commentWithProperties:[commentInfo copy]];
@@ -341,12 +355,13 @@ static NSInteger const pageSize = 11;
 	
 	[self showProgressView];
 	
-	if(shareUser.wbRefreshToken == nil || shareUser.lbAccessToken == nil) {
+//	if(user.wbRefreshToken == nil || user.wbAccessToken == nil) {
+	if([user.wbAccessToken isEqual:@""] || [user.wbRefreshToken isEqual:@""]) {
 //		[self.shareDelegate didShowLoginSelection];
 		[self hideProgressView];
 		[self loginWeibo];
 	}else{
-		[WBHttpRequest requestForRenewAccessTokenWithRefreshToken:shareUser.wbRefreshToken queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+		[WBHttpRequest requestForRenewAccessTokenWithRefreshToken:user.wbRefreshToken queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
 			
 			if(error == nil) {
 				[self performShare];
@@ -365,7 +380,7 @@ static NSInteger const pageSize = 11;
 {
 	if(sharedClipID == nil) return;
 	
-	[adapter setAccessToken:shareUser.lbAccessToken];
+//	[adapter setAccessToken:shareUser.lbAccessToken];
 	
 	[visitRep invokeStaticMethod:@"shareClip"
 					  parameters:@{@"id_clip": [sharedClipID absoluteString]}
@@ -382,7 +397,7 @@ static NSInteger const pageSize = 11;
 								 [WBHttpRequest requestForShareAStatus:textToSend
 													 contatinsAPicture:image
 														  orPictureUrl:nil
-													   withAccessToken:shareUser.wbAccessToken
+													   withAccessToken:user.wbAccessToken
 													andOtherProperties:nil
 																 queue:nil
 												 withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -602,12 +617,13 @@ static NSInteger const pageSize = 11;
 	if (URLREQUEST_SUCCEED == response.retCode
 		&& kOpenSDKErrorSuccess == response.detailRetCode) {
 		
-		[self registerClient:@"qq" userID:oauth.openId
-					userName:[response.jsonResponse objectForKey:@"nickname"]
-					  avatar:[response.jsonResponse objectForKey:@"figureurl_qq_2"]
-			   wbAccessToken:@""
-			  wbRefreshToken:@""
-		 ];
+		[self registerAccountWith:@"qq"
+						   userID:oauth.openId
+						 userName:[response.jsonResponse objectForKey:@"nickname"]
+						   avatar:[response.jsonResponse objectForKey:@"figureurl_qq_2"]
+					wbAccessToken:@""
+				   wbRefreshToken:@""
+		];
 		
 	} else {
 		[self failureWithErroCode:ServerError];
@@ -629,15 +645,17 @@ static NSInteger const pageSize = 11;
 }
 
 
-- (void)registerClient:(NSString *)platform
-				userID:(NSString *)userID
-			  userName:(NSString *)name
-				avatar:(NSString *)avatar
-		 wbAccessToken:(NSString *)wbAccessToken
-		wbRefreshToken:(NSString *)wbRefreshToken
+- (void)registerAccountWith:(NSString *)platform
+					 userID:(NSString *)userID
+				   userName:(NSString *)name
+					 avatar:(NSString *)avatar
+			  wbAccessToken:(NSString *)wbAccessToken
+			 wbRefreshToken:(NSString *)wbRefreshToken
 {
-	[clientRep invokeStaticMethod:@"register"
+	BOOL isCommenting = [self isCommenting];
+	[clientRep invokeStaticMethod:@"addAccount"
 					   parameters:@{
+									@"type":isCommenting?@"comment":@"share",
 									@"platform":platform,
 									@"openID":userID,
 									@"name":name,
@@ -645,29 +663,35 @@ static NSInteger const pageSize = 11;
 									}
 						  success:^(id value) {
 							  
-							  NSString *lbAccessToken = [[value objectForKey:@"data"] objectForKey:@"accesstoken"];
+//							  NSString *lbAccessToken = [[value objectForKey:@"data"] objectForKey:@"accesstoken"];
 							  
-							  if([self isCommenting]) {
-								  [commentUser updateUserWith:platform
-													   openID:userID
-														 name:name
-													   avatar:avatar
-												wbAccessToken:wbAccessToken
-											   wbRefreshToken:wbRefreshToken
-												lbAccessToken:lbAccessToken
-								   ];
-								  
+							  if(isCommenting) {
+//								  [commentUser updateUserWith:platform
+//													   openID:userID
+//														 name:name
+//													   avatar:avatar
+//												wbAccessToken:wbAccessToken
+//											   wbRefreshToken:wbRefreshToken
+//												lbAccessToken:lbAccessToken
+//								   ];
+								  user.name = name;
+								  user.avatar = avatar;
+								  [user save];
+								   
 								  [self performComment];
-							  }
-							  if([self isSharing]){
-								  [shareUser updateUserWith:platform
-													 openID:userID
-													   name:name
-													 avatar:avatar
-											  wbAccessToken:wbAccessToken
-											 wbRefreshToken:wbRefreshToken
-											  lbAccessToken:lbAccessToken
-								   ];
+							  }else{
+//								  [shareUser updateUserWith:platform
+//													 openID:userID
+//													   name:name
+//													 avatar:avatar
+//											  wbAccessToken:wbAccessToken
+//											 wbRefreshToken:wbRefreshToken
+//											  lbAccessToken:lbAccessToken
+//								   ];
+								  user.wbAccessToken = wbAccessToken;
+								  user.wbRefreshToken = wbRefreshToken;
+								  [user save];
+								  
 								  [self performShare];
 							  }
 						  }
@@ -735,7 +759,13 @@ static NSInteger const pageSize = 11;
 		NSString *screenName = ((WeiboUser *)result).screenName;
 		NSString *image = ((WeiboUser *)result).profileImageUrl;
 		
-		[self registerClient:@"weibo" userID:userID userName:screenName avatar:image wbAccessToken:accessToken wbRefreshToken:refreshToken];
+		[self registerAccountWith:@"weibo"
+						   userID:userID
+						 userName:screenName
+						   avatar:image
+					wbAccessToken:accessToken
+				   wbRefreshToken:refreshToken
+		];
 	}
 }
 

@@ -11,6 +11,7 @@
 
 
 #import "EBCommentsTableView.h"
+#import "UIView+YYAdd.h"
 
 @implementation EBCommentsTableView
 
@@ -52,9 +53,7 @@
 
 - (void)initialize
 {
-    
 }
-
 
 - (void)drawRect:(CGRect)rect
 {
@@ -63,17 +62,26 @@
     if(self.drawsDividerLine){
         //draw divider
         CGFloat marginSize = 10;
-        CGPoint lineEndPoints[] =  {CGPointMake(marginSize, CGRectGetMaxY(rect)),
-            CGPointMake(CGRectGetMaxX(rect)-marginSize, CGRectGetMaxY(rect))
+        CGPoint lineStartPoints[] =  {CGPointMake(marginSize, CGRectGetMinY(rect)),
+            CGPointMake(CGRectGetMaxX(rect)-marginSize, CGRectGetMinY(rect))
         };
-        
+		
+		CGPoint lineEndPoints[] =  {CGPointMake(marginSize, CGRectGetMaxY(rect)),
+			CGPointMake(CGRectGetMaxX(rect)-marginSize, CGRectGetMaxY(rect))
+		};
+		
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGFloat strokeColor[4] = {1,1,1,0.35};
         CGContextSetStrokeColor(context, strokeColor);
         CGContextSetLineWidth(context, 2);
+		CGContextAddLines(context, lineStartPoints, 2);
         CGContextAddLines(context, lineEndPoints, 2);
         CGContextStrokePath(context);
     }
+	
+	UIView *header = [UIView new];
+	header.size = CGSizeMake(self.width, 10);
+	[self setTableHeaderView:header];
 }
 
 - (void)setDrawsDividerLine:(BOOL)drawsDividerLine

@@ -102,6 +102,7 @@
 		764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 764355441D0FFB8000807EBF /* DGTeaEncryptor.m */; };
 		7647EDD81CCB135700587845 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7647EDD61CCB135700587845 /* libBPush.a */; };
 		765FD5C81CA57D3F00F31F5D /* tip.png in Resources */ = {isa = PBXBuildFile; fileRef = 765FD5C71CA57D3F00F31F5D /* tip.png */; };
+		767C51B61D94E86500D9C4EA /* AppSettings+Cliplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 767C51B51D94E86500D9C4EA /* AppSettings+Cliplay.m */; };
 		7684FF661CB6619C0017D23A /* GalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7684FF651CB6619C0017D23A /* GalleryController.m */; };
 		768970021D94CCE10007AA70 /* CliplayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 768970011D94CCE10007AA70 /* CliplayTests.m */; };
 		769342C21D5C972B00316263 /* EBCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C11D5C972B00316263 /* EBCommentCell.m */; };
@@ -306,7 +307,6 @@
 		7633BA8C1D75ABF500A3FB09 /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
 		7633BA8D1D75ABF500A3FB09 /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
 		7633BA8E1D75ABF500A3FB09 /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
-		76394B261D719B540045E9D1 /* clip2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = clip2.gif; path = ../../../../../Downloads/clip2.gif; sourceTree = "<group>"; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		764355431D0FFB8000807EBF /* DGTeaEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGTeaEncryptor.h; path = Cliplay/Classes/DGTeaEncryptor.h; sourceTree = "<group>"; };
 		764355441D0FFB8000807EBF /* DGTeaEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGTeaEncryptor.m; path = Cliplay/Classes/DGTeaEncryptor.m; sourceTree = "<group>"; };
@@ -315,6 +315,8 @@
 		765FD5C71CA57D3F00F31F5D /* tip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tip.png; sourceTree = "<group>"; };
 		767A55891C4755D300992D0F /* libYYWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libYYWebImage.a; path = "Pods/../build/Debug-iphoneos/libYYWebImage.a"; sourceTree = "<group>"; };
 		767A558B1C47572A00992D0F /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = Pods/YYWebImage/Vendor/WebP.framework; sourceTree = "<group>"; };
+		767C51B41D94E86500D9C4EA /* AppSettings+Cliplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppSettings+Cliplay.h"; sourceTree = "<group>"; };
+		767C51B51D94E86500D9C4EA /* AppSettings+Cliplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AppSettings+Cliplay.m"; sourceTree = "<group>"; };
 		7684FF641CB6619C0017D23A /* GalleryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GalleryController.h; path = Cliplay/Classes/GalleryController.h; sourceTree = SOURCE_ROOT; };
 		7684FF651CB6619C0017D23A /* GalleryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GalleryController.m; path = Cliplay/Classes/GalleryController.m; sourceTree = SOURCE_ROOT; };
 		76896FFF1D94CCE10007AA70 /* CliplayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CliplayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -505,7 +507,6 @@
 			children = (
 				762EB67F1D4DCCB600204EA0 /* TencentOpenApi_IOS_Bundle.bundle */,
 				760CD3061CA61B9C00EC0723 /* info.png */,
-				76394B261D719B540045E9D1 /* clip2.gif */,
 				765FD5C71CA57D3F00F31F5D /* tip.png */,
 				76E424BE1C7AB30A00FA5962 /* ionic.min.css */,
 				7616739E1C7223E800E05422 /* Cliplay-Info.plist */,
@@ -788,6 +789,8 @@
 		76AA8A5D1D65541700D03852 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				767C51B41D94E86500D9C4EA /* AppSettings+Cliplay.h */,
+				767C51B51D94E86500D9C4EA /* AppSettings+Cliplay.m */,
 				76AA8A621D6556AE00D03852 /* MyLBService.h */,
 				76AA8A631D6556AE00D03852 /* MyLBService.m */,
 				76AA8A6D1D66F86E00D03852 /* MyLBDelegate.h */,
@@ -1068,6 +1071,7 @@
 				769BAC881CD37B4900DB235C /* FavoriateMgr.m in Sources */,
 				7605C4491C5BB2F3004E488A /* SHA1.m in Sources */,
 				76A2D4691D6C553900543D6A /* MyLBAdapter.m in Sources */,
+				767C51B61D94E86500D9C4EA /* AppSettings+Cliplay.m in Sources */,
 				7605C4421C5BB2F3004E488A /* DOFavoriteButton.m in Sources */,
 				76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */,
 				7633BA951D75ABF500A3FB09 /* REComposeViewController.m in Sources */,
