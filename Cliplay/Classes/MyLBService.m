@@ -56,13 +56,19 @@ static NSInteger const pageSize = 11;
 		oauth = [[TencentOAuth alloc] initWithAppId:tencentAppID
 											 andDelegate:self];
 		
-		commentUser = [[User alloc] initWithType:COMMENT_USER];
-		shareUser = [[User alloc] initWithType:SHARE_USER];
+//		commentUser = [[User alloc] initWithType:COMMENT_USER];
+//		shareUser = [[User alloc] initWithType:SHARE_USER];
 		
 		[WeiboSDK enableDebugMode:YES];
 		[WeiboSDK registerApp:weiboAppID];
 	}
 	return self;
+}
+
+- (void)registerDevice {
+	if(adapter.accessToken == nil) {
+		
+	}	
 }
 
 #pragma mark - Public APIs
