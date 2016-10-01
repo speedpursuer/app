@@ -71,7 +71,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[self.delegate fetchPostComments];
+	[self.delegate fetchPostComments:YES];
 }
 
 - (void)loadUpperShadedView {
@@ -482,23 +482,22 @@
 
 - (void)didShowLoginSelection {
 	[self hideActivityIndicator];
+	[self enablePostButton];
 }
 
 - (void)didSelectLogin {
 	[self showActivityIndicator];
+	[self disablePostButton];
 }
 
 
 - (void)commentsView:(id)view didPostNewComment:(NSString *)commentText
 {
 	if(![[commentText stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+		if(commentText)
 		[lbService commentWithClipID:self.clipID
 							withText:commentText
-		 ];
-//		[self commentingState];
-//		[service addNewCommentForClipID:self.clipID
-//							   withText:commentText
-//							   external:true];
+		];
 	}else{
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"无法发表评论" message:@"评论内容不能为空" delegate:nil cancelButtonTitle:@"好" otherButtonTitles:nil];
 		
@@ -518,14 +517,14 @@
 - (void)commentingState {
 	[self showActivityIndicator];
 	[self.commentsView cancelCommenting];
-	[self.commentsView.postButton setEnabled:false];
-	[self.commentsView.postButton setAlpha:0.66];
+	[self disablePostButton];
 	[self.commentsView.tableView setUserInteractionEnabled:false];
 }
 
 - (void)quitCommentingState:(BOOL)hasError {
 	[self hideActivityIndicator];
-	[self.commentsView.postButton setEnabled:true];
+//	[self.commentsView.postButton setEnabled:true];
+	[self enablePostButton];
 	[self.commentsView.tableView setUserInteractionEnabled:true];
 	if(!hasError) {
 		
@@ -535,10 +534,21 @@
 		[self.commentsView setPostButtonHidden:YES];
 		
 		[self.commentsView.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-	}else{
-		//Need to manually set back
-		[self.commentsView.postButton setAlpha:1];
 	}
+//	else{
+//		//Need to manually set back
+//		[self.commentsView.postButton setAlpha:1];
+//	}
+}
+
+- (void)enablePostButton {
+	[self.commentsView.postButton setEnabled:true];
+	[self.commentsView.postButton setAlpha:1];
+}
+
+- (void)disablePostButton {
+	[self.commentsView.postButton setEnabled:false];
+	[self.commentsView.postButton setAlpha:0.66];
 }
 
 #pragma mark - Comments UITextViewDelegate
@@ -589,7 +599,7 @@
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
 	//check message length
-	return YES;
+	return [[textView text] length] - range.length + text.length > COMMENT_CHART_LIMIT? NO: YES;
 }
 
 

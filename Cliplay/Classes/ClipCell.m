@@ -8,7 +8,6 @@
 
 #import "ClipCell.h"
 #import "ClipPlayController.h"
-#import "FavoriateMgr.h"
 #import "DRImagePlaceholderHelper.h"
 #import <FontAwesomeKit/FAKFontAwesome.h>
 
@@ -136,7 +135,7 @@
 	
 	[_commentBtn setImage:commentsImage forState:UIControlStateNormal];
 	[_commentBtn setImage:commentsImage forState:UIControlStateHighlighted];
-	[_commentBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.4]];
+	[_commentBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
 	
 	[self.contentView addSubview:_commentBtn];
 	
@@ -156,12 +155,12 @@
 	[_shareBtn setImage:shareImage forState:UIControlStateNormal];
 	[_shareBtn setImage:shareImage forState:UIControlStateHighlighted];
 //	[_shareBtn setTintColor:[UIColor whiteColor]];
-	[_shareBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.8]];
+	[_shareBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
 	
 	[self.contentView addSubview:_shareBtn];
 	
 	_shareBtn.bottom = _webImageView.bottom;
-	_shareBtn.left = _webImageView.left;
+	_shareBtn.right = _webImageView.right;
 	
 	[_shareBtn addTarget:self action:@selector(shareClip) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -169,12 +168,13 @@
 }
 
 - (void)tappedButton:(DOFavoriteButton *)sender {
+	ClipController* ctr = [self getViewCtr];
 	if (sender.selected) {
 		[sender deselect];
-		[[FavoriateMgr sharedInstance] unsetFavoriate:[[_webImageView yy_imageURL] absoluteString]];
+		[ctr unsetFavoriate:[[_webImageView yy_imageURL] absoluteString]];
 	} else {
 		[sender select];
-		[[FavoriateMgr sharedInstance] setFavoriate:[[_webImageView yy_imageURL] absoluteString]];
+		[ctr setFavoriate:[[_webImageView yy_imageURL] absoluteString]];
 	}
 }
 
@@ -193,39 +193,39 @@
 	__weak typeof(self.webImageView) _view = self.webImageView;
 	__weak typeof(self) _self = self;
 	
-	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-		
-		ClipController* tc = (ClipController* )[_self viewController];
-		
-		if(!_self.downLoaded || tc.fullScreen) return;
-		
-		if ([_view isAnimating]) [_view stopAnimating];
-		else [_view startAnimating];
-		
-		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
-		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-			_view.layer.transformScale = 0.97;
-		} completion:^(BOOL finished) {
-			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-				_view.layer.transformScale = 1.008;
-			} completion:^(BOOL finished) {
-				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-					_view.layer.transformScale = 1;
-				} completion:NULL];
-			}];
-		}];
-	}];
-	
-	singleTap.numberOfTapsRequired = 1;
-	
-	[_view addGestureRecognizer:singleTap];
+//	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
+//		
+//		ClipController* tc = [_self getViewCtr];
+//		
+//		if(!_self.downLoaded || tc.fullScreen) return;
+//		
+//		if ([_view isAnimating]) [_view stopAnimating];
+//		else [_view startAnimating];
+//		
+//		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
+//		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+//			_view.layer.transformScale = 0.97;
+//		} completion:^(BOOL finished) {
+//			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+//				_view.layer.transformScale = 1.008;
+//			} completion:^(BOOL finished) {
+//				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
+//					_view.layer.transformScale = 1;
+//				} completion:NULL];
+//			}];
+//		}];
+//	}];
+//	
+//	singleTap.numberOfTapsRequired = 1;
+//	
+//	[_view addGestureRecognizer:singleTap];
 	
 	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
 		if(!_self.downLoaded) return;
-		[_view stopAnimating];
+//		[_view stopAnimating];
 		
-		ClipController* tc = (ClipController* )[_self viewController];
+		ClipController* tc = [_self getViewCtr];
 		ClipPlayController *clipCtr = [ClipPlayController new];
 		tc.fullScreen = true;
 		clipCtr.clipURL = [[_view yy_imageURL] absoluteString];
@@ -234,20 +234,20 @@
 		clipCtr.standalone = false;
 		clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
 		clipCtr.delegate = _self;
+		[tc recordSlowPlayWithUrl:[[_view yy_imageURL] absoluteString]];
 		
 		[tc presentViewController:clipCtr animated:YES completion:nil];
 		
 	}];
 	
-	doubleTap.numberOfTapsRequired = 2;
+	doubleTap.numberOfTapsRequired = 1;
 	
 	[_view addGestureRecognizer:doubleTap];
 }
 
 - (void)showClipView:(NSString*)url{
 	
-	ClipController* tc = (ClipController* )[self viewController];
-	
+	ClipController* tc = [self getViewCtr];
 	tc.fullScreen = true;
 	
 	ClipPlayController *clipCtr = [ClipPlayController new];
@@ -311,10 +311,11 @@
 									   _self.label.hidden = NO;
 								   }else {
 									   _self.downLoaded = TRUE;
-									   if ([_self isFullyInView]) {
+									   if ([_self isFullyVisible]) {
 										   [_self.webImageView startAnimating];
 									   }
-									   if([[FavoriateMgr sharedInstance] isFavoriate:[url absoluteString]]) {
+									   ClipController* ctr = [_self getViewCtr];
+									   if([ctr isFavoriate:[url absoluteString]]) {
 										   [_self.heartButton selectWithNoAnim];
 									   }else {
 										   [_self.heartButton deselectWithNoAnim];
@@ -335,15 +336,9 @@
 	return self.delegate;
 }
 
-- (BOOL)isFullyInView {
-	ClipController* ctr = [self getViewCtr];
-	
-	NSIndexPath *indexPath = [ctr.tableView indexPathForCell:self];
-	
-	CGRect rectOfCellInTableView = [ctr.tableView rectForRowAtIndexPath: indexPath];
-	CGRect rectOfCellInSuperview = [ctr.tableView convertRect: rectOfCellInTableView toView: ctr.tableView.superview];
-	
-	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight && rectOfCellInSuperview.origin.y >= 64);
+- (BOOL)isFullyVisible {
+	ClipController* ctr = [self getViewCtr];	
+	return [ctr isFullyVisible:self];
 }
 
 - (void)updateCommentQty {

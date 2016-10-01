@@ -28,7 +28,7 @@
 
 @protocol REComposeSheetViewDelegate;
 
-@interface REComposeSheetView : UIView {
+@interface REComposeSheetView : UIView <UITextViewDelegate> {
     UIImageView *_attachmentContainerView;
 }
 

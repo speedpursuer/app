@@ -24,16 +24,9 @@
 
 @implementation ClipController {
 	NSArray *data;
-//	ClientModelRepository *repository;
-//	MyLBAdapter *adapter;
-//	LBModelRepository *clientRep;
-//	LBPersistedModelRepository *commentRep;
-//	LBModelRepository *postRep;
 	MyLBService *lbService;
-//	NSString* newCommentClipID;
-//	NSString* newCommentText;
 	NSDictionary* commentList;
-	NSString *shareText;
+//	NSString *shareText;
 }
 
 #pragma mark - (UIViewContoller & Init)
@@ -174,8 +167,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	_fullScreen = false;
-	[self fetchPostComments];
+	if(_fullScreen) {
+		[self autoPlayFullyVisibleImages];
+		_fullScreen = false;
+	}else{
+		[self fetchPostComments:NO];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -186,7 +183,9 @@
 		[self.navigationController setNavigationBarHidden:YES];
 	}
 	
-	if(!_fullScreen) {
+	if(_fullScreen) {
+		[self stopPlayingAllImages];
+	}else {
 		[[YYWebImageManager sharedManager].queue cancelAllOperations];
 		[[YYImageCache sharedCache].memoryCache removeAllObjects];
 	}
@@ -200,9 +199,10 @@
 	paragraphStyle.alignment = NSTextAlignmentCenter;
 	
 	NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"操作说明" attributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:24], NSParagraphStyleAttributeName : paragraphStyle}];
-	NSAttributedString *lineOne = [[NSAttributedString alloc] initWithString:@"单击短片播放/暂停" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
 	
-	NSAttributedString *lineTwo = [[NSAttributedString alloc] initWithString:@"双击进入滑屏慢放模式" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSForegroundColorAttributeName : [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
+	NSAttributedString *lineOne= [[NSAttributedString alloc] initWithString:@"点击图片进入滑屏慢放模式" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSForegroundColorAttributeName : [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0], NSParagraphStyleAttributeName : paragraphStyle}];
+	
+	NSAttributedString *lineTwo = [[NSAttributedString alloc] initWithString:@"点击播放/暂停，滑屏拖动播放" attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:18], NSParagraphStyleAttributeName : paragraphStyle}];
 	
 	CNPPopupButton *button = [[CNPPopupButton alloc] initWithFrame:CGRectMake(0, 0, 200, 60)];
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -299,29 +299,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-
-	for (UITableViewCell *cell in [self.tableView visibleCells]) {
-		
-		if([cell isKindOfClass:[ClipCell class]]) {
-			ClipCell *_cell = (ClipCell *) cell;
-			if([self isFullyInView: _cell]) {
-				if(!_cell.webImageView.isAnimating) [_cell.webImageView startAnimating];
-			}else{
-				if(_cell.webImageView.isAnimating) [_cell.webImageView stopAnimating];
-			}
-		}
-	}
-}
-
-#pragma mark - (Utility)
-
-- (BOOL)isFullyInView:(ClipCell *)cell {
-	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-
-	CGRect rectOfCellInTableView = [self.tableView rectForRowAtIndexPath: indexPath];
-	CGRect rectOfCellInSuperview = [self.tableView convertRect: rectOfCellInTableView toView: self.tableView.superview];
-	
-	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight && rectOfCellInSuperview.origin.y >= 64);
+	[self autoPlayFullyVisibleImages];
 }
 
 - (void)reload {
@@ -330,24 +308,71 @@
 	[self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.1];
 }
 
+
+#pragma mark - Slow Play
+
+- (BOOL)isFullyVisible:(UITableViewCell *)cell {
+	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+
+	CGRect rectOfCellInTableView = [self.tableView rectForRowAtIndexPath: indexPath];
+	CGRect rectOfCellInSuperview = [self.tableView convertRect: rectOfCellInTableView toView: self.tableView.superview];
+	
+	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight && rectOfCellInSuperview.origin.y >= 64);
+}
+
+- (void)autoPlayFullyVisibleImages {
+	for (UITableViewCell *cell in [self.tableView visibleCells]) {
+		if([cell isKindOfClass:[ClipCell class]]) {
+			ClipCell *_cell = (ClipCell *) cell;
+			if([self isFullyVisible: _cell]) {
+				if(!_cell.webImageView.isAnimating) [_cell.webImageView startAnimating];
+			}else{
+				if(_cell.webImageView.isAnimating) [_cell.webImageView stopAnimating];
+			}
+		}
+	}
+}
+
+- (void)stopPlayingAllImages {
+	for (UITableViewCell *cell in [self.tableView visibleCells]) {
+		if([cell isKindOfClass:[ClipCell class]]) {
+			ClipCell *_cell = (ClipCell *) cell;
+			if(_cell.webImageView.isAnimating) [_cell.webImageView stopAnimating];
+		}
+	}
+}
+
+- (void)recordSlowPlayWithUrl:(NSString *)url {
+	[lbService recordSlowPlayWithClipID:url];
+}
+
+#pragma mark - Favorite
+- (void)setFavoriate:(NSString *)url {
+	[[FavoriateMgr sharedInstance] setFavoriate:url];
+	[lbService recordFavoriteWithClipID:url postID:_postID];
+}
+- (void)unsetFavoriate:(NSString *)url {
+	[[FavoriateMgr sharedInstance] unsetFavoriate:url];
+}
+- (BOOL)isFavoriate:(NSString *)url {
+	return [[FavoriateMgr sharedInstance] isFavoriate:url];
+}
+
 #pragma mark - Comments
 
-- (void)fetchPostComments {
+- (void)fetchPostComments:(BOOL)isRefresh {
 	
 	NSString *id_post = [self postID];
 	
 	if(self.favorite && self.articleURLs.count > 0) {
-		
-		[lbService getCommentsSummaryByClipIDs:self.articleURLs success:^(NSArray *list) {
+		[lbService getCommentsSummaryByClipIDs:self.articleURLs isRefresh:isRefresh success:^(NSArray *list) {
 			[self generateCommentList:list];
 		} failure:^{
-			
 		}];
 	}else if(id_post){
-		[lbService getCommentsSummaryByPostID:id_post success:^(NSArray *list) {
+		[lbService getCommentsSummaryByPostID:id_post isRefresh:isRefresh success:^(NSArray *list) {
 			[self generateCommentList:list];
 		} failure:^{
-			
 		}];
 	}
 }

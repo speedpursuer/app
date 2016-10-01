@@ -53,7 +53,7 @@
         _circleColor = [UIColor colorWithRed:255.0 / 255.0 green:172.0 / 255.0 blue:51.0 / 255.0 alpha:1.0];
         _lineColor = [UIColor colorWithRed:250.0 / 255.0 green:120.0 / 255.0 blue:68.0 / 255.0 alpha:1.0];
         _imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:172.0 / 255.0 blue:51.0 / 255.0 alpha:1.0];
-        _imageColorOff = [UIColor colorWithRed:136.0 / 255.0 green:153.0 / 255.0 blue:166.0 / 255.0 alpha:1.0];
+        _imageColorOff = [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6];
 //		_imageColorOff = [UIColor whiteColor];
 		
         circleTransform = [CAKeyframeAnimation animationWithKeyPath:@"transform"];

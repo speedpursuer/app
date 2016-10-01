@@ -20,13 +20,11 @@
 #define tencentAppID       @"1105320149"
 #define weibo_SCHEME       @"wb2203696031"
 #define tencent_SCHEME     @"tencent1105320149"
-//#define serverAPIRoot      @"http://121.40.197.226:3001/api"
-#define serverAPIRoot      @"http://localhost:3000/api"
+#define serverAPIRoot      @"http://121.40.197.226:3001/api"
+//#define serverAPIRoot      @"http://localhost:3000/api"
 #define kRedirectURI	   @"https://api.weibo.com/oauth2/default.html"
 #define WEIBO_BUTTON_ID    100
 #define QQ_BUTTON_ID       101
-//#define COMMENT_USER       @"COMMENT_USER"
-//#define SHARE_USER         @"SAHRE_USER"
 
 NS_ENUM(NSInteger)
 {
@@ -35,6 +33,7 @@ NS_ENUM(NSInteger)
 	LoginCancelled = 802,
 	ServerError = 803,
 	ShareExceedLimit = 804,
+	CommentExceedLimit = 805,
 };
 
 @interface MyLBService : NSObject<TencentSessionDelegate, TencentApiInterfaceDelegate, TencentLoginDelegate, WeiboSDKDelegate, AAShareBubblesDelegate, WBHttpRequestDelegate, REComposeViewControllerDelegate, UIAlertViewDelegate>
@@ -49,10 +48,12 @@ NS_ENUM(NSInteger)
 					failure:(void(^)())failure;
 
 - (void)getCommentsSummaryByPostID:(NSString *)postID
+						 isRefresh:(BOOL)isRefresh
 						   success:(void(^)(NSArray*))success
 						   failure:(void(^)())failure;
 
 - (void)getCommentsSummaryByClipIDs:(NSArray *)clips
+						  isRefresh:(BOOL)isRefresh
 						   success:(void(^)(NSArray*))success
 						   failure:(void(^)())failure;
 
@@ -64,6 +65,11 @@ NS_ENUM(NSInteger)
 - (void)showProgressViewWithText:(NSString *)text;
 
 - (void)hideProgressView;
+
+- (void)recordFavoriteWithClipID:(NSString *)url
+					   postID:(NSString *)postID;
+
+- (void)recordSlowPlayWithClipID:(NSString *)url;
 
 @end
 

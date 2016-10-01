@@ -17,6 +17,7 @@
 #import "ClipController.h"
 #import "MyLBDelegate.h"
 
+#define COMMENT_CHART_LIMIT       140
 
 @class EBCommentsView;
 //@interface EBCommentsViewController: JTTableViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, EBCommentsViewDelegate>

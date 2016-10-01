@@ -55,7 +55,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self textViewInit];
-        [self setPlaceholder:@""];
+        [self setPlaceholder:SHARE_COMMENT_PLACEHOLDER];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
     }
     
@@ -68,7 +68,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self textViewInit];
-        [self setPlaceholder:@""];
+        [self setPlaceholder:SHARE_COMMENT_PLACEHOLDER];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
     }
     
@@ -280,6 +280,5 @@
 	
     [super drawRect:rect];
 }
-
 
 @end

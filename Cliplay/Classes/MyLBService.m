@@ -29,7 +29,6 @@ static NSInteger const pageSize = 11;
 	NSURL *sharedClipID;
 	NSString *sharedText;
 	User *user;
-//	User *shareUser;
 	AAShareBubbles *shareBubbles;
 	NSInteger shareTimes;
 	REComposeViewController *composeView;
@@ -56,11 +55,8 @@ static NSInteger const pageSize = 11;
 		
 		oauth = [[TencentOAuth alloc] initWithAppId:tencentAppID
 											 andDelegate:self];
-		
-//		commentUser = [[User alloc] initWithType:COMMENT_USER];
-//		shareUser = [[User alloc] initWithType:SHARE_USER];
-		user = [User loadWithDefault];		
-		[self registerDevice];
+		user = [User loadWithDefault];
+		[self registerDeviceWithSuccess:nil failure:nil];
 		
 		[WeiboSDK enableDebugMode:YES];
 		[WeiboSDK registerApp:weiboAppID];
@@ -68,7 +64,9 @@ static NSInteger const pageSize = 11;
 	return self;
 }
 
-- (void)registerDevice {
+- (void)registerDeviceWithSuccess:(void(^)())success
+						  failure:(void(^)())failure
+{
 	if(adapter.accessToken == nil) {
 		NSString *uuid = [FCUUID uuidForDevice];
 		[clientRep invokeStaticMethod:@"register"
@@ -77,11 +75,20 @@ static NSInteger const pageSize = 11;
 								   
 								   NSString *token = (NSString*)[[value objectForKey:@"data"] objectForKey:@"accesstoken"];
 								   
-								   adapter.accessToken = token;						   
+								   adapter.accessToken = token;
+								   [self recordAppStart];
+								   if(success != NULL) {
+									   success();
+								   }
 							   }
 							   failure:^(NSError *error) {
+								   if(failure != NULL) {
+									   failure();
+								   }
 							   }
 		];
+	}else {
+		[self recordAppStart];
 	}
 }
 
@@ -124,25 +131,33 @@ static NSInteger const pageSize = 11;
 }
 
 - (void)getCommentsSummaryByPostID:(NSString *)postID
+						 isRefresh:(BOOL)isRefresh
 						   success:(void(^)(NSArray*)) success
 						   failure:(void(^)())failure
 {
 	[postRep invokeStaticMethod:@"getCommentQty"
-					 parameters:@{@"id_post": postID}
+					 parameters:@{
+								  @"id_post": postID,
+								  @"isRefresh":[NSNumber numberWithBool:isRefresh]
+								}
 						success:^(id value) {
 							success([[value objectForKey:@"data"] objectForKey:@"commentQtyList"]);
 						}
 						failure:^(NSError *error) {
 							failure();
-						}];	
+						}];
 }
 
 - (void)getCommentsSummaryByClipIDs:(NSArray *)clips
+						  isRefresh:(BOOL)isRefresh
 							success:(void(^)(NSArray*))success
 							failure:(void(^)())failure
 {	
 	[postRep invokeStaticMethod:@"getCommentQtyByClips"
-					 parameters:@{@"clips": clips}
+					 parameters:@{
+								  @"clips": clips,
+								  @"isRefresh":[NSNumber numberWithBool:isRefresh]
+								}
 						success:^(id value) {
 							success([[value objectForKey:@"data"] objectForKey:@"commentQtyList"]);
 						}
@@ -160,7 +175,7 @@ static NSInteger const pageSize = 11;
 	newCommentClipID = clipID;
 	newCommentText = text;
 	
-	if([user.name isEqual:@""]) {
+	if([user.commentAccountID isEqual:@""]) {
 		[self socialButtonsForShare:NO];
 	}else {
 		[self performComment];
@@ -170,6 +185,43 @@ static NSInteger const pageSize = 11;
 - (void)shareWithClipID:(NSURL *)clipID {
 	sharedClipID = clipID;
 	[self showComposeViewWithText];
+}
+
+- (void)recordFavoriteWithClipID:(NSString *)url
+					   postID:(NSString *)postID {
+	[visitRep invokeStaticMethod:@"recordFavorite"
+					  parameters:@{@"id_clip": url,
+								   @"id_post": postID
+								 }
+						 success:^(id value) {
+						 }
+						 failure:^(NSError *error) {
+						 }
+	];
+}
+
+- (void)recordSlowPlayWithClipID:(NSString *)url {
+	[visitRep invokeStaticMethod:@"recordSlowPlay"
+					  parameters:@{@"id_clip": url}
+						 success:^(id value) {
+						 }
+						 failure:^(NSError *error) {
+						 }
+	];
+}
+
+- (void)recordAppStart {
+	[visitRep invokeStaticMethod:@"recordAppStart"
+					  parameters:nil
+						 success:^(id value) {
+						 }
+						 failure:^(NSError *error) {
+							 if([self lbErrorCodeWith: error] == UserNotLoggedIn) {
+								 adapter.accessToken = nil;
+//								 [self registerDeviceWithSuccess:nil failure:nil];
+							 }
+						 }
+	];
 }
 
 #pragma mark - Share buttons View
@@ -303,9 +355,7 @@ static NSInteger const pageSize = 11;
 	
 	if(newCommentClipID == nil || newCommentText == nil) return;
 	
-//	[adapter setAccessToken:commentUser.lbAccessToken];
-	
-	LBPersistedModel *model = (LBPersistedModel*)[commentRep modelWithDictionary:@{@"id_clip":newCommentClipID,@"text":newCommentText}];
+	LBPersistedModel *model = (LBPersistedModel*)[commentRep modelWithDictionary:@{@"id_clip":newCommentClipID,@"text":newCommentText,@"id_account":user.commentAccountID}];
 	
 	[model saveWithSuccess:^(id value){
 		[self commentSuccess:value];
@@ -317,6 +367,9 @@ static NSInteger const pageSize = 11;
 			case UserDisabled:
 				[self commentfailure:UserDisabled];
 				break;
+			case CommentExceedLimit:
+				[self commentfailure:CommentExceedLimit];
+				break;
 			default:
 				[self commentfailure:ServerError];
 				break;
@@ -327,8 +380,8 @@ static NSInteger const pageSize = 11;
 - (ModelComment *)generateCommentModel:(NSDictionary *)value{
 	NSMutableDictionary *commentInfo = [value mutableCopy];
 	[commentInfo setObject:@{
-						@"name": user.name,
-						@"avatar": user.avatar
+						@"name": user.commentName,
+						@"avatar": user.commentAvatar
 					  }
 			 forKey:@"author"];
 	return [ModelComment commentWithProperties:[commentInfo copy]];
@@ -356,12 +409,12 @@ static NSInteger const pageSize = 11;
 	[self showProgressView];
 	
 //	if(user.wbRefreshToken == nil || user.wbAccessToken == nil) {
-	if([user.wbAccessToken isEqual:@""] || [user.wbRefreshToken isEqual:@""]) {
+	if([user.shareAccountID isEqual:@""]) {
 //		[self.shareDelegate didShowLoginSelection];
 		[self hideProgressView];
 		[self loginWeibo];
 	}else{
-		[WBHttpRequest requestForRenewAccessTokenWithRefreshToken:user.wbRefreshToken queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+		[WBHttpRequest requestForRenewAccessTokenWithRefreshToken:user.shareWBRefreshToken queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
 			
 			if(error == nil) {
 				[self performShare];
@@ -380,10 +433,10 @@ static NSInteger const pageSize = 11;
 {
 	if(sharedClipID == nil) return;
 	
-//	[adapter setAccessToken:shareUser.lbAccessToken];
-	
 	[visitRep invokeStaticMethod:@"shareClip"
-					  parameters:@{@"id_clip": [sharedClipID absoluteString]}
+					  parameters:@{@"id_clip": [sharedClipID absoluteString],
+								   @"id_account": user.shareAccountID
+								 }
 						 success:^(id value) {
 							 [[YYImageCache sharedCache] getImageDataForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:sharedClipID] withBlock:^(NSData * _Nullable imageData) {
 								 
@@ -397,7 +450,7 @@ static NSInteger const pageSize = 11;
 								 [WBHttpRequest requestForShareAStatus:textToSend
 													 contatinsAPicture:image
 														  orPictureUrl:nil
-													   withAccessToken:user.wbAccessToken
+													   withAccessToken:user.shareWBAccessToken
 													andOtherProperties:nil
 																 queue:nil
 												 withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
@@ -663,41 +716,45 @@ static NSInteger const pageSize = 11;
 									}
 						  success:^(id value) {
 							  
-//							  NSString *lbAccessToken = [[value objectForKey:@"data"] objectForKey:@"accesstoken"];
+							  NSString *accountID = [[value objectForKey:@"data"] objectForKey:@"accountID"];
 							  
 							  if(isCommenting) {
-//								  [commentUser updateUserWith:platform
-//													   openID:userID
-//														 name:name
-//													   avatar:avatar
-//												wbAccessToken:wbAccessToken
-//											   wbRefreshToken:wbRefreshToken
-//												lbAccessToken:lbAccessToken
-//								   ];
-								  user.name = name;
-								  user.avatar = avatar;
+								  user.commentAccountID = accountID;
+								  user.commentName = name;
+								  user.commentAvatar = avatar;
 								  [user save];
-								   
+								  
 								  [self performComment];
 							  }else{
-//								  [shareUser updateUserWith:platform
-//													 openID:userID
-//													   name:name
-//													 avatar:avatar
-//											  wbAccessToken:wbAccessToken
-//											 wbRefreshToken:wbRefreshToken
-//											  lbAccessToken:lbAccessToken
-//								   ];
-								  user.wbAccessToken = wbAccessToken;
-								  user.wbRefreshToken = wbRefreshToken;
+								  user.shareAccountID = accountID;
+								  user.shareWBAccessToken = wbAccessToken;
+								  user.shareWBRefreshToken = wbRefreshToken;
 								  [user save];
 								  
 								  [self performShare];
 							  }
 						  }
 						  failure:^(NSError *error) {
-							  [self failureWithErroCode:ServerError];
-						  }
+//							  if([self lbErrorCodeWith: error] == UserNotLoggedIn) {
+//								  [self registerDeviceWithSuccess:^{
+//									  [self registerAccountWith:platform
+//														 userID:userID
+//													   userName:name
+//														 avatar:avatar
+//												  wbAccessToken:wbAccessToken
+//												 wbRefreshToken:wbRefreshToken
+//									   ];
+//								  } failure:^{
+//									  [self commentfailure:ServerError];
+//								  }];
+//							  }else{
+//								  [self commentfailure:ServerError];
+//							  }
+							  if([self lbErrorCodeWith: error] == UserNotLoggedIn) {
+								  [self registerDeviceWithSuccess:nil failure:nil];
+							  }
+							  [self commentfailure:ServerError];
+						}
 	];
 }
 
@@ -814,6 +871,9 @@ static NSInteger const pageSize = 11;
 			break;
 		case UserDisabled:
 			reason = NSLocalizedString(@"You're not allowed to function", @"User disabled");
+			break;
+		case CommentExceedLimit:
+			reason = NSLocalizedString(@"You comment too often", @"Exceed comment limit");
 			break;
 		default:
 			reason = NSLocalizedString(@"Some errors, please try again later", @"Unknown error");

@@ -29,7 +29,6 @@
 
 #import <Cordova/CDVViewController.h>
 
-//#import "MyLBAdapter.h"
 
 
 

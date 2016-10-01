@@ -32,22 +32,22 @@
 #import <Cordova/CDVPlugin.h>
 #import "DGTeaEncryptor.h"
 #import "FavoriateMgr.h"
-//#import <TencentOpenAPI/TencentOAuth.h>
 #import "MyLBService.h"
-//#import <WeiboSDK/WeiboSDK.h>
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
 
 static BOOL isBackGroundActivateApplication;
 static BOOL webViewLaunched;
 static NSString *pushID;
 static NSString *header;
 static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:4984/";
-static NSString *const dbName = @"cliplay_staging";
+static NSString *const dbName = @"cliplay_prod_new";
 static NSString *const dumpFile = @"ionic.min";
 static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
 static NSString *const pushApiKey = @"10YipKN8jSfOn0t5e1NbBwXl";
 static NSString *const pushCat = @"cliplay";
-//static NSString *const serverAPIRoot = @"http://localhost:3000/api";
 
 @implementation AppDelegate {
 	MyLBService *service;
@@ -165,29 +165,28 @@ static NSString *const pushCat = @"cliplay";
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-		// iOS8 下需要使用新的 API
-//	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-//		UIUserNotificationType myTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-//		
-//		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:myTypes categories:nil];
-//		[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-//	}else {
-//		UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
-//		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
-//	}
-	
-	
-	if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-		NSLog(@"Requesting permission for push notifications..."); // iOS 8
-		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:
-		UIUserNotificationTypeAlert | UIUserNotificationTypeBadge |
-		UIUserNotificationTypeSound categories:nil];
-		[UIApplication.sharedApplication registerUserNotificationSettings:settings];
-	} else {
-		NSLog(@"Registering device for push notifications..."); // iOS 7 and earlier
-		[UIApplication.sharedApplication registerForRemoteNotificationTypes:
-		UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge |
-		UIRemoteNotificationTypeSound];
+	// iOS10 下需要使用新的 API
+	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0) {
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+		UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+		
+		[center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge)
+							  completionHandler:^(BOOL granted, NSError * _Nullable error) {
+								  // Enable or disable features based on authorization.
+								  if (granted) {
+									  [application registerForRemoteNotifications];
+								  }
+							  }];
+#endif
+	}
+	else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+		UIUserNotificationType myTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+		
+		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:myTypes categories:nil];
+		[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+	}else {
+		UIRemoteNotificationType myTypes = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
+		[[UIApplication sharedApplication] registerForRemoteNotificationTypes:myTypes];
 	}
 	
 #warning 测试 开发环境 时需要修改BPushMode为BPushModeDevelopment 需要修改Apikey为自己的Apikey
@@ -199,6 +198,8 @@ static NSString *const pushCat = @"cliplay";
 	#else
 	[BPush registerChannel:launchOptions apiKey:pushApiKey pushMode:BPushModeProduction withFirstAction:@"打开" withSecondAction:nil withCategory:pushCat useBehaviorTextInput:NO isDebug:NO];
 	#endif
+	
+	[BPush disableLbs];
 	
 	// App 是用户点击推送消息启动
 	NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -270,6 +271,30 @@ static NSString *const pushCat = @"cliplay";
 	NSLog(@"%@",userInfo);
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+	// App 收到推送的通知
+	[BPush handleNotification:userInfo];
+	NSLog(@"********** ios7.0之前 **********");
+	
+	pushID = userInfo[@"push_id"];
+	header = userInfo[@"header"];
+	
+	// 应用在前台 或者后台开启状态下，不跳转页面，让用户选择。
+	if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
+		NSLog(@"acitve or background");
+		UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+		[alertView show];
+	}
+	else if(webViewLaunched)//杀死状态下，直接跳转到跳转页面。
+	{
+		[self fetchData];
+	}
+	
+	NSLog(@"%@",userInfo);
+}
+
+
 - (void)webViewLaunched {
 	webViewLaunched = true;
 }
@@ -288,7 +313,7 @@ static NSString *const pushCat = @"cliplay";
 	
 	__weak typeof(nv) _nv = nv;
 	NSString *_header = header;
-//	__weak typeof(header) _header = header;
+	NSString *_pushID = pushID;
 	
 	NSURL *url = [NSURL URLWithString:[[NSString stringWithFormat:@"%@%@/", dbURL, dbName]stringByAppendingString: pushID]];
 	NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -308,6 +333,7 @@ static NSString *const pushCat = @"cliplay";
 			 vc.showInfo = false;
 			 vc.articleDicts = dict[@"image"];
 			 vc.summary = dict[@"summary"];
+			 vc.postID = _pushID;
 			 
 			 [_nv pushViewController:vc animated:YES];
 			 
@@ -425,27 +451,6 @@ static NSString *const pushCat = @"cliplay";
 	NSLog(@"newData = %@", newData);
 }
 
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-//{
-//	// App 收到推送的通知
-//	[BPush handleNotification:userInfo];
-//	NSLog(@"********** ios7.0之前 **********");
-//	// 应用在前台 或者后台开启状态下，不跳转页面，让用户选择。
-//	if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
-//		NSLog(@"acitve or background");
-//		UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//		[alertView show];
-//	}
-//	else//杀死状态下，直接跳转到跳转页面。
-//	{
-//		//		SkipViewController *skipCtr = [[SkipViewController alloc]init];
-//		//		[_tabBarCtr.selectedViewController pushViewController:skipCtr animated:YES];
-//	}
-//
-//	//	[self.viewController addLogString:[NSString stringWithFormat:@"Received Remote Notification :\n%@",userInfo]];
-//
-//	NSLog(@"%@",userInfo);
-//}
 
 //- (BOOL)application:(UIApplication *)application
 //didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

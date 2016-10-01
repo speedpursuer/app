@@ -80,6 +80,7 @@
         _textView.font = [UIFont systemFontOfSize: REUIKitIsFlatMode() ? 17 : 21];
         _textView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
         _textView.bounces = YES;
+		_textView.delegate = self;
         
         [_textViewContainer addSubview:_textView];
         [self addSubview:_textViewContainer];
@@ -132,6 +133,11 @@
     id<REComposeSheetViewDelegate> localDelegate = _delegate;
     if ([localDelegate respondsToSelector:@selector(postButtonPressed)])
         [localDelegate postButtonPressed];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+	return [[textView text] length] - range.length + text.length > SHARE_COMMENT_CHART_LIMIT? NO: YES;
 }
 
 @end

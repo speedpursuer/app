@@ -162,7 +162,7 @@
 	
 	[YYImageExampleHelper addTapControlToAnimatedImageView:imageView];
 	[YYImageExampleHelper addPanControlToAnimatedImageView:imageView];
-	[self addTapControlToAnimatedImageView:imageView];
+//	[self addTapControlToAnimatedImageView:imageView];
 //	for (UIGestureRecognizer *g in imageView.gestureRecognizers) {
 //		g.delegate = self;
 //	}

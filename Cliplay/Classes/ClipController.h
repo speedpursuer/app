@@ -10,7 +10,6 @@
 #import "CNPPopupController.h"
 #import <YYWebImage/YYWebImage.h>
 #import "EBCommentsViewDelegate.h"
-//#import "EBCommentsViewController.h"
 #import "DOFavoriteButton.h"
 #import "MyLBDelegate.h"
 
@@ -23,29 +22,16 @@
 @property (nonatomic, assign) BOOL showInfo;
 @property (nonatomic, strong) NSString *postID;
 @property (nonatomic, assign) BOOL favorite;
-//@property (weak) EBCommentsViewController *delegate;
 @property (strong) DOFavoriteButton *infoButton;
 
 - (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 - (NSString *)getCommentQty:(NSString *)clipID;
 - (void)showComments:(NSString *)clipID;
 - (void)shareClip:(NSURL *)clipID;
-- (void)fetchPostComments;
-//- (void)getCommentDetail:(NSString *)clipID callback: (void(^)(NSArray*))handler;
+- (void)fetchPostComments:(BOOL)isRefresh;
+- (BOOL)isFullyVisible:(UITableViewCell *)cell;
+- (void)setFavoriate:(NSString *)url;
+- (void)unsetFavoriate:(NSString *)url;
+- (BOOL)isFavoriate:(NSString *)url;
+- (void)recordSlowPlayWithUrl:(NSString *)url;
 @end
-
-//@interface ClipController (Comments) <UITableViewDataSource, UITableViewDelegate, UITextViewDelegate,EBCommentsViewDelegate>
-//
-//@property (weak, readwrite) EBCommentsView *commentsView;
-//@property (strong) NSArray *comments;
-//
-//- (void)deleteCellWithNotification:(NSNotification *)notification;
-//- (void)setCommentsHidden:(BOOL)commentsHidden;
-//- (void)loadComments:(NSArray *)comments;
-//- (void)setCommentingEnabled:(BOOL)enableCommenting;
-//- (void)startCommenting;
-//- (void)hideComments;
-//- (void)showComments;
-//- (void)cancelCommentingWithNotification:(NSNotification *)notification;
-//
-//@end
