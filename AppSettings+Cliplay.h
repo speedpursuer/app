@@ -9,5 +9,6 @@
 #import <AppSettings/AppSettings.h>
 
 @interface AppSettings (Cliplay)
+@property (nonatomic, strong) NSString *postID;
 + (id)loadWithDefault;
 @end

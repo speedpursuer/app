@@ -81,7 +81,8 @@
         _textView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
         _textView.bounces = YES;
 		_textView.delegate = self;
-        
+		_textView.keyboardType = UIKeyboardTypeTwitter;
+		
         [_textViewContainer addSubview:_textView];
         [self addSubview:_textViewContainer];
         

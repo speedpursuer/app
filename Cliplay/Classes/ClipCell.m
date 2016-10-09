@@ -92,19 +92,30 @@
 	_label.centerX = _webImageView.centerX;
 	_label.centerY = _webImageView.centerY + _webImageView.height * 0.2;
 	
-	CGFloat lineHeight = 4;
-	_progressLayer = [CAShapeLayer layer];
-	_progressLayer.size = CGSizeMake(_webImageView.width, lineHeight);
-	UIBezierPath *path = [UIBezierPath bezierPath];
-	[path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
-	[path addLineToPoint:CGPointMake(_webImageView.width, _progressLayer.height / 2)];
-	_progressLayer.lineWidth = lineHeight;
-	_progressLayer.path = path.CGPath;
-	_progressLayer.strokeColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor;
-	_progressLayer.lineCap = kCALineCapButt;
-	_progressLayer.strokeStart = 0;
-	_progressLayer.strokeEnd = 0;
-	[_webImageView.layer addSublayer:_progressLayer];
+//	CGFloat lineHeight = 4;
+//	_progressLayer = [CAShapeLayer layer];
+//	_progressLayer.size = CGSizeMake(_webImageView.width, lineHeight);
+//	UIBezierPath *path = [UIBezierPath bezierPath];
+//	[path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
+//	[path addLineToPoint:CGPointMake(_webImageView.width, _progressLayer.height / 2)];
+//	_progressLayer.lineWidth = lineHeight;
+//	_progressLayer.path = path.CGPath;
+//	_progressLayer.strokeColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor;
+//	_progressLayer.lineCap = kCALineCapButt;
+//	_progressLayer.strokeStart = 0;
+//	_progressLayer.strokeEnd = 0;
+//	[_webImageView.layer addSublayer:_progressLayer];
+	
+
+//	_progressView = [[MRCircularProgressView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+//	_progressView.centerX = _webImageView.centerX;
+//	_progressView.centerY = _webImageView.centerY;
+//	[self.contentView addSubview:_progressView];
+	
+	_progressView = [MRProgressOverlayView showOverlayAddedTo:_webImageView animated:YES];
+	_progressView.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	_progressView.titleLabelText = @"";
+	_progressView.mode = MRProgressOverlayViewModeDeterminateCircular;
 	
 	__weak typeof(self) _self = self;
 	UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
@@ -268,17 +279,16 @@
 	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.image]];
 }
 
-- (void)setImageURL:(NSURL *)url {
+- (void)setGIF:(NSURL *)imgUrl withThumb:(UIImage *)thumb {
 	
 	__weak typeof(self) _self = self;
-	
 	_label.hidden = YES;
 	
-	[CATransaction begin];
-	[CATransaction setDisableActions: YES];
-	self.progressLayer.hidden = YES;
-	self.progressLayer.strokeEnd = 0;
-	[CATransaction commit];
+//	[CATransaction begin];
+//	[CATransaction setDisableActions: YES];
+//	self.progressLayer.hidden = YES;
+//	self.progressLayer.strokeEnd = 0;
+//	[CATransaction commit];
 	
 	_self.downLoaded = FALSE;
 	
@@ -288,24 +298,27 @@
 	_commentBtn.hidden = true;
 	_shareBtn.hidden = true;
 	
-	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
-	
-	[_webImageView yy_setImageWithURL:url
-						  placeholder:placeholderImage
+	[_webImageView yy_setImageWithURL:imgUrl
+						  placeholder:thumb
 							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
 	 //| YYWebImageOptionRefreshImageCache
 							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 								 if (expectedSize > 0 && receivedSize > 0) {
 									 CGFloat progress = (CGFloat)receivedSize / expectedSize;
 									 progress = progress < 0 ? 0 : progress > 1 ? 1 : progress;
-									 if (_self.progressLayer.hidden) _self.progressLayer.hidden = NO;
-									 _self.progressLayer.strokeEnd = progress;
+//									 if (_self.progressLayer.hidden) _self.progressLayer.hidden = NO;
+//									 _self.progressLayer.strokeEnd = progress;
+									 
+									 if(_self.progressView.hidden) _self.progressView.hidden = NO;
+									 [_self.progressView setProgress:progress animated:YES];
 								 }
 							 }
 							transform:nil
 						   completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
 							   if (stage == YYWebImageStageFinished) {
-								   _self.progressLayer.hidden = YES;
+//								   _self.progressLayer.hidden = YES;
+								   
+								   _self.progressView.hidden = YES;
 								   
 								   if (!image) {
 									   _self.label.hidden = NO;
@@ -330,6 +343,27 @@
 							   }
 						   }
 	 ];
+}
+
+- (void)setImageURL:(NSURL *)imgUrl {
+	
+//	__weak typeof(self) _self = self;
+	_progressView.hidden = YES;
+	
+	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
+
+	[_webImageView yy_setImageWithURL:[NSURL URLWithString:@"http://ww1.sinaimg.cn/large/006p1Rrsgw1f7hf0r0ndbj318g0xc46r.jpg"]
+						  placeholder:placeholderImage
+							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
+							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+							 }
+							transform:nil
+						   completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+							   if (stage == YYWebImageStageFinished) {
+								   [self setGIF:imgUrl withThumb:image];
+							   }
+						   }
+	];
 }
 
 - (ClipController *) getViewCtr {

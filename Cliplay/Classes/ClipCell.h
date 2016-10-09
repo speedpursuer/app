@@ -15,15 +15,17 @@
 #import "TTTAttributedLabel.h"
 #import "ArticleEntity.h"
 #import "ClipController.h"
+#import "MRProgress.h"
 
 @interface ClipCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
-@property (nonatomic, strong) CAShapeLayer *progressLayer;
+//@property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, assign) BOOL downLoaded;
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
 @property (nonatomic, strong) UIButton *commentBtn;
 @property (nonatomic, strong) UIButton *shareBtn;
+@property (nonatomic, strong) MRProgressOverlayView *progressView;
 @property (nonatomic, weak) ClipController *delegate;
 - (void)setCellData:(ArticleEntity*) entity isForHeight:(BOOL)isForHeight;
 - (void)updateCommentQty;
