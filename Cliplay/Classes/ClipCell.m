@@ -114,7 +114,9 @@
 	
 	_progressView = [MRProgressOverlayView showOverlayAddedTo:_webImageView animated:YES];
 	_progressView.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+//	_progressView.titleLabelText = @"下载中";
 	_progressView.titleLabelText = @"";
+//	_progressView.mode = MRProgressOverlayViewModeDeterminateHorizontalBar;
 	_progressView.mode = MRProgressOverlayViewModeDeterminateCircular;
 	
 	__weak typeof(self) _self = self;
@@ -279,7 +281,22 @@
 	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.image]];
 }
 
-- (void)setGIF:(NSURL *)imgUrl withThumb:(UIImage *)thumb {
+- (void)setThumb:(NSURL *)url gifUrl:(NSURL *)gifUrl placeholder:(UIImage *)placeholder{
+	[_webImageView yy_setImageWithURL:url
+						  placeholder:placeholder
+							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
+							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+							 }
+							transform:nil
+						   completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
+							   if (stage == YYWebImageStageFinished) {
+								   [self setGIF:gifUrl placeholder:image];
+							   }
+						   }
+	 ];
+}
+
+- (void)setGIF:(NSURL *)gifUrl placeholder:(UIImage *)placeholder {
 	
 	__weak typeof(self) _self = self;
 	_label.hidden = YES;
@@ -298,8 +315,10 @@
 	_commentBtn.hidden = true;
 	_shareBtn.hidden = true;
 	
-	[_webImageView yy_setImageWithURL:imgUrl
-						  placeholder:thumb
+//	[_self.progressView setProgress:0.0 animated:NO];
+	
+	[_webImageView yy_setImageWithURL:gifUrl
+						  placeholder:placeholder
 							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
 	 //| YYWebImageOptionRefreshImageCache
 							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
@@ -351,19 +370,18 @@
 	_progressView.hidden = YES;
 	
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
+	
+	if([self isImageCached:imgUrl]) {
+		[self setGIF:imgUrl placeholder:placeholderImage];
+	}else {
+		[self setThumb:[NSURL URLWithString:@"http://ww1.sinaimg.cn/large/006p1Rrsgw1f7hf0r0ndbj318g0xc46r.jpg"] gifUrl:imgUrl placeholder:placeholderImage];
+	}
+}
 
-	[_webImageView yy_setImageWithURL:[NSURL URLWithString:@"http://ww1.sinaimg.cn/large/006p1Rrsgw1f7hf0r0ndbj318g0xc46r.jpg"]
-						  placeholder:placeholderImage
-							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
-							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-							 }
-							transform:nil
-						   completion:^(UIImage *image, NSURL *url, YYWebImageFromType from, YYWebImageStage stage, NSError *error) {
-							   if (stage == YYWebImageStageFinished) {
-								   [self setGIF:imgUrl withThumb:image];
-							   }
-						   }
-	];
+- (BOOL)isImageCached:(NSURL *)url {
+	YYImageCache *cache = [YYWebImageManager sharedManager].cache;
+	NSString *key = [[YYWebImageManager sharedManager] cacheKeyForURL:url];
+	return [cache containsImageForKey:key];
 }
 
 - (ClipController *) getViewCtr {
