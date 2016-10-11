@@ -98,6 +98,7 @@
 		7633BA931D75ABF500A3FB09 /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA8B1D75ABF500A3FB09 /* REComposeSheetView.m */; };
 		7633BA941D75ABF500A3FB09 /* REComposeViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7633BA8C1D75ABF500A3FB09 /* REComposeViewController.bundle */; };
 		7633BA951D75ABF500A3FB09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633BA8E1D75ABF500A3FB09 /* REComposeViewController.m */; };
+		763704E81DAC762C009C5616 /* finger.png in Resources */ = {isa = PBXBuildFile; fileRef = 763704E71DAC762C009C5616 /* finger.png */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
 		764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 764355441D0FFB8000807EBF /* DGTeaEncryptor.m */; };
 		7647EDD81CCB135700587845 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7647EDD61CCB135700587845 /* libBPush.a */; };
@@ -307,6 +308,7 @@
 		7633BA8C1D75ABF500A3FB09 /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
 		7633BA8D1D75ABF500A3FB09 /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
 		7633BA8E1D75ABF500A3FB09 /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
+		763704E71DAC762C009C5616 /* finger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = finger.png; path = ../../../../../Downloads/finger.png; sourceTree = "<group>"; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		764355431D0FFB8000807EBF /* DGTeaEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGTeaEncryptor.h; path = Cliplay/Classes/DGTeaEncryptor.h; sourceTree = "<group>"; };
 		764355441D0FFB8000807EBF /* DGTeaEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGTeaEncryptor.m; path = Cliplay/Classes/DGTeaEncryptor.m; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				763704E71DAC762C009C5616 /* finger.png */,
 				762EB67F1D4DCCB600204EA0 /* TencentOpenApi_IOS_Bundle.bundle */,
 				760CD3061CA61B9C00EC0723 /* info.png */,
 				765FD5C71CA57D3F00F31F5D /* tip.png */,
@@ -965,6 +968,7 @@
 				7605C4901C5BB3CC004E488A /* Icon-83.5@2x.png in Resources */,
 				7605C4841C5BB3CC004E488A /* Icon-40.png in Resources */,
 				7605C4B21C5BB3EB004E488A /* Default-Portrait@2x~ipad.png in Resources */,
+				763704E81DAC762C009C5616 /* finger.png in Resources */,
 				7605C48A1C5BB3CC004E488A /* Icon-60@2x.png in Resources */,
 				7605C4B01C5BB3EB004E488A /* Default-Landscape@2x~ipad.png in Resources */,
 				76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */,

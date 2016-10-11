@@ -33,6 +33,7 @@
 #import "DGTeaEncryptor.h"
 #import "FavoriateMgr.h"
 #import "MyLBService.h"
+//#import "MBFingerTipWindow.h"
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
@@ -43,6 +44,7 @@ static NSString *pushID;
 static NSString *header;
 static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:4984/";
 static NSString *const dbName = @"cliplay_prod_new";
+//static NSString *const dbName = @"cliplay_staging";
 static NSString *const dumpFile = @"ionic.min";
 static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
@@ -451,6 +453,16 @@ static NSString *const pushCat = @"cliplay";
 	NSLog(@"newData = %@", newData);
 }
 
+//- (UIWindow *)window {
+//	if (!window) {
+//		MBFingerTipWindow *win = [[MBFingerTipWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//		[win setAlwaysShowTouches:YES];
+//		[win setTouchImage:[UIImage imageNamed:@"finger"]];
+//		[win setTouchAlpha:1.0];
+//		window = win;
+//	}
+//	return window;
+//}
 
 //- (BOOL)application:(UIApplication *)application
 //didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
