@@ -16,11 +16,26 @@
 #import "ArticleEntity.h"
 #import "FavoriateMgr.h"
 #import "MyLBService.h"
+#import "AlbumAddClipDescViewController.h"
+#import "AlbumSelectBottomSheetViewController.h"
+#import <STPopup/STPopup.h>
+#include "JDStatusBarNotification.h"
+//#import "Album.h"
+#import "CBLService.h"
 
 #define cellMargin 10
 #define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width - cellMargin * 2
 #define sHeight [UIScreen mainScreen].bounds.size.height
+
+@interface ClipController ()
+@property (nonatomic, strong) STPopupController *popCtr;
+@property CBLService *cblService;
+@property (nonatomic, copy) NSString *clipToAdd;
+@property BOOL shouldAddDesc;
+@property BOOL shouldAddAlbum;
+@property Album *albumToAdd;
+@end
 
 @implementation ClipController {
 	NSArray *data;
@@ -34,7 +49,7 @@
 	[super viewDidLoad];
 		
 	lbService = [MyLBService sharedManager];
-//	[lbService setShareDelegate:self];
+	_cblService = [CBLService sharedManager];
 	
 	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
 	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
@@ -53,7 +68,7 @@
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 	
-	[self setFavorite];
+//	[self setFavorite];
 	
 //	[self fetchPostComments:[self postID]];
 	
@@ -74,8 +89,8 @@
 
 - (void)setFavorite {
 	if(self.favorite) {
-		self.header = @"我的收藏";
-		self.articleURLs = [[FavoriateMgr sharedInstance] getFavoriateImages];
+//		self.header = @"我的收藏";
+//		self.articleURLs = [[FavoriateMgr sharedInstance] getFavoriateImages];
 	}
 }
 
@@ -83,8 +98,22 @@
 	NSMutableArray *entities = @[].mutableCopy;
 	
 	if(_articleURLs) {
-		for (NSString *url in _articleURLs) {
-			[entities addObject:[[ArticleEntity alloc] initWithData:url desc: @""]];
+		if(_favorite) {
+			for (NSString *url in _articleURLs) {
+				[entities addObject:[[ArticleEntity alloc] initWithData:url desc: @""]];
+			}			
+		}else {
+			[_articleURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+				
+				ArticleEntity *entity = (ArticleEntity *)obj;
+				
+				NSString *desc = entity.desc;
+				NSString *url = entity.image;
+				if(desc && [desc length] != 0) {
+					[entities addObject:[[ArticleEntity alloc] initWithData:@"" desc:desc]];
+				}
+				[entities addObject:[[ArticleEntity alloc] initWithData:url desc:@""]];
+			}];
 		}
 	}else if(_articleDicts) {
 		
@@ -173,14 +202,29 @@
 	}else{
 		[self fetchPostComments:NO];
 	}
+	
+	if(_shouldAddAlbum){
+		[self showNewAlbumForm];
+		_shouldAddAlbum = NO;
+	}
+	
+	if(_shouldAddDesc) {
+		[self addToExistingAlbum];
+		_shouldAddDesc = NO;
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated {
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
-	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-		// back button was pressed.  We know this is true because self is no longer
-		// in the navigation stack.
-		[self.navigationController setNavigationBarHidden:YES];
+	if(_articleDicts) {
+		if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+			// back button was pressed.  We know this is true because self is no longer
+			// in the navigation stack.
+			[self.navigationController setNavigationBarHidden:YES];
+		}
 	}
 	
 	if(_fullScreen) {
@@ -348,14 +392,17 @@
 
 #pragma mark - Favorite
 - (void)setFavoriate:(NSString *)url {
-	[[FavoriateMgr sharedInstance] setFavoriate:url];
+//	[[FavoriateMgr sharedInstance] setFavoriate:url];
+	[_cblService setFavoriate:url];
 	[lbService recordFavoriteWithClipID:url postID:_postID];
 }
 - (void)unsetFavoriate:(NSString *)url {
-	[[FavoriateMgr sharedInstance] unsetFavoriate:url];
+//	[[FavoriateMgr sharedInstance] unsetFavoriate:url];
+	[_cblService unsetFavoriate:url];
 }
 - (BOOL)isFavoriate:(NSString *)url {
-	return [[FavoriateMgr sharedInstance] isFavoriate:url];
+	return [_cblService isFavoriate:url];
+//	return [[FavoriateMgr sharedInstance] isFavoriate:url];
 }
 
 #pragma mark - Comments
@@ -364,8 +411,19 @@
 	
 	NSString *id_post = [self postID];
 	
-	if(self.favorite && self.articleURLs.count > 0) {
-		[lbService getCommentsSummaryByClipIDs:self.articleURLs isRefresh:isRefresh success:^(NSArray *list) {
+	if(self.articleURLs.count > 0) {
+		
+		NSMutableArray *urlList = [NSMutableArray new];
+		
+		if(self.favorite) {
+			[urlList addObjectsFromArray:self.articleURLs];
+		}else {
+			for (ArticleEntity *entity in _articleURLs) {
+				[urlList addObject:entity.image];
+			}
+		}
+			
+		[lbService getCommentsSummaryByClipIDs:[urlList copy] isRefresh:isRefresh success:^(NSArray *list) {
 			[self generateCommentList:list];
 		} failure:^{
 		}];
@@ -421,5 +479,100 @@
 	[lbService shareWithClipID:clipID];
 }
 
+#pragma mark - Album
+- (void)addToAlbum:(NSString *)url {
+	
+	_clipToAdd = url;
+	
+	STPopupController *popupController = [[STPopupController alloc] initWithRootViewController:[[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"addList"]];
+	
+	_popCtr = popupController;
+	popupController.style = STPopupStyleBottomSheet;
+	
+	[popupController.backgroundView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundViewDidTap)]];
+	
+	[STPopupNavigationBar appearance].tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	
+	[popupController presentInViewController:self];
+}
+
+- (void)backgroundViewDidTap {
+	[self.popCtr dismiss];
+}
+
+- (void)showNewAlbumForm {
+	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:@"New Album"
+												   message:@"Title for new list:"
+												  delegate:self
+										 cancelButtonTitle:@"Cancel"
+										 otherButtonTitles:@"Create", nil];
+	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	[alert show];
+}
+
+- (void)addToExistingAlbum {
+	
+	AlbumAddClipDescViewController *ctr = [[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"addDesc"];
+	
+	UINavigationController *navigationController =
+	[[UINavigationController alloc] initWithRootViewController:ctr];
+	
+	[ctr setUrl:_clipToAdd];
+	
+	_fullScreen = true;
+	
+	navigationController.navigationBar.tintColor = [UIColor blackColor];
+	
+	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
+	
+	[self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)saveClipToAlbumWithDesc:(NSString *)desc {
+	if([_cblService saveClip:_clipToAdd toAlum:_albumToAdd withDesc:desc]) {
+		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", _albumToAdd.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
+	}else{
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+	}
+}
+
+- (void)createNewAlbumWithTitle:(NSString *)title {
+	Album *album = [_cblService creatAlubmWithTitle:title];
+	if(album) {
+		_albumToAdd = album;
+		[self addToExistingAlbum];
+	}
+}
+
+- (IBAction)unwindBack:(UIStoryboardSegue *)segue {
+
+	UIViewController *source = [segue sourceViewController];
+	
+	if([source isKindOfClass:[AlbumAddClipDescViewController class]]){
+		AlbumAddClipDescViewController *ctr = ((AlbumAddClipDescViewController *)source);
+		if(ctr.shouldSave) {
+			[self saveClipToAlbumWithDesc:ctr.desc.text];
+		}
+	}else if([source isKindOfClass:[AlbumSelectBottomSheetViewController class]]) {
+		AlbumSelectBottomSheetViewController *ctr = ((AlbumSelectBottomSheetViewController *)source);
+		_albumToAdd = ctr.selectedAlbum;
+		if (!_albumToAdd) {
+			_shouldAddAlbum = YES;
+		}else {
+			_shouldAddDesc = YES;
+		}
+	}
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	if (buttonIndex > 0) {
+		NSString* title = [alert textFieldAtIndex:0].text;
+		if (title.length > 0) {
+			[self createNewAlbumWithTitle:title];
+		}
+	}
+}
 @end
 

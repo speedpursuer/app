@@ -11,12 +11,45 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "LKBadgeView - 1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "-[ClipPlayController setImageViewSize]:ClipPlayController.m">
          <PersistentStrings>
             <PersistentString
                value = "self.view.size">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CBLService getAllDocument]:CBLService.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "album.clips">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[AlbumListTableViewCell awakeFromNib]:AlbumListTableViewCell.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[AlbumTableViewController observeValueForKeyPath:ofObject:change:context:]:AlbumTableViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.favorite">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[LKBadgeView drawRect:]:LKBadgeView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[LKBadgeView setText:]:LKBadgeView.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

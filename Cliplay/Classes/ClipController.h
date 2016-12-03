@@ -34,4 +34,5 @@
 - (void)unsetFavoriate:(NSString *)url;
 - (BOOL)isFavoriate:(NSString *)url;
 - (void)recordSlowPlayWithUrl:(NSString *)url;
+- (void)addToAlbum:(NSString *)url;
 @end

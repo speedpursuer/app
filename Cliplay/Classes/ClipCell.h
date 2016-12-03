@@ -24,6 +24,7 @@
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
 @property (nonatomic, strong) UIButton *commentBtn;
 @property (nonatomic, strong) UIButton *shareBtn;
+@property (nonatomic, strong) UIButton *albumBtn;
 @property (nonatomic, weak) ClipController *delegate;
 - (void)setCellData:(ArticleEntity*) entity isForHeight:(BOOL)isForHeight;
 - (void)updateCommentQty;

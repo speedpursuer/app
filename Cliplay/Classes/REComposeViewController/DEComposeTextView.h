@@ -18,7 +18,7 @@
 #import <UIKit/UIKit.h>
 
 #define SHARE_COMMENT_CHART_LIMIT       120
-#define SHARE_COMMENT_PLACEHOLDER       @"此刻的想法"
+#define SHARE_COMMENT_PLACEHOLDER       @"请输入..."
 
 @protocol DEComposeTextViewDelegate;
 

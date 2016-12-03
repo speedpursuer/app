@@ -40,6 +40,20 @@
 	return self;
 }
 
+- (instancetype)initWithJSON: (id)jsonObject {
+	if (self = [super init]) {
+		self.desc = [jsonObject objectForKey:@"desc"];
+		self.image = [jsonObject objectForKey:@"url"];
+	}
+	return self;
+}
+
+- (id)encodeAsJSON {
+	return @{
+				@"desc":self.desc,
+				@"url":self.image
+			};
+}
 @end
 
 

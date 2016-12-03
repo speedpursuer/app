@@ -32,6 +32,7 @@
 #import "ArticleController.h"
 #import "GalleryController.h"
 #import "ClipController.h"
+#import "AlbumTableViewController.h"
 
 
 @implementation MainViewController
@@ -55,7 +56,7 @@
         // Uncomment to override the CDVCommandDelegateImpl used
         // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
         // Uncomment to override the CDVCommandQueue used
-        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
+        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];	
     }
     return self;
 }
@@ -184,7 +185,7 @@
 	//self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
 }
 
-- (void)showFavoriteView{
+- (void)showFavoriteView_old{
 	
 	UIViewController *top  = [self.navigationController topViewController];
 	if([top isKindOfClass:[ClipController class]]) {
@@ -199,6 +200,24 @@
 	[self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)showFavoriteView{
+	
+	UIViewController *top  = [self.navigationController topViewController];
+	if([top isKindOfClass:[AlbumTableViewController class]]) {
+		return;
+	}
+	
+//	ClipController *vc = [ClipController new];
+//	
+//	vc.favorite = true;
+	
+	UIStoryboard *sb = [UIStoryboard storyboardWithName:@"favorite" bundle:nil];
+	UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"list"];
+	//	vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//	[self presentViewController:vc animated:YES completion:NULL];
+	[self.navigationController setNavigationBarHidden:NO];
+	[self.navigationController pushViewController:vc animated:YES];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -310,10 +329,6 @@
 - (BOOL)execute:(CDVInvokedUrlCommand*)command
 {
     return [super execute:command];
-}
-
-- (UIInterfaceOrientationMask) supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

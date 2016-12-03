@@ -123,6 +123,7 @@
 	
 	[self.contentView addSubview:_heartButton];
 	
+//	_heartButton.bottom = _webImageView.bottom;
 	_heartButton.top = _webImageView.top;
 	_heartButton.left = _webImageView.left;
 	
@@ -163,6 +164,27 @@
 	_shareBtn.right = _webImageView.right;
 	
 	[_shareBtn addTarget:self action:@selector(shareClip) forControlEvents:UIControlEventTouchUpInside];
+	
+	
+	FAKFontAwesome *albumIcon = [FAKFontAwesome folderOpenIconWithSize:20];
+	
+	UIImage *albumImage = [albumIcon imageWithSize:CGSizeMake(20, 20)];
+	
+	_albumBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+	_albumBtn.frame = CGRectMake(0, 0, 40, 40);
+	
+	[_albumBtn setImage:albumImage forState:UIControlStateNormal];
+	[_albumBtn setImage:albumImage forState:UIControlStateHighlighted];
+	//	[_shareBtn setTintColor:[UIColor whiteColor]];
+	[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
+	
+	[self.contentView addSubview:_albumBtn];
+	
+//	_albumBtn.top = _webImageView.top;
+	_albumBtn.bottom = _webImageView.bottom;
+	_albumBtn.left = _webImageView.left;
+	
+	[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
 	
 	return self;
 }
@@ -287,6 +309,7 @@
 	_heartButton.hidden = true;
 	_commentBtn.hidden = true;
 	_shareBtn.hidden = true;
+	_albumBtn.hidden = true;
 	
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
 	
@@ -326,6 +349,7 @@
 									   _self.heartButton.hidden = NO;
 									   _self.commentBtn.hidden = NO;
 									   _self.shareBtn.hidden = NO;
+									   _self.albumBtn.hidden = NO;
 								   }
 							   }
 						   }
@@ -361,6 +385,11 @@
 - (void)shareClip {
 	ClipController* ctr = [self getViewCtr];
 	[ctr shareClip:self.webImageView.yy_imageURL];
+}
+
+- (void)collectClipToAlbum {
+	ClipController* ctr = [self getViewCtr];
+	[ctr addToAlbum:[self.webImageView.yy_imageURL absoluteString]];
 }
 
 - (UIImage *)getCommentIcon:(NSInteger)count {

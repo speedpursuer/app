@@ -271,7 +271,6 @@
 	if(_standalone) [[YYImageCache sharedCache].memoryCache removeAllObjects];
 	
 	[self dismissViewControllerAnimated:YES completion:nil];
-
 }
 
 - (void)showProgress{

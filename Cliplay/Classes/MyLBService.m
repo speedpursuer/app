@@ -189,6 +189,9 @@ static NSInteger const pageSize = 11;
 
 - (void)recordFavoriteWithClipID:(NSString *)url
 					   postID:(NSString *)postID {
+	if(postID == nil) {
+		postID = @"Album";
+	}
 	[visitRep invokeStaticMethod:@"recordFavorite"
 					  parameters:@{@"id_clip": url,
 								   @"id_post": postID

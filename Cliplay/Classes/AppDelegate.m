@@ -33,7 +33,9 @@
 #import "DGTeaEncryptor.h"
 #import "FavoriateMgr.h"
 #import "MyLBService.h"
+#import "ClipPlayController.h"
 //#import "MBFingerTipWindow.h"
+#import "CBLService.h"
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
@@ -42,9 +44,9 @@ static BOOL isBackGroundActivateApplication;
 static BOOL webViewLaunched;
 static NSString *pushID;
 static NSString *header;
-static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:4984/";
-static NSString *const dbName = @"cliplay_prod_new";
-//static NSString *const dbName = @"cliplay_staging";
+static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:8000/";
+//static NSString *const dbName = @"cliplay_prod_new";
+static NSString *const dbName = @"cliplay_staging";
 static NSString *const dumpFile = @"ionic.min";
 static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
@@ -143,12 +145,19 @@ static NSString *const pushCat = @"cliplay";
 //    }
 #endif
 
-- (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
+- (UIInterfaceOrientationMask)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
 {
     // iPhone doesn't support upside down by default, while the iPad does.  Override to allow all orientations always, and let the root view controller decide what's allowed (the supported orientations mask gets intersected).
-    NSUInteger supportedInterfaceOrientations = (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationPortraitUpsideDown);
-
-    return supportedInterfaceOrientations;
+//    NSUInteger supportedInterfaceOrientations = (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationPortraitUpsideDown);
+//
+//    return supportedInterfaceOrientations;
+	
+	UIViewController *rootController = self.window.rootViewController;
+	if ([rootController.presentedViewController isKindOfClass:[ClipPlayController class]]) {
+		return UIInterfaceOrientationMaskAll;
+	} else {
+		return UIInterfaceOrientationMaskPortrait;
+	}
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application
@@ -217,6 +226,8 @@ static NSString *const pushCat = @"cliplay";
 	pushID = nil;
 	
 	service = [MyLBService sharedManager];
+	
+	[CBLService sharedManager];
 	
 	/*
 	 // 测试本地通知
