@@ -10,11 +10,8 @@
 
 @implementation Favorite
 
-@dynamic title, clips;
+@dynamic clips;
 
-//+(Class)clipsItemClass {
-//	return [NSString class];
-//}
 
 - (BOOL)isFavoriate:(NSString *)url {
 	return ([self.clips indexOfObject:url] != NSNotFound);
@@ -33,4 +30,23 @@
 		self.clips = [list copy];
 	}
 }
+
++ (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {
+	
+	NSString *docID = [NSString stringWithFormat:@"favorite_%@", uuid];
+	Favorite* favorite = [Favorite modelForDocument: database[docID]];
+	
+	favorite.uuid = uuid;
+	favorite.autosaves = YES;
+	
+	if(favorite.isNew) {
+		NSError *error;
+		favorite.clips = @[];
+		favorite.title = @"我的最爱";
+		[favorite save:&error];
+	}
+
+	return favorite;
+}
+
 @end

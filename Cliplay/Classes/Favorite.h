@@ -6,11 +6,11 @@
 //
 //
 
-#import <CouchbaseLite/CouchbaseLite.h>
+#import "CBLBaseModel.h"
 
-@interface Favorite : CBLModel
-@property NSString *title;
+@interface Favorite : CBLBaseModel
 @property NSArray *clips;
++ (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid;
 - (BOOL)isFavoriate:(NSString *)url;
 - (void)setFavoriate:(NSString *)url;
 - (void)unsetFavoriate:(NSString *)url;

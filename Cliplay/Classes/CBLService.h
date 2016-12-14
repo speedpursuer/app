@@ -13,7 +13,7 @@
 
 #define kDBName @"cliplay"
 #define kStorageType kCBLForestDBStorage
-
+#define kDidSynced @"didSynced"
 
 @interface CBLService : NSObject
 @property (strong, nonatomic, readonly) CBLDatabase *database;
@@ -29,4 +29,6 @@
 
 - (void)getAllDocument;
 - (CBLQuery *)queryAllAlbums;
+- (void)syncToRemote;
+- (void)syncFromRemote;
 @end

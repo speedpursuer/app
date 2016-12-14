@@ -29,6 +29,7 @@
     [super viewDidLoad];
 	[self setNavBar];
 	[self setup];
+	[_service syncFromRemote];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

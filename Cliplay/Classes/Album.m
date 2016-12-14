@@ -7,11 +7,22 @@
 //
 
 #import "Album.h"
-//#import "CBLService.h"
 
 @implementation Album
 
-@dynamic title, clips;
+@dynamic clips;
+
++ (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid {
+	
+	NSString *docID = [NSString stringWithFormat:@"album_%@_%d", uuid, (int)[NSDate date].timeIntervalSinceReferenceDate];
+	Album* album = [Album modelForDocument: database[docID]];
+	
+	album.type = AlbumModelType;
+	album.uuid = uuid;
+	album.title = title;
+	
+	return album;
+}
 
 -(void)setImage: (UIImage*)image {
 	[self setAttachmentNamed:kTaskImageName withContentType:ImageDataContentType content:[self dataForImage:image]];
@@ -28,9 +39,10 @@
 	}
 }
 
--(nullable NSString*) idForNewDocumentInDatabase: (CBLDatabase*)db {
-	return [NSString stringWithFormat:@"album_%@", [NSDate date].description];
-}
+//-(nullable NSString*) idForNewDocumentInDatabase: (CBLDatabase*)db {
+//	return [NSString stringWithFormat:@"album_%@_%d", [FCUUID uuidForDevice], (int)[NSDate date].timeIntervalSinceReferenceDate];
+//}
+
 
 +(Class)clipsItemClass {
 	return [ArticleEntity class];

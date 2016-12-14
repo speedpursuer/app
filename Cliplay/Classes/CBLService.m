@@ -8,8 +8,16 @@
 
 #import "CBLService.h"
 #import <YYWebImage/YYWebImage.h>
+#import "FCUUID.h"
+#import "MRProgress.h"
 
 @interface CBLService()
+@property (nonatomic) CBLReplication *push;
+@property (nonatomic) CBLReplication *pull;
+@property (nonatomic) BOOL isSynced;
+@property (nonatomic) NSError *lastSyncError;
+@property MRProgressOverlayView *progressView;
+@property NSString *uuid;
 @end
 @implementation CBLService
 + (id)sharedManager {
@@ -43,6 +51,7 @@
 	[factory registerClass:[Favorite class] forDocumentType:@"favorite"];
 	
 	_favorite = [self loadFavorite];
+	_isSynced = [self didSynced];
 	
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	NSString *applicationSupportDirectory = [paths firstObject];
@@ -51,9 +60,118 @@
 	return self;
 }
 
+- (void)syncToRemote {
+	NSURL *syncUrl = [NSURL URLWithString:@"http://localhost:4984/cliplay_user_data"];
+	
+	_push = [_database createPushReplication:syncUrl];
+	
+	id<CBLAuthenticator> auth;
+	auth = [CBLAuthenticator basicAuthenticatorWithName: @"cliplay_user"
+											   password: @"Cliplay_nba"];
+	_push.authenticator = auth;
+		
+	[_push start];
+}
+
+- (void)syncFromRemote {
+	
+	if(_isSynced) return;
+	
+	NSURL *syncUrl = [NSURL URLWithString:@"http://localhost:4984/cliplay_user_data"];
+	
+	_pull = [_database createPullReplication:syncUrl];
+	
+	id<CBLAuthenticator> auth;
+	auth = [CBLAuthenticator basicAuthenticatorWithName: @"cliplay_user"
+											   password: @"Cliplay_nba"];
+	_pull.authenticator = auth;
+	_pull.channels = @[[NSString stringWithFormat:@"user_%@", _uuid]];
+	
+	// Observe replication progress changes, in both directions:
+	NSNotificationCenter *nctr = [NSNotificationCenter defaultCenter];
+	[nctr addObserver:self selector:@selector(myReplicationProgress:)
+				 name:kCBLReplicationChangeNotification object:_pull];
+	
+	[self showProgress];
+	
+	[self performBlock:^{
+		[_pull start];
+	} afterDelay:0.5];
+}
+
+
+- (void)myReplicationProgress:(NSNotification *)notification {
+	
+	NSError* error = _pull.lastError;
+	if (error != _lastSyncError) {
+		_lastSyncError = error;
+		if (error.code == 401) {
+			[self showMessage:@"Authentication failed" withTitle:@"Sync Error"];
+		} else
+			[self showMessage:error.description withTitle:@"Sync Error"];
+	}
+	
+	if (_pull.status == kCBLReplicationActive){
+		
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		
+		double progress = 0.0;
+		double total = _pull.changesCount;
+		if (total > 0.0) {
+			progress = _pull.completedChangesCount/ total;
+		}
+		
+		[_progressView setProgress:progress];
+		
+	}
+	else {
+		
+		[_progressView setProgress:1.0];
+		
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+		
+		
+		[self performBlock:^{
+			[_progressView dismiss:NO];
+		} afterDelay:0.8];
+		
+		if(!error) {
+			[self setDidSynced];
+		}
+	}
+}
+
+- (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay {
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+	dispatch_after(popTime, dispatch_get_main_queue(), block);
+}
+
+
+- (BOOL)didSynced {
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kDidSynced];
+}
+
+- (void)setDidSynced {
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidSynced];
+	_isSynced = YES;
+}
+
+- (void)showProgress {
+	_progressView = [MRProgressOverlayView showOverlayAddedTo:[[UIApplication sharedApplication] keyWindow] title:@"获取数据" mode:MRProgressOverlayViewModeDeterminateHorizontalBar animated:NO];
+}
+
+#pragma mark - Message
+
+- (void)showMessage:(NSString *)text withTitle:(NSString *)title {
+	[[[UIAlertView alloc] initWithTitle:title
+								message:text
+							   delegate:nil
+					  cancelButtonTitle:@"OK"
+					  otherButtonTitles:nil] show];
+}
+
 - (Album*)creatAlubmWithTitle:(NSString*)title {
-	Album* album = [Album modelForNewDocumentInDatabase:_database];
-	album.title = title;
+	Album* album = [Album getAlbumInDatabase:_database withTitle:title withUUID:_uuid];
 	
 	NSError *error;
 	if ([album save:&error]) {
@@ -75,7 +193,6 @@
 - (BOOL)saveClip:(NSString *)url toAlum:(Album *)album withDesc:(NSString *)desc {
 	
 	NSMutableArray *existingClips = [NSMutableArray arrayWithArray:album.clips];
-	
 	ArticleEntity *clip = [[ArticleEntity alloc] initWithData:url desc:desc];
 	
 	NSError* error;
@@ -124,16 +241,8 @@
 }
 
 - (Favorite *)loadFavorite {
-	CBLDocument* doc = self.database[@"favorite"];
-	Favorite *favorite = [Favorite modelForDocument: doc];
-	favorite.autosaves = YES;
-	if(favorite.isNew) {
-		NSError *error;
-		favorite.clips = @[];
-		favorite.title = @"我的最爱";
-		[favorite save:&error];
-	}
-	return favorite;
+	_uuid = [FCUUID uuidForDevice];
+	return [Favorite getFavoriteInDatabase:_database withUUID:_uuid];
 }
 
 - (BOOL)isFavoriate:(NSString *)url {
@@ -180,28 +289,6 @@
 	return query;
 }
 
-- (void)getAllDocument1 {
-	CBLQuery* query = [_database createAllDocumentsQuery];
-	
-	NSError *error;
-	CBLQueryEnumerator *myLists = [query run:&error];
-	if (!myLists) {
-		return;
-	}
-	
-	NSLog(@"count of docs = %@", [NSNumber numberWithUnsignedInteger:[myLists count]]);
-	
-	for (CBLQueryRow* row in myLists) {
-		
-		CBLDocument *doc = row.document;
-//		List* list = [List modelForDocument: row.document];
-//		list.owner = owner;
-//		if (![list save:error]) {
-//			return;
-//		}
-	}
-}
-
 - (void)getAllDocument {
 	CBLView* view = [_database viewNamed: @"phones"];
 	
@@ -221,7 +308,6 @@
 		CBLDocument *doc = row.document;
 		Album *album = [Album modelForDocument:doc];
 		NSLog(@"album's title = %@", album.title);
-//		NSLog(@"album's type = %@", album.type);
 		NSLog(@"album's clips = %ld", album.clips.count);
 		
 		if(album.clips.count > 0) {
@@ -231,7 +317,6 @@
 				NSLog(@"clip's desc = %@", clip.desc);
 			}
 		}
-//		NSLog(@"album's type = %@", album.type);
 	}
 }
 

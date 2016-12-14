@@ -55,6 +55,7 @@ static NSString *const pushCat = @"cliplay";
 
 @implementation AppDelegate {
 	MyLBService *service;
+	CBLService *lblService;
 }
 
 @synthesize window, viewController;
@@ -167,12 +168,14 @@ static NSString *const pushCat = @"cliplay";
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	[[FavoriateMgr sharedInstance] persistData];
+//	[[FavoriateMgr sharedInstance] persistData];
+	[lblService syncToRemote];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-	[[FavoriateMgr sharedInstance] persistData];
+//	[[FavoriateMgr sharedInstance] persistData];
+	[lblService syncToRemote];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -227,7 +230,9 @@ static NSString *const pushCat = @"cliplay";
 	
 	service = [MyLBService sharedManager];
 	
-	[CBLService sharedManager];
+	lblService = [CBLService sharedManager];
+	
+//	[lblService syncFromRemote];
 	
 	/*
 	 // 测试本地通知

@@ -7,18 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CouchbaseLite/CouchbaseLite.h>
+#import "CBLBaseModel.h"
 #import "ArticleEntity.h"
 
 #define kTaskImageName @"image"
+#define AlbumModelType @"album"
 #define ImageDataContentType @"image/jpg"
 
-@interface Album : CBLModel
-
-@property NSString *title;
+@interface Album : CBLBaseModel
 
 @property NSArray *clips;
-
++ (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid;
 -(void)setImage: (UIImage*)image;
 -(UIImage *)getImage;
 @end

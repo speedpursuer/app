@@ -104,6 +104,7 @@
 		7633ED051DCAEF1A002EEC62 /* AlbumTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633ED041DCAEF1A002EEC62 /* AlbumTableViewController.m */; };
 		7633ED081DCB6DA4002EEC62 /* AlbumListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633ED071DCB6DA4002EEC62 /* AlbumListTableViewCell.m */; };
 		7633ED0B1DCB70CF002EEC62 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633ED0A1DCB70CF002EEC62 /* Album.m */; };
+		763719D71DFF8D7B00080657 /* CBLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 763719D61DFF8D7B00080657 /* CBLBaseModel.m */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
 		764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 764355441D0FFB8000807EBF /* DGTeaEncryptor.m */; };
 		7645BAB11DE9B87600173C93 /* AlbumAddClipDescViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7645BAB01DE9B87600173C93 /* AlbumAddClipDescViewController.m */; };
@@ -331,6 +332,8 @@
 		7633ED071DCB6DA4002EEC62 /* AlbumListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlbumListTableViewCell.m; path = Cliplay/Classes/AlbumListTableViewCell.m; sourceTree = "<group>"; };
 		7633ED091DCB70CF002EEC62 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Album.h; path = Cliplay/Classes/Album.h; sourceTree = "<group>"; };
 		7633ED0A1DCB70CF002EEC62 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Album.m; path = Cliplay/Classes/Album.m; sourceTree = "<group>"; };
+		763719D51DFF8D7B00080657 /* CBLBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBLBaseModel.h; path = Cliplay/Classes/CBLBaseModel.h; sourceTree = "<group>"; };
+		763719D61DFF8D7B00080657 /* CBLBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBLBaseModel.m; path = Cliplay/Classes/CBLBaseModel.m; sourceTree = "<group>"; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		764355431D0FFB8000807EBF /* DGTeaEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGTeaEncryptor.h; path = Cliplay/Classes/DGTeaEncryptor.h; sourceTree = "<group>"; };
 		764355441D0FFB8000807EBF /* DGTeaEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGTeaEncryptor.m; path = Cliplay/Classes/DGTeaEncryptor.m; sourceTree = "<group>"; };
@@ -799,6 +802,8 @@
 			children = (
 				764922611DEEF03C0090C9ED /* Image.h */,
 				764922621DEEF03C0090C9ED /* Image.m */,
+				763719D51DFF8D7B00080657 /* CBLBaseModel.h */,
+				763719D61DFF8D7B00080657 /* CBLBaseModel.m */,
 				7633ED091DCB70CF002EEC62 /* Album.h */,
 				7633ED0A1DCB70CF002EEC62 /* Album.m */,
 				764922641DEFAD550090C9ED /* Favorite.h */,
@@ -1175,6 +1180,7 @@
 				7633ED081DCB6DA4002EEC62 /* AlbumListTableViewCell.m in Sources */,
 				7633BA921D75ABF500A3FB09 /* REComposeBackgroundView.m in Sources */,
 				7605C44A1C5BB2F3004E488A /* UIControl+YYAdd.m in Sources */,
+				763719D71DFF8D7B00080657 /* CBLBaseModel.m in Sources */,
 				7605C41E1C5BB2D7004E488A /* MainViewController.m in Sources */,
 				76A2D4801D6F28F200543D6A /* AAShareBubbles.m in Sources */,
 				7605C4201C5BB2D7004E488A /* MyHybridPlugin.m in Sources */,
