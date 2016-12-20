@@ -48,8 +48,9 @@
 	return [ArticleEntity class];
 }
 
+//With image quality decreased
 - (NSData *)dataForImage:(UIImage *)image {
-	return UIImageJPEGRepresentation(image, 0.5);
+	return UIImageJPEGRepresentation(image, 0.1);
 }
 
 @end

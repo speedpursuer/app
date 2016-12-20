@@ -693,6 +693,7 @@
 
 - (void)closeCommentsView {
 	[self dismissViewControllerAnimated:YES completion:nil];
+	[_delegate closeCommentView];
 }
 
 - (void)showActivityIndicator

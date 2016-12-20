@@ -106,6 +106,7 @@
 		7633ED0B1DCB70CF002EEC62 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 7633ED0A1DCB70CF002EEC62 /* Album.m */; };
 		763719D71DFF8D7B00080657 /* CBLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 763719D61DFF8D7B00080657 /* CBLBaseModel.m */; };
 		763D76251C6838420010C239 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 763D76241C6838420010C239 /* Images.xcassets */; };
+		76430CE31E0807A100EC3D6C /* ionic.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 76430CE21E0807A100EC3D6C /* ionic.min.css */; };
 		764355451D0FFB8000807EBF /* DGTeaEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 764355441D0FFB8000807EBF /* DGTeaEncryptor.m */; };
 		7645BAB11DE9B87600173C93 /* AlbumAddClipDescViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7645BAB01DE9B87600173C93 /* AlbumAddClipDescViewController.m */; };
 		7647EDD81CCB135700587845 /* libBPush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7647EDD61CCB135700587845 /* libBPush.a */; };
@@ -146,7 +147,6 @@
 		76D9C7DC1C5F832A005C93E7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76D9C7DE1C5F832A005C93E7 /* InfoPlist.strings */; };
 		76D9E94F1C7447AB004BB117 /* LongPressFix.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D9E94E1C7447AB004BB117 /* LongPressFix.m */; };
 		76DF78AE1D61B30D00728696 /* FakeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 76DF78AD1D61B30D00728696 /* FakeService.m */; };
-		76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 76E424BE1C7AB30A00FA5962 /* ionic.min.css */; };
 		76E61D931C79F28900CCC767 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D901C79F28900CCC767 /* CDVConnection.m */; };
 		76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E61D921C79F28900CCC767 /* CDVReachability.m */; };
 		76E92C011CB8DFE000F424AF /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 76E92C001CB8DFE000F424AF /* Reachability.m */; };
@@ -335,6 +335,7 @@
 		763719D51DFF8D7B00080657 /* CBLBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBLBaseModel.h; path = Cliplay/Classes/CBLBaseModel.h; sourceTree = "<group>"; };
 		763719D61DFF8D7B00080657 /* CBLBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBLBaseModel.m; path = Cliplay/Classes/CBLBaseModel.m; sourceTree = "<group>"; };
 		763D76241C6838420010C239 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Cliplay/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		76430CE21E0807A100EC3D6C /* ionic.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ionic.min.css; sourceTree = "<group>"; };
 		764355431D0FFB8000807EBF /* DGTeaEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DGTeaEncryptor.h; path = Cliplay/Classes/DGTeaEncryptor.h; sourceTree = "<group>"; };
 		764355441D0FFB8000807EBF /* DGTeaEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DGTeaEncryptor.m; path = Cliplay/Classes/DGTeaEncryptor.m; sourceTree = "<group>"; };
 		7645BAAF1DE9B87600173C93 /* AlbumAddClipDescViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlbumAddClipDescViewController.h; path = Cliplay/Classes/AlbumAddClipDescViewController.h; sourceTree = "<group>"; };
@@ -407,7 +408,6 @@
 		76D9E94E1C7447AB004BB117 /* LongPressFix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LongPressFix.m; path = "Cliplay/Plugins/cordova-plugin-ios-longpress-fix/LongPressFix.m"; sourceTree = SOURCE_ROOT; };
 		76DF78AC1D61B30D00728696 /* FakeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FakeService.h; path = Cliplay/Classes/FakeService.h; sourceTree = "<group>"; };
 		76DF78AD1D61B30D00728696 /* FakeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FakeService.m; path = Cliplay/Classes/FakeService.m; sourceTree = "<group>"; };
-		76E424BE1C7AB30A00FA5962 /* ionic.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ionic.min.css; sourceTree = "<group>"; };
 		76E61D8F1C79F28900CCC767 /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVConnection.h"; sourceTree = SOURCE_ROOT; };
 		76E61D901C79F28900CCC767 /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVConnection.m"; sourceTree = SOURCE_ROOT; };
 		76E61D911C79F28900CCC767 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "Cliplay/Plugins/cordova-plugin-network-information/CDVReachability.h"; sourceTree = SOURCE_ROOT; };
@@ -550,7 +550,7 @@
 				762EB67F1D4DCCB600204EA0 /* TencentOpenApi_IOS_Bundle.bundle */,
 				760CD3061CA61B9C00EC0723 /* info.png */,
 				765FD5C71CA57D3F00F31F5D /* tip.png */,
-				76E424BE1C7AB30A00FA5962 /* ionic.min.css */,
+				76430CE21E0807A100EC3D6C /* ionic.min.css */,
 				7616739E1C7223E800E05422 /* Cliplay-Info.plist */,
 				763D76241C6838420010C239 /* Images.xcassets */,
 				7605C4671C5BB3B0004E488A /* heart@2x.png */,
@@ -1032,6 +1032,7 @@
 				760CD3071CA61B9C00EC0723 /* info.png in Resources */,
 				7605C48B1C5BB3CC004E488A /* Icon-60@3x.png in Resources */,
 				76C082BE1D8B939D0032C487 /* www in Resources */,
+				76430CE31E0807A100EC3D6C /* ionic.min.css in Resources */,
 				7605C4881C5BB3CC004E488A /* Icon-50@2x.png in Resources */,
 				7605C48C1C5BB3CC004E488A /* Icon-72.png in Resources */,
 				7605C4AD1C5BB3EB004E488A /* Default-736h.png in Resources */,
@@ -1049,7 +1050,6 @@
 				7605C4B21C5BB3EB004E488A /* Default-Portrait@2x~ipad.png in Resources */,
 				7605C48A1C5BB3CC004E488A /* Icon-60@2x.png in Resources */,
 				7605C4B01C5BB3EB004E488A /* Default-Landscape@2x~ipad.png in Resources */,
-				76E424BF1C7AB30B00FA5962 /* ionic.min.css in Resources */,
 				7605C48F1C5BB3CC004E488A /* Icon-76@2x.png in Resources */,
 				7605C4861C5BB3CC004E488A /* Icon-40@3x.png in Resources */,
 				7605C4971C5BB3CC004E488A /* iTunesArtwork@2x.png in Resources */,

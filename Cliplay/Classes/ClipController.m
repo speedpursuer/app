@@ -19,7 +19,7 @@
 #import "AlbumAddClipDescViewController.h"
 #import "AlbumSelectBottomSheetViewController.h"
 #import <STPopup/STPopup.h>
-#include "JDStatusBarNotification.h"
+#import "JDStatusBarNotification.h"
 //#import "Album.h"
 #import "CBLService.h"
 
@@ -51,13 +51,7 @@
 	lbService = [MyLBService sharedManager];
 	_cblService = [CBLService sharedManager];
 	
-	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-	if (networkStatus == ReachableViaWWAN) {
-		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 1;
-	} else {
-		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
-	}
+	[self setDownloadLimit:YES];
 	
 	self.tableView.fd_debugLogEnabled = NO;
 	
@@ -87,12 +81,28 @@
 	[self.tableView reloadData];
 }
 
-- (void)setFavorite {
-	if(self.favorite) {
-//		self.header = @"我的收藏";
-//		self.articleURLs = [[FavoriateMgr sharedInstance] getFavoriateImages];
+-(void)setDownloadLimit:(BOOL)hasLimit {
+	
+	if(hasLimit) {
+		Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+		NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+		
+		if (networkStatus == ReachableViaWWAN) {
+			[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 1;
+		} else {
+			[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
+		}
+	}else{
+		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
 	}
 }
+
+//- (void)setFavorite {
+//	if(self.favorite) {
+////		self.header = @"我的收藏";
+////		self.articleURLs = [[FavoriateMgr sharedInstance] getFavoriateImages];
+//	}
+//}
 
 - (void)initData {
 	NSMutableArray *entities = @[].mutableCopy;
@@ -214,9 +224,6 @@
 	}
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 	if(_articleDicts) {
@@ -227,12 +234,27 @@
 		}
 	}
 	
-	if(_fullScreen) {
+//	if(_fullScreen) {
+//		[self stopPlayingAllImages];
+//	}else {
+//		[[YYWebImageManager sharedManager].queue cancelAllOperations];
+//		[[YYImageCache sharedCache].memoryCache removeAllObjects];
+//	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	if(![self isVisible]){
 		[self stopPlayingAllImages];
-	}else {
-		[[YYWebImageManager sharedManager].queue cancelAllOperations];
-		[[YYImageCache sharedCache].memoryCache removeAllObjects];
+		if(![self presentedViewController]){
+			[[YYWebImageManager sharedManager].queue cancelAllOperations];
+			[[YYImageCache sharedCache].memoryCache removeAllObjects];
+		}
 	}
+}
+
+- (BOOL)isVisible {
+	return [self isViewLoaded] && self.view.window;
 }
 
 #pragma mark - (User Interaction)
@@ -393,16 +415,16 @@
 #pragma mark - Favorite
 - (void)setFavoriate:(NSString *)url {
 //	[[FavoriateMgr sharedInstance] setFavoriate:url];
+//	[lbService recordFavoriteWithClipID:url postID:_postID];
 	[_cblService setFavoriate:url];
-	[lbService recordFavoriteWithClipID:url postID:_postID];
 }
 - (void)unsetFavoriate:(NSString *)url {
 //	[[FavoriateMgr sharedInstance] unsetFavoriate:url];
 	[_cblService unsetFavoriate:url];
 }
 - (BOOL)isFavoriate:(NSString *)url {
-	return [_cblService isFavoriate:url];
 //	return [[FavoriateMgr sharedInstance] isFavoriate:url];
+	return [_cblService isFavoriate:url];
 }
 
 #pragma mark - Comments
@@ -469,8 +491,13 @@
 	EBCommentsViewController *clipCtr = [[EBCommentsViewController alloc] init];
 	[clipCtr setClipID:clipID];
 	[clipCtr setDelegate:self];
+	[self setDownloadLimit:NO];
 	clipCtr.modalPresentationStyle = UIModalPresentationOverFullScreen;
 	[self presentViewController:clipCtr animated:YES completion:nil];
+}
+
+- (void)closeCommentView {
+	[self setDownloadLimit:YES];
 }
 
 #pragma mark - Share
@@ -479,7 +506,7 @@
 	[lbService shareWithClipID:clipID];
 }
 
-#pragma mark - Album
+#pragma mark - Album & Favorite
 - (void)addToAlbum:(NSString *)url {
 	
 	_clipToAdd = url;
@@ -501,11 +528,11 @@
 }
 
 - (void)showNewAlbumForm {
-	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:@"New Album"
-												   message:@"Title for new list:"
+	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:@"新建收藏夹"
+												   message:@"请输入名称:"
 												  delegate:self
-										 cancelButtonTitle:@"Cancel"
-										 otherButtonTitles:@"Create", nil];
+										 cancelButtonTitle:@"取消"
+										 otherButtonTitles:@"确定", nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
 	[alert show];
 }
@@ -529,7 +556,7 @@
 }
 
 - (void)saveClipToAlbumWithDesc:(NSString *)desc {
-	if([_cblService saveClip:_clipToAdd toAlum:_albumToAdd withDesc:desc]) {
+	if([_cblService addClip:_clipToAdd toAlum:_albumToAdd withDesc:desc]) {
 		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", _albumToAdd.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 	}else{
 		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
@@ -573,6 +600,15 @@
 			[self createNewAlbumWithTitle:title];
 		}
 	}
+}
+
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+	UITextField *textField = [alertView textFieldAtIndex:0];
+	if ([textField.text length] == 0){
+		return NO;
+	}
+	return YES;
 }
 @end
 

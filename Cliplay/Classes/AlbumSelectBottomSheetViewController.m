@@ -60,9 +60,9 @@
 	_addThumb = [addIcon imageWithSize:imageSize];
 	
 	FAKFontAwesome *albumIcon = [FAKFontAwesome folderOIconWithSize:35];
-	[albumIcon addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor]];
+	[albumIcon addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]];
 	FAKFontAwesome *fileIcon = [FAKFontAwesome filmIconWithSize:12];
-	[fileIcon addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]];
+	[fileIcon addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]];
 	_albumThumb = [UIImage imageWithStackedIcons:@[albumIcon, fileIcon] imageSize:imageSize];
 }
 

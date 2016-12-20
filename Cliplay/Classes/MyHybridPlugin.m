@@ -11,6 +11,7 @@
 #import <YYWebImage/YYWebImage.h>
 #import "AppDelegate.h"
 #import "MyLBService.h"
+#import "JDStatusBarNotification.h"
 
 @implementation MyHybridPlugin
 
@@ -126,6 +127,12 @@
 		
 		//MainViewController* mvc = (MainViewController*)[self viewController];
 		
+		if([clean isEqual: @"true"]) {
+			int oneMB = 1024 * 1024;
+			YYImageCache *imageCache = [YYWebImageManager sharedManager].cache;
+			desc = [NSString stringWithFormat:@"释放空间：%ldMB", imageCache.diskCache.totalCost / oneMB];
+		}
+		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
 														message:desc
 													   delegate:[clean isEqual: @"true"]? self: nil
@@ -171,13 +178,17 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	switch (buttonIndex) {
 		case 0:{
-			[[YYImageCache sharedCache].memoryCache removeAllObjects];
 			[[YYImageCache sharedCache].diskCache removeAllObjects];
+			[self performBlock:^{
+				[JDStatusBarNotification showWithStatus:@"缓存已清除" dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
+			} afterDelay:0.7];
+			
 		}break;
 		default:
 		break;
 	}
 }
+
 
 - (void)callJSFunction: (NSString*) fun {
 	MainViewController* mvc = (MainViewController*)[self viewController];
@@ -189,6 +200,12 @@
 	 [NSNumber numberWithInteger: UIDeviceOrientationLandscapeRight]
 								forKey:@"orientation"];
 }
+
+- (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay {
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+	dispatch_after(popTime, dispatch_get_main_queue(), block);
+}
+
 
 /*
  - (void)alertViewCancel:(UIAlertView *)alertView {

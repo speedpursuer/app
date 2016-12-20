@@ -45,8 +45,8 @@ static BOOL webViewLaunched;
 static NSString *pushID;
 static NSString *header;
 static NSString *const dbURL = @"http://app_viewer:Cliplay1234@121.40.197.226:8000/";
-//static NSString *const dbName = @"cliplay_prod_new";
-static NSString *const dbName = @"cliplay_staging";
+static NSString *const dbName = @"cliplay_prod_new";
+//static NSString *const dbName = @"cliplay_staging";
 static NSString *const dumpFile = @"ionic.min";
 static NSString *const dumpFileType = @"css";
 static NSString *const encryptPWD = @"jordan";
@@ -437,8 +437,8 @@ static NSString *const pushCat = @"cliplay";
 	
 	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName];
 	
-	//	[self encrypt];
-	
+	//ONLY FOR DEV USE!!
+//	[self encrypt:fileName]; return;	
 	[self decrypt:fileExists fileName:fileName];
 }
 
@@ -456,17 +456,19 @@ static NSString *const pushCat = @"cliplay";
 }
 
 
--(void)encrypt {
+-(void)encrypt: (NSString*) fileName {
 	NSString *filePath = [[NSBundle mainBundle]
 						  pathForResource: dumpFile ofType: dumpFileType];
 	
 	NSString *data = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error: nil];
 	
-	NSLog(@"file data = %@", data);
+//	NSLog(@"file data = %@", data);
 	
 	NSString *newData = [DGTeaEncryptor encrypt:data withPassword: encryptPWD];
 	
-	NSLog(@"newData = %@", newData);
+	[newData writeToFile:fileName atomically:NO encoding:NSUTF8StringEncoding error:nil];
+	
+//	NSLog(@"newData = %@", newData);
 }
 
 //- (UIWindow *)window {

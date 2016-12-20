@@ -10,7 +10,7 @@
 
 @implementation Favorite
 
-@dynamic clips;
+@dynamic clips, isFromLocal;
 
 
 - (BOOL)isFavoriate:(NSString *)url {
@@ -43,9 +43,11 @@
 		NSError *error;
 		favorite.clips = @[];
 		favorite.title = @"我的最爱";
+		favorite.type = FavoriteModelType;
+		favorite.isFromLocal = YES;
 		[favorite save:&error];
 	}
-
+		
 	return favorite;
 }
 

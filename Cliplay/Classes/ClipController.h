@@ -28,11 +28,13 @@
 - (NSString *)getCommentQty:(NSString *)clipID;
 - (void)showComments:(NSString *)clipID;
 - (void)shareClip:(NSURL *)clipID;
-- (void)fetchPostComments:(BOOL)isRefresh;
 - (BOOL)isFullyVisible:(UITableViewCell *)cell;
 - (void)setFavoriate:(NSString *)url;
 - (void)unsetFavoriate:(NSString *)url;
 - (BOOL)isFavoriate:(NSString *)url;
 - (void)recordSlowPlayWithUrl:(NSString *)url;
 - (void)addToAlbum:(NSString *)url;
+#pragma mark - Callback for comment view
+- (void)fetchPostComments:(BOOL)isRefresh;
+- (void)closeCommentView;
 @end

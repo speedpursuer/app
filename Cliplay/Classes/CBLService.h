@@ -22,12 +22,12 @@
 - (NSArray *)getAllAlbums;
 - (Album *)creatAlubmWithTitle:(NSString*)title;
 - (BOOL)deleteAlbum:(Album *)album;
-- (BOOL)saveClip:(NSString *)url toAlum:(Album *)album withDesc:(NSString *)desc;
+- (BOOL)addClip:(NSString *)url toAlum:(Album *)album withDesc:(NSString *)desc;
 - (BOOL)isFavoriate:(NSString *)url;
 - (void)setFavoriate:(NSString *)url;
 - (void)unsetFavoriate:(NSString *)url;
 
-- (void)getAllDocument;
+//- (BOOL)getAllDocument;
 - (CBLQuery *)queryAllAlbums;
 - (void)syncToRemote;
 - (void)syncFromRemote;

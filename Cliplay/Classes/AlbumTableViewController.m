@@ -19,6 +19,7 @@
 @property Favorite *favorite;
 @property UIImage *favoriteThumb;
 @property UIImage *albumThumb;
+@property Album *albumToDelete;
 //@property (nonatomic, strong) NSMutableArray *albums;
 @property NSArray *listsResult;
 @end
@@ -93,8 +94,7 @@
 #pragma mark - Create and delete albums
 
 - (void)createListWithTitle:(NSString*)title {
-	Album *album = [_service creatAlubmWithTitle:title];
-	
+	[_service creatAlubmWithTitle:title];
 //	if(album) {
 //		[_albums insertObject:album atIndex:0];
 		
@@ -102,12 +102,17 @@
 //	}
 }
 
+- (void)deleteAlubm:(Album *)album {
+	[_service deleteAlbum:album];
+}
+
 - (void)deleteAlubmWithIndex:(NSIndexPath *)indexPath {
 	Album *album = [self getAlbumWithIndex:indexPath];
-	if([_service deleteAlbum:album]) {
+	[_service deleteAlbum:album];
+//	if([_service deleteAlbum:album]) {
 //		[_albums removeObjectAtIndex:indexPath.row];
 //		[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-	}
+//	}
 }
 
 #pragma mark - Helpers
@@ -120,38 +125,61 @@
 
 - (void)setupThumbs {
 	
-	CGSize imageSize = CGSizeMake(40, 40);
+	CGSize imageSize = CGSizeMake(65, 65);
 	
-	FAKFontAwesome *FavoriteIcon = [FAKFontAwesome heartOIconWithSize:25];
+	FAKFontAwesome *FavoriteIcon = [FAKFontAwesome heartOIconWithSize:20];
 	[FavoriteIcon addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]];
 	_favoriteThumb = [FavoriteIcon imageWithSize:imageSize];
 	
-	FAKFontAwesome *albumIcon = [FAKFontAwesome folderOIconWithSize:35];
-	[albumIcon addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor]];
-	FAKFontAwesome *fileIcon = [FAKFontAwesome filmIconWithSize:12];
-	[fileIcon addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]];
+	FAKFontAwesome *albumIcon = [FAKFontAwesome folderOIconWithSize:30];
+	[albumIcon addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]];
+	FAKFontAwesome *fileIcon = [FAKFontAwesome filmIconWithSize:8];
+	[fileIcon addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]];
 	_albumThumb = [UIImage imageWithStackedIcons:@[albumIcon, fileIcon] imageSize:imageSize];
 }
 
 #pragma mark - Buttons
 - (IBAction)addAlbum:(id)sender {
-	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:@"New Album"
-												   message:@"Title for new list:"
+	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:@"新建收藏夹"
+												   message:@"请输入名称:"
 												  delegate:self
-										 cancelButtonTitle:@"Cancel"
-										 otherButtonTitles:@"Create", nil];
+										 cancelButtonTitle:@"取消"
+										 otherButtonTitles:@"确定", nil];
 	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+	alert.tag = 1;
 	[alert show];
 }
 
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if (buttonIndex > 0) {
-		NSString* title = [alert textFieldAtIndex:0].text;
-		if (title.length > 0) {
-			[self createListWithTitle:title];
+	if(alert.tag == 1){
+		if (buttonIndex > 0) {
+			NSString* title = [alert textFieldAtIndex:0].text;
+			if (title.length > 0) {
+				[self createListWithTitle:title];
+			}
 		}
+	}else {
+		if (buttonIndex > 0) {
+			[self deleteAlubm:_albumToDelete];
+		}else {
+			[self.tableView setEditing:NO animated:NO];
+		}
+	}
+}
+
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+	if(alertView.tag == 1){
+		UITextField *textField = [alertView textFieldAtIndex:0];
+		if ([textField.text length] == 0){
+			return NO;
+		}else{
+			return YES;
+		}
+	}else{
+		return YES;
 	}
 }
 
@@ -161,7 +189,16 @@
 commitEditingStyle:(UITableViewCellEditingStyle)style
 forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (style == UITableViewCellEditingStyleDelete) {
-		[self deleteAlubmWithIndex:indexPath];
+//		[self deleteAlubmWithIndex:indexPath];
+		_albumToDelete = [self getAlbumWithIndex:indexPath];
+		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"确定删除此收藏夹?"
+													   message:[NSString stringWithFormat:@"\"%@\"", _albumToDelete.title]
+													  delegate:self
+											 cancelButtonTitle:@"取消"
+											 otherButtonTitles:@"删除", nil];
+		alert.alertViewStyle = UIAlertViewStyleDefault;
+		alert.tag = 2;
+		[alert show];
 	}
 }
 
