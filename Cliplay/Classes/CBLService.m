@@ -65,6 +65,8 @@
 	
 	[self syncToRemote];
 	
+	
+	//For test ONLY
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
 	NSString *applicationSupportDirectory = [paths firstObject];
 	NSLog(@"applicationSupportDirectory: '%@'", applicationSupportDirectory);
@@ -215,7 +217,19 @@
 }
 
 - (void)showProgress {
-	_progressView = [MRProgressOverlayView showOverlayAddedTo:[[UIApplication sharedApplication] keyWindow] title:@"初始化" mode:MRProgressOverlayViewModeDeterminateHorizontalBar animated:NO];
+//	_progressView = [MRProgressOverlayView showOverlayAddedTo:[[UIApplication sharedApplication] keyWindow] title:@"初始化" mode:MRProgressOverlayViewModeDeterminateHorizontalBar animated:NO];
+	
+	MRProgressOverlayView *view = [MRProgressOverlayView showOverlayAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+	
+	view.mode = MRProgressOverlayViewModeDeterminateHorizontalBar;
+	
+	NSAttributedString *title = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"初始化", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
+	
+	view.titleLabelAttributedText = title;
+	
+	view.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	
+	_progressView = view;
 }
 
 - (BOOL)processFavoriteConflict {
@@ -251,10 +265,12 @@
 		}
 	}
 	
-	[local addObjectsFromArray:remote];
+	NSMutableOrderedSet *set = [NSMutableOrderedSet new];
+	[set addObjectsFromArray:[local copy]];
+	[set addObjectsFromArray:[remote copy]];
 	
 	CBLUnsavedRevision *newRev = [current createRevision];
-	[newRev setObject:[local copy] forKeyedSubscript:@"clips"];
+	[newRev setObject:[set array] forKeyedSubscript:@"clips"];
 	
 	if(![newRev saveAllowingConflict: &error]) {
 		return NO;

@@ -76,7 +76,7 @@ static NSInteger const pageSize = 11;
 								   NSString *token = (NSString*)[[value objectForKey:@"data"] objectForKey:@"accesstoken"];
 								   
 								   adapter.accessToken = token;
-								   [self recordAppStart];
+								   [self recordAppInstall];
 								   if(success != NULL) {
 									   success();
 								   }
@@ -226,6 +226,17 @@ static NSInteger const pageSize = 11;
 						 }
 	];
 }
+
+- (void)recordAppInstall {
+	[visitRep invokeStaticMethod:@"recordAppInstall"
+					  parameters:@{@"appInfo": [self appNameAndVersionNumberDisplayString]}
+						 success:^(id value) {
+						 }
+						 failure:^(NSError *error) {
+						 }
+	 ];
+}
+
 
 #pragma mark - Share buttons View
 - (void)socialButtonsForShare:(BOOL)forShare{
@@ -924,6 +935,16 @@ static NSInteger const pageSize = 11;
 		return [TencentOAuth HandleOpenURL:url];
 	
 	return true;
+}
+
+- (NSString *)appNameAndVersionNumberDisplayString {
+	NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+	NSString *appDisplayName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+	NSString *majorVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+	NSString *minorVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
+	
+	return [NSString stringWithFormat:@"%@, Version %@ (%@)",
+			appDisplayName, majorVersion, minorVersion];
 }
 
 @end
