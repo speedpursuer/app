@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -126,12 +127,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="nX5-rQ-V6k">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yLr-J2-qNE">
-                            <color key="tintColor" red="1" green="0.25098039215686274" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="addAlbum:" destination="GD0-8Q-Mev" id="8iq-DO-gkV"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="add" id="yLr-J2-qNE">
+                                <color key="tintColor" red="1" green="0.25098039215686274" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="addAlbum:" destination="GD0-8Q-Mev" id="8iq-DO-gkV"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="bookmarks" id="ySF-95-Cbh">
+                                <color key="tintColor" red="1" green="0.25098039220000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="fetchClips:" destination="GD0-8Q-Mev" id="F7V-kW-7tU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="blA-gb-VdZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -297,7 +306,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4pH-qn-pb0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="QrH-mY-YSt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QrH-mY-YSt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -315,7 +324,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="okg-fv-aDT" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="2RU-fr-0e0">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2RU-fr-0e0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

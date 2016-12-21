@@ -22,6 +22,7 @@ static NSInteger const pageSize = 11;
 	LBPersistedModelRepository *commentRep;
 	LBModelRepository *postRep;
 	LBModelRepository *visitRep;
+	LBModelRepository *apiRep;
 	MyLBAdapter *adapter;
 	TencentOAuth *oauth;
 	NSString *newCommentText;
@@ -52,6 +53,7 @@ static NSInteger const pageSize = 11;
 		clientRep = [adapter repositoryWithModelName:@"clients"];
 		postRep = [adapter repositoryWithModelName:@"posts"];
 		visitRep = [adapter repositoryWithModelName:@"visits"];
+		apiRep = [adapter repositoryWithModelName:@"apis"];
 		
 		oauth = [[TencentOAuth alloc] initWithAppId:tencentAppID
 											 andDelegate:self];
@@ -233,6 +235,22 @@ static NSInteger const pageSize = 11;
 						 success:^(id value) {
 						 }
 						 failure:^(NSError *error) {
+						 }
+	 ];
+}
+
+- (void)fetchClipsFromURL:(NSString *)url
+				  success:(void(^)(NSArray*, NSString*))success
+				  failure:(void(^)())failure
+{
+	[apiRep invokeStaticMethod:@"getImageFromWebpage"
+					  parameters:@{@"url": url}
+						 success:^(id value) {
+							 id object = [value objectForKey:@"data"];
+							 success([object objectForKey:@"imageList"], [object objectForKey:@"title"]);
+						 }
+						 failure:^(NSError *error) {
+							 failure();
 						 }
 	 ];
 }

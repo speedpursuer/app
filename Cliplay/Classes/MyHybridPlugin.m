@@ -181,7 +181,7 @@
 			[[YYImageCache sharedCache].diskCache removeAllObjects];
 			[self performBlock:^{
 				[JDStatusBarNotification showWithStatus:@"缓存已清除" dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
-			} afterDelay:0.7];
+			} afterDelay:0.4];
 			
 		}break;
 		default:

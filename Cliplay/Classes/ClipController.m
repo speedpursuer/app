@@ -481,10 +481,12 @@
 }
 
 - (NSString *)getCommentQty:(NSString *)clipID {
-	if(commentList == nil || commentList.count == 0) {
+	if(commentList == nil) {
 		return nil;
 	}
-	return [[commentList objectForKey:clipID] stringValue];
+	
+	NSString *qty = [[commentList objectForKey:clipID] stringValue];
+	return qty? qty: @"";
 }
 
 - (void)showComments:(NSString *)clipID {

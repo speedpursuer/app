@@ -12,6 +12,8 @@
 #import "ClipController.h"
 #import "CBLService.h"
 #import <FontAwesomeKit/FAKFontAwesome.h>
+#import "MyLBService.h"
+#import "MRProgress.h"
 
 @interface AlbumTableViewController ()
 @property CBLService *service;
@@ -22,6 +24,7 @@
 @property Album *albumToDelete;
 //@property (nonatomic, strong) NSMutableArray *albums;
 @property NSArray *listsResult;
+@property MRProgressOverlayView *progressView;
 @end
 
 @implementation AlbumTableViewController
@@ -138,34 +141,135 @@
 	_albumThumb = [UIImage imageWithStackedIcons:@[albumIcon, fileIcon] imageSize:imageSize];
 }
 
-#pragma mark - Buttons
-- (IBAction)addAlbum:(id)sender {
-	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:@"新建收藏夹"
-												   message:@"请输入名称:"
+- (void)showAlertMessage:(NSString *)title withMessage:(NSString *)message {
+	[[[UIAlertView alloc] initWithTitle:title
+								message:message
+							   delegate:nil
+					  cancelButtonTitle:@"知道了"
+					  otherButtonTitles:nil] show];
+}
+
+- (void)showActionMessage:(NSString *)title withMessage:(NSString *)message withTag:(NSInteger)tag withStyle:(UIAlertViewStyle)style{
+	UIAlertView* alert= [[UIAlertView alloc] initWithTitle:title
+												   message:message
 												  delegate:self
 										 cancelButtonTitle:@"取消"
 										 otherButtonTitles:@"确定", nil];
-	alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-	alert.tag = 1;
+	alert.alertViewStyle = style;
+	alert.tag = tag;
 	[alert show];
+}
+
+- (void)showProgress {
+	if(_progressView) {
+		_progressView = nil;
+	}
+	
+	MRProgressOverlayView *view = [MRProgressOverlayView showOverlayAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+	
+	view.mode = MRProgressOverlayViewModeIndeterminateSmallDefault;
+	
+	NSAttributedString *title = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"分析中...", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
+	
+	view.titleLabelAttributedText = title;
+	
+	view.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	
+	_progressView = view;
+}
+
+- (void)hideProgress {
+	[_progressView dismiss:YES];
+}
+
+- (BOOL)isValidURL:(NSString *)url{
+	NSURL *candidateURL = [NSURL URLWithString:url];
+	if (candidateURL && candidateURL.scheme && candidateURL.host) {
+		return YES;
+	}else{
+		return NO;
+	}
+}
+
+#pragma mark - Buttons
+- (IBAction)addAlbum:(id)sender {
+	[self showActionMessage:@"新建收藏夹" withMessage:@"请输入名称:" withTag:1 withStyle:UIAlertViewStylePlainTextInput];
+}
+
+#pragma mark - Fetch Clips
+- (IBAction)fetchClips:(id)sender {
+	
+	if([self isValidURL:[UIPasteboard generalPasteboard].string]) {
+		[self showActionMessage:@"下载这里的动图？" withMessage:[UIPasteboard generalPasteboard].string withTag:3 withStyle:UIAlertViewStyleDefault];
+	}else{
+		[self showAlertMessage:@"请复制正确的链接" withMessage:@""];
+	}
+}
+
+- (void)doFetch {
+	NSString *url = [UIPasteboard generalPasteboard].string;
+	
+	if([[url pathExtension] caseInsensitiveCompare:@"gif"] == NSOrderedSame) {
+		ClipController *vc = [ClipController new];
+		vc.favorite = true;
+		vc.header = @"单图下载";
+		vc.articleURLs = @[url];
+		[self.navigationController pushViewController:vc animated:YES];
+	}else {
+		MyLBService *service = [MyLBService sharedManager];
+		[self showProgress];
+		[service fetchClipsFromURL:url success:^(NSArray *images, NSString *title) {
+			[self hideProgress];
+			
+			if(images.count > 0){
+				ClipController *vc = [ClipController new];
+				vc.favorite = true;
+				vc.header = title? title: @"多图下载";
+				vc.articleURLs = images;
+				[self.navigationController pushViewController:vc animated:YES];
+			}else{
+				[self showAlertMessage:@"此页面无法获取动图：" withMessage:url];
+			}
+			
+		} failure:^{
+			[self hideProgress];
+			[self showAlertMessage:@"获得动图失败" withMessage:@"请检查网络后重试"];
+		}];
+	}
 }
 
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alert didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if(alert.tag == 1){
-		if (buttonIndex > 0) {
-			NSString* title = [alert textFieldAtIndex:0].text;
-			if (title.length > 0) {
-				[self createListWithTitle:title];
+	
+	switch (alert.tag) {
+			
+		case 1:
+			if (buttonIndex > 0) {
+				NSString* title = [alert textFieldAtIndex:0].text;
+				if (title.length > 0) {
+					[self createListWithTitle:title];
+				}
 			}
-		}
-	}else {
-		if (buttonIndex > 0) {
-			[self deleteAlubm:_albumToDelete];
-		}else {
-			[self.tableView setEditing:NO animated:NO];
-		}
+			break;
+			
+		case 2:
+			if (buttonIndex > 0) {
+				[self deleteAlubm:_albumToDelete];
+			}else {
+				[self.tableView setEditing:NO animated:NO];
+			}
+			break;
+			
+		case 3:
+			if (buttonIndex > 0) {
+				[self doFetch];
+			}
+			break;
+		
+		default:
+			break;
+		 
 	}
 }
 
@@ -191,14 +295,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (style == UITableViewCellEditingStyleDelete) {
 //		[self deleteAlubmWithIndex:indexPath];
 		_albumToDelete = [self getAlbumWithIndex:indexPath];
-		UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"确定删除此收藏夹?"
-													   message:[NSString stringWithFormat:@"\"%@\"", _albumToDelete.title]
-													  delegate:self
-											 cancelButtonTitle:@"取消"
-											 otherButtonTitles:@"删除", nil];
-		alert.alertViewStyle = UIAlertViewStyleDefault;
-		alert.tag = 2;
-		[alert show];
+		[self showActionMessage:@"确定删除此收藏夹?" withMessage:[NSString stringWithFormat:@"\"%@\"", _albumToDelete.title] withTag:2 withStyle:UIAlertViewStyleDefault];
 	}
 }
 

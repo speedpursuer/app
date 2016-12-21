@@ -71,6 +71,10 @@ NS_ENUM(NSInteger)
 
 - (void)recordSlowPlayWithClipID:(NSString *)url;
 
+- (void)fetchClipsFromURL:(NSString *)url
+							success:(void(^)(NSArray*, NSString*))success
+							failure:(void(^)())failure;
+
 @end
 
 @interface LBPersistedModel (Cliplay)
