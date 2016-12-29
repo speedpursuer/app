@@ -89,7 +89,7 @@
 		Album *album = (self.albums)[indexPath.row - 1];
 		cell.title.text = album.title;
 		cell.badge.text = [NSString stringWithFormat: @"%ld", album.clips.count];
-		UIImage *thumb = [album getImage];
+		UIImage *thumb = [album getThumb];
 		if(thumb == nil) {
 			thumb =	_albumThumb;
 		}

@@ -16,6 +16,10 @@
 #import "ArticleEntity.h"
 #import "ClipController.h"
 
+#define TitleCellIdentifier @"titleCell"
+#define ClipCellIdentifier  @"clipCell"
+#define AlbumCellIdentifier @"albumCell"
+
 @interface ClipCell : UITableViewCell
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;

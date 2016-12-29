@@ -22,9 +22,10 @@
 @property UIImage *favoriteThumb;
 @property UIImage *albumThumb;
 @property Album *albumToDelete;
-//@property (nonatomic, strong) NSMutableArray *albums;
-@property NSArray *listsResult;
+@property (nonatomic, strong) NSMutableArray *albums;
+//@property NSArray *listsResult;
 @property MRProgressOverlayView *progressView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @end
 
 @implementation AlbumTableViewController
@@ -58,39 +59,46 @@
 - (void)dealloc {
 	[self.liveQuery removeObserver:self forKeyPath:@"rows"];
 	[self.favorite removeObserver:self forKeyPath:@"clips"];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"addClipToAlbum" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"albumModified" object:nil];
 }
 
 - (void)setup {
 	_service = [CBLService sharedManager];
 	_favorite = [_service favorite];
-//	_albums = [NSMutableArray arrayWithArray:[_service getAllAlbums]];
+	_albums = [NSMutableArray arrayWithArray:[_service getAllAlbums]];
 	
-	self.liveQuery = [_service queryAllAlbums].asLiveQuery;
-	[self.liveQuery addObserver:self forKeyPath:@"rows" options:0 context:nil];
+//	self.liveQuery = [_service queryAllAlbums].asLiveQuery;
+//	[self.liveQuery addObserver:self forKeyPath:@"rows" options:0 context:nil];
 	[self.favorite addObserver:self forKeyPath:@"clips" options:0 context:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(updateAlumbList:)
-												 name:@"addClipToAlbum"
+												 name:@"albumModified"
 											   object:nil];
 	[self setupThumbs];
+	
+//	NSArray *buttons = self.navigationItem.rightBarButtonItems;
+//	NSMutableArray *newButtons = [NSMutableArray arrayWithArray:buttons];
+//	self.editButtonItem.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+//	[newButtons insertObject:self.editButtonItem atIndex:1];
+//	self.navigationItem.rightBarButtonItems = [newButtons copy];
 }
 
 #pragma mark - Observers
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
-					   context:(void *)context {
-	
-	if([object isKindOfClass:[CBLLiveQuery class]]) {
-		self.listsResult = self.liveQuery.rows.allObjects;
-	}
-	
-	[self.tableView reloadData];
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+//					   context:(void *)context {
+//	
+//	if([object isKindOfClass:[CBLLiveQuery class]]) {
+//		self.listsResult = self.liveQuery.rows.allObjects;
+//	}
+//	
+//	[self.tableView reloadData];
+//}
 
 - (void)updateAlumbList:(NSNotification*)note {
-	self.listsResult = self.liveQuery.rows.allObjects;
+//	self.listsResult = self.liveQuery.rows.allObjects;
+	_albums = [NSMutableArray arrayWithArray:[_service getAllAlbums]];
 	[self.tableView reloadData];
 }
 
@@ -121,9 +129,9 @@
 #pragma mark - Helpers
 
 - (Album *)getAlbumWithIndex:(NSIndexPath *)indexPath {
-	//	return (self.albums)[indexPath.row];
-	CBLQueryRow* row = [self.listsResult objectAtIndex:indexPath.row];
-	return [Album modelForDocument:row.document];
+	return (self.albums)[indexPath.row];
+//	CBLQueryRow* row = [self.listsResult objectAtIndex:indexPath.row];
+//	return [Album modelForDocument:row.document];
 }
 
 - (void)setupThumbs {
@@ -191,16 +199,54 @@
 	}
 }
 
-#pragma mark - Buttons
-- (IBAction)addAlbum:(id)sender {
-	[self showActionMessage:@"新建收藏夹" withMessage:@"请输入名称:" withTag:1 withStyle:UIAlertViewStylePlainTextInput];
+#pragma mark - Action Sheet for album operations
+- (IBAction)showActionSheet:(id)sender {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self
+													cancelButtonTitle:@"取消"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:@"新建收藏夹", @"修改收藏夹", @"从链接获取动图", nil];
+	[actionSheet showInView:self.view];
+	//	[self.tableView setEditing:YES];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+	switch (buttonIndex) {
+		case 0:
+			[self showActionMessage:@"新建收藏夹" withMessage:@"请输入名称:" withTag:1 withStyle:UIAlertViewStylePlainTextInput];
+			break;
+		case 1:
+			[self configActionButton];
+			break;
+		case 2:
+			[self fetchClips];
+			break;
+		default:
+			break;
+	}
+}
+
+- (void)configActionButton{
+	UIBarButtonItem *item = nil;
+	if (self.tableView.editing) {
+//		[self.tableView setEditing:NO];
+		[self setEditing:NO];
+		item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet:)];
+	}
+	else {
+//		[self.tableView setEditing:YES];
+		[self setEditing:YES];
+		item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(configActionButton)];
+	}
+	item.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	self.navigationItem.rightBarButtonItem = item;
 }
 
 #pragma mark - Fetch Clips
-- (IBAction)fetchClips:(id)sender {
-	
+- (void)fetchClips {
 	if([self isValidURL:[UIPasteboard generalPasteboard].string]) {
-		[self showActionMessage:@"下载这里的动图？" withMessage:[UIPasteboard generalPasteboard].string withTag:3 withStyle:UIAlertViewStyleDefault];
+		[self showActionMessage:@"查看这里的动图？" withMessage:[UIPasteboard generalPasteboard].string withTag:3 withStyle:UIAlertViewStyleDefault];
 	}else{
 		[self showAlertMessage:@"请复制正确的链接" withMessage:@""];
 	}
@@ -211,8 +257,8 @@
 	
 	if([[url pathExtension] caseInsensitiveCompare:@"gif"] == NSOrderedSame) {
 		ClipController *vc = [ClipController new];
-		vc.favorite = true;
-		vc.header = @"单图下载";
+		vc.fetchMode = true;
+//		vc.header = @"单图下载";
 		vc.articleURLs = @[url];
 		[self.navigationController pushViewController:vc animated:YES];
 	}else {
@@ -220,11 +266,10 @@
 		[self showProgress];
 		[service fetchClipsFromURL:url success:^(NSArray *images, NSString *title) {
 			[self hideProgress];
-			
 			if(images.count > 0){
 				ClipController *vc = [ClipController new];
-				vc.favorite = true;
-				vc.header = title? title: @"多图下载";
+				vc.fetchMode = true;
+//				vc.header = title? title: @"多图下载";
 				vc.articleURLs = images;
 				[self.navigationController pushViewController:vc animated:YES];
 			}else{
@@ -307,8 +352,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(section == 0) {
 		return 1;
 	}else{
-//		return [_albums count];
-		return _listsResult.count;
+		return [_albums count];
+//		return _listsResult.count;
 	}
 }
 
@@ -328,11 +373,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 		Album *album = [self getAlbumWithIndex:indexPath];
 		cell.title.text = album.title;
 		cell.badge.text = [NSString stringWithFormat: @"%ld", album.clips.count];
-		UIImage *thumb = [album getImage];
+		UIImage *thumb = [album getThumb];
 		if(thumb == nil) {
 			thumb =	_albumThumb;
 		}
 		[cell.thumb setImage:thumb];
+//		cell.showsReorderControl = YES;
 //		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	
@@ -358,7 +404,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	}else {
 		Album *album = [self getAlbumWithIndex:indexPath];
 		vc.header = album.title;
-		vc.articleURLs = album.clips;
+		vc.album = album;
+		vc.summary = album.desc;
 	}
 	
 	[self.navigationController pushViewController:vc animated:YES];
@@ -370,6 +417,44 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	}else{
 		return @"我的收藏夹";
 	}
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.section == 0)
+		return NO;
+ 
+	return YES;
+//	return NO;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+//	NSLog(@"%ld moved to %ld", sourceIndexPath.row, destinationIndexPath.row);
+	if(sourceIndexPath.row != destinationIndexPath.row) {
+		id row = [_albums objectAtIndex:sourceIndexPath.row];
+		[_albums removeObjectAtIndex:sourceIndexPath.row];
+		[_albums insertObject:row atIndex:destinationIndexPath.row];
+	}
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+	[super setEditing:editing animated:animated];
+	[self.tableView setEditing:editing animated:animated];
+	if(!editing) {
+		NSMutableArray *orderedAlbumID = [NSMutableArray new];
+		for(Album *album in _albums) {
+			[orderedAlbumID addObject:album.document.documentID];
+		}
+		[_service saveAlbumSeq:orderedAlbumID];
+	}
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView
+targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath
+	   toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+	if (sourceIndexPath.section != proposedDestinationIndexPath.section) {
+		return [NSIndexPath indexPathForRow:sourceIndexPath.row inSection:sourceIndexPath.section];
+	}
+	return proposedDestinationIndexPath;
 }
 
 @end

@@ -10,7 +10,7 @@
 
 @implementation Album
 
-@dynamic clips;
+@dynamic clips, desc;
 
 + (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid {
 	
@@ -20,18 +20,23 @@
 	album.type = AlbumModelType;
 	album.uuid = uuid;
 	album.title = title;
+	album.desc = @"";
 	
 	return album;
 }
 
--(void)setImage: (UIImage*)image {
-	[self setAttachmentNamed:kTaskImageName withContentType:ImageDataContentType content:[self dataForImage:image]];
+-(void)setThumb: (UIImage*)image {
+	[self setAttachmentNamed:kTaskImageName withContentType:ImageDataContentType content:[self dataForThumb:image]];
 }
 
--(UIImage *)getImage {
+-(void)removeThumb {
+	[self removeAttachmentNamed:kTaskImageName];
+}
+
+-(UIImage *)getThumb {
 	NSArray *attachments = [self attachmentNames];
 	if ([attachments count] > 0) {
-		CBLAttachment *attachment = [self attachmentNamed:[attachments objectAtIndex:0]];
+		CBLAttachment *attachment = [self attachmentNamed:kTaskImageName];
 		UIImage *attachedImage = [UIImage imageWithData:attachment.content];
 		return attachedImage;
 	} else {
@@ -49,7 +54,7 @@
 }
 
 //With image quality decreased
-- (NSData *)dataForImage:(UIImage *)image {
+- (NSData *)dataForThumb:(UIImage *)image {
 	return UIImageJPEGRepresentation(image, 0.1);
 }
 

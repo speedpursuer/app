@@ -59,10 +59,11 @@
 	CBLModelFactory* factory = _database.modelFactory;
 	[factory registerClass:[Album class] forDocumentType:@"album"];
 	[factory registerClass:[Favorite class] forDocumentType:@"favorite"];
+	[factory registerClass:[AlbumSeq class] forDocumentType:@"albumSeq"];
 	
-	_favorite = [self loadFavorite];
-	_isSynced = [self didSynced];
-	
+	[self loadFavorite];
+	[self didSynced];
+	[self loadAlbumSeq];
 	[self syncToRemote];
 	
 	
@@ -182,30 +183,10 @@
 			[_progressView dismiss:NO];
 		} afterDelay:0.8];
 	}
-//
-//	if(!_pull.running){
-//		
-//		[_progressView setProgress:1.0];
-//		
-//		[self performBlock:^{
-//			[_progressView dismiss:NO];
-//		} afterDelay:0.8];
-//		
-//		if(_pull.changesCount > 0.0 && _pull.changesCount == _pull.completedChangesCount) {
-//			NSLog(@"Really has docs synced");
-//			//If success, process conflict solving and mark did synced
-//			if(!error) {
-//				NSLog(@"Really need to resolve confilict");
-//				if([self processFavoriteConflict]) {
-//					[self setDidSynced];
-//				};
-//			}
-//		}
-//	}
 }
 
-- (BOOL)didSynced {
-	return ([_database existingDocumentWithID: didSyncedFlag] != nil);
+- (void)didSynced {
+	_isSynced = ([_database existingDocumentWithID: didSyncedFlag] != nil);
 }
 
 - (void)setDidSynced {
@@ -217,7 +198,6 @@
 }
 
 - (void)showProgress {
-//	_progressView = [MRProgressOverlayView showOverlayAddedTo:[[UIApplication sharedApplication] keyWindow] title:@"初始化" mode:MRProgressOverlayViewModeDeterminateHorizontalBar animated:NO];
 	
 	MRProgressOverlayView *view = [MRProgressOverlayView showOverlayAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
 	
@@ -280,22 +260,32 @@
 }
 
 #pragma mark - Album
+
+-(void)loadAlbumSeq {
+	_albumSeq = [AlbumSeq getAlbumSeqInDatabase:_database withUUID:_uuid];
+}
+
 - (Album*)creatAlubmWithTitle:(NSString*)title {
 	Album* album = [Album getAlbumInDatabase:_database withTitle:title withUUID:_uuid];
 	
 	NSError *error;
 	if ([album save:&error]) {
+		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已新建\"%@\"", album.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return album;
 	}else {
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
 		return nil;
 	}
 }
 
 - (BOOL)deleteAlbum:(Album *)album {
 	NSError *error;
+	NSString *albumName = album.title;
 	if ([album deleteDocument:&error]){
+		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已删除\"%@\"", albumName] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return YES;
 	}else{
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
 		return NO;
 	}
 }
@@ -305,25 +295,112 @@
 	NSMutableArray *existingClips = [NSMutableArray arrayWithArray:album.clips];
 	ArticleEntity *clip = [[ArticleEntity alloc] initWithData:url desc:desc];
 	
-	NSError* error;
-	
-	if(existingClips.count == 0) {
-		[album setImage:[self getThumb:url]];
-	}
-	
-//	[existingClips insertObject:clip atIndex:0];
 	[existingClips addObject:clip];
 	album.clips = [existingClips copy];
 	
+	return [self saveAlbum:album];
+}
+
+- (BOOL)addClips:(NSArray *)urls toAlum:(Album *)album{
+	
+	NSMutableArray *existingClips = [NSMutableArray arrayWithArray:album.clips];
+	
+	for(NSString *url in urls) {
+		ArticleEntity *clip = [[ArticleEntity alloc] initWithData:url desc:@""];
+		[existingClips addObject:clip];
+	}
+	
+	album.clips = [existingClips copy];
+	
+	return [self saveAlbum:album];
+}
+
+- (BOOL)saveAlbum:(Album *)album {
+	
+	[self setThumbForAlbum:album];
+	
+	NSError* error;
 	if ([album save: &error]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"addClipToAlbum" object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"albumModified" object:nil];
+		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", album.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return YES;
 	}else {
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
 		return NO;
 	}
 }
 
-- (NSArray *)getAllAlbums {
+- (void)setThumbForAlbum:(Album *)album {
+	if(!album.getThumb) {
+		ArticleEntity *firstClip = album.clips[0];
+		if(firstClip){
+			[album setThumb:[self getThumb:firstClip.url]];
+		}
+	}
+}
+
+- (BOOL)modifyClipDesc:(NSString *)newDesc withIndex:(NSInteger)index forAlbum:(Album *)album {
+	
+	NSMutableArray *clipsToModify = [album.clips mutableCopy];
+	ArticleEntity *clip = clipsToModify[index];
+	ArticleEntity *newClip = [[ArticleEntity alloc] initWithCopy:clip];
+	newClip.desc = newDesc;
+	[clipsToModify replaceObjectAtIndex:index withObject:newClip];
+	album.clips = [clipsToModify copy];
+	
+	NSError* error;
+	if ([album save: &error]) {
+		[JDStatusBarNotification showWithStatus:@"描述修改成功" dismissAfter:1.2 styleName:JDStatusBarStyleSuccess];
+		return YES;
+	}else {
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+		return NO;
+	}
+}
+
+- (BOOL)deleteClipWithIndex: (NSInteger)index forAlbum:(Album *)album {
+	
+	NSMutableArray *clipsToModify = [album.clips mutableCopy];
+	[clipsToModify removeObjectAtIndex:index];
+	if(clipsToModify.count == 0) {
+		[album removeThumb];
+	}else if(index == 0) {
+		//Change thumb if the first clip is switched
+		ArticleEntity *currFirstClip = clipsToModify[0];
+		[album setThumb:[self getThumb:currFirstClip.url]];
+	}
+	album.clips = [clipsToModify copy];
+	
+	NSError* error;
+	if ([album save: &error]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"albumModified" object:nil];
+		[JDStatusBarNotification showWithStatus:@"动图删除成功" dismissAfter:1.2 styleName:JDStatusBarStyleSuccess];
+		return YES;
+	}else {
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+		return NO;
+	}
+}
+
+- (BOOL)updateAlbumInfo:(NSString *)newTitle withDesc:(NSString *)newDesc forAlbum:(Album *)album {
+	if([album.title isEqualToString:newTitle] && [album.desc isEqualToString:newDesc]){
+		return NO;
+	}
+	album.title = newTitle;
+	album.desc = newDesc;
+	
+	NSError* error;
+	if ([album save: &error]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"albumModified" object:nil];
+		[JDStatusBarNotification showWithStatus:@"信息修改成功" dismissAfter:1.2 styleName:JDStatusBarStyleSuccess];
+		return YES;
+	}else {
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+		return NO;
+	}
+}
+
+- (NSArray *)getAllAlbumsWithoutOrder {
 	CBLQuery* query = [self queryAllAlbums];
 	
 	NSError *error;
@@ -337,6 +414,48 @@
 	}
 	
 	return [albums copy];
+}
+
+- (NSArray *)getAllAlbums {
+	
+	if(!_albumSeq.albumIDs) {
+		return [self getAllAlbumsWithoutOrder];
+	}
+	
+	CBLQuery* query = [self queryAllAlbums];
+	
+	NSError *error;
+	NSMutableArray *albums = [[NSMutableArray alloc] init];
+	NSMutableDictionary *dict = [NSMutableDictionary new];
+	
+	CBLQueryEnumerator* result = [query run: &error];
+	for (CBLQueryRow* row in result) {
+		CBLDocument *doc = row.document;
+		Album *album = [Album modelForDocument:doc];
+		[dict setObject:album forKey:doc.documentID];
+	}
+	
+//	NSArray *order = @[@"album_c0b358cb90244a54a2f28df968be1086_504440879",					   	   @"album_c0b358cb90244a54a2f28df968be1086_504439694",
+//					   @"album_c0b358cb90244a54a2f28df968be1086_504448234"
+//					   ];
+	
+	NSArray *order = _albumSeq.albumIDs;
+	
+	for(NSString *key in order) {
+		[albums addObject:[dict objectForKey:key]];
+	}
+	
+	return [albums copy];
+}
+
+- (BOOL)saveAlbumSeq:(NSArray *)albumIDs {
+	_albumSeq.albumIDs = albumIDs;
+	NSError* error;
+	if ([_albumSeq save: &error]) {
+		return YES;
+	}else {
+		return NO;
+	}
 }
 
 - (CBLQuery *)queryAllAlbums {
@@ -354,9 +473,9 @@
 }
 
 #pragma mark - Favorite
-- (Favorite *)loadFavorite {
+- (void)loadFavorite {
 	_uuid = [FCUUID uuidForDevice];
-	return [Favorite getFavoriteInDatabase:_database withUUID:_uuid];
+	_favorite = [Favorite getFavoriteInDatabase:_database withUUID:_uuid];
 }
 
 - (BOOL)isFavoriate:(NSString *)url {

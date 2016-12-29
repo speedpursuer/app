@@ -8,5 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AlbumTableViewController : UITableViewController <UIAlertViewDelegate>
+@interface AlbumTableViewController : UITableViewController <UIAlertViewDelegate,UIActionSheetDelegate>
 @end

@@ -16,8 +16,11 @@
 
 @interface Album : CBLBaseModel
 
-@property NSArray *clips;
+@property (readwrite) NSArray *clips;
+@property (readwrite) NSString *desc;
+
 + (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid;
--(void)setImage: (UIImage*)image;
--(UIImage *)getImage;
+-(void)setThumb: (UIImage*)image;
+-(void)removeThumb;
+-(UIImage *)getThumb;
 @end

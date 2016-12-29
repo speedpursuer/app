@@ -120,6 +120,8 @@
 		767C51B61D94E86500D9C4EA /* AppSettings+Cliplay.m in Sources */ = {isa = PBXBuildFile; fileRef = 767C51B51D94E86500D9C4EA /* AppSettings+Cliplay.m */; };
 		7684FF661CB6619C0017D23A /* GalleryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7684FF651CB6619C0017D23A /* GalleryController.m */; };
 		768970021D94CCE10007AA70 /* CliplayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 768970011D94CCE10007AA70 /* CliplayTests.m */; };
+		768D0C811E13AFD8008BE0FD /* AlbumInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 768D0C801E13AFD8008BE0FD /* AlbumInfoViewController.m */; };
+		768D0C8C1E14B12A008BE0FD /* AlbumSeq.m in Sources */ = {isa = PBXBuildFile; fileRef = 768D0C8A1E14B12A008BE0FD /* AlbumSeq.m */; };
 		769342C21D5C972B00316263 /* EBCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C11D5C972B00316263 /* EBCommentCell.m */; };
 		769342C91D5C973D00316263 /* EBCommentsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C41D5C973D00316263 /* EBCommentsTableView.m */; };
 		769342CA1D5C973D00316263 /* EBCommentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 769342C61D5C973D00316263 /* EBCommentsView.m */; };
@@ -361,6 +363,10 @@
 		76896FFF1D94CCE10007AA70 /* CliplayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CliplayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		768970011D94CCE10007AA70 /* CliplayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CliplayTests.m; sourceTree = "<group>"; };
 		768970031D94CCE10007AA70 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		768D0C7F1E13AFD8008BE0FD /* AlbumInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlbumInfoViewController.h; path = Cliplay/Classes/AlbumInfoViewController.h; sourceTree = "<group>"; };
+		768D0C801E13AFD8008BE0FD /* AlbumInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlbumInfoViewController.m; path = Cliplay/Classes/AlbumInfoViewController.m; sourceTree = "<group>"; };
+		768D0C8A1E14B12A008BE0FD /* AlbumSeq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlbumSeq.m; path = Cliplay/Classes/AlbumSeq.m; sourceTree = "<group>"; };
+		768D0C8B1E14B12A008BE0FD /* AlbumSeq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlbumSeq.h; path = Cliplay/Classes/AlbumSeq.h; sourceTree = "<group>"; };
 		769342C01D5C972B00316263 /* EBCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBCommentCell.h; path = EBPhotoPagesController/EBCommentCell.h; sourceTree = "<group>"; };
 		769342C11D5C972B00316263 /* EBCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EBCommentCell.m; path = EBPhotoPagesController/EBCommentCell.m; sourceTree = "<group>"; };
 		769342C31D5C973D00316263 /* EBCommentsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EBCommentsTableView.h; path = EBPhotoPagesController/EBCommentsTableView.h; sourceTree = "<group>"; };
@@ -736,6 +742,8 @@
 				761642691DE827790097E901 /* AlbumSelectBottomSheetViewController.m */,
 				7645BAAF1DE9B87600173C93 /* AlbumAddClipDescViewController.h */,
 				7645BAB01DE9B87600173C93 /* AlbumAddClipDescViewController.m */,
+				768D0C7F1E13AFD8008BE0FD /* AlbumInfoViewController.h */,
+				768D0C801E13AFD8008BE0FD /* AlbumInfoViewController.m */,
 				7649225E1DEE61FF0090C9ED /* AlbumViewController.h */,
 				7649225F1DEE61FF0090C9ED /* AlbumViewController.m */,
 			);
@@ -806,6 +814,8 @@
 				763719D61DFF8D7B00080657 /* CBLBaseModel.m */,
 				7633ED091DCB70CF002EEC62 /* Album.h */,
 				7633ED0A1DCB70CF002EEC62 /* Album.m */,
+				768D0C8B1E14B12A008BE0FD /* AlbumSeq.h */,
+				768D0C8A1E14B12A008BE0FD /* AlbumSeq.m */,
 				764922641DEFAD550090C9ED /* Favorite.h */,
 				764922651DEFAD550090C9ED /* Favorite.m */,
 				761642571DE5285E0097E901 /* CBLService.h */,
@@ -1163,11 +1173,13 @@
 				7633BA951D75ABF500A3FB09 /* REComposeViewController.m in Sources */,
 				76E61D941C79F28900CCC767 /* CDVReachability.m in Sources */,
 				76332C9B1CAB787200C3F494 /* ArticleController.m in Sources */,
+				768D0C8C1E14B12A008BE0FD /* AlbumSeq.m in Sources */,
 				76A9461A1C92E82A007542A8 /* DRImagePlaceholderHelper.m in Sources */,
 				7605C44C1C5BB2F3004E488A /* UIView+YYAdd.m in Sources */,
 				7605C4211C5BB2D7004E488A /* RootViewController.m in Sources */,
 				7605C4451C5BB2F3004E488A /* MBCircularProgressBarLayer.m in Sources */,
 				7616426A1DE827790097E901 /* AlbumSelectBottomSheetViewController.m in Sources */,
+				768D0C811E13AFD8008BE0FD /* AlbumInfoViewController.m in Sources */,
 				76AD12591D24F45C0002A133 /* ClipController.m in Sources */,
 				7605C4461C5BB2F3004E488A /* MBCircularProgressBarView.m in Sources */,
 				764922601DEE61FF0090C9ED /* AlbumViewController.m in Sources */,

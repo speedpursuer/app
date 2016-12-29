@@ -364,7 +364,7 @@
 	
 //	self.contentView.size = CGSizeMake(kScreenWidth, 10+_imageLabel.height+_webImageView.height);
 	
-	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.image]];
+	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.url]];
 }
 
 //- (void)setCellData:(ArticleEntity*) entity {
@@ -552,7 +552,7 @@
 	}else if(_articleDicts) {
 		
 		[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			[entities addObject:[[ArticleEntity alloc] initWithDictionary:obj]];
+			[entities addObject:[[ArticleEntity alloc] initWithJSON:obj]];
 		}];
 	}
 	

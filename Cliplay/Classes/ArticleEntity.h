@@ -11,11 +11,13 @@
 
 @interface ArticleEntity : NSObject <CBLJSONEncoding>
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
+//- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 - (instancetype)initWithURL:(NSString *)url;
 - (instancetype)initWithData:(NSString *)url desc:(NSString *)desc;
+- (instancetype)initWithData:(NSString *)url desc:(NSString *)desc tag:(NSInteger)tag;
+- (instancetype)initWithCopy:(ArticleEntity *)entity;
 
-@property NSString *desc;
-@property NSString *image;
-
+@property (readwrite) NSString *desc;
+@property NSString *url;
+@property NSInteger tag;
 @end

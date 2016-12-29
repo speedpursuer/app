@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DEComposeTextView.h"
 
 @interface AlbumAddClipDescViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UITextView *desc;
+@property (weak, nonatomic) IBOutlet DEComposeTextView *desc;
+@property NSString *currDesc;
 @property NSString *url;
 @property BOOL shouldSave;
 @end

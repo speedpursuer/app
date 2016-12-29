@@ -426,7 +426,7 @@
 	}else if(_articleDicts) {
 		
 		[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			[entities addObject:[[ArticleEntity alloc] initWithDictionary:obj]];
+			[entities addObject:[[ArticleEntity alloc] initWithJSON:obj]];
 		}];
 	}
 	
@@ -585,7 +585,7 @@
 	
 	ArticleEntity *entity = data[indexPath.row];
 	
-	[cell setImageURL:[NSURL URLWithString:entity.image]];
+	[cell setImageURL:[NSURL URLWithString:entity.url]];
 	
 	return cell;
 }

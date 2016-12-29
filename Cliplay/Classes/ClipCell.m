@@ -165,8 +165,19 @@
 	
 	[_shareBtn addTarget:self action:@selector(shareClip) forControlEvents:UIControlEventTouchUpInside];
 	
+	[self setupAlbumIcon:reuseIdentifier];
 	
-	FAKFontAwesome *albumIcon = [FAKFontAwesome folderOpenIconWithSize:20];
+	return self;
+}
+
+- (void)setupAlbumIcon:(NSString *)reuseIdentifier {
+	FAKFontAwesome *albumIcon;
+	
+	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
+		albumIcon = [FAKFontAwesome editIconWithSize:20];
+	}else{
+		albumIcon = [FAKFontAwesome folderOpenIconWithSize:20];
+	}
 	
 	UIImage *albumImage = [albumIcon imageWithSize:CGSizeMake(20, 20)];
 	
@@ -180,13 +191,13 @@
 	
 	[self.contentView addSubview:_albumBtn];
 	
-//	_albumBtn.top = _webImageView.top;
+	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
+		[_albumBtn addTarget:self action:@selector(editClipInAlbum) forControlEvents:UIControlEventTouchUpInside];
+	}else{
+		[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
+	}
 	_albumBtn.bottom = _webImageView.bottom;
 	_albumBtn.left = _webImageView.left;
-	
-	[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
-	
-	return self;
 }
 
 - (void)tappedButton:(DOFavoriteButton *)sender {
@@ -287,7 +298,7 @@
 
 - (void)setCellData:(ArticleEntity*) entity isForHeight:(BOOL)isForHeight {
 	
-	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.image]];
+	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.url]];
 }
 
 - (void)setImageURL:(NSURL *)url {
@@ -389,7 +400,12 @@
 
 - (void)collectClipToAlbum {
 	ClipController* ctr = [self getViewCtr];
-	[ctr addToAlbum:[self.webImageView.yy_imageURL absoluteString]];
+	[ctr formActionForCell:self withActionType:addToAlbum];
+}
+
+- (void)editClipInAlbum {
+	ClipController* ctr = [self getViewCtr];
+	[ctr formActionForCell:self withActionType:editClip];
 }
 
 - (UIImage *)getCommentIcon:(NSInteger)count {

@@ -18,9 +18,8 @@
 #import "MyLBService.h"
 #import "AlbumAddClipDescViewController.h"
 #import "AlbumSelectBottomSheetViewController.h"
+#import "AlbumInfoViewController.h"
 #import <STPopup/STPopup.h>
-#import "JDStatusBarNotification.h"
-//#import "Album.h"
 #import "CBLService.h"
 
 #define cellMargin 10
@@ -31,32 +30,52 @@
 @interface ClipController ()
 @property (nonatomic, strong) STPopupController *popCtr;
 @property CBLService *cblService;
-@property (nonatomic, copy) NSString *clipToAdd;
-@property BOOL shouldAddDesc;
-@property BOOL shouldAddAlbum;
 @property Album *albumToAdd;
+@property NSInteger indexOfSelectedClip;
+@property clipActionType actionType;
+@property NSString *clipCellID;
+//@property (nonatomic, copy) NSString *clipToAdd;
+//@property BOOL isAddAll;
 @end
 
 @implementation ClipController {
-	NSArray *data;
+	NSMutableArray *data;
 	MyLBService *lbService;
 	NSDictionary* commentList;
 //	NSString *shareText;
 }
 
+#pragma mark - Public API
+- (void)formActionForCell:(UITableViewCell *)cell withActionType:(clipActionType)type {
+	_actionType = type;
+	
+	if(cell) {
+		_indexOfSelectedClip = [self.tableView indexPathForCell:cell].row;
+	}
+	
+	switch (type) {
+		case addToAlbum:
+			[self showBottomAlbumPopup];
+			break;
+		case addAllToAlbum:
+			[self showBottomAlbumPopup];
+			break;
+		case editClip:
+			[self showAlbumActionsheet];
+			break;
+		default:
+			break;
+	}
+}
+
 #pragma mark - (UIViewContoller & Init)
 - (void)viewDidLoad {
 	[super viewDidLoad];
-		
+	
 	lbService = [MyLBService sharedManager];
 	_cblService = [CBLService sharedManager];
 	
 	[self setDownloadLimit:YES];
-	
-	self.tableView.fd_debugLogEnabled = NO;
-	
-	[self.tableView registerClass:[ClipCell class] forCellReuseIdentifier:@"clipCell"];
-	[self.tableView registerClass:[TitleCell class] forCellReuseIdentifier:@"titleCell"];
 	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -67,6 +86,10 @@
 //	[self fetchPostComments:[self postID]];
 	
 	[self.navigationItem setTitle: _header];
+	
+	self.tableView.fd_debugLogEnabled = NO;
+	
+	[self registerReusableCell];
 	
 	[self addInfoIcon];
 	
@@ -79,6 +102,15 @@
 	[self initHeader];
 	
 	[self.tableView reloadData];
+}
+
+-(void)registerReusableCell {
+	
+	[self.tableView registerClass:[TitleCell class] forCellReuseIdentifier:TitleCellIdentifier];
+	
+	_clipCellID = [self isInAlbum]? AlbumCellIdentifier: ClipCellIdentifier;
+	
+	[self.tableView registerClass:[ClipCell class] forCellReuseIdentifier:_clipCellID];
 }
 
 -(void)setDownloadLimit:(BOOL)hasLimit {
@@ -106,27 +138,21 @@
 
 - (void)initData {
 	NSMutableArray *entities = @[].mutableCopy;
-	
-	if(_articleURLs) {
-		if(_favorite) {
-			for (NSString *url in _articleURLs) {
-				[entities addObject:[[ArticleEntity alloc] initWithData:url desc: @""]];
-			}			
-		}else {
-			[_articleURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-				
-				ArticleEntity *entity = (ArticleEntity *)obj;
-				
-				NSString *desc = entity.desc;
-				NSString *url = entity.image;
-				if(desc && [desc length] != 0) {
-					[entities addObject:[[ArticleEntity alloc] initWithData:@"" desc:desc]];
-				}
-				[entities addObject:[[ArticleEntity alloc] initWithData:url desc:@""]];
-			}];
-		}
+	if(_album) {
+		NSMutableArray *pureURL = @[].mutableCopy;
+		[_album.clips enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+			ArticleEntity *entity = (ArticleEntity *)obj;
+			NSString *desc = entity.desc;
+			NSString *url = entity.url;
+			if(desc && [desc length] != 0) {
+				[entities addObject:[[ArticleEntity alloc] initWithData:@"" desc:desc]];
+			}
+			[entities addObject:[[ArticleEntity alloc] initWithData:url desc:@"" tag:idx]];
+			[pureURL addObject:url];
+		}];
+		_articleURLs = [pureURL copy];
+
 	}else if(_articleDicts) {
-		
 		[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			NSString *desc = obj[@"desc"];
 			NSString *url = obj[@"url"];
@@ -135,6 +161,10 @@
 			}
 			[entities addObject:[[ArticleEntity alloc] initWithData:url desc:@""]];
 		}];
+	}else if(_articleURLs) {
+		for (NSString *url in _articleURLs) {
+			[entities addObject:[[ArticleEntity alloc] initWithData:url desc: @""]];
+		}
 	}
 	
 	data = [entities mutableCopy];
@@ -187,6 +217,26 @@
 
 - (void)addInfoIcon {
 	
+	if(_fetchMode) {
+//		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(prepareToSaveAll)];
+		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"保存全部" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareToSaveAll)];
+		
+		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		
+		self.navigationItem.rightBarButtonItem = button;
+		return;
+	}
+	
+	if([self isInAlbum]) {
+//		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(prepareForAlbumInfo)];
+		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"信息" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareForAlbumInfo)];
+
+		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		
+		self.navigationItem.rightBarButtonItem = button;
+		return;
+	}
+	
 	if(!_showInfo) {
 		self.infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 64,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: true];
 	}else {
@@ -212,16 +262,6 @@
 	}else{
 		[self fetchPostComments:NO];
 	}
-	
-	if(_shouldAddAlbum){
-		[self showNewAlbumForm];
-		_shouldAddAlbum = NO;
-	}
-	
-	if(_shouldAddDesc) {
-		[self addToExistingAlbum];
-		_shouldAddDesc = NO;
-	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -233,13 +273,6 @@
 			[self.navigationController setNavigationBarHidden:YES];
 		}
 	}
-	
-//	if(_fullScreen) {
-//		[self stopPlayingAllImages];
-//	}else {
-//		[[YYWebImageManager sharedManager].queue cancelAllOperations];
-//		[[YYImageCache sharedCache].memoryCache removeAllObjects];
-//	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -326,12 +359,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	ArticleEntity *entity = data[indexPath.row];
 	
-	if([entity.image length] == 0) {
-		TitleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"titleCell" ];
+	if([entity.url length] == 0) {
+		TitleCell *cell = [tableView dequeueReusableCellWithIdentifier:TitleCellIdentifier];
 		[self configureTitleCell:cell atIndexPath:indexPath isForHeight:false];
 		return cell;
 	}else {
-		ClipCell *cell = [tableView dequeueReusableCellWithIdentifier:@"clipCell" ];
+		ClipCell *cell = [tableView dequeueReusableCellWithIdentifier:_clipCellID];
 		[self configureCell:cell atIndexPath:indexPath isForHeight:false];
 		return cell;
 	}
@@ -353,15 +386,23 @@
 
 	ArticleEntity *entity = data[indexPath.row];
 	
-	if([entity.image length] == 0) {
-		return [tableView fd_heightForCellWithIdentifier:@"titleCell" cacheByIndexPath:indexPath configuration:^(id cell) {
+	if([entity.url length] == 0) {
+		return [tableView fd_heightForCellWithIdentifier:TitleCellIdentifier cacheByIndexPath:indexPath configuration:^(id cell) {
 			[self configureTitleCell:cell atIndexPath:indexPath isForHeight:true];
 		}];
 	}else{
-		return [tableView fd_heightForCellWithIdentifier:@"clipCell" cacheByIndexPath:indexPath configuration:^(id cell) {
+		return [tableView fd_heightForCellWithIdentifier:_clipCellID cacheByIndexPath:indexPath configuration:^(id cell) {
 			[self configureCell:cell atIndexPath:indexPath isForHeight:true];
 		}];
 	}
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+	
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -434,18 +475,7 @@
 	NSString *id_post = [self postID];
 	
 	if(self.articleURLs.count > 0) {
-		
-		NSMutableArray *urlList = [NSMutableArray new];
-		
-		if(self.favorite) {
-			[urlList addObjectsFromArray:self.articleURLs];
-		}else {
-			for (ArticleEntity *entity in _articleURLs) {
-				[urlList addObject:entity.image];
-			}
-		}
-			
-		[lbService getCommentsSummaryByClipIDs:[urlList copy] isRefresh:isRefresh success:^(NSArray *list) {
+		[lbService getCommentsSummaryByClipIDs:[_articleURLs copy] isRefresh:isRefresh success:^(NSArray *list) {
 			[self generateCommentList:list];
 		} failure:^{
 		}];
@@ -509,10 +539,8 @@
 }
 
 #pragma mark - Album & Favorite
-- (void)addToAlbum:(NSString *)url {
-	
-	_clipToAdd = url;
-	
+
+- (void)showBottomAlbumPopup {
 	STPopupController *popupController = [[STPopupController alloc] initWithRootViewController:[[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"addList"]];
 	
 	_popCtr = popupController;
@@ -539,38 +567,41 @@
 	[alert show];
 }
 
-- (void)addToExistingAlbum {
-	
-	AlbumAddClipDescViewController *ctr = [[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"addDesc"];
-	
-	UINavigationController *navigationController =
-	[[UINavigationController alloc] initWithRootViewController:ctr];
-	
-	[ctr setUrl:_clipToAdd];
-	
-	_fullScreen = true;
-	
-	navigationController.navigationBar.tintColor = [UIColor blackColor];
-	
-	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
-	
-	[self presentViewController:navigationController animated:YES completion:nil];
+- (void)saveClipToAlbumWithDesc:(NSString *)desc {
+	[_cblService addClip:[self urlForSeletedClip] toAlum:_albumToAdd withDesc:desc];
+//	if([_cblService addClip:[self urlForSeletedClip] toAlum:_albumToAdd withDesc:desc]) {
+//		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", _albumToAdd.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
+//	}else{
+//		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+//	}
 }
 
-- (void)saveClipToAlbumWithDesc:(NSString *)desc {
-	if([_cblService addClip:_clipToAdd toAlum:_albumToAdd withDesc:desc]) {
-		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", _albumToAdd.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
-	}else{
-		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
-	}
+- (NSString *)urlForSeletedClip {
+	ArticleEntity *entity = data[_indexOfSelectedClip];
+	return entity.url;
 }
 
 - (void)createNewAlbumWithTitle:(NSString *)title {
 	Album *album = [_cblService creatAlubmWithTitle:title];
 	if(album) {
 		_albumToAdd = album;
-		[self addToExistingAlbum];
+		if(_actionType == addAllToAlbum) {
+			[self saveAllClips];
+		}else{
+			[self showClipDescPopup:@""];
+		}
 	}
+}
+
+- (void)prepareToSaveAll{
+	[self formActionForCell:nil withActionType:addAllToAlbum];
+}
+
+- (void)saveAllClips {
+	[_cblService addClips:_articleURLs toAlum:_albumToAdd];
+//	if([_cblService addClips:_articleURLs toAlum:_albumToAdd]){
+//		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", _albumToAdd.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
+//	}
 }
 
 - (IBAction)unwindBack:(UIStoryboardSegue *)segue {
@@ -580,17 +611,160 @@
 	if([source isKindOfClass:[AlbumAddClipDescViewController class]]){
 		AlbumAddClipDescViewController *ctr = ((AlbumAddClipDescViewController *)source);
 		if(ctr.shouldSave) {
-			[self saveClipToAlbumWithDesc:ctr.desc.text];
+			if(_actionType == addToAlbum) {
+				[self saveClipToAlbumWithDesc:ctr.desc.text];
+			}else if(_actionType == modifyDesc) {
+				[self modifyClipDesc:ctr.desc.text];
+			}
 		}
 	}else if([source isKindOfClass:[AlbumSelectBottomSheetViewController class]]) {
 		AlbumSelectBottomSheetViewController *ctr = ((AlbumSelectBottomSheetViewController *)source);
 		_albumToAdd = ctr.selectedAlbum;
-		if (!_albumToAdd) {
-			_shouldAddAlbum = YES;
-		}else {
-			_shouldAddDesc = YES;
+		if(_actionType == addAllToAlbum) {
+			if(_albumToAdd){
+				[self saveAllClips];
+			}else {
+				[self showNewAlbumForm];
+			}
+		}else{
+			if(_albumToAdd){
+				[self showClipDescPopup:@""];
+			}else {
+				[self showNewAlbumForm];
+			}
+		}
+	}else if([source isKindOfClass:[AlbumInfoViewController class]]) {
+		AlbumInfoViewController *ctr = ((AlbumInfoViewController *)source);
+		if(ctr.shouldSave) {
+			[self updateAlbumInfoWithTitle:ctr.name withDesc:ctr.desc];
 		}
 	}
+}
+
+- (void)modifyClipDesc:(NSString *)newDesc {
+	NSInteger clipIndexInAlbum = ((ArticleEntity *)data[_indexOfSelectedClip]).tag;
+	NSString *origDesc = ((ArticleEntity *)_album.clips[clipIndexInAlbum]).desc;
+	
+	//No need to change if not changed
+	if([origDesc isEqualToString:newDesc]) {
+		return;
+	}
+	
+	if([_cblService modifyClipDesc:newDesc withIndex:clipIndexInAlbum forAlbum:_album]) {
+		[self initData];
+		[self.tableView reloadData];
+	}
+}
+
+- (void)deleteClip {
+	NSInteger clipIndexInAlbum = ((ArticleEntity *)data[_indexOfSelectedClip]).tag;
+	if([_cblService deleteClipWithIndex:clipIndexInAlbum forAlbum:_album]) {
+		[self initData];
+		[self.tableView reloadData];
+	}
+}
+
+- (void)showClipDescPopup:(NSString *)desc {
+	AlbumAddClipDescViewController *ctr = [[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"addDesc"];
+	
+	[ctr setUrl:[self urlForSeletedClip]];
+	ctr.currDesc = desc;
+	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
+	
+	_fullScreen = true;
+	
+	UINavigationController *navigationController =
+	[[UINavigationController alloc] initWithRootViewController:ctr];
+	navigationController.navigationBar.tintColor = [UIColor blackColor];
+	
+	[self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)prepareForDescModify {
+	NSString *curDesc = @"";
+	if(_indexOfSelectedClip != 0) {
+		ArticleEntity *entity = data[_indexOfSelectedClip - 1];
+		curDesc = entity.desc;
+	}
+	
+	[self showClipDescPopup:curDesc];
+}
+
+- (BOOL)isInAlbum {
+	return _album? YES: NO;
+}
+
+- (void)performAlbumAction:(clipActionType)type{
+	_actionType = type;
+	switch (type) {
+		case addToAlbum:
+			[self showBottomAlbumPopup];
+			break;
+		case modifyDesc:
+			[self prepareForDescModify];
+			break;
+		case deleteClip:
+			[self deleteClip];
+			break;
+		default:
+			break;
+	}
+}
+
+-(void)prepareForAlbumInfo {
+	AlbumInfoViewController *ctr = [[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"albumInfo"];
+	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
+	ctr.name = _album.title;
+	ctr.desc = _album.desc;
+	
+	_fullScreen = true;
+	
+	UINavigationController *navigationController =
+	[[UINavigationController alloc] initWithRootViewController:ctr];
+	navigationController.navigationBar.tintColor = [UIColor blackColor];
+	
+	[self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)updateAlbumInfoWithTitle:(NSString *)title withDesc:(NSString *)desc {
+//	NSLog(@"from album info, title = %@, desc = %@", title, desc);
+	if([_cblService updateAlbumInfo:title withDesc:desc forAlbum:_album]) {
+		[self setTitle:title];
+		[self setSummary:desc];
+		[self initHeader];
+		[self initData];
+		[self.tableView reloadData];
+	}
+}
+
+#pragma mark - Action Sheet for album operation
+
+- (void)showAlbumActionsheet {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"操作此动图？"
+															 delegate:self
+													cancelButtonTitle:@"取消"
+											   destructiveButtonTitle:@"删除动图"
+													otherButtonTitles:@"修改描述", @"加入其他收藏夹", nil];
+	[actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+	clipActionType type = noAction;
+	switch (buttonIndex) {
+       case 0:
+			type = deleteClip;
+			break;
+	   case 1:
+			type = modifyDesc;
+			break;
+	   case 2:
+			type = addToAlbum;
+			break;
+	   default:
+			break;
+	}
+	[self performAlbumAction:type];
 }
 
 #pragma mark - UIAlertViewDelegate

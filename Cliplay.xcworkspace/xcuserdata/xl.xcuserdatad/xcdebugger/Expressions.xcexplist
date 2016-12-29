@@ -3,26 +3,21 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "-[LKBadgeView setText:]:LKBadgeView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CBLService getAllAlbums]:CBLService.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "_albumSeq">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "__24-[AppDelegate fetchData]_block_invoke:AppDelegate.m">
          <PersistentStrings>
             <PersistentString
                value = "greeting[@&quot;image&quot;]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "mach_msg_trap:(null)">
-         <PersistentStrings>
-            <PersistentString
-               value = "LKBadgeView - 1">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "-[ClipPlayController setImageViewSize]:ClipPlayController.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.view.size">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -35,7 +30,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[AlbumListTableViewCell awakeFromNib]:AlbumListTableViewCell.m">
+         contextName = "-[LKBadgeView drawRect:]:LKBadgeView.m">
+      </ContextState>
+      <ContextState
+         contextName = "mach_msg_trap:(null)">
+         <PersistentStrings>
+            <PersistentString
+               value = "LKBadgeView - 1">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "-[AlbumTableViewController observeValueForKeyPath:ofObject:change:context:]:AlbumTableViewController.m">
@@ -46,10 +49,29 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "-[LKBadgeView drawRect:]:LKBadgeView.m">
+         contextName = "-[AlbumInfoViewController textField:shouldChangeCharactersInRange:replacementString:]:AlbumInfoViewController.m">
       </ContextState>
       <ContextState
-         contextName = "-[LKBadgeView setText:]:LKBadgeView.m">
+         contextName = "-[AlbumListTableViewCell awakeFromNib]:AlbumListTableViewCell.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CBLService modifyClipDesc:withIndex:forAlbum:]:CBLService.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "newClips[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ClipPlayController setImageViewSize]:ClipPlayController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.view.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ClipController modifyDescForRow:]:ClipController.m">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

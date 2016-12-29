@@ -21,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self loadUI];
+	[self setData];
     // Do any additional setup after loading the view.
 }
 
@@ -31,9 +32,16 @@
 
 - (void)loadUI {
 	[self loadThumb];
+	[_desc setPlaceholder:@"请输入描述..."];
 	[_desc becomeFirstResponder];
 	_thumb.contentMode = UIViewContentModeScaleAspectFill;
 	_thumb.layer.masksToBounds = YES;
+}
+
+- (void)setData {
+	if(_currDesc) {
+		_desc.text = _currDesc;
+	}
 }
 
 - (void)loadThumb {
@@ -48,7 +56,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-	[_desc resignFirstResponder];
+	[self.view endEditing:YES];
 	if (sender == self.saveButton) {
 		_shouldSave = YES;
 	}
