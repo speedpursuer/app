@@ -8,17 +8,24 @@
 
 #import "Album.h"
 
+#define kAlbumDocType @"album"
+
 @implementation Album
 
 @dynamic clips, desc;
 
++ (NSString*) docType {
+	return kAlbumDocType;
+}
+
++ (NSString*) docID:(NSString *)uuid {
+	return [NSString stringWithFormat:@"album_%@_%d", uuid, (int)[NSDate date].timeIntervalSinceReferenceDate];
+}
+
 + (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid {
 	
-	NSString *docID = [NSString stringWithFormat:@"album_%@_%d", uuid, (int)[NSDate date].timeIntervalSinceReferenceDate];
-	Album* album = [Album modelForDocument: database[docID]];
+	Album *album = (Album *)[super getModelInDatabase:database withUUID:uuid];
 	
-	album.type = AlbumModelType;
-	album.uuid = uuid;
 	album.title = title;
 	album.desc = @"";
 	
@@ -43,11 +50,6 @@
 		return nil;
 	}
 }
-
-//-(nullable NSString*) idForNewDocumentInDatabase: (CBLDatabase*)db {
-//	return [NSString stringWithFormat:@"album_%@_%d", [FCUUID uuidForDevice], (int)[NSDate date].timeIntervalSinceReferenceDate];
-//}
-
 
 +(Class)clipsItemClass {
 	return [ArticleEntity class];

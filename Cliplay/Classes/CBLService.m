@@ -15,6 +15,7 @@
 //#define cbserverURL   @"http://localhost:4984/cliplay_user_data"
 #define cbserverURL @"http://121.40.197.226:8000/cliplay_user_data"
 #define didSyncedFlag @"didSynced"
+#define kLocalFlag @"isFromLocal"
 
 
 @interface CBLService()
@@ -56,16 +57,16 @@
 	
 //	[self enableLogging];
 	
-	CBLModelFactory* factory = _database.modelFactory;
-	[factory registerClass:[Album class] forDocumentType:@"album"];
-	[factory registerClass:[Favorite class] forDocumentType:@"favorite"];
-	[factory registerClass:[AlbumSeq class] forDocumentType:@"albumSeq"];
+//	CBLModelFactory* factory = _database.modelFactory;
+//	[factory registerClass:[Album class] forDocumentType:@"album"];
+//	[factory registerClass:[Favorite class] forDocumentType:@"favorite"];
+//	[factory registerClass:[AlbumSeq class] forDocumentType:@"albumSeq"];
 	
 	[self loadFavorite];
-	[self didSynced];
 	[self loadAlbumSeq];
+	[self loadSynced];
+	[self observeChanges];
 	[self syncToRemote];
-	
 	
 	//For test ONLY
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -75,201 +76,33 @@
 	return self;
 }
 
-#pragma mark - Logging
-- (void)enableLogging {
-	//        [CBLManager enableLogging:@"Database"];
-	//        [CBLManager enableLogging:@"View"];
-	//        [CBLManager enableLogging:@"ViewVerbose"];
-	//        [CBLManager enableLogging:@"Query"];
-	[CBLManager enableLogging:@"Sync"];
-	[CBLManager enableLogging:@"SyncVerbose"];
-	//        [CBLManager enableLogging:@"ChangeTracker"];
+- (void)observeChanges {
+	[self.favorite addObserver:self forKeyPath:@"clips" options:0 context:nil];
+	[self.albumSeq addObserver:self forKeyPath:@"albumIDs" options:0 context:nil];
 }
 
-#pragma mark - Sync
-- (void)syncToRemote {
-	NSURL *syncUrl = [NSURL URLWithString:cbserverURL];
-	
-	_push = [_database createPushReplication:syncUrl];
-	
-	[_database setFilterNamed: @"syncedFlag" asBlock: FILTERBLOCK({
-		return ![revision[@"_id"] isEqual:didSyncedFlag];
-	})];
-	
-	id<CBLAuthenticator> auth;
-	auth = [CBLAuthenticator basicAuthenticatorWithName: @"cliplay_user"
-											   password: @"Cliplay_nba"];
-	_push.authenticator = auth;
-	_push.filter = @"syncedFlag";
-//	_push.continuous = YES;
-	
-	[_push start];
+- (void)dealloc {
+	[self.favorite removeObserver:self forKeyPath:@"clips"];
+	[self.albumSeq removeObserver:self forKeyPath:@"albumIDs"];
 }
 
-- (void)syncFromRemote {
-	
-	if(_isSynced) return;
-	
-	NSURL *syncUrl = [NSURL URLWithString:cbserverURL];
-	
-	_pull = [_database createPullReplication:syncUrl];
-	
-	id<CBLAuthenticator> auth;
-	auth = [CBLAuthenticator basicAuthenticatorWithName: @"cliplay_user"
-											   password: @"Cliplay_nba"];
-	_pull.authenticator = auth;
-	_pull.channels = @[[NSString stringWithFormat:@"user_%@", _uuid]];
-	
-	NSNotificationCenter *nctr = [NSNotificationCenter defaultCenter];
-	[nctr addObserver:self selector:@selector(myReplicationProgress:)
-				 name:kCBLReplicationChangeNotification object:_pull];
-	
-	[self showProgress];
-	
-	[self performBlock:^{
-		[_pull start];
-	} afterDelay:0.5];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+					   context:(void *)context {
+	[self notifyChanges];
 }
 
-
-- (void)myReplicationProgress:(NSNotification *)notification {
-	NSError* error = _pull.lastError;
-	
-	if(error){
-		_lastSyncError = error;
-	}
-//	if (error != _lastSyncError) {
-//		_lastSyncError = error;
-//		if (error.code == 401) {
-//			[self showMessage:@"Authentication failed" withTitle:@"Sync Error"];
-//		} else
-//			[self showMessage:error.description withTitle:@"Sync Error"];
-//	}
-	
-	if (_pull.status == kCBLReplicationActive){
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-		
-		double progress = 0.0;
-		double total = _pull.changesCount;
-		if (total > 0.0) {
-			progress = _pull.completedChangesCount/ total;
-		}
-		
-		[_progressView setProgress:progress];
-	}
-	else {
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	}
-	
-	if(_pull.status == kCBLReplicationStopped) {
-//		NSLog(@"Really stopped");
-		if(_pull.changesCount > 0.0 && _pull.changesCount == _pull.completedChangesCount) {
-//			NSLog(@"Really has docs synced");
-			[_progressView setProgress:1.0];
-			//If success, process conflict solving and mark did synced
-			if(!_lastSyncError) {
-//				NSLog(@"Really need to resolve confilict");
-				if([self processFavoriteConflict]) {
-					[self setDidSynced];
-				};
-			}
-		}else if(_lastSyncError){
-			[JDStatusBarNotification showWithStatus:@"获取历史数据失败，请检查网络" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
-		}
-	}
-	
-	if(!_pull.running){
-		[self performBlock:^{
-			[_progressView dismiss:NO];
-		} afterDelay:0.8];
-	}
-}
-
-- (void)didSynced {
-	_isSynced = ([_database existingDocumentWithID: didSyncedFlag] != nil);
-}
-
-- (void)setDidSynced {
-	CBLDocument* doc = [_database documentWithID: didSyncedFlag];
-	NSError* error;
-	if ([doc putProperties: @{@"synced": @true} error: &error]) {
-		_isSynced = YES;
-	}
-}
-
-- (void)showProgress {
-	
-	MRProgressOverlayView *view = [MRProgressOverlayView showOverlayAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
-	
-	view.mode = MRProgressOverlayViewModeDeterminateHorizontalBar;
-	
-	NSAttributedString *title = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"初始化", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
-	
-	view.titleLabelAttributedText = title;
-	
-	view.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	
-	_progressView = view;
-}
-
-- (BOOL)processFavoriteConflict {
-	
-	NSError *error;
-	NSArray* conflicts = [_favorite.document getConflictingRevisions: &error];
-	
-	if(conflicts.count <= 1) {
-		return YES;
-	}
-	
-	CBLSavedRevision* current = _favorite.document.currentRevision;
-	NSMutableArray *local = [NSMutableArray new];
-	NSMutableArray *remote = [NSMutableArray new];
-	
-	for (CBLSavedRevision* rev in conflicts) {
-		
-		NSArray *clips = [rev propertyForKey:@"clips"];
-		bool isFromLocal = [[rev propertyForKey:@"isFromLocal"] boolValue];
-		
-		if(isFromLocal == YES){
-			[local addObjectsFromArray:clips];
-		}else{
-			[remote addObjectsFromArray:clips];
-		}
-		
-		if (rev != current) {
-			CBLUnsavedRevision *newRev = [rev createRevision];
-			newRev.isDeletion = YES;
-			if(![newRev saveAllowingConflict: &error]) {
-				return NO;
-			}
-		}
-	}
-	
-	NSMutableOrderedSet *set = [NSMutableOrderedSet new];
-	[set addObjectsFromArray:[local copy]];
-	[set addObjectsFromArray:[remote copy]];
-	
-	CBLUnsavedRevision *newRev = [current createRevision];
-	[newRev setObject:[set array] forKeyedSubscript:@"clips"];
-	
-	if(![newRev saveAllowingConflict: &error]) {
-		return NO;
-	}
-	
-	return YES;
+- (void)notifyChanges {
+	[[NSNotificationCenter defaultCenter] postNotificationName:kAlbumListChange object:nil];
 }
 
 #pragma mark - Album
 
--(void)loadAlbumSeq {
-	_albumSeq = [AlbumSeq getAlbumSeqInDatabase:_database withUUID:_uuid];
-}
-
 - (Album*)creatAlubmWithTitle:(NSString*)title {
 	Album* album = [Album getAlbumInDatabase:_database withTitle:title withUUID:_uuid];
-	
 	NSError *error;
 	if ([album save:&error]) {
+		[self updateAlbumSeqWithNewAlbumID:[album docID]];
+		[self notifyChanges];
 		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已新建\"%@\"", album.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return album;
 	}else {
@@ -281,7 +114,10 @@
 - (BOOL)deleteAlbum:(Album *)album {
 	NSError *error;
 	NSString *albumName = album.title;
+	NSString *albumID = [album docID];
 	if ([album deleteDocument:&error]){
+		[self updateAlbumSeqWithDeletedAlbumID:albumID];
+		[self notifyChanges];
 		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已删除\"%@\"", albumName] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return YES;
 	}else{
@@ -313,30 +149,6 @@
 	album.clips = [existingClips copy];
 	
 	return [self saveAlbum:album];
-}
-
-- (BOOL)saveAlbum:(Album *)album {
-	
-	[self setThumbForAlbum:album];
-	
-	NSError* error;
-	if ([album save: &error]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"albumModified" object:nil];
-		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", album.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
-		return YES;
-	}else {
-		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
-		return NO;
-	}
-}
-
-- (void)setThumbForAlbum:(Album *)album {
-	if(!album.getThumb) {
-		ArticleEntity *firstClip = album.clips[0];
-		if(firstClip){
-			[album setThumb:[self getThumb:firstClip.url]];
-		}
-	}
 }
 
 - (BOOL)modifyClipDesc:(NSString *)newDesc withIndex:(NSInteger)index forAlbum:(Album *)album {
@@ -373,7 +185,7 @@
 	
 	NSError* error;
 	if ([album save: &error]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"albumModified" object:nil];
+		[self notifyChanges];
 		[JDStatusBarNotification showWithStatus:@"动图删除成功" dismissAfter:1.2 styleName:JDStatusBarStyleSuccess];
 		return YES;
 	}else {
@@ -391,29 +203,13 @@
 	
 	NSError* error;
 	if ([album save: &error]) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"albumModified" object:nil];
+		[self notifyChanges];
 		[JDStatusBarNotification showWithStatus:@"信息修改成功" dismissAfter:1.2 styleName:JDStatusBarStyleSuccess];
 		return YES;
 	}else {
 		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
 		return NO;
 	}
-}
-
-- (NSArray *)getAllAlbumsWithoutOrder {
-	CBLQuery* query = [self queryAllAlbums];
-	
-	NSError *error;
-	NSMutableArray *albums = [[NSMutableArray alloc] init];
-	
-	CBLQueryEnumerator* result = [query run: &error];
-	for (CBLQueryRow* row in result) {
-		CBLDocument *doc = row.document;
-		Album *album = [Album modelForDocument:doc];
-		[albums addObject:album];
-	}
-	
-	return [albums copy];
 }
 
 - (NSArray *)getAllAlbums {
@@ -435,27 +231,32 @@
 		[dict setObject:album forKey:doc.documentID];
 	}
 	
-//	NSArray *order = @[@"album_c0b358cb90244a54a2f28df968be1086_504440879",					   	   @"album_c0b358cb90244a54a2f28df968be1086_504439694",
-//					   @"album_c0b358cb90244a54a2f28df968be1086_504448234"
-//					   ];
-	
 	NSArray *order = _albumSeq.albumIDs;
 	
 	for(NSString *key in order) {
-		[albums addObject:[dict objectForKey:key]];
+		id album = [dict objectForKey:key];
+		if(album) {
+			[albums addObject:album];
+		}
 	}
 	
 	return [albums copy];
 }
 
-- (BOOL)saveAlbumSeq:(NSArray *)albumIDs {
-	_albumSeq.albumIDs = albumIDs;
-	NSError* error;
-	if ([_albumSeq save: &error]) {
-		return YES;
-	}else {
-		return NO;
+- (NSArray *)getAllAlbumsWithoutOrder {
+	CBLQuery* query = [self queryAllAlbums];
+	
+	NSError *error;
+	NSMutableArray *albums = [[NSMutableArray alloc] init];
+	
+	CBLQueryEnumerator* result = [query run: &error];
+	for (CBLQueryRow* row in result) {
+		CBLDocument *doc = row.document;
+		Album *album = [Album modelForDocument:doc];
+		[albums addObject:album];
 	}
+	
+	return [albums copy];
 }
 
 - (CBLQuery *)queryAllAlbums {
@@ -470,6 +271,25 @@
 	query.descending = YES;
 	
 	return query;
+}
+
+#pragma mark - Album sequence
+
+-(void)loadAlbumSeq {
+	_albumSeq = [AlbumSeq getAlbumSeqInDatabase:_database withUUID:_uuid];
+}
+
+- (BOOL)saveAlbumSeq:(NSArray *)albumIDs {
+	if([_albumSeq.albumIDs isEqualToArray:albumIDs]) {
+		return NO;
+	}
+	_albumSeq.albumIDs = albumIDs;
+	NSError* error;
+	if ([_albumSeq save: &error]) {
+		return YES;
+	}else {
+		return NO;
+	}
 }
 
 #pragma mark - Favorite
@@ -508,7 +328,242 @@
 	}
 }
 
+#pragma mark - Logging
+- (void)enableLogging {
+	//        [CBLManager enableLogging:@"Database"];
+	//        [CBLManager enableLogging:@"View"];
+	//        [CBLManager enableLogging:@"ViewVerbose"];
+	//        [CBLManager enableLogging:@"Query"];
+	[CBLManager enableLogging:@"Sync"];
+	[CBLManager enableLogging:@"SyncVerbose"];
+	//        [CBLManager enableLogging:@"ChangeTracker"];
+}
+
+#pragma mark - Sync
+- (void)syncToRemote {
+	NSURL *syncUrl = [NSURL URLWithString:cbserverURL];
+	
+	_push = [_database createPushReplication:syncUrl];
+	
+	[_database setFilterNamed: @"syncedFlag" asBlock: FILTERBLOCK({
+		return ![revision[@"_id"] isEqual:didSyncedFlag];
+	})];
+	
+	id<CBLAuthenticator> auth;
+	auth = [CBLAuthenticator basicAuthenticatorWithName: @"cliplay_user"
+											   password: @"Cliplay_nba"];
+	_push.authenticator = auth;
+	_push.filter = @"syncedFlag";
+	//	_push.continuous = YES;
+	
+	[_push start];
+}
+
+- (void)syncFromRemote {
+	
+	if(_isSynced) return;
+	
+	NSURL *syncUrl = [NSURL URLWithString:cbserverURL];
+	
+	_pull = [_database createPullReplication:syncUrl];
+	
+	id<CBLAuthenticator> auth;
+	auth = [CBLAuthenticator basicAuthenticatorWithName: @"cliplay_user"
+											   password: @"Cliplay_nba"];
+	_pull.authenticator = auth;
+	_pull.channels = @[[NSString stringWithFormat:@"user_%@", _uuid]];
+	
+	NSNotificationCenter *nctr = [NSNotificationCenter defaultCenter];
+	[nctr addObserver:self selector:@selector(myReplicationProgress:)
+				 name:kCBLReplicationChangeNotification object:_pull];
+	
+	[self showProgress];
+	
+	[self performBlock:^{
+		[_pull start];
+	} afterDelay:0.5];
+}
+
+
+- (void)myReplicationProgress:(NSNotification *)notification {
+	NSError* error = _pull.lastError;
+	
+	if(error){
+		_lastSyncError = error;
+	}
+	//	if (error != _lastSyncError) {
+	//		_lastSyncError = error;
+	//		if (error.code == 401) {
+	//			[self showMessage:@"Authentication failed" withTitle:@"Sync Error"];
+	//		} else
+	//			[self showMessage:error.description withTitle:@"Sync Error"];
+	//	}
+	
+	if (_pull.status == kCBLReplicationActive){
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		
+		double progress = 0.0;
+		double total = _pull.changesCount;
+		if (total > 0.0) {
+			progress = _pull.completedChangesCount/ total;
+		}
+		
+		[_progressView setProgress:progress];
+	}
+	else {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	}
+	
+	if(_pull.status == kCBLReplicationStopped) {
+		//		NSLog(@"Really stopped");
+		if(_pull.changesCount > 0.0 && _pull.changesCount == _pull.completedChangesCount) {
+			//			NSLog(@"Really has docs synced");
+			[_progressView setProgress:1.0];
+			//If success, process conflict solving and mark did synced
+			if(!_lastSyncError) {
+				//				NSLog(@"Really need to resolve confilict");
+				if([self processConflict]) {
+					[self setDidSynced];
+				};
+			}
+		}else if(_lastSyncError){
+			[JDStatusBarNotification showWithStatus:@"获取历史数据失败，请检查网络" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+		}
+	}
+	
+	if(!_pull.running){
+		[self performBlock:^{
+			[_progressView dismiss:NO];
+		} afterDelay:0.8];
+	}
+}
+
+- (void)loadSynced {
+	_isSynced = ([_database existingDocumentWithID: didSyncedFlag] != nil);
+}
+
+- (void)setDidSynced {
+	CBLDocument* doc = [_database documentWithID: didSyncedFlag];
+	NSError* error;
+	if ([doc putProperties: @{@"synced": @true} error: &error]) {
+		_isSynced = YES;
+	}
+	[self notifyChanges];
+}
+
+- (BOOL)didSyced {
+	//	return _isSynced;
+	return YES;
+}
+
+- (void)showProgress {
+	
+	MRProgressOverlayView *view = [MRProgressOverlayView showOverlayAddedTo:[UIApplication sharedApplication].keyWindow animated:NO];
+	
+	view.mode = MRProgressOverlayViewModeDeterminateHorizontalBar;
+	
+	NSAttributedString *title = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"初始化", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
+	
+	view.titleLabelAttributedText = title;
+	
+	view.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	
+	_progressView = view;
+}
+
+- (BOOL)processConflict {
+	if([self processConflictForModel:_favorite forList:@"clips"] &&
+	   [self processConflictForModel:_albumSeq forList:@"albumIDs"]) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)processConflictForModel:(CBLBaseModel *)model forList:(NSString *)listName {
+	
+	NSError *error;
+	NSArray* conflicts = [model.document getConflictingRevisions: &error];
+	
+	if(conflicts.count <= 1) {
+		return YES;
+	}
+	
+	CBLSavedRevision* current = model.document.currentRevision;
+	NSMutableArray *local = [NSMutableArray new];
+	NSMutableArray *remote = [NSMutableArray new];
+	
+	for (CBLSavedRevision* rev in conflicts) {
+		
+		NSArray *list = [rev propertyForKey:listName];
+		bool isFromLocal = [[rev propertyForKey:kLocalFlag] boolValue];
+		
+		if(isFromLocal == YES){
+			[local addObjectsFromArray:list];
+		}else{
+			[remote addObjectsFromArray:list];
+		}
+		
+		if (rev != current) {
+			CBLUnsavedRevision *newRev = [rev createRevision];
+			newRev.isDeletion = YES;
+			if(![newRev saveAllowingConflict: &error]) {
+				return NO;
+			}
+		}
+	}
+	
+	NSMutableOrderedSet *set = [NSMutableOrderedSet new];
+	[set addObjectsFromArray:[local copy]];
+	[set addObjectsFromArray:[remote copy]];
+	
+	CBLUnsavedRevision *newRev = [current createRevision];
+	[newRev setObject:[set array] forKeyedSubscript:listName];
+	
+	if(![newRev saveAllowingConflict: &error]) {
+		return NO;
+	}
+	
+	return YES;
+}
+
 #pragma mark - Helper
+
+- (BOOL)updateAlbumSeqWithNewAlbumID:(NSString *)newAlbumID {
+	NSMutableArray *currAlbumIDs = [_albumSeq.albumIDs mutableCopy];
+	[currAlbumIDs insertObject:newAlbumID atIndex:0];
+	return [self saveAlbumSeq:[currAlbumIDs copy]];
+}
+
+- (BOOL)updateAlbumSeqWithDeletedAlbumID:(NSString *)deletedAlbumID {
+	NSMutableArray *currAlbumIDs = [_albumSeq.albumIDs mutableCopy];
+	[currAlbumIDs removeObject:deletedAlbumID];
+	return [self saveAlbumSeq:[currAlbumIDs copy]];
+}
+
+- (BOOL)saveAlbum:(Album *)album {
+	
+	[self setThumbForAlbum:album];
+	
+	NSError* error;
+	if ([album save: &error]) {
+		[self notifyChanges];
+		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", album.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
+		return YES;
+	}else {
+		[JDStatusBarNotification showWithStatus:@"操作失败，请重试" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+		return NO;
+	}
+}
+
+- (void)setThumbForAlbum:(Album *)album {
+	if(!album.getThumb) {
+		ArticleEntity *firstClip = album.clips[0];
+		if(firstClip){
+			[album setThumb:[self getThumb:firstClip.url]];
+		}
+	}
+}
+
 - (UIImage *)getThumb:(NSString *)url{
 	return [[YYImageCache sharedCache] getImageForKey:[[YYWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:url]]];
 }

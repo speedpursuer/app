@@ -8,13 +8,20 @@
 
 #import "AlbumSeq.h"
 
+#define kAlbumSeqDocType @"albumSeq"
+
 @implementation AlbumSeq
 @dynamic albumIDs;
++ (NSString*) docType {
+	return kAlbumSeqDocType;
+}
+
++ (NSString*) docID:(NSString *)uuid {
+	return [NSString stringWithFormat:@"album_%@_seq", uuid];
+}
+
 + (AlbumSeq*) getAlbumSeqInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {
-	NSString *docID = [NSString stringWithFormat:@"album_%@_seq", uuid];
-	AlbumSeq* albumSeq = [AlbumSeq modelForDocument: database[docID]];
-	albumSeq.type = AlbumSeqModelType;
-	albumSeq.uuid = uuid;
+	AlbumSeq *albumSeq = (AlbumSeq *)[super getModelInDatabase:database withUUID:uuid];
 	return albumSeq;
 }
 @end

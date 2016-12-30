@@ -6,9 +6,9 @@
 //
 //
 
-#import "CBLBaseModel.h"
-#define AlbumSeqModelType @"albumSeq"
-@interface AlbumSeq : CBLBaseModel
+#import "CBLBaseModelConflict.h"
+
+@interface AlbumSeq : CBLBaseModelConflict
 @property (readwrite) NSArray *albumIDs;
 + (AlbumSeq*) getAlbumSeqInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid;
 @end

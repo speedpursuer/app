@@ -6,12 +6,10 @@
 //
 //
 
-#import "CBLBaseModel.h"
-#define FavoriteModelType @"favorite"
+#import "CBLBaseModelConflict.h"
 
-@interface Favorite : CBLBaseModel
+@interface Favorite : CBLBaseModelConflict
 @property NSArray *clips;
-@property bool isFromLocal;
 + (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid;
 - (BOOL)isFavoriate:(NSString *)url;
 - (void)setFavoriate:(NSString *)url;

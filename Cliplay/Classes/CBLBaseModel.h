@@ -11,6 +11,9 @@
 @interface CBLBaseModel : CBLModel
 @property NSString *owner;
 @property NSString *title;
-@property NSString *uuid;
-//@property NSString *idPrefix;
+
++ (NSString*) docType;
++ (NSString*) docID:(NSString *)uuid;
++ (CBLBaseModel *)getModelInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid;
+- (NSString *)docID;
 @end

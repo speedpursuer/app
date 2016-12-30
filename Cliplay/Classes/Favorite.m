@@ -8,14 +8,41 @@
 
 #import "Favorite.h"
 
+#define kFavoriteDocType @"favorite"
+
 @implementation Favorite
 
-@dynamic clips, isFromLocal;
+@dynamic clips;
 
++ (NSString*) docType {
+	return kFavoriteDocType;
+}
+
++ (NSString*) docID:(NSString *)uuid {
+	return [NSString stringWithFormat:@"favorite_%@", uuid];
+}
+
++ (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {	
+	Favorite *favorite = (Favorite *)[super getModelInDatabase:database withUUID:uuid];
+	return favorite;
+}
+
+//Object initialization
+- (void)awakeFromInitializer{
+	[super awakeFromInitializer];
+	self.autosaves = YES;
+	if(self.isNew) {
+		NSError *error;
+		self.clips = @[];
+		self.title = @"我的最爱";		
+		[self save:&error];
+	}
+}
 
 - (BOOL)isFavoriate:(NSString *)url {
 	return ([self.clips indexOfObject:url] != NSNotFound);
 }
+
 - (void)setFavoriate:(NSString *)url {
 	if(![self isFavoriate:url]) {
 		NSMutableArray *list = [self.clips mutableCopy];
@@ -23,6 +50,7 @@
 		self.clips = [list copy];
 	}
 }
+
 - (void)unsetFavoriate:(NSString *)url {
 	if([self isFavoriate:url]) {
 		NSMutableArray *list = [self.clips mutableCopy];
@@ -30,25 +58,4 @@
 		self.clips = [list copy];
 	}
 }
-
-+ (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {
-	
-	NSString *docID = [NSString stringWithFormat:@"favorite_%@", uuid];
-	Favorite* favorite = [Favorite modelForDocument: database[docID]];
-	
-	favorite.uuid = uuid;
-	favorite.autosaves = YES;
-	
-	if(favorite.isNew) {
-		NSError *error;
-		favorite.clips = @[];
-		favorite.title = @"我的最爱";
-		favorite.type = FavoriteModelType;
-		favorite.isFromLocal = YES;
-		[favorite save:&error];
-	}
-		
-	return favorite;
-}
-
 @end

@@ -86,6 +86,7 @@
 		761642591DE5285E0097E901 /* CBLService.m in Sources */ = {isa = PBXBuildFile; fileRef = 761642581DE5285E0097E901 /* CBLService.m */; };
 		7616426A1DE827790097E901 /* AlbumSelectBottomSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761642691DE827790097E901 /* AlbumSelectBottomSheetViewController.m */; };
 		7616739F1C7223E800E05422 /* Cliplay-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7616739E1C7223E800E05422 /* Cliplay-Info.plist */; };
+		761971961E16150600117BFC /* CBLBaseModelConflict.m in Sources */ = {isa = PBXBuildFile; fileRef = 761971951E16150600117BFC /* CBLBaseModelConflict.m */; };
 		762EB6731D4DCA5300204EA0 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762EB6721D4DCA5200204EA0 /* TencentOpenAPI.framework */; };
 		762EB6791D4DCBAD00204EA0 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 762EB6781D4DCBAD00204EA0 /* libstdc++.tbd */; };
 		762EB67B1D4DCBC000204EA0 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 762EB67A1D4DCBC000204EA0 /* CoreTelephony.framework */; };
@@ -302,6 +303,8 @@
 		761642681DE827790097E901 /* AlbumSelectBottomSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlbumSelectBottomSheetViewController.h; path = Cliplay/Classes/AlbumSelectBottomSheetViewController.h; sourceTree = "<group>"; };
 		761642691DE827790097E901 /* AlbumSelectBottomSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlbumSelectBottomSheetViewController.m; path = Cliplay/Classes/AlbumSelectBottomSheetViewController.m; sourceTree = "<group>"; };
 		7616739E1C7223E800E05422 /* Cliplay-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Cliplay-Info.plist"; path = "Cliplay/Cliplay-Info.plist"; sourceTree = SOURCE_ROOT; };
+		761971941E16150600117BFC /* CBLBaseModelConflict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CBLBaseModelConflict.h; path = Cliplay/Classes/CBLBaseModelConflict.h; sourceTree = "<group>"; };
+		761971951E16150600117BFC /* CBLBaseModelConflict.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CBLBaseModelConflict.m; path = Cliplay/Classes/CBLBaseModelConflict.m; sourceTree = "<group>"; };
 		762EB6721D4DCA5200204EA0 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TencentOpenAPI.framework; path = SNS/TencentOpenAPI.framework; sourceTree = "<group>"; };
 		762EB6741D4DCA9500204EA0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		762EB6781D4DCBAD00204EA0 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -812,6 +815,8 @@
 				764922621DEEF03C0090C9ED /* Image.m */,
 				763719D51DFF8D7B00080657 /* CBLBaseModel.h */,
 				763719D61DFF8D7B00080657 /* CBLBaseModel.m */,
+				761971941E16150600117BFC /* CBLBaseModelConflict.h */,
+				761971951E16150600117BFC /* CBLBaseModelConflict.m */,
 				7633ED091DCB70CF002EEC62 /* Album.h */,
 				7633ED0A1DCB70CF002EEC62 /* Album.m */,
 				768D0C8B1E14B12A008BE0FD /* AlbumSeq.h */,
@@ -1195,6 +1200,7 @@
 				763719D71DFF8D7B00080657 /* CBLBaseModel.m in Sources */,
 				7605C41E1C5BB2D7004E488A /* MainViewController.m in Sources */,
 				76A2D4801D6F28F200543D6A /* AAShareBubbles.m in Sources */,
+				761971961E16150600117BFC /* CBLBaseModelConflict.m in Sources */,
 				7605C4201C5BB2D7004E488A /* MyHybridPlugin.m in Sources */,
 				7605C4C21C5BB4A4004E488A /* SQLitePlugin.m in Sources */,
 				7605C4DD1C5BB505004E488A /* CDVViewController+SplashScreen.m in Sources */,
