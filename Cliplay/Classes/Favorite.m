@@ -30,12 +30,12 @@
 //Object initialization
 - (void)awakeFromInitializer{
 	[super awakeFromInitializer];
-	self.autosaves = YES;
+//	self.autosaves = YES;
 	if(self.isNew) {
-		NSError *error;
 		self.clips = @[];
-		self.title = @"我的最爱";		
-		[self save:&error];
+		self.title = @"我的最爱";
+//		NSError *error;
+//		[self save:&error];
 	}
 }
 
@@ -48,6 +48,8 @@
 		NSMutableArray *list = [self.clips mutableCopy];
 		[list insertObject:url atIndex: 0];
 		self.clips = [list copy];
+		NSError* error;
+		[self save: &error];
 	}
 }
 
@@ -56,6 +58,9 @@
 		NSMutableArray *list = [self.clips mutableCopy];
 		[list removeObject:url];
 		self.clips = [list copy];
+		NSError* error;
+		[self save: &error];
 	}
 }
+
 @end

@@ -23,9 +23,15 @@
 #import "CBLService.h"
 
 #define cellMargin 10
-#define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
+//#define kCellHeight ceil((kScreenWidth) * 10.0 / 16.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width - cellMargin * 2
 #define sHeight [UIScreen mainScreen].bounds.size.height
+#define topBottomAdjust 10.0
+#define tableViewYoffset -64.0
+#define ratio16_9   (double)9/16
+#define ratio4_3    (double)3/4
+#define ratio16_10  (double)10/16
+#define ratioSettings "ratioSettings"
 
 @interface ClipController ()
 @property (nonatomic, strong) STPopupController *popCtr;
@@ -34,6 +40,9 @@
 @property NSInteger indexOfSelectedClip;
 @property clipActionType actionType;
 @property NSString *clipCellID;
+@property CGFloat correction;
+@property NSDictionary *collectionList;
+@property CGFloat cellHeight;
 //@property (nonatomic, copy) NSString *clipToAdd;
 //@property BOOL isAddAll;
 @end
@@ -76,6 +85,12 @@
 	_cblService = [CBLService sharedManager];
 	
 	[self setDownloadLimit:YES];
+	
+	[self setUpCollectionList];
+	
+	[self setClipRatio:[self getRatioSetting]];
+	
+	_correction = 0;
 	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
@@ -219,15 +234,13 @@
 	
 	if(_fetchMode) {
 //		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(prepareToSaveAll)];
-		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"保存全部" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareToSaveAll)];
+		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"收藏全部" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareToSaveAll)];
 		
 		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		
 		self.navigationItem.rightBarButtonItem = button;
 		return;
-	}
-	
-	if([self isInAlbum]) {
+	}else if([self isInAlbum]) {
 //		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(prepareForAlbumInfo)];
 		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"信息" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareForAlbumInfo)];
 
@@ -235,8 +248,18 @@
 		
 		self.navigationItem.rightBarButtonItem = button;
 		return;
+	}else {
+		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(showRatioActionsheet)];
+		
+		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		
+		self.navigationItem.rightBarButtonItem = button;
+		return;
 	}
 	
+	
+	
+	/*
 	if(!_showInfo) {
 		self.infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 64,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: true];
 	}else {
@@ -252,6 +275,7 @@
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:self.infoButton];
 	
 	self.navigationItem.rightBarButtonItem = button;
+	*/
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -373,6 +397,7 @@
 - (void)configureCell:(ClipCell *)cell atIndexPath:(NSIndexPath *)indexPath isForHeight:(BOOL)isForHeight {
 	cell.fd_enforceFrameLayout = YES; // Enable to use "-sizeThatFits:"
 	cell.delegate = self;
+	cell.cellHeight = _cellHeight;
 	[cell setCellData: data[indexPath.row] isForHeight:isForHeight];
 }
 
@@ -406,8 +431,31 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	
+	CGFloat height = scrollView.frame.size.height;
+	CGFloat contentYoffset = scrollView.contentOffset.y;
+	CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
+	
+	if(contentYoffset <= tableViewYoffset + topBottomAdjust) {
+		_correction = 100;
+	}else if(distanceFromBottom <= height + topBottomAdjust) {
+		_correction = -110;
+	}else {
+		_correction = 0;
+	}
+	
 	[self autoPlayFullyVisibleImages];
 }
+
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//	if(indexPath.row == data.count - 1) {
+//		_correction = -200;
+//	}else if (indexPath.row == 0) {
+//		_correction = 70;
+//	}else {
+//		_correction = 0;
+//	}
+//}
 
 - (void)reload {
 	[[YYImageCache sharedCache].memoryCache removeAllObjects];
@@ -424,17 +472,52 @@
 	CGRect rectOfCellInTableView = [self.tableView rectForRowAtIndexPath: indexPath];
 	CGRect rectOfCellInSuperview = [self.tableView convertRect: rectOfCellInTableView toView: self.tableView.superview];
 	
-	return (rectOfCellInSuperview.origin.y <= sHeight - kCellHeight && rectOfCellInSuperview.origin.y >= 64);
+	return (rectOfCellInSuperview.origin.y <= sHeight - _cellHeight && rectOfCellInSuperview.origin.y >= 64);
+}
+
+- (BOOL)needToPlay:(UITableViewCell *)cell {
+	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+	
+	CGRect rectOfCellInTableView = [self.tableView rectForRowAtIndexPath: indexPath];
+	CGRect rectOfCellInSuperview = [self.tableView convertRect: rectOfCellInTableView toView: self.tableView.superview];
+	
+	CGFloat harfY = sHeight/2 - _correction;
+	CGFloat topY = harfY - 5.005;
+	CGFloat bottomY = harfY + 5.005;
+	CGFloat cellTop = rectOfCellInSuperview.origin.y;
+	CGFloat cellBottom = rectOfCellInSuperview.origin.y + _cellHeight;
+	
+//	if(cellTop <= topY && cellBottom >= bottomY) {
+//		NSLog(@"Need to play - start");
+//		NSLog(@"row = %ld", indexPath.row);
+//		NSLog(@"correction = %f", _correction);
+//		NSLog(@"cellTop = %f", cellTop);
+//		NSLog(@"topY = %f", topY);
+//		NSLog(@"cellBottom = %f", cellBottom);
+//		NSLog(@"bottomY = %f", bottomY);
+//		NSLog(@"Need to play - end");
+//	}
+	
+//	return (cellTop <= topY && cellBottom >= bottomY);
+	return (cellBottom > topY && cellTop < bottomY);
 }
 
 - (void)autoPlayFullyVisibleImages {
 	for (UITableViewCell *cell in [self.tableView visibleCells]) {
 		if([cell isKindOfClass:[ClipCell class]]) {
 			ClipCell *_cell = (ClipCell *) cell;
-			if([self isFullyVisible: _cell]) {
-				if(!_cell.webImageView.isAnimating) [_cell.webImageView startAnimating];
+			if([self needToPlay: _cell]) {
+				[_cell.webImageView startAnimating];
+				[_cell setBorder];
+//				if(!_cell.webImageView.isAnimating) {
+//					[_cell.webImageView startAnimating];
+//				}
 			}else{
-				if(_cell.webImageView.isAnimating) [_cell.webImageView stopAnimating];
+				[_cell.webImageView stopAnimating];
+				[_cell unSetBorder];
+//				if(_cell.webImageView.isAnimating) {
+//					
+//				}
 			}
 		}
 	}
@@ -568,7 +651,11 @@
 }
 
 - (void)saveClipToAlbumWithDesc:(NSString *)desc {
-	[_cblService addClip:[self urlForSeletedClip] toAlum:_albumToAdd withDesc:desc];
+	if([_cblService addClip:[self urlForSeletedClip] toAlum:_albumToAdd withDesc:desc]) {
+		[self setCollected:[self urlForSeletedClip]];
+		[((ClipCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:_indexOfSelectedClip inSection:0]]) selectAlbumButton];
+	}
+	
 //	if([_cblService addClip:[self urlForSeletedClip] toAlum:_albumToAdd withDesc:desc]) {
 //		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已加入\"%@\"", _albumToAdd.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 //	}else{
@@ -651,16 +738,14 @@
 	}
 	
 	if([_cblService modifyClipDesc:newDesc withIndex:clipIndexInAlbum forAlbum:_album]) {
-		[self initData];
-		[self.tableView reloadData];
+		[self refreshScreen];
 	}
 }
 
 - (void)deleteClip {
 	NSInteger clipIndexInAlbum = ((ArticleEntity *)data[_indexOfSelectedClip]).tag;
 	if([_cblService deleteClipWithIndex:clipIndexInAlbum forAlbum:_album]) {
-		[self initData];
-		[self.tableView reloadData];
+		[self refreshScreen];
 	}
 }
 
@@ -732,39 +817,102 @@
 		[self setTitle:title];
 		[self setSummary:desc];
 		[self initHeader];
-		[self initData];
-		[self.tableView reloadData];
+		[self refreshScreen];
 	}
+}
+
+- (void)setUpCollectionList {
+	_collectionList = [NSMutableDictionary new];
+}
+
+- (void)setCollected:(NSString *)url{
+	[_collectionList setValue:@"YES" forKey:url];
+}
+
+- (BOOL)isCollected:(NSString *)url {	
+	if([_collectionList objectForKey:url]) {
+		return YES;
+	}
+	return NO;
 }
 
 #pragma mark - Action Sheet for album operation
 
 - (void)showAlbumActionsheet {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"操作此动图？"
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"操作此动图"
 															 delegate:self
 													cancelButtonTitle:@"取消"
 											   destructiveButtonTitle:@"删除动图"
 													otherButtonTitles:@"修改描述", @"加入其他收藏夹", nil];
+	actionSheet.tag = 1;
 	[actionSheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet
 clickedButtonAtIndex:(NSInteger)buttonIndex {
-	clipActionType type = noAction;
-	switch (buttonIndex) {
-       case 0:
-			type = deleteClip;
-			break;
-	   case 1:
-			type = modifyDesc;
-			break;
-	   case 2:
-			type = addToAlbum;
-			break;
-	   default:
-			break;
+	
+	if(actionSheet.tag == 1) {
+		clipActionType type = noAction;
+		switch (buttonIndex) {
+			case 0:
+				type = deleteClip;
+				break;
+			case 1:
+				type = modifyDesc;
+				break;
+			case 2:
+				type = addToAlbum;
+				break;
+			default:
+				break;
+		}
+		[self performAlbumAction:type];
+	}else if (actionSheet.tag == 2){
+		switch (buttonIndex) {
+			case 0:
+				[self changeClipRatio:ratio4_3];
+				break;
+			case 1:
+				[self changeClipRatio:ratio16_10];
+				break;
+			case 2:
+				[self changeClipRatio:ratio16_9];
+				break;
+			default:
+				break;
+		}
 	}
-	[self performAlbumAction:type];
+}
+
+- (void)setClipWidth:(CGFloat)width withHeight:(CGFloat)height {
+	[self setCellHeight:ceil((kScreenWidth) * height / width)];
+}
+
+- (void)setClipRatio:(double)ratio {
+	[self setCellHeight:ceil((kScreenWidth) * ratio)];
+}
+
+- (void)changeClipRatioWithWidth:(CGFloat)width withHeight:(CGFloat)height {
+	[self setClipWidth:width withHeight:height];
+	[self.tableView reloadData];
+	[self autoPlayFullyVisibleImages];
+}
+
+- (void)changeClipRatio:(double)ratio {
+	[self setRatioSetting:ratio];
+	[self setClipRatio:ratio];
+	[self.tableView reloadData];
+	[self autoPlayFullyVisibleImages];
+}
+
+- (void)showRatioActionsheet {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"设置动图比例"
+															 delegate:self
+													cancelButtonTitle:@"取消"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:@"4:3", @"16:10", @"16:9", nil];
+	actionSheet.tag = 2;
+	[actionSheet showInView:self.view];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -786,5 +934,28 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 	}
 	return YES;
 }
+
+#pragma mark - Help
+- (void)refreshScreen {
+	[self initData];
+	[self.tableView reloadData];
+	[self autoPlayFullyVisibleImages];
+}
+
+- (void)setRatioSetting:(double)ratio {
+	NSUserDefaults *nud = [NSUserDefaults standardUserDefaults];
+	[nud setObject:[NSNumber numberWithDouble:ratio] forKey:@ratioSettings];
+	[nud synchronize];
+}
+
+- (double)getRatioSetting {
+	NSUserDefaults *nud = [NSUserDefaults standardUserDefaults];
+	NSNumber *ratio = [nud objectForKey:@ratioSettings];
+	if(!ratio){
+		return ratio4_3;
+	}
+	return [ratio doubleValue];
+}
+
 @end
 

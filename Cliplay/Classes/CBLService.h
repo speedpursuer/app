@@ -44,7 +44,7 @@
 #pragma mark - Sync
 - (void)syncToRemote;
 - (void)syncFromRemote;
-- (BOOL)didSyced;
+//- (BOOL)didSyced;
 
 #pragma mark - for test
 - (void)getAllDocument;

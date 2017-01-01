@@ -12,6 +12,8 @@
 @dynamic isFromLocal;
 - (void)awakeFromInitializer{
 	[super awakeFromInitializer];
-	self.isFromLocal = YES;
+	if(self.isNew) {
+		self.isFromLocal = YES;
+	}
 }
 @end

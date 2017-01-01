@@ -12,7 +12,7 @@
 #import <FontAwesomeKit/FAKFontAwesome.h>
 
 #define cellMargin 10
-#define kCellHeight ceil((kScreenWidth) * 3.0 / 4.0)
+//#define kCellHeight ceil((kScreenWidth) * 10.0 / 16.0)
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width - cellMargin * 2
 #define sHeight [UIScreen mainScreen].bounds.size.height
 
@@ -68,11 +68,11 @@
 	self.backgroundColor = [UIColor whiteColor];
 	self.contentView.backgroundColor = [UIColor whiteColor];
 	self.contentView.bounds = [UIScreen mainScreen].bounds;
-	self.size = CGSizeMake(kScreenWidth, kCellHeight);
+	self.size = CGSizeMake(kScreenWidth, 0);
 	self.contentView.size = self.size;
 	
 	_webImageView = [YYAnimatedImageView new];
-	_webImageView.size = CGSizeMake(kScreenWidth, kCellHeight);
+	_webImageView.size = self.size;
 	_webImageView.left = cellMargin;
 	_webImageView.clipsToBounds = YES;
 	_webImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -112,12 +112,13 @@
 	}];
 	[_label addGestureRecognizer:g];
 	
+	_heartButton = [self createFlashButtonWithImage:[UIImage imageNamed:@"heart"]];
 	
-	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40) image:[UIImage imageNamed:@"heart"] selected: false];
-	
-	_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+//	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40) image:[UIImage imageNamed:@"heart"] selected: false];
+//	
+//	_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+//	_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+//	_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 	
 	[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -160,8 +161,27 @@
 	
 	[self.contentView addSubview:_shareBtn];
 	
-	_shareBtn.bottom = _webImageView.bottom;
-	_shareBtn.right = _webImageView.right;
+//	_shareBtn.bottom = _webImageView.bottom;
+//	_shareBtn.right = _webImageView.right;
+	
+//	_shareBtn.translatesAutoresizingMaskIntoConstraints = NO;
+//	
+//	[NSLayoutConstraint constraintWithItem:_shareBtn
+//									attribute:NSLayoutAttributeBottom
+//									relatedBy:NSLayoutRelationEqual
+//									toItem:_webImageView
+//									attribute:NSLayoutAttributeBottom
+//								multiplier:1
+//								  constant:-10].active = true;
+//	
+//	[NSLayoutConstraint constraintWithItem:_shareBtn
+//									attribute:NSLayoutAttributeRight
+//									relatedBy:NSLayoutRelationEqual
+//									toItem:_webImageView
+//									attribute:NSLayoutAttributeRight
+//								multiplier:1
+//								  constant:-10].active = true;
+
 	
 	[_shareBtn addTarget:self action:@selector(shareClip) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -169,6 +189,44 @@
 	
 	return self;
 }
+
+- (DOFavoriteButton *)createFlashButtonWithImage:(UIImage *)image{
+	DOFavoriteButton *button = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40) image:image selected: false];
+	button.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	button.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	button.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+	return button;
+}
+
+//- (void)setupAlbumIcon_:(NSString *)reuseIdentifier {
+//	FAKFontAwesome *albumIcon;
+//	
+//	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
+//		albumIcon = [FAKFontAwesome editIconWithSize:20];
+//	}else{
+//		albumIcon = [FAKFontAwesome folderOpenIconWithSize:20];
+//	}
+//	
+//	UIImage *albumImage = [albumIcon imageWithSize:CGSizeMake(20, 20)];
+//	
+//	_albumBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+//	_albumBtn.frame = CGRectMake(0, 0, 40, 40);
+//	
+//	[_albumBtn setImage:albumImage forState:UIControlStateNormal];
+//	[_albumBtn setImage:albumImage forState:UIControlStateHighlighted];
+//	//	[_shareBtn setTintColor:[UIColor whiteColor]];
+//	[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
+//	
+//	[self.contentView addSubview:_albumBtn];
+//	
+//	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
+//		[_albumBtn addTarget:self action:@selector(editClipInAlbum) forControlEvents:UIControlEventTouchUpInside];
+//	}else{
+//		[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
+//	}
+//	_albumBtn.bottom = _webImageView.bottom;
+//	_albumBtn.left = _webImageView.left;
+//}
 
 - (void)setupAlbumIcon:(NSString *)reuseIdentifier {
 	FAKFontAwesome *albumIcon;
@@ -181,13 +239,15 @@
 	
 	UIImage *albumImage = [albumIcon imageWithSize:CGSizeMake(20, 20)];
 	
-	_albumBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-	_albumBtn.frame = CGRectMake(0, 0, 40, 40);
+	_albumBtn = [self createFlashButtonWithImage:albumImage];
 	
-	[_albumBtn setImage:albumImage forState:UIControlStateNormal];
-	[_albumBtn setImage:albumImage forState:UIControlStateHighlighted];
-	//	[_shareBtn setTintColor:[UIColor whiteColor]];
-	[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
+//	_albumBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+//	_albumBtn.frame = CGRectMake(0, 0, 40, 40);
+//	
+//	[_albumBtn setImage:albumImage forState:UIControlStateNormal];
+//	[_albumBtn setImage:albumImage forState:UIControlStateHighlighted];
+//	
+//	[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
 	
 	[self.contentView addSubview:_albumBtn];
 	
@@ -196,8 +256,8 @@
 	}else{
 		[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
 	}
-	_albumBtn.bottom = _webImageView.bottom;
-	_albumBtn.left = _webImageView.left;
+//	_albumBtn.bottom = _webImageView.bottom;
+//	_albumBtn.left = _webImageView.left;
 }
 
 - (void)tappedButton:(DOFavoriteButton *)sender {
@@ -298,6 +358,13 @@
 
 - (void)setCellData:(ArticleEntity*) entity isForHeight:(BOOL)isForHeight {
 	
+	self.webImageView.size = CGSizeMake(kScreenWidth, _cellHeight);
+	_shareBtn.bottom = _webImageView.bottom;
+	_shareBtn.right = _webImageView.right;
+	
+	_albumBtn.bottom = _webImageView.bottom;
+	_albumBtn.left = _webImageView.left;
+
 	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.url]];
 }
 
@@ -305,22 +372,21 @@
 	
 	__weak typeof(self) _self = self;
 	
-	_label.hidden = YES;
-	
 	[CATransaction begin];
 	[CATransaction setDisableActions: YES];
 	self.progressLayer.hidden = YES;
 	self.progressLayer.strokeEnd = 0;
 	[CATransaction commit];
 	
-	_self.downLoaded = FALSE;
+	_label.hidden = YES;
+	_heartButton.hidden = YES;
+	_commentBtn.hidden = YES;
+	_shareBtn.hidden = YES;
+	_albumBtn.hidden = YES;
+	_self.downLoaded = NO;
+	_webImageView.autoPlayAnimatedImage = NO;
 	
-	_webImageView.autoPlayAnimatedImage = FALSE;
-	
-	_heartButton.hidden = true;
-	_commentBtn.hidden = true;
-	_shareBtn.hidden = true;
-	_albumBtn.hidden = true;
+	[_self unSetBorder];
 	
 	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
 	
@@ -344,23 +410,16 @@
 								   if (!image) {
 									   _self.label.hidden = NO;
 								   }else {
-									   _self.downLoaded = TRUE;
-									   if ([_self isFullyVisible]) {
-										   [_self.webImageView startAnimating];
-									   }
-									   ClipController* ctr = [_self getViewCtr];
-									   if([ctr isFavoriate:[url absoluteString]]) {
-										   [_self.heartButton selectWithNoAnim];
-									   }else {
-										   [_self.heartButton deselectWithNoAnim];
-									   }
-									   
-									   [_self updateCommentQty];
-									   
+									   _self.downLoaded = YES;
 									   _self.heartButton.hidden = NO;
 									   _self.commentBtn.hidden = NO;
 									   _self.shareBtn.hidden = NO;
 									   _self.albumBtn.hidden = NO;
+									   
+									   [_self updateAutoplay];
+									   [_self updateCommentQty];
+									   [_self updateHeartButton:[url absoluteString]];
+									   [_self updateAlbumButton:[url absoluteString]];
 								   }
 							   }
 						   }
@@ -373,7 +432,23 @@
 
 - (BOOL)isFullyVisible {
 	ClipController* ctr = [self getViewCtr];	
-	return [ctr isFullyVisible:self];
+	return [ctr needToPlay:self];
+}
+
+- (void)updateAutoplay {
+	if ([self isFullyVisible]) {
+		[self.webImageView startAnimating];
+		[self setBorder];
+	}
+}
+
+- (void)updateHeartButton:(NSString *)url {
+	ClipController* ctr = [self getViewCtr];
+	if([ctr isFavoriate:url]) {
+		[self.heartButton selectWithNoAnim];
+	}else {
+		[self.heartButton deselectWithNoAnim];
+	}
 }
 
 - (void)updateCommentQty {
@@ -406,6 +481,39 @@
 - (void)editClipInAlbum {
 	ClipController* ctr = [self getViewCtr];
 	[ctr formActionForCell:self withActionType:editClip];
+}
+
+- (void)setBorder {
+	if(!_downLoaded) {
+		return;
+	}
+	[_webImageView.layer setBorderColor: [[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0] CGColor]];
+	[_webImageView.layer setBorderWidth: 3.0];
+	[_webImageView.layer setCornerRadius: 5.0];
+}
+
+- (void)unSetBorder {
+	if(!_downLoaded) {
+		return;
+	}
+	[_webImageView.layer setBorderColor: [[UIColor clearColor] CGColor]];
+	[_webImageView.layer setBorderWidth: 0.0];
+	[_webImageView.layer setCornerRadius: 0.0];
+}
+
+- (void)updateAlbumButton:(NSString *)url {
+	ClipController* ctr = [self getViewCtr];
+	if([ctr isCollected:url]) {
+//		[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:0.6]];
+		[self.albumBtn selectWithNoAnim];
+	}else{
+//		[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
+		[self.albumBtn deselectWithNoAnim];
+	}
+}
+
+- (void)selectAlbumButton {
+	[self.albumBtn select];
 }
 
 - (UIImage *)getCommentIcon:(NSInteger)count {

@@ -84,10 +84,12 @@
 	if(indexPath.row == 0) {
 		cell.title.text = @"新建收藏夹";
 		[cell.thumb setImage:_addThumb];
+		cell.badge.hidden = YES;
 //		cell.detailTextLabel.text = @"";
 	}else {
 		Album *album = (self.albums)[indexPath.row - 1];
 		cell.title.text = album.title;
+		cell.badge.hidden = NO;
 		cell.badge.text = [NSString stringWithFormat: @"%ld", album.clips.count];
 		UIImage *thumb = [album getThumb];
 		if(thumb == nil) {

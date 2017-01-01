@@ -435,10 +435,30 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (NSIndexPath *)tableView:(UITableView *)tableView
 targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath
 	   toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
-	if (sourceIndexPath.section != proposedDestinationIndexPath.section) {
-		return [NSIndexPath indexPathForRow:sourceIndexPath.row inSection:sourceIndexPath.section];
-	}
+	if (proposedDestinationIndexPath.section == 0) {
+		return [NSIndexPath indexPathForRow:0 inSection:sourceIndexPath.section];
+	}	
 	return proposedDestinationIndexPath;
+	
+//	if (sourceIndexPath.section != proposedDestinationIndexPath.section) {
+//		NSInteger row = 0;
+//		if (sourceIndexPath.section < proposedDestinationIndexPath.section) {
+//			row = [tableView numberOfRowsInSection:sourceIndexPath.section] - 1;
+//		}
+//		return [NSIndexPath indexPathForRow:row inSection:sourceIndexPath.section];
+//	}
+//	
+//	return proposedDestinationIndexPath;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+	UITableViewHeaderFooterView *header = (UITableViewHeaderFooterView *)view;
+	
+//	header.textLabel.textColor = [UIColor redColor];
+	header.textLabel.font = [UIFont boldSystemFontOfSize:16];
+//	CGRect headerFrame = header.frame;
+//	header.textLabel.frame = headerFrame;
+//	header.textLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 @end

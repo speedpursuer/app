@@ -41,11 +41,13 @@ typedef NS_ENUM(NSInteger, clipActionType) {
 - (void)showComments:(NSString *)clipID;
 - (void)shareClip:(NSURL *)clipID;
 - (BOOL)isFullyVisible:(UITableViewCell *)cell;
+- (BOOL)needToPlay:(UITableViewCell *)cell;
 - (void)setFavoriate:(NSString *)url;
 - (void)unsetFavoriate:(NSString *)url;
 - (BOOL)isFavoriate:(NSString *)url;
 - (void)recordSlowPlayWithUrl:(NSString *)url;
 - (void)formActionForCell:(UITableViewCell *)cell withActionType:(clipActionType)type;
+- (BOOL)isCollected:(NSString *)url;
 #pragma mark - Callback for comment view
 - (void)fetchPostComments:(BOOL)isRefresh;
 - (void)closeCommentView;

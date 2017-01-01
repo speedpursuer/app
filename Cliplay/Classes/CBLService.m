@@ -11,6 +11,7 @@
 #import "FCUUID.h"
 #import "MRProgress.h"
 #import "JDStatusBarNotification.h"
+#import "Reachability.h"
 
 //#define cbserverURL   @"http://localhost:4984/cliplay_user_data"
 #define cbserverURL @"http://121.40.197.226:8000/cliplay_user_data"
@@ -310,24 +311,6 @@
 	[_favorite unsetFavoriate:url];
 }
 
-- (BOOL)saveFavoriteWithClip:(NSString *)url {
-	
-	NSMutableArray *existingClips = [NSMutableArray arrayWithArray:_favorite.clips];
-	
-	ArticleEntity *clip = [[ArticleEntity alloc] initWithData:url desc:@""];
-	
-	NSError* error;
-	[existingClips insertObject:clip atIndex:0];
-	
-	_favorite.clips = [existingClips copy];
-	
-	if ([_favorite save: &error]) {
-		return YES;
-	}else {
-		return NO;
-	}
-}
-
 #pragma mark - Logging
 - (void)enableLogging {
 	//        [CBLManager enableLogging:@"Database"];
@@ -377,7 +360,10 @@
 	[nctr addObserver:self selector:@selector(myReplicationProgress:)
 				 name:kCBLReplicationChangeNotification object:_pull];
 	
+	
 	[self showProgress];
+	
+	_lastSyncError = nil;
 	
 	[self performBlock:^{
 		[_pull start];
@@ -387,20 +373,12 @@
 
 - (void)myReplicationProgress:(NSNotification *)notification {
 	NSError* error = _pull.lastError;
-	
 	if(error){
 		_lastSyncError = error;
 	}
-	//	if (error != _lastSyncError) {
-	//		_lastSyncError = error;
-	//		if (error.code == 401) {
-	//			[self showMessage:@"Authentication failed" withTitle:@"Sync Error"];
-	//		} else
-	//			[self showMessage:error.description withTitle:@"Sync Error"];
-	//	}
-	
+	// Repeat to report progress and show activity indicator
 	if (_pull.status == kCBLReplicationActive){
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+//		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 		
 		double progress = 0.0;
 		double total = _pull.changesCount;
@@ -411,27 +389,30 @@
 		[_progressView setProgress:progress];
 	}
 	else {
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+//		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	}
 	
-	if(_pull.status == kCBLReplicationStopped) {
-		//		NSLog(@"Really stopped");
-		if(_pull.changesCount > 0.0 && _pull.changesCount == _pull.completedChangesCount) {
-			//			NSLog(@"Really has docs synced");
-			[_progressView setProgress:1.0];
-			//If success, process conflict solving and mark did synced
+	// If server not reechable, set error and stop pull
+	if(_pull.status == kCBLReplicationOffline) {
+		if(![self hasNetwork]) {
 			if(!_lastSyncError) {
-				//				NSLog(@"Really need to resolve confilict");
-				if([self processConflict]) {
-					[self setDidSynced];
-				};
+				_lastSyncError = [NSError errorWithDomain:@"Has no network" code:501 userInfo:nil];
 			}
-		}else if(_lastSyncError){
-			[JDStatusBarNotification showWithStatus:@"获取历史数据失败，请检查网络" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+			[_pull stop];
 		}
 	}
-	
-	if(!_pull.running){
+	if(_pull.status == kCBLReplicationStopped) {
+		if(_lastSyncError){
+			[JDStatusBarNotification showWithStatus:@"同步历史数据失败，请检查网络" dismissAfter:2.0 styleName:JDStatusBarStyleWarning];
+		}else if(_pull.changesCount == _pull.completedChangesCount) {
+			// Successfull pull means - 1. No error 2. all changes completed
+			[_progressView setProgress:1.0];
+			
+			//Resolve conflict and mark pull complete
+			if([self processConflict]) {
+				[self setDidSynced];
+			};
+		}
 		[self performBlock:^{
 			[_progressView dismiss:NO];
 		} afterDelay:0.8];
@@ -451,10 +432,9 @@
 	[self notifyChanges];
 }
 
-- (BOOL)didSyced {
-	//	return _isSynced;
-	return YES;
-}
+//- (BOOL)didSyced {
+//	return _isSynced;
+//}
 
 - (void)showProgress {
 	
@@ -462,7 +442,7 @@
 	
 	view.mode = MRProgressOverlayViewModeDeterminateHorizontalBar;
 	
-	NSAttributedString *title = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"初始化", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
+	NSAttributedString *title = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"同步历史数据", nil) attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:15], NSForegroundColorAttributeName : [UIColor darkGrayColor]}];
 	
 	view.titleLabelAttributedText = title;
 	
@@ -579,6 +559,16 @@
 							   delegate:nil
 					  cancelButtonTitle:@"OK"
 					  otherButtonTitles:nil] show];
+}
+
+-(BOOL)hasNetwork {	
+	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+
+	if (networkStatus == NotReachable) {
+		return NO;
+	}
+	return YES;
 }
 
 #pragma mark - For test
