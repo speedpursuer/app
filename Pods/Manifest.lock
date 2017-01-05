@@ -7,6 +7,7 @@ PODS:
   - FontAwesomeKit/Core (2.2.0)
   - FontAwesomeKit/FontAwesome (2.2.0):
     - FontAwesomeKit/Core
+  - JDFPeekaboo (0.2.1)
   - JDStatusBarNotification (1.5.3)
   - JTTableViewController (1.0.9):
     - Masonry
@@ -63,6 +64,7 @@ DEPENDENCIES:
   - DGActivityIndicatorView
   - FCUUID
   - FontAwesomeKit/FontAwesome
+  - JDFPeekaboo
   - JDStatusBarNotification
   - JTTableViewController (~> 1.0)
   - LKBadgeView (from `https://github.com/lakesoft/LKBadgeView.git`)
@@ -101,6 +103,7 @@ SPEC CHECKSUMS:
   DGActivityIndicatorView: 52875b025a6ccf6a431a905285c12e2bb95eb559
   FCUUID: 9bfe031d35b7c221a7c66156a0af45d4eb49c3b6
   FontAwesomeKit: 025fd4dd1017fe4e3f8d47b03e024deedbb33cd4
+  JDFPeekaboo: 24baf48f53e51210919f8160c1c235ccc7055021
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
   JTTableViewController: b264c7724c6ec66bc4c694e3080b9079702a371c
   LKBadgeView: 1f7359077f12fc6e1870d3de188b77e5b39d6180
@@ -117,6 +120,6 @@ SPEC CHECKSUMS:
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
   YYWebImage: 8da75a611fd0d2e0f58a273f9ca0bc731614cb0d
 
-PODFILE CHECKSUM: 4686773c78c188346b0aacc6d672ec70e17d5b45
+PODFILE CHECKSUM: c8a808522bba6b66fc1d20f7f1eae8f31cde1af6
 
 COCOAPODS: 1.1.0.rc.2

@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '09D9992D9B13C46473A99D7986143193'
+               BlueprintIdentifier = '33E87EC8303A7C7CB6BE7AC4953922F3'
                BlueprintName = 'Pods-Cliplay'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-Cliplay.a'>

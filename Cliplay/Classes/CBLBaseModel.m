@@ -10,7 +10,7 @@
 #define kTypeKeyword @"type"
 
 @implementation CBLBaseModel
-@dynamic owner, title;
+@dynamic owner;
 
 + (CBLBaseModel *)getModelInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {
 	NSString *docID = [[self class] docID:uuid];

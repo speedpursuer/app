@@ -422,22 +422,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipPlayController.m"
-            timestampString = "501773644.96816"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
-            landmarkName = "@implementation ClipPlayController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -826,11 +810,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipPlayController.m"
-            timestampString = "501773644.96816"
+            timestampString = "505223755.18833"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "-addTapControlToAnimatedImageView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2330,12 +2314,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/TestController.m"
-                  timestampString = "504975155.083055"
+                  timestampString = "505279883.038082"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "765"
                   endingLineNumber = "765"
-                  offsetFromSymbolStart = "108">
+                  offsetFromSymbolStart = "98">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -2345,12 +2329,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/TestController.m"
-                  timestampString = "504975155.08598"
+                  timestampString = "505279883.041508"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "765"
                   endingLineNumber = "765"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -2458,43 +2442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "391"
-            endingLineNumber = "391"
+            startingLineNumber = "495"
+            endingLineNumber = "495"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2759,22 +2711,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504973906.227249"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/MainViewController.m"
             timestampString = "501586941.524763"
             startingColumnNumber = "9223372036854775807"
@@ -2792,11 +2728,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "584"
-            endingLineNumber = "584"
+            startingLineNumber = "664"
+            endingLineNumber = "664"
             landmarkName = "-generateCommentList:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2808,11 +2744,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "603"
-            endingLineNumber = "603"
+            startingLineNumber = "683"
+            endingLineNumber = "683"
             landmarkName = "-getCommentQty:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2824,11 +2760,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "578"
-            endingLineNumber = "578"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
             landmarkName = "-generateCommentList:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2840,11 +2776,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "606"
-            endingLineNumber = "606"
+            startingLineNumber = "686"
+            endingLineNumber = "686"
             landmarkName = "-showComments:"
             landmarkType = "7">
          </BreakpointContent>
@@ -2856,28 +2792,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
             landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3560,7 +3480,7 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/FakeService.m"
-                  timestampString = "504975155.117176"
+                  timestampString = "505279883.073696"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "66"
@@ -3575,12 +3495,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/FakeService.m"
-                  timestampString = "504975155.120069"
+                  timestampString = "505279883.076844"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "66"
                   endingLineNumber = "66"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "15">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3830,11 +3750,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "604"
-            endingLineNumber = "604"
+            startingLineNumber = "684"
+            endingLineNumber = "684"
             landmarkName = "-showComments:"
             landmarkType = "7">
          </BreakpointContent>
@@ -4149,38 +4069,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/MyLBService.m"
             timestampString = "504007672.631313"
             startingColumnNumber = "9223372036854775807"
@@ -4230,11 +4118,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "598"
-            endingLineNumber = "598"
+            startingLineNumber = "678"
+            endingLineNumber = "678"
             landmarkName = "-getCommentQty:"
             landmarkType = "7">
          </BreakpointContent>
@@ -4246,11 +4134,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "562"
-            endingLineNumber = "562"
+            startingLineNumber = "642"
+            endingLineNumber = "642"
             landmarkName = "-fetchPostComments:"
             landmarkType = "7">
             <Locations>
@@ -4294,27 +4182,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "@implementation ClipController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "561"
-            endingLineNumber = "561"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
             landmarkName = "-fetchPostComments:"
             landmarkType = "7">
             <Locations>
@@ -5045,12 +4917,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/MyLBService.m"
-                  timestampString = "504975155.165051"
+                  timestampString = "505279883.121142"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "768"
                   endingLineNumber = "768"
-                  offsetFromSymbolStart = "644">
+                  offsetFromSymbolStart = "510">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -5060,12 +4932,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/MyLBService.m"
-                  timestampString = "504975155.16792"
+                  timestampString = "505279883.124529"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "768"
                   endingLineNumber = "768"
-                  offsetFromSymbolStart = "248">
+                  offsetFromSymbolStart = "225">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -5075,12 +4947,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/MyLBService.m"
-                  timestampString = "504975155.17077"
+                  timestampString = "505279883.12813"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "768"
                   endingLineNumber = "768"
-                  offsetFromSymbolStart = "124">
+                  offsetFromSymbolStart = "119">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -5505,22 +5377,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "-viewWillAppear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/MyLBService.m"
             timestampString = "502258562.601708"
             startingColumnNumber = "9223372036854775807"
@@ -5712,38 +5568,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
-            landmarkName = "-viewWillAppear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
-            landmarkName = "-viewWillAppear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/MyLBService.m"
             timestampString = "496829328.256504"
             startingColumnNumber = "9223372036854775807"
@@ -5873,11 +5697,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "559"
-            endingLineNumber = "559"
+            startingLineNumber = "639"
+            endingLineNumber = "639"
             landmarkName = "-fetchPostComments:"
             landmarkType = "7">
          </BreakpointContent>
@@ -5889,27 +5713,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "186"
-            endingLineNumber = "186"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "567"
-            endingLineNumber = "567"
+            startingLineNumber = "647"
+            endingLineNumber = "647"
             landmarkName = "-fetchPostComments:"
             landmarkType = "7">
             <Locations>
@@ -6145,11 +5953,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "344"
-            endingLineNumber = "344"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6161,11 +5969,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "-alertViewShouldEnableFirstOtherButton:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6193,11 +6001,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "478"
-            endingLineNumber = "478"
+            startingLineNumber = "371"
+            endingLineNumber = "371"
             landmarkName = "-collectClipToAlbum"
             landmarkType = "7">
          </BreakpointContent>
@@ -6257,11 +6065,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "920"
-            endingLineNumber = "920"
+            startingLineNumber = "1000"
+            endingLineNumber = "1000"
             landmarkName = "-alertView:didDismissWithButtonIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6417,11 +6225,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "324"
-            endingLineNumber = "324"
+            startingLineNumber = "326"
+            endingLineNumber = "326"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -6975,11 +6783,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "698"
-            endingLineNumber = "698"
+            startingLineNumber = "778"
+            endingLineNumber = "778"
             landmarkName = "-unwindBack:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7023,11 +6831,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504756215.257646"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "-createListWithTitle:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7039,11 +6847,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504756215.257646"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "-createListWithTitle:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7055,53 +6863,53 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "613"
-            endingLineNumber = "613">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "601"
-            endingLineNumber = "601">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "611"
-            endingLineNumber = "611">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "616"
             endingLineNumber = "616">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "604"
+            endingLineNumber = "604">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "614"
+            endingLineNumber = "614">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "619"
+            endingLineNumber = "619">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7271,7 +7079,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "137"
@@ -7287,11 +7095,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622">
+            startingLineNumber = "625"
+            endingLineNumber = "625">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -7316,28 +7124,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7349,11 +7141,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "366"
+            endingLineNumber = "366"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7365,27 +7157,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "560"
-            endingLineNumber = "560"
+            startingLineNumber = "640"
+            endingLineNumber = "640"
             landmarkName = "-fetchPostComments:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7413,11 +7189,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "541"
-            endingLineNumber = "541"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
             landmarkName = "-setFavoriate:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7429,11 +7205,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7445,11 +7221,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "325"
-            endingLineNumber = "325"
+            startingLineNumber = "327"
+            endingLineNumber = "327"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7477,11 +7253,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
+            startingLineNumber = "336"
+            endingLineNumber = "336"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7637,11 +7413,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "327"
-            endingLineNumber = "327"
+            startingLineNumber = "329"
+            endingLineNumber = "329"
             landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7653,11 +7429,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7716,28 +7492,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/Favorite.m"
-            timestampString = "504873449.721522"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-setFavoriate:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7749,11 +7509,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
+            startingLineNumber = "368"
+            endingLineNumber = "368"
             landmarkName = "-tableView:canEditRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7765,7 +7525,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "116"
@@ -7781,7 +7541,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "126"
@@ -7797,7 +7557,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "128"
@@ -7813,11 +7573,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "302"
-            endingLineNumber = "302"
+            startingLineNumber = "303"
+            endingLineNumber = "303"
             landmarkName = "-isFavoriate:"
             landmarkType = "7">
          </BreakpointContent>
@@ -7835,166 +7595,6 @@
             startingLineNumber = "213"
             endingLineNumber = "213"
             landmarkName = "-recordSlowPlayWithClipID:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "309"
-            endingLineNumber = "309"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "304"
-            endingLineNumber = "304"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "307"
-            endingLineNumber = "307"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "310"
-            endingLineNumber = "310"
-            landmarkName = "-viewDidDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
-            landmarkName = "-viewWillDisappear:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "282"
-            endingLineNumber = "282"
-            landmarkName = "-viewWillAppear:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -8149,11 +7749,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "597"
-            endingLineNumber = "597"
+            startingLineNumber = "677"
+            endingLineNumber = "677"
             landmarkName = "-getCommentQty:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8165,11 +7765,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "602"
-            endingLineNumber = "602"
+            startingLineNumber = "682"
+            endingLineNumber = "682"
             landmarkName = "-getCommentQty:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8181,11 +7781,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "599"
-            endingLineNumber = "599"
+            startingLineNumber = "679"
+            endingLineNumber = "679"
             landmarkName = "-getCommentQty:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8197,11 +7797,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-fetchClips"
             landmarkType = "7">
          </BreakpointContent>
@@ -8213,11 +7813,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "247"
-            endingLineNumber = "247"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "-doFetch"
             landmarkType = "7">
          </BreakpointContent>
@@ -8228,40 +7828,8 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
-            landmarkName = "-addInfoIcon"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
-            landmarkName = "-addInfoIcon"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
@@ -8277,7 +7845,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "151"
@@ -8293,11 +7861,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "689"
-            endingLineNumber = "689"
+            startingLineNumber = "769"
+            endingLineNumber = "769"
             landmarkName = "-saveAllClips"
             landmarkType = "7">
          </BreakpointContent>
@@ -8309,59 +7877,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "171"
-            endingLineNumber = "171"
-            landmarkName = "-initData"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ClipController initData]"
-                  moduleName = "Cliplay"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/ClipController.m"
-                  timestampString = "504435999.171394"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131"
-                  offsetFromSymbolStart = "964">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__26-[ClipController initData]_block_invoke.84"
-                  moduleName = "Cliplay"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/ClipController.m"
-                  timestampString = "504435999.177829"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "132"
-                  endingLineNumber = "132"
-                  offsetFromSymbolStart = "78">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "710"
-            endingLineNumber = "710"
+            startingLineNumber = "790"
+            endingLineNumber = "790"
             landmarkName = "-unwindBack:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8373,11 +7893,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8389,11 +7909,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "384"
-            endingLineNumber = "384"
+            startingLineNumber = "488"
+            endingLineNumber = "488"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8405,11 +7925,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "472"
-            endingLineNumber = "472"
+            startingLineNumber = "365"
+            endingLineNumber = "365"
             landmarkName = "-shareClip"
             landmarkType = "7">
          </BreakpointContent>
@@ -8421,11 +7941,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
+            startingLineNumber = "505"
+            endingLineNumber = "505"
             landmarkName = "-configureCell:atIndexPath:isForHeight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8437,11 +7957,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "771"
-            endingLineNumber = "771"
+            startingLineNumber = "851"
+            endingLineNumber = "851"
             landmarkName = "-prepareForDescModify"
             landmarkType = "7">
          </BreakpointContent>
@@ -8453,11 +7973,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "755"
-            endingLineNumber = "755"
+            startingLineNumber = "835"
+            endingLineNumber = "835"
             landmarkName = "-showClipDescPopup:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8469,7 +7989,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "158"
@@ -8481,63 +8001,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "-initData"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "736"
-            endingLineNumber = "736"
+            startingLineNumber = "816"
+            endingLineNumber = "816"
             landmarkName = "-modifyClipDesc:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8549,7 +8021,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "165"
@@ -8565,7 +8037,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "167"
@@ -8581,7 +8053,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "170"
@@ -8597,7 +8069,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "157"
@@ -8612,28 +8084,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504973906.227249"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-formActionForCell:withActionType:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "-editClipInAlbum"
             landmarkType = "7">
          </BreakpointContent>
@@ -8645,11 +8101,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
+            startingLineNumber = "807"
+            endingLineNumber = "807"
             landmarkName = "-unwindBack:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8661,11 +8117,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "802"
-            endingLineNumber = "802"
+            startingLineNumber = "882"
+            endingLineNumber = "882"
             landmarkName = "-prepareForAlbumInfo"
             landmarkType = "7">
          </BreakpointContent>
@@ -8821,11 +8277,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "801"
-            endingLineNumber = "801"
+            startingLineNumber = "881"
+            endingLineNumber = "881"
             landmarkName = "-prepareForAlbumInfo"
             landmarkType = "7">
          </BreakpointContent>
@@ -8837,11 +8293,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504778290.916306"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "406"
-            endingLineNumber = "406"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "-tableView:moveRowAtIndexPath:toIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8853,11 +8309,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504932405.979083"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "424"
-            endingLineNumber = "424"
+            startingLineNumber = "426"
+            endingLineNumber = "426"
             landmarkName = "-setEditing:animated:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8869,11 +8325,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504932405.979083"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "427"
-            endingLineNumber = "427"
+            startingLineNumber = "429"
+            endingLineNumber = "429"
             landmarkName = "-setEditing:animated:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8885,11 +8341,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504932405.979083"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "431"
-            endingLineNumber = "431"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-setEditing:animated:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8901,11 +8357,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504778290.916306"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "407"
-            endingLineNumber = "407"
+            startingLineNumber = "409"
+            endingLineNumber = "409"
             landmarkName = "-tableView:moveRowAtIndexPath:toIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8917,11 +8373,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287"
+            startingLineNumber = "288"
+            endingLineNumber = "288"
             landmarkName = "-saveAlbumSeq:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8933,11 +8389,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
             landmarkName = "-saveAlbumSeq:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8949,11 +8405,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/Album.m"
-            timestampString = "504706679.692056"
+            timestampString = "505279153.574126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "+getAlbumInDatabase:withTitle:withUUID:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8965,11 +8421,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumSeq.m"
-            timestampString = "504706679.692056"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
             landmarkName = "+getAlbumSeqInDatabase:withUUID:"
             landmarkType = "7">
          </BreakpointContent>
@@ -8997,11 +8453,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "292"
-            endingLineNumber = "292"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
             landmarkName = "-saveAlbumSeq:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9013,11 +8469,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "581"
-            endingLineNumber = "581"
+            startingLineNumber = "584"
+            endingLineNumber = "584"
             landmarkName = "-getAllDocument"
             landmarkType = "7">
          </BreakpointContent>
@@ -9029,11 +8485,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "576"
-            endingLineNumber = "576"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
             landmarkName = "-getAllDocument"
             landmarkType = "7">
          </BreakpointContent>
@@ -9045,11 +8501,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "583"
-            endingLineNumber = "583"
+            startingLineNumber = "586"
+            endingLineNumber = "586"
             landmarkName = "-getAllDocument"
             landmarkType = "7">
             <Locations>
@@ -9061,12 +8517,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/CBLService.m"
-                  timestampString = "504975155.441527"
+                  timestampString = "505279883.380613"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "584"
-                  endingLineNumber = "584"
-                  offsetFromSymbolStart = "512">
+                  startingLineNumber = "589"
+                  endingLineNumber = "589"
+                  offsetFromSymbolStart = "567">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -9076,12 +8532,12 @@
                   moduleName = "Cliplay"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/xl/Documents/App/Cliplay/Cliplay/Classes/CBLService.m"
-                  timestampString = "504975155.444375"
+                  timestampString = "505279883.383977"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "584"
-                  endingLineNumber = "584"
-                  offsetFromSymbolStart = "544">
+                  startingLineNumber = "589"
+                  endingLineNumber = "589"
+                  offsetFromSymbolStart = "596">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -9124,28 +8580,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/Favorite.m"
-            timestampString = "504771262.751105"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "-awakeFromInitializer"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "-saveAlbumSeq:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9157,11 +8597,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/Album.m"
-            timestampString = "504757240.870468"
+            timestampString = "505279153.574126"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "+getAlbumInDatabase:withTitle:withUUID:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9189,7 +8629,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
@@ -9205,7 +8645,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "110"
@@ -9221,11 +8661,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504769402.430789"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "-tableView:canEditRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9237,23 +8677,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
-            landmarkName = "-saveAlbumSeq:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "285"
@@ -9265,15 +8689,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
+            landmarkName = "-saveAlbumSeq:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "-saveAlbumSeq:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9285,11 +8725,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLBaseModelConflict.m"
-            timestampString = "504932405.979083"
+            timestampString = "505279281.096938"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
             landmarkName = "-awakeFromInitializer"
             landmarkType = "7">
          </BreakpointContent>
@@ -9301,11 +8741,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "481"
-            endingLineNumber = "481"
+            startingLineNumber = "579"
+            endingLineNumber = "579"
             landmarkName = "-needToPlay:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9317,11 +8757,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
             landmarkName = "-isFullyVisible:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9333,11 +8773,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
+            startingLineNumber = "551"
+            endingLineNumber = "551"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9349,11 +8789,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9365,11 +8805,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9381,11 +8821,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505221350.511798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "386"
-            endingLineNumber = "386"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
             landmarkName = "-setImageURL:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9397,11 +8837,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "286"
+            endingLineNumber = "286"
             landmarkName = "-setImageURL:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9413,11 +8853,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "-setImageURL:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9429,11 +8869,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "832"
-            endingLineNumber = "832"
+            startingLineNumber = "912"
+            endingLineNumber = "912"
             landmarkName = "-isCollected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9445,11 +8885,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "833"
-            endingLineNumber = "833"
+            startingLineNumber = "913"
+            endingLineNumber = "913"
             landmarkName = "-isCollected:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9461,11 +8901,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505221350.511798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
             landmarkName = "-setImageURL:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9477,11 +8917,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "422"
-            endingLineNumber = "422"
+            startingLineNumber = "316"
+            endingLineNumber = "316"
             landmarkName = "-setImageURL:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9492,28 +8932,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/Favorite.m"
-            timestampString = "504873539.893664"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "-awakeFromInitializer"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "407"
-            endingLineNumber = "407"
+            startingLineNumber = "408"
+            endingLineNumber = "408"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9525,11 +8949,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
+            startingLineNumber = "411"
+            endingLineNumber = "411"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9541,11 +8965,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9557,11 +8981,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "380"
-            endingLineNumber = "380"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9573,23 +8997,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
-            landmarkName = "-myReplicationProgress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "376"
@@ -9605,11 +9013,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879753.259449"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "347"
-            endingLineNumber = "347"
+            startingLineNumber = "377"
+            endingLineNumber = "377"
+            landmarkName = "-myReplicationProgress:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
             landmarkName = "-syncFromRemote"
             landmarkType = "7">
          </BreakpointContent>
@@ -9621,11 +9045,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "369"
+            endingLineNumber = "369"
             landmarkName = "-syncFromRemote"
             landmarkType = "7">
             <Locations>
@@ -9669,11 +9093,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "381"
-            endingLineNumber = "381"
+            startingLineNumber = "382"
+            endingLineNumber = "382"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9685,11 +9109,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
+            startingLineNumber = "393"
+            endingLineNumber = "393"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9701,7 +9125,39 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
+            landmarkName = "-myReplicationProgress:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "403"
+            endingLineNumber = "403"
+            landmarkName = "-myReplicationProgress:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "406"
@@ -9717,11 +9173,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "402"
-            endingLineNumber = "402"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9733,43 +9189,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
-            landmarkName = "-myReplicationProgress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "409"
-            endingLineNumber = "409"
-            landmarkName = "-myReplicationProgress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
+            startingLineNumber = "417"
+            endingLineNumber = "417"
             landmarkName = "-myReplicationProgress:"
             landmarkType = "7">
             <Locations>
@@ -9861,7 +9285,23 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
+            landmarkName = "-myReplicationProgress:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "398"
@@ -9873,31 +9313,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504879898.431188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "-myReplicationProgress:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504881788.979383"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "464"
-            endingLineNumber = "464"
+            startingLineNumber = "467"
+            endingLineNumber = "467"
             landmarkName = "-processConflictForModel:forList:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9909,23 +9333,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504881861.507018"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "477"
-            endingLineNumber = "477"
-            landmarkName = "-processConflictForModel:forList:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504881864.136812"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "480"
@@ -9937,15 +9345,31 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "483"
+            endingLineNumber = "483"
+            landmarkName = "-processConflictForModel:forList:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504932405.979083"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "438"
-            endingLineNumber = "438"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
             landmarkName = "-tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9957,11 +9381,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/AlbumTableViewController.m"
-            timestampString = "504932405.979083"
+            timestampString = "505278825.422422"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "439"
-            endingLineNumber = "439"
+            startingLineNumber = "441"
+            endingLineNumber = "441"
             landmarkName = "-tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -9969,31 +9393,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504928370.761354"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "307"
-            endingLineNumber = "307"
-            landmarkName = "-setFavoriate:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/Favorite.m"
-            timestampString = "504928390.165057"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "-setFavoriate:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10004,28 +9412,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/Favorite.m"
-            timestampString = "504928489.940975"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
-            landmarkName = "-awakeFromInitializer"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/CBLService.m"
-            timestampString = "504929884.467638"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
             landmarkName = "-syncFromRemote"
             landmarkType = "7">
          </BreakpointContent>
@@ -10037,11 +9429,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
+            startingLineNumber = "504"
+            endingLineNumber = "504"
             landmarkName = "-configureCell:atIndexPath:isForHeight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10117,11 +9509,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970559.402976"
+            timestampString = "505221350.511798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "-setCellData:isForHeight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10133,11 +9525,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504969442.787354"
+            timestampString = "505217428.868134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
             landmarkName = "-sizeThatFits:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10149,11 +9541,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipCell.m"
-            timestampString = "504970364.025928"
+            timestampString = "505221350.511798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "362"
-            endingLineNumber = "362"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
             landmarkName = "-setCellData:isForHeight:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10165,11 +9557,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "854"
-            endingLineNumber = "854"
+            startingLineNumber = "934"
+            endingLineNumber = "934"
             landmarkName = "-actionSheet:clickedButtonAtIndex:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10177,31 +9569,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "892"
-            endingLineNumber = "892"
+            startingLineNumber = "972"
+            endingLineNumber = "972"
             landmarkName = "-setClipRatio:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10209,15 +9585,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "952"
-            endingLineNumber = "952"
+            startingLineNumber = "1032"
+            endingLineNumber = "1032"
             landmarkName = "-getRatioSetting"
             landmarkType = "7">
          </BreakpointContent>
@@ -10225,15 +9601,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "442"
-            endingLineNumber = "442"
+            startingLineNumber = "546"
+            endingLineNumber = "546"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10245,11 +9621,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "7">
          </BreakpointContent>
@@ -10261,12 +9637,220 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            timestampString = "505285687.19713"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
+            startingLineNumber = "547"
+            endingLineNumber = "547"
             landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/ClipController.m"
+            timestampString = "505285687.19713"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "544"
+            endingLineNumber = "544"
+            landmarkName = "-scrollViewDidScroll:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/YYWebImage/YYWebImage/YYWebImageManager.m"
+            timestampString = "505102262.969663"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "-cacheKeyForURL:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/ClipController.m"
+            timestampString = "505285687.19713"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "-recordCurrIndex:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/ClipController.m"
+            timestampString = "505285687.19713"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "-performBackgroundDownload:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/JDFPeekaboo/Pod/Classes/JDFPeekabooCoordinator.m"
+            timestampString = "505209790.715467"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "305"
+            endingLineNumber = "305"
+            landmarkName = "-updateTopViewSubviews:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/ClipController.m"
+            timestampString = "505224123.086983"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "-viewDidDisappear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/ClipController.m"
+            timestampString = "505223049.056547"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "468"
+            endingLineNumber = "468"
+            landmarkName = "-processConflictForModel:forList:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "456"
+            endingLineNumber = "456"
+            landmarkName = "-processConflict"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
+            landmarkName = "-processConflict"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "460"
+            endingLineNumber = "460"
+            landmarkName = "-processConflict"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/AlbumTableViewController.m"
+            timestampString = "505278825.422422"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "-updateAlumbList:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "-loadFavorite"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -10276,13 +9860,205 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Cliplay/Classes/ClipController.m"
-            timestampString = "504975870.872015"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "440"
-            endingLineNumber = "440"
-            landmarkName = "-scrollViewDidScroll:"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "-unsetFavoriate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
+            landmarkName = "-unsetFavoriate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/Favorite.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "+getFavoriteInDatabase:withUUID:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLBaseModel.m"
+            timestampString = "505226649.123441"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "+getModelInDatabase:withUUID:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "-getAllAlbums"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/AlbumTableViewController.m"
+            timestampString = "505278825.422422"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "-setup"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "470"
+            endingLineNumber = "470"
+            landmarkName = "-processConflictForModel:forList:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/Favorite.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-isFavoriate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/Favorite.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "-setFavoriate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/Favorite.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-unsetFavoriate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/AlbumTableViewController.m"
+            timestampString = "505278825.422422"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "348"
+            endingLineNumber = "348"
+            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLBaseModelConflict.m"
+            timestampString = "505278825.422422"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "14"
+            endingLineNumber = "14"
+            landmarkName = "-awakeFromInitializer"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Cliplay/Classes/CBLService.m"
+            timestampString = "505281768.721262"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
+            landmarkName = "-processConflict"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

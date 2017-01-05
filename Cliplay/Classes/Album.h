@@ -16,6 +16,7 @@
 
 @interface Album : CBLBaseModel
 
+@property NSString *title;
 @property (readwrite) NSArray *clips;
 @property (readwrite) NSString *desc;
 

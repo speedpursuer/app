@@ -10,7 +10,6 @@
 
 @interface CBLBaseModel : CBLModel
 @property NSString *owner;
-@property NSString *title;
 
 + (NSString*) docType;
 + (NSString*) docID:(NSString *)uuid;

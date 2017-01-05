@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, clipActionType) {
 	noAction,
 };
 
-@interface ClipController : UITableViewController <UIActionSheetDelegate>
+@interface ClipController : UITableViewController <UIActionSheetDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) NSArray *articleDicts;
 @property (nonatomic, strong) NSArray *articleURLs;
 @property (nonatomic, strong) Album *album;
@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, clipActionType) {
 - (void)recordSlowPlayWithUrl:(NSString *)url;
 - (void)formActionForCell:(UITableViewCell *)cell withActionType:(clipActionType)type;
 - (BOOL)isCollected:(NSString *)url;
+- (void)helloFromCell:(UITableViewCell *)cell;
 #pragma mark - Callback for comment view
 - (void)fetchPostComments:(BOOL)isRefresh;
 - (void)closeCommentView;

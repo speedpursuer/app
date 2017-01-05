@@ -12,7 +12,7 @@
 
 @implementation Album
 
-@dynamic clips, desc;
+@dynamic title, desc, clips;
 
 + (NSString*) docType {
 	return kAlbumDocType;
@@ -22,13 +22,10 @@
 	return [NSString stringWithFormat:@"album_%@_%d", uuid, (int)[NSDate date].timeIntervalSinceReferenceDate];
 }
 
-+ (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid {
-	
++ (Album*) getAlbumInDatabase:(CBLDatabase*) database withTitle:(NSString *)title withUUID:(NSString *)uuid {	
 	Album *album = (Album *)[super getModelInDatabase:database withUUID:uuid];
-	
 	album.title = title;
 	album.desc = @"";
-	
 	return album;
 }
 

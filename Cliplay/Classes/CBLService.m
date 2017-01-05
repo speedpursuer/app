@@ -102,7 +102,7 @@
 	Album* album = [Album getAlbumInDatabase:_database withTitle:title withUUID:_uuid];
 	NSError *error;
 	if ([album save:&error]) {
-		[self updateAlbumSeqWithNewAlbumID:[album docID]];
+		[_albumSeq addAlbumID:[album docID]];
 		[self notifyChanges];
 		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已新建\"%@\"", album.title] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return album;
@@ -117,7 +117,7 @@
 	NSString *albumName = album.title;
 	NSString *albumID = [album docID];
 	if ([album deleteDocument:&error]){
-		[self updateAlbumSeqWithDeletedAlbumID:albumID];
+		[_albumSeq deleteAlbumID:albumID];
 		[self notifyChanges];
 		[JDStatusBarNotification showWithStatus:[NSString stringWithFormat:@"已删除\"%@\"", albumName] dismissAfter:2.0 styleName:JDStatusBarStyleSuccess];
 		return YES;
@@ -281,16 +281,17 @@
 }
 
 - (BOOL)saveAlbumSeq:(NSArray *)albumIDs {
-	if([_albumSeq.albumIDs isEqualToArray:albumIDs]) {
-		return NO;
-	}
-	_albumSeq.albumIDs = albumIDs;
-	NSError* error;
-	if ([_albumSeq save: &error]) {
-		return YES;
-	}else {
-		return NO;
-	}
+	return [_albumSeq saveAlbumSeq:albumIDs];
+//	if([_albumSeq.albumIDs isEqualToArray:albumIDs]) {
+//		return NO;
+//	}
+//	_albumSeq.albumIDs = albumIDs;
+//	NSError* error;
+//	if ([_albumSeq save: &error]) {
+//		return YES;
+//	}else {
+//		return NO;
+//	}
 }
 
 #pragma mark - Favorite
@@ -459,7 +460,9 @@
 	return NO;
 }
 
-- (BOOL)processConflictForModel:(CBLBaseModel *)model forList:(NSString *)listName {
+- (BOOL)processConflictForModel:(CBLBaseModelConflict *)model forList:(NSString *)listName {
+	
+	[model cleanEmptyChanges];
 	
 	NSError *error;
 	NSArray* conflicts = [model.document getConflictingRevisions: &error];
@@ -508,17 +511,17 @@
 
 #pragma mark - Helper
 
-- (BOOL)updateAlbumSeqWithNewAlbumID:(NSString *)newAlbumID {
-	NSMutableArray *currAlbumIDs = [_albumSeq.albumIDs mutableCopy];
-	[currAlbumIDs insertObject:newAlbumID atIndex:0];
-	return [self saveAlbumSeq:[currAlbumIDs copy]];
-}
-
-- (BOOL)updateAlbumSeqWithDeletedAlbumID:(NSString *)deletedAlbumID {
-	NSMutableArray *currAlbumIDs = [_albumSeq.albumIDs mutableCopy];
-	[currAlbumIDs removeObject:deletedAlbumID];
-	return [self saveAlbumSeq:[currAlbumIDs copy]];
-}
+//- (BOOL)updateAlbumSeqWithNewAlbumID:(NSString *)newAlbumID {
+//	NSMutableArray *currAlbumIDs = [_albumSeq.albumIDs mutableCopy];
+//	[currAlbumIDs insertObject:newAlbumID atIndex:0];
+//	return [self saveAlbumSeq:[currAlbumIDs copy]];
+//}
+//
+//- (BOOL)updateAlbumSeqWithDeletedAlbumID:(NSString *)deletedAlbumID {
+//	NSMutableArray *currAlbumIDs = [_albumSeq.albumIDs mutableCopy];
+//	[currAlbumIDs removeObject:deletedAlbumID];
+//	return [self saveAlbumSeq:[currAlbumIDs copy]];
+//}
 
 - (BOOL)saveAlbum:(Album *)album {
 	

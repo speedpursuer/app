@@ -76,116 +76,65 @@
 	_webImageView.left = cellMargin;
 	_webImageView.clipsToBounds = YES;
 	_webImageView.contentMode = UIViewContentModeScaleAspectFill;
-	_webImageView.backgroundColor = [UIColor whiteColor];
-	
+	_webImageView.backgroundColor = [UIColor lightGrayColor];
 	[self.contentView addSubview:_webImageView];
 	
-	_label = [UILabel new];
-	_label.size = _webImageView.size;
-	_label.textAlignment = NSTextAlignmentCenter;
-	_label.text = @"下载异常, 点击重试";
-	_label.textColor = [UIColor whiteColor];
-	_label.hidden = YES;
-	_label.userInteractionEnabled = YES;
-	[self.contentView addSubview:_label];
-	
-	_label.centerX = _webImageView.centerX;
-	_label.centerY = _webImageView.centerY + _webImageView.height * 0.2;
-	
-	CGFloat lineHeight = 4;
 	_progressLayer = [CAShapeLayer layer];
-	_progressLayer.size = CGSizeMake(_webImageView.width, lineHeight);
-	UIBezierPath *path = [UIBezierPath bezierPath];
-	[path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
-	[path addLineToPoint:CGPointMake(_webImageView.width, _progressLayer.height / 2)];
-	_progressLayer.lineWidth = lineHeight;
-	_progressLayer.path = path.CGPath;
-	_progressLayer.strokeColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0].CGColor;
+	_progressLayer.strokeColor = [UIColor whiteColor].CGColor;
 	_progressLayer.lineCap = kCALineCapButt;
 	_progressLayer.strokeStart = 0;
 	_progressLayer.strokeEnd = 0;
 	[_webImageView.layer addSublayer:_progressLayer];
 	
+	_label = [UILabel new];
+	_label.textAlignment = NSTextAlignmentCenter;
+	_label.text = @"球    路";
+	_label.textColor = [UIColor lightGrayColor];
+	_label.font = [UIFont systemFontOfSize:50];	
+	[self.contentView addSubview:_label];
+	
+	_errLabel = [UILabel new];
+	_errLabel.textAlignment = NSTextAlignmentCenter;
+	_errLabel.text = @"下载异常, 点击重试";
+	_errLabel.textColor = [UIColor whiteColor];
+	_errLabel.userInteractionEnabled = YES;
+	_errLabel.font = [UIFont systemFontOfSize:20];
+	[self.contentView addSubview:_errLabel];
 	__weak typeof(self) _self = self;
 	UITapGestureRecognizer *g = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		[_self setImageURL:_self.webImageView.yy_imageURL];
 	}];
-	[_label addGestureRecognizer:g];
-	
+	[_errLabel addGestureRecognizer:g];
 	_heartButton = [self createFlashButtonWithImage:[UIImage imageNamed:@"heart"]];
-	
-//	_heartButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40) image:[UIImage imageNamed:@"heart"] selected: false];
-//	
-//	_heartButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-//	_heartButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-//	_heartButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	
 	[_heartButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
-	
-	[self.contentView addSubview:_heartButton];
-	
-//	_heartButton.bottom = _webImageView.bottom;
 	_heartButton.top = _webImageView.top;
 	_heartButton.left = _webImageView.left;
+	[self.contentView addSubview:_heartButton];
 	
-	[_self addClickControlToAnimatedImageView];
-	
-	UIImage* commentsImage = [self getCommentIcon: -1];
-	
+	UIImage* commentsImage = [self createCommentIconWithCount: -1];
 	_commentBtn = [UIButton buttonWithType:UIButtonTypeSystem];
 	_commentBtn.frame = CGRectMake(0, 0, 45, 45);
-	
 	[_commentBtn setImage:commentsImage forState:UIControlStateNormal];
 	[_commentBtn setImage:commentsImage forState:UIControlStateHighlighted];
 	[_commentBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
-	
-	[self.contentView addSubview:_commentBtn];
-	
 	_commentBtn.top = _webImageView.top;
 	_commentBtn.right = _webImageView.right;
-	
+	[self.contentView addSubview:_commentBtn];
 	[_commentBtn addTarget:self action:@selector(displayComment) forControlEvents:UIControlEventTouchUpInside];
 	
-	
 	FAKFontAwesome *shareIcon = [FAKFontAwesome weiboIconWithSize:20];
-	
 	UIImage *shareImage = [shareIcon imageWithSize:CGSizeMake(20, 20)];
-	
 	_shareBtn = [UIButton buttonWithType:UIButtonTypeSystem];
 	_shareBtn.frame = CGRectMake(0, 0, 40, 40);
-	
 	[_shareBtn setImage:shareImage forState:UIControlStateNormal];
 	[_shareBtn setImage:shareImage forState:UIControlStateHighlighted];
-//	[_shareBtn setTintColor:[UIColor whiteColor]];
 	[_shareBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
-	
 	[self.contentView addSubview:_shareBtn];
-	
-//	_shareBtn.bottom = _webImageView.bottom;
-//	_shareBtn.right = _webImageView.right;
-	
-//	_shareBtn.translatesAutoresizingMaskIntoConstraints = NO;
-//	
-//	[NSLayoutConstraint constraintWithItem:_shareBtn
-//									attribute:NSLayoutAttributeBottom
-//									relatedBy:NSLayoutRelationEqual
-//									toItem:_webImageView
-//									attribute:NSLayoutAttributeBottom
-//								multiplier:1
-//								  constant:-10].active = true;
-//	
-//	[NSLayoutConstraint constraintWithItem:_shareBtn
-//									attribute:NSLayoutAttributeRight
-//									relatedBy:NSLayoutRelationEqual
-//									toItem:_webImageView
-//									attribute:NSLayoutAttributeRight
-//								multiplier:1
-//								  constant:-10].active = true;
-
-	
 	[_shareBtn addTarget:self action:@selector(shareClip) forControlEvents:UIControlEventTouchUpInside];
 	
 	[self setupAlbumIcon:reuseIdentifier];
+	
+	[_self addClickControlToAnimatedImageView];
 	
 	return self;
 }
@@ -198,36 +147,6 @@
 	return button;
 }
 
-//- (void)setupAlbumIcon_:(NSString *)reuseIdentifier {
-//	FAKFontAwesome *albumIcon;
-//	
-//	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
-//		albumIcon = [FAKFontAwesome editIconWithSize:20];
-//	}else{
-//		albumIcon = [FAKFontAwesome folderOpenIconWithSize:20];
-//	}
-//	
-//	UIImage *albumImage = [albumIcon imageWithSize:CGSizeMake(20, 20)];
-//	
-//	_albumBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-//	_albumBtn.frame = CGRectMake(0, 0, 40, 40);
-//	
-//	[_albumBtn setImage:albumImage forState:UIControlStateNormal];
-//	[_albumBtn setImage:albumImage forState:UIControlStateHighlighted];
-//	//	[_shareBtn setTintColor:[UIColor whiteColor]];
-//	[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
-//	
-//	[self.contentView addSubview:_albumBtn];
-//	
-//	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
-//		[_albumBtn addTarget:self action:@selector(editClipInAlbum) forControlEvents:UIControlEventTouchUpInside];
-//	}else{
-//		[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
-//	}
-//	_albumBtn.bottom = _webImageView.bottom;
-//	_albumBtn.left = _webImageView.left;
-//}
-
 - (void)setupAlbumIcon:(NSString *)reuseIdentifier {
 	FAKFontAwesome *albumIcon;
 	
@@ -238,17 +157,7 @@
 	}
 	
 	UIImage *albumImage = [albumIcon imageWithSize:CGSizeMake(20, 20)];
-	
 	_albumBtn = [self createFlashButtonWithImage:albumImage];
-	
-//	_albumBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-//	_albumBtn.frame = CGRectMake(0, 0, 40, 40);
-//	
-//	[_albumBtn setImage:albumImage forState:UIControlStateNormal];
-//	[_albumBtn setImage:albumImage forState:UIControlStateHighlighted];
-//	
-//	[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
-	
 	[self.contentView addSubview:_albumBtn];
 	
 	if([reuseIdentifier isEqualToString:AlbumCellIdentifier]) {
@@ -256,8 +165,6 @@
 	}else{
 		[_albumBtn addTarget:self action:@selector(collectClipToAlbum) forControlEvents:UIControlEventTouchUpInside];
 	}
-//	_albumBtn.bottom = _webImageView.bottom;
-//	_albumBtn.left = _webImageView.left;
 }
 
 - (void)tappedButton:(DOFavoriteButton *)sender {
@@ -274,7 +181,7 @@
 - (CGSize)sizeThatFits:(CGSize)size {
 	CGFloat totalHeight = 0;
 	totalHeight += self.webImageView.size.height;
-	totalHeight += cellMargin; // margins
+	totalHeight += cellMargin;
 	return CGSizeMake(kScreenWidth, totalHeight);
 }
 
@@ -286,37 +193,9 @@
 	__weak typeof(self.webImageView) _view = self.webImageView;
 	__weak typeof(self) _self = self;
 	
-//	UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
-//		
-//		ClipController* tc = [_self getViewCtr];
-//		
-//		if(!_self.downLoaded || tc.fullScreen) return;
-//		
-//		if ([_view isAnimating]) [_view stopAnimating];
-//		else [_view startAnimating];
-//		
-//		UIViewAnimationOptions op = UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionAllowAnimatedContent | UIViewAnimationOptionBeginFromCurrentState;
-//		[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-//			_view.layer.transformScale = 0.97;
-//		} completion:^(BOOL finished) {
-//			[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-//				_view.layer.transformScale = 1.008;
-//			} completion:^(BOOL finished) {
-//				[UIView animateWithDuration:0.1 delay:0 options:op animations:^{
-//					_view.layer.transformScale = 1;
-//				} completion:NULL];
-//			}];
-//		}];
-//	}];
-//	
-//	singleTap.numberOfTapsRequired = 1;
-//	
-//	[_view addGestureRecognizer:singleTap];
-	
 	UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id sender) {
 		
 		if(!_self.downLoaded) return;
-//		[_view stopAnimating];
 		
 		ClipController* tc = [_self getViewCtr];
 		ClipPlayController *clipCtr = [ClipPlayController new];
@@ -326,7 +205,7 @@
 		clipCtr.showLike = FALSE;
 		clipCtr.standalone = false;
 		clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
-		clipCtr.delegate = _self;
+		clipCtr.delegate = tc;
 		[tc recordSlowPlayWithUrl:[[_view yy_imageURL] absoluteString]];
 		
 		[tc presentViewController:clipCtr animated:YES completion:nil];
@@ -359,13 +238,28 @@
 - (void)setCellData:(ArticleEntity*) entity isForHeight:(BOOL)isForHeight {
 	
 	self.webImageView.size = CGSizeMake(kScreenWidth, _cellHeight);
+	
+	_label.frame = _webImageView.frame;
+	_errLabel.frame = _webImageView.frame;
+	
 	_shareBtn.bottom = _webImageView.bottom;
 	_shareBtn.right = _webImageView.right;
 	
 	_albumBtn.bottom = _webImageView.bottom;
 	_albumBtn.left = _webImageView.left;
+	
+	[self setCellProgressLayer];
 
 	if(!isForHeight) [self setImageURL:[NSURL URLWithString:entity.url]];
+}
+
+- (void)setCellProgressLayer {
+	_progressLayer.size = CGSizeMake(_webImageView.width, _cellHeight);
+	UIBezierPath *path = [UIBezierPath bezierPath];
+	[path moveToPoint:CGPointMake(0, _progressLayer.height / 2)];
+	[path addLineToPoint:CGPointMake(_webImageView.width, _progressLayer.height / 2)];
+	_progressLayer.path = path.CGPath;
+	_progressLayer.lineWidth = _cellHeight;
 }
 
 - (void)setImageURL:(NSURL *)url {
@@ -378,22 +272,19 @@
 	self.progressLayer.strokeEnd = 0;
 	[CATransaction commit];
 	
-	_label.hidden = YES;
+	_label.hidden = NO;
+	_downLoaded = NO;
+	_errLabel.hidden = YES;
 	_heartButton.hidden = YES;
 	_commentBtn.hidden = YES;
 	_shareBtn.hidden = YES;
 	_albumBtn.hidden = YES;
-	_self.downLoaded = NO;
 	_webImageView.autoPlayAnimatedImage = NO;
-	
-	[_self unSetBorder];
-	
-	UIImage *placeholderImage = [[DRImagePlaceholderHelper sharedInstance] placerholderImageWithSize:_webImageView.size text: @"球路"];
+	[self unSetBorder];
 	
 	[_webImageView yy_setImageWithURL:url
-						  placeholder:placeholderImage
+						  placeholder:nil
 							  options:YYWebImageOptionProgressiveBlur |YYWebImageOptionSetImageWithFadeAnimation | YYWebImageOptionShowNetworkActivity
-	 //| YYWebImageOptionRefreshImageCache
 							 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
 								 if (expectedSize > 0 && receivedSize > 0) {
 									 CGFloat progress = (CGFloat)receivedSize / expectedSize;
@@ -408,9 +299,10 @@
 								   _self.progressLayer.hidden = YES;
 								   
 								   if (!image) {
-									   _self.label.hidden = NO;
+									   _self.errLabel.hidden = NO;
 								   }else {
 									   _self.downLoaded = YES;
+									   _self.label.hidden = YES;
 									   _self.heartButton.hidden = NO;
 									   _self.commentBtn.hidden = NO;
 									   _self.shareBtn.hidden = NO;
@@ -457,10 +349,9 @@
 	if(qty == nil) {
 		return;
 	}
-	UIImage* commentsImage = [self getCommentIcon: [qty intValue]];
+	UIImage* commentsImage = [self createCommentIconWithCount: [qty intValue]];
 	[_commentBtn setImage:commentsImage forState:UIControlStateNormal];
 	[_commentBtn setImage:commentsImage forState:UIControlStateHighlighted];
-	//	[_imgView setImage:commentsImage];
 }
 
 - (void)displayComment {
@@ -493,9 +384,9 @@
 }
 
 - (void)unSetBorder {
-	if(!_downLoaded) {
-		return;
-	}
+//	if(!_downLoaded) {
+//		return;
+//	}
 	[_webImageView.layer setBorderColor: [[UIColor clearColor] CGColor]];
 	[_webImageView.layer setBorderWidth: 0.0];
 	[_webImageView.layer setCornerRadius: 0.0];
@@ -504,10 +395,8 @@
 - (void)updateAlbumButton:(NSString *)url {
 	ClipController* ctr = [self getViewCtr];
 	if([ctr isCollected:url]) {
-//		[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:0.6]];
 		[self.albumBtn selectWithNoAnim];
 	}else{
-//		[_albumBtn setTintColor:[UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:0.6]];
 		[self.albumBtn deselectWithNoAnim];
 	}
 }
@@ -516,7 +405,12 @@
 	[self.albumBtn select];
 }
 
-- (UIImage *)getCommentIcon:(NSInteger)count {
+- (void)sayHelloToFromCell {
+	ClipController* ctr = [self getViewCtr];
+	[ctr helloFromCell:self];
+}
+
+- (UIImage *)createCommentIconWithCount:(NSInteger)count {
 	
 	CGSize iconSize = CGSizeMake(25, 27);
 	

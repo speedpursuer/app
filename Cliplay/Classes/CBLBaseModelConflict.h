@@ -10,4 +10,6 @@
 
 @interface CBLBaseModelConflict : CBLBaseModel
 @property bool isFromLocal;
+-(void)setInitialValue;
+-(void)cleanEmptyChanges;
 @end

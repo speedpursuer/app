@@ -22,21 +22,13 @@
 	return [NSString stringWithFormat:@"favorite_%@", uuid];
 }
 
-+ (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {	
-	Favorite *favorite = (Favorite *)[super getModelInDatabase:database withUUID:uuid];
-	return favorite;
+-(void)setInitialValue {
+	self.clips = @[];
 }
 
-//Object initialization
-- (void)awakeFromInitializer{
-	[super awakeFromInitializer];
-//	self.autosaves = YES;
-	if(self.isNew) {
-		self.clips = @[];
-		self.title = @"我的最爱";
-//		NSError *error;
-//		[self save:&error];
-	}
++ (Favorite*) getFavoriteInDatabase:(CBLDatabase*) database withUUID:(NSString *)uuid {
+	Favorite *favorite = (Favorite *)[super getModelInDatabase:database withUUID:uuid];
+	return favorite;
 }
 
 - (BOOL)isFavoriate:(NSString *)url {
@@ -45,22 +37,26 @@
 
 - (void)setFavoriate:(NSString *)url {
 	if(![self isFavoriate:url]) {
-		NSMutableArray *list = [self.clips mutableCopy];
-		[list insertObject:url atIndex: 0];
-		self.clips = [list copy];
-		NSError* error;
-		[self save: &error];
+		[self updateFavorite:url forAdd:YES];
 	}
 }
 
 - (void)unsetFavoriate:(NSString *)url {
 	if([self isFavoriate:url]) {
-		NSMutableArray *list = [self.clips mutableCopy];
-		[list removeObject:url];
-		self.clips = [list copy];
-		NSError* error;
-		[self save: &error];
+		[self updateFavorite:url forAdd:NO];
 	}
+}
+
+- (void)updateFavorite:(NSString *)url forAdd:(BOOL)isAdd {
+	NSMutableArray *list = [self.clips mutableCopy];
+	if(isAdd) {
+		[list insertObject:url atIndex: 0];
+	}else {
+		[list removeObject:url];
+	}
+	self.clips = [list copy];
+	NSError* error;
+	[self save: &error];
 }
 
 @end

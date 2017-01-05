@@ -24,11 +24,13 @@
 @property (nonatomic, strong) YYAnimatedImageView *webImageView;
 @property (nonatomic, strong) CAShapeLayer *progressLayer;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UILabel *errLabel;
 @property (nonatomic, assign) BOOL downLoaded;
 @property (nonatomic, strong) DOFavoriteButton *heartButton;
 @property (nonatomic, strong) UIButton *commentBtn;
 @property (nonatomic, strong) UIButton *shareBtn;
 @property (nonatomic, strong) DOFavoriteButton *albumBtn;
+//@property (nonatomic, strong) UIImageView *backgroundImage;
 @property (nonatomic, weak) ClipController *delegate;
 @property (nonatomic, assign) CGFloat cellHeight;
 - (void)setCellData:(ArticleEntity*) entity isForHeight:(BOOL)isForHeight;

@@ -14,6 +14,13 @@
 	[super awakeFromInitializer];
 	if(self.isNew) {
 		self.isFromLocal = YES;
+		[self setInitialValue];
 	}
+}
+-(void)setInitialValue {
+	NSAssert(NO, @"Unimplemented setInitialValue method +[%@ docType]", [self class]);
+}
+-(void)cleanEmptyChanges {
+	[self revertChanges];
 }
 @end

@@ -15,6 +15,8 @@
 #import "MyLBService.h"
 #import "MRProgress.h"
 
+#define kFavoriteTitle "我的最爱"
+
 @interface AlbumTableViewController ()
 @property CBLService *service;
 @property CBLLiveQuery *liveQuery;
@@ -59,7 +61,7 @@
 - (void)dealloc {
 //	[self.liveQuery removeObserver:self forKeyPath:@"rows"];
 //	[self.favorite removeObserver:self forKeyPath:@"clips"];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"albumModified" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kAlbumListChange object:nil];
 }
 
 - (void)setup {
@@ -342,7 +344,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	AlbumListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"favorite"];
 	
 	if(indexPath.section == 0) {
-		cell.title.text = @"我的最爱";
+		cell.title.text = @kFavoriteTitle;
 		cell.badge.text = [NSString stringWithFormat: @"%ld", _favorite.clips.count];
 		[cell.thumb setImage:_deFaultFavoriteThumb];
 //		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -377,7 +379,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if(indexPath.section == 0) {
 //		Favorite *favorite = _service.favorite;
 		vc.favorite = true;
-		vc.header = _favorite.title;
+		vc.header = @kFavoriteTitle;
 		vc.articleURLs = _favorite.clips;
 	}else {
 		Album *album = [self getAlbumWithIndex:indexPath];

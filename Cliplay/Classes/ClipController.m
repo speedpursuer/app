@@ -21,6 +21,8 @@
 #import "AlbumInfoViewController.h"
 #import <STPopup/STPopup.h>
 #import "CBLService.h"
+#import <JDFPeekaboo/JDFPeekabooCoordinator.h>
+
 
 #define cellMargin 10
 //#define kCellHeight ceil((kScreenWidth) * 10.0 / 16.0)
@@ -43,6 +45,15 @@
 @property CGFloat correction;
 @property NSDictionary *collectionList;
 @property CGFloat cellHeight;
+@property YYWebImageManager *backgroudManager;
+@property YYWebImageManager *defaultManage;
+//@property BOOL didAppear;
+@property NSInteger currIndex;
+@property BOOL isScrollingDown;
+@property BOOL hasWifi;
+@property (nonatomic, strong) JDFPeekabooCoordinator *scrollCoordinator;
+//@property NSInteger currMinIndex;
+//@property NSOperationQueue *queue;
 //@property (nonatomic, copy) NSString *clipToAdd;
 //@property BOOL isAddAll;
 @end
@@ -54,57 +65,33 @@
 //	NSString *shareText;
 }
 
-#pragma mark - Public API
-- (void)formActionForCell:(UITableViewCell *)cell withActionType:(clipActionType)type {
-	_actionType = type;
-	
-	if(cell) {
-		_indexOfSelectedClip = [self.tableView indexPathForCell:cell].row;
-	}
-	
-	switch (type) {
-		case addToAlbum:
-			[self showBottomAlbumPopup];
-			break;
-		case addAllToAlbum:
-			[self showBottomAlbumPopup];
-			break;
-		case editClip:
-			[self showAlbumActionsheet];
-			break;
-		default:
-			break;
-	}
-}
-
-#pragma mark - (UIViewContoller & Init)
+#pragma mark - View event
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
 	lbService = [MyLBService sharedManager];
 	_cblService = [CBLService sharedManager];
 	
-	[self setDownloadLimit:YES];
+	_currIndex = 0;
+	_correction = 0;
+	
+	[self setupDownload];
 	
 	[self setUpCollectionList];
 	
 	[self setClipRatio:[self getRatioSetting]];
 	
-	_correction = 0;
-	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-	
-//	[self setFavorite];
-	
-//	[self fetchPostComments:[self postID]];
 	
 	[self.navigationItem setTitle: _header];
 	
 	self.tableView.fd_debugLogEnabled = NO;
 	
 	[self registerReusableCell];
+	
+	[self setUpScrollCoordinator];
 	
 	[self addInfoIcon];
 	
@@ -119,6 +106,181 @@
 	[self.tableView reloadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];	
+	if(_fullScreen) {
+		[self autoPlayFullyVisibleImages];
+		_fullScreen = false;
+	}else{
+		[self fetchPostComments:NO];
+	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	if(_articleDicts) {
+		if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+			// back button was pressed.  We know this is true because self is no longer
+			// in the navigation stack.
+			[self.navigationController setNavigationBarHidden:YES];
+		}
+	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	[self.scrollCoordinator disable];
+	if(![self isVisible]){
+		[self stopPlayingAllImages];
+		if(![self presentedViewController]){
+			[_backgroudManager.queue cancelAllOperations];
+			[_defaultManage.queue cancelAllOperations];
+			[[YYImageCache sharedCache].memoryCache removeAllObjects];
+		}
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self.scrollCoordinator enable];
+}
+
+#pragma mark - Download
+- (void)setupDownload {
+	_defaultManage = [YYWebImageManager sharedManager];
+	YYImageCache *cache = [YYImageCache sharedCache];
+	NSOperationQueue *queue = [NSOperationQueue new];
+	queue.maxConcurrentOperationCount = 1;
+	_backgroudManager = [[YYWebImageManager alloc] initWithCache:cache queue:queue];
+	
+	[self checkWifiConnection];
+	[self setDownloadLimit:YES];
+	
+	[self observeChanges];
+}
+
+- (void)checkWifiConnection {
+	Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+	NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+	if (networkStatus == ReachableViaWiFi) {
+		_hasWifi = YES;
+	}else{
+		_hasWifi = NO;
+	}
+}
+
+-(void)setDownloadLimit:(BOOL)hasLimit {
+	if(hasLimit) {
+		_defaultManage.queue.maxConcurrentOperationCount = 1;
+	}else{
+		_defaultManage.queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
+	}
+}
+
+- (void)observeChanges {
+	[_defaultManage.queue addObserver:self forKeyPath:@"operationCount" options:0 context:nil];
+	[[NSNotificationCenter defaultCenter]
+	 addObserver:self
+	 selector:@selector(checkNetworkStatus:)
+	 name:kReachabilityChangedNotification
+	 object:nil];
+}
+
+- (void)checkNetworkStatus:(NSNotification*)note{
+	[self checkWifiConnection];
+}
+
+- (void)dealloc {
+	[_defaultManage.queue removeObserver:self forKeyPath:@"operationCount"];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change
+					   context:(void *)context {
+	[self performBackgroundDownload:NO];
+}
+
+- (void)performBackgroundDownload:(BOOL)shouldStopCurrentBackgroundDownload{
+	if(_defaultManage.queue.operationCount > 0) {
+		[_backgroudManager.queue cancelAllOperations];
+	}else {
+		if(shouldStopCurrentBackgroundDownload) {
+			[_backgroudManager.queue cancelAllOperations];
+		}
+		if(_hasWifi) {
+			[self backgroudFetchImagesFromRow:_currIndex withDirection:_isScrollingDown];
+		}
+	}
+}
+
+- (void)backgroudFetchImagesFromRow:(NSInteger)row withDirection:(BOOL)scrollingDown{
+	
+	if(scrollingDown) {
+		for (int i = (int)row + 1; i < [data count]; i++) {
+			ArticleEntity *entity = (ArticleEntity *)data[i];
+			if([entity.url length] != 0) {
+				NSURL *url = [NSURL URLWithString:entity.url];
+				BOOL cached = [[YYImageCache sharedCache] containsImageForKey:[url absoluteString]];
+				if(!cached){
+					[_backgroudManager requestImageWithURL:url
+												   options:YYWebImageOptionShowNetworkActivity
+												  progress:nil
+												 transform:nil
+												completion:nil];
+				}
+			}
+		}
+	}else {
+		for (int i = (int)row - 1; i >= 0; i--) {
+			ArticleEntity *entity = (ArticleEntity *)data[i];
+			if([entity.url length] != 0) {
+				NSURL *url = [NSURL URLWithString:entity.url];
+				BOOL cached = [[YYImageCache sharedCache] containsImageForKey:[url absoluteString]];
+				if(!cached){
+					[_backgroudManager requestImageWithURL:url
+												   options:YYWebImageOptionShowNetworkActivity
+												  progress:nil
+												 transform:nil
+												completion:nil];
+				}
+			}
+		}
+	}
+}
+
+- (void)recordCurrIndex:(NSInteger)row {
+	
+	BOOL currScrollingDown;
+	
+	if(row > _currIndex) {
+		currScrollingDown = YES;
+	}else {
+		currScrollingDown = NO;
+	}
+	
+	_currIndex = row;
+	
+	if(currScrollingDown != _isScrollingDown) {
+		_isScrollingDown = currScrollingDown;
+		[self performBackgroundDownload:YES];
+	}else{
+		_isScrollingDown = currScrollingDown;
+	}
+}
+
+- (void)helloFromCell:(UITableViewCell *)cell {
+	NSInteger row = [self.tableView indexPathForCell:cell].row;
+	NSLog(@"get image from cell = %ld", row);
+}
+
+#pragma mark - Initialization
+- (void)setUpScrollCoordinator {
+	self.scrollCoordinator = [[JDFPeekabooCoordinator alloc] init];
+	self.scrollCoordinator.scrollView = self.tableView;
+	self.scrollCoordinator.topView = self.navigationController.navigationBar;
+	self.scrollCoordinator.topViewMinimisedHeight = 20.0f;
+}
+
 -(void)registerReusableCell {
 	
 	[self.tableView registerClass:[TitleCell class] forCellReuseIdentifier:TitleCellIdentifier];
@@ -127,29 +289,6 @@
 	
 	[self.tableView registerClass:[ClipCell class] forCellReuseIdentifier:_clipCellID];
 }
-
--(void)setDownloadLimit:(BOOL)hasLimit {
-	
-	if(hasLimit) {
-		Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-		NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-		
-		if (networkStatus == ReachableViaWWAN) {
-			[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 1;
-		} else {
-			[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = 2;
-		}
-	}else{
-		[YYWebImageManager sharedManager].queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount;
-	}
-}
-
-//- (void)setFavorite {
-//	if(self.favorite) {
-////		self.header = @"我的收藏";
-////		self.articleURLs = [[FavoriateMgr sharedInstance] getFavoriateImages];
-//	}
-//}
 
 - (void)initData {
 	NSMutableArray *entities = @[].mutableCopy;
@@ -233,80 +372,20 @@
 - (void)addInfoIcon {
 	
 	if(_fetchMode) {
-//		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(prepareToSaveAll)];
 		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"收藏全部" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareToSaveAll)];
-		
-		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-		
+//		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		self.navigationItem.rightBarButtonItem = button;
 		return;
 	}else if([self isInAlbum]) {
-//		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(prepareForAlbumInfo)];
 		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"信息" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareForAlbumInfo)];
-
-		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-		
+//		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		self.navigationItem.rightBarButtonItem = button;
 		return;
 	}else {
 		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(showRatioActionsheet)];
-		
-		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-		
+//		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		self.navigationItem.rightBarButtonItem = button;
 		return;
-	}
-	
-	
-	
-	/*
-	if(!_showInfo) {
-		self.infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 64,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: true];
-	}else {
-		self.infoButton = [[DOFavoriteButton alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 64,[UIApplication sharedApplication].statusBarFrame.size.height, 44, 44) image:[UIImage imageNamed:@"info"] selected: false];
-	}
-	
-	self.infoButton.imageColorOn = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	self.infoButton.circleColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	self.infoButton.lineColor = [UIColor colorWithRed:245.0 / 255.0 green:54.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
-	
-	[self.infoButton addTarget:self action:@selector(tappedButton:) forControlEvents:UIControlEventTouchUpInside];
-	
-	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithCustomView:self.infoButton];
-	
-	self.navigationItem.rightBarButtonItem = button;
-	*/
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-	if(_fullScreen) {
-		[self autoPlayFullyVisibleImages];
-		_fullScreen = false;
-	}else{
-		[self fetchPostComments:NO];
-	}
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	if(_articleDicts) {
-		if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-			// back button was pressed.  We know this is true because self is no longer
-			// in the navigation stack.
-			[self.navigationController setNavigationBarHidden:YES];
-		}
-	}
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-	if(![self isVisible]){
-		[self stopPlayingAllImages];
-		if(![self presentedViewController]){
-			[[YYWebImageManager sharedManager].queue cancelAllOperations];
-			[[YYImageCache sharedCache].memoryCache removeAllObjects];
-		}
 	}
 }
 
@@ -368,6 +447,29 @@
 
 - (void)tappedButton:(DOFavoriteButton *)sender {
 	[self showPopup];
+}
+
+#pragma mark - Public API
+- (void)formActionForCell:(UITableViewCell *)cell withActionType:(clipActionType)type {
+	_actionType = type;
+	
+	if(cell) {
+		_indexOfSelectedClip = [self.tableView indexPathForCell:cell].row;
+	}
+	
+	switch (type) {
+		case addToAlbum:
+			[self showBottomAlbumPopup];
+			break;
+		case addAllToAlbum:
+			[self showBottomAlbumPopup];
+			break;
+		case editClip:
+			[self showAlbumActionsheet];
+			break;
+		default:
+			break;
+	}
 }
 
 #pragma mark - (TableView Delegate)
@@ -447,15 +549,9 @@
 	[self autoPlayFullyVisibleImages];
 }
 
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//	if(indexPath.row == data.count - 1) {
-//		_correction = -200;
-//	}else if (indexPath.row == 0) {
-//		_correction = 70;
-//	}else {
-//		_correction = 0;
-//	}
-//}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+	[self recordCurrIndex:indexPath.row];
+}
 
 - (void)reload {
 	[[YYImageCache sharedCache].memoryCache removeAllObjects];
@@ -464,7 +560,7 @@
 }
 
 
-#pragma mark - Slow Play
+#pragma mark - Clip Play
 
 - (BOOL)isFullyVisible:(UITableViewCell *)cell {
 	NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -487,18 +583,6 @@
 	CGFloat cellTop = rectOfCellInSuperview.origin.y;
 	CGFloat cellBottom = rectOfCellInSuperview.origin.y + _cellHeight;
 	
-//	if(cellTop <= topY && cellBottom >= bottomY) {
-//		NSLog(@"Need to play - start");
-//		NSLog(@"row = %ld", indexPath.row);
-//		NSLog(@"correction = %f", _correction);
-//		NSLog(@"cellTop = %f", cellTop);
-//		NSLog(@"topY = %f", topY);
-//		NSLog(@"cellBottom = %f", cellBottom);
-//		NSLog(@"bottomY = %f", bottomY);
-//		NSLog(@"Need to play - end");
-//	}
-	
-//	return (cellTop <= topY && cellBottom >= bottomY);
 	return (cellBottom > topY && cellTop < bottomY);
 }
 
@@ -509,15 +593,9 @@
 			if([self needToPlay: _cell]) {
 				[_cell.webImageView startAnimating];
 				[_cell setBorder];
-//				if(!_cell.webImageView.isAnimating) {
-//					[_cell.webImageView startAnimating];
-//				}
 			}else{
 				[_cell.webImageView stopAnimating];
 				[_cell unSetBorder];
-//				if(_cell.webImageView.isAnimating) {
-//					
-//				}
 			}
 		}
 	}
@@ -957,5 +1035,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 	return [ratio doubleValue];
 }
 
-@end
+- (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay {
+	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+	dispatch_after(popTime, dispatch_get_main_queue(), block);
+}
 
+@end

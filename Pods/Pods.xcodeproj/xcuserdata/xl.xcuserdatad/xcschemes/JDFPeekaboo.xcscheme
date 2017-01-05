@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '61BA909A01DFF001D952CAF2A87C1976'
-               BlueprintName = 'TTTAttributedLabel'
+               BlueprintIdentifier = '1B189C01785455C6DE36E58A43D04FF5'
+               BlueprintName = 'JDFPeekaboo'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libTTTAttributedLabel.a'>
+               BuildableName = 'libJDFPeekaboo.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
