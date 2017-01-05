@@ -23,9 +23,9 @@
 #import "CBLService.h"
 #import <JDFPeekaboo/JDFPeekabooCoordinator.h>
 
-
 #define cellMargin 10
 //#define kCellHeight ceil((kScreenWidth) * 10.0 / 16.0)
+#define screenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width
 #define kScreenWidth ((UIWindow *)[UIApplication sharedApplication].windows.firstObject).width - cellMargin * 2
 #define sHeight [UIScreen mainScreen].bounds.size.height
 #define topBottomAdjust 10.0
@@ -47,11 +47,14 @@
 @property CGFloat cellHeight;
 @property YYWebImageManager *backgroudManager;
 @property YYWebImageManager *defaultManage;
-//@property BOOL didAppear;
 @property NSInteger currIndex;
 @property BOOL isScrollingDown;
 @property BOOL hasWifi;
 @property (nonatomic, strong) JDFPeekabooCoordinator *scrollCoordinator;
+@property (nonatomic, weak) UISearchBar *searchBar;
+@property NSString *searchKeywords;
+//@property NSArray *filteredClips;
+//@property BOOL didAppear;
 //@property NSInteger currMinIndex;
 //@property NSOperationQueue *queue;
 //@property (nonatomic, copy) NSString *clipToAdd;
@@ -143,6 +146,46 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.scrollCoordinator enable];
+}
+
+#pragma mark - Search
+- (void)showSearchbar {
+	CGRect myFrame = CGRectMake(0, 20, screenWidth, 44.0f);
+	UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:myFrame];
+	
+	searchBar.backgroundColor = [UIColor lightGrayColor];
+	searchBar.barTintColor = [UIColor lightGrayColor];
+	searchBar.delegate = self;
+	searchBar.showsCancelButton = YES;
+	searchBar.placeholder = @"搜索描述";
+	searchBar.barStyle = UISearchBarStyleMinimal;
+//	[self.view addSubview:self.searchBar];
+//	[self.tableView.tableHeaderView addSubview:self.searchBar];
+//	self.navigationItem.titleView = self.searchBar;
+	[self.navigationController.view insertSubview:searchBar aboveSubview:self.navigationController.navigationBar];
+	_searchBar = searchBar;
+//	[_scrollCoordinator disable];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+	[_searchBar resignFirstResponder];
+	[self filterWithKeywords:searchBar.text];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+	[self cancelSearch];
+	[_searchBar removeFromSuperview];
+//	[_scrollCoordinator enable];
+}
+
+- (void)filterWithKeywords:(NSString *)keywords {
+	_searchKeywords = keywords;
+	[self refreshScreen:YES];
+}
+
+- (void)cancelSearch {
+	_searchKeywords = nil;
+	[self refreshScreen:YES];
 }
 
 #pragma mark - Download
@@ -292,20 +335,10 @@
 
 - (void)initData {
 	NSMutableArray *entities = @[].mutableCopy;
-	if(_album) {
-		NSMutableArray *pureURL = @[].mutableCopy;
-		[_album.clips enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-			ArticleEntity *entity = (ArticleEntity *)obj;
-			NSString *desc = entity.desc;
-			NSString *url = entity.url;
-			if(desc && [desc length] != 0) {
-				[entities addObject:[[ArticleEntity alloc] initWithData:@"" desc:desc]];
-			}
-			[entities addObject:[[ArticleEntity alloc] initWithData:url desc:@"" tag:idx]];
-			[pureURL addObject:url];
-		}];
-		_articleURLs = [pureURL copy];
-
+	if(_searchKeywords) {
+		[self converAlbumClips:_album.clips toData:entities withSearch:_searchKeywords];
+	}else if(_album) {
+		[self converAlbumClips:_album.clips toData:entities withSearch:nil];
 	}else if(_articleDicts) {
 		[_articleDicts enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 			NSString *desc = obj[@"desc"];
@@ -322,6 +355,24 @@
 	}
 	
 	data = [entities mutableCopy];
+}
+
+- (void)converAlbumClips:(NSArray *)clips toData:(NSMutableArray *)entities withSearch:(NSString *)keywords{
+	NSMutableArray *pureURL = @[].mutableCopy;
+	[clips enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+		ArticleEntity *entity = (ArticleEntity *)obj;
+		if(!keywords || [entity.desc rangeOfString:_searchKeywords options:NSCaseInsensitiveSearch].location != NSNotFound)
+		{
+			NSString *desc = entity.desc;
+			NSString *url = entity.url;
+			if(desc && [desc length] != 0) {
+				[entities addObject:[[ArticleEntity alloc] initWithData:@"" desc:desc]];
+			}
+			[entities addObject:[[ArticleEntity alloc] initWithData:url desc:@"" tag:idx]];
+			[pureURL addObject:url];
+		}
+	}];
+	_articleURLs = [pureURL copy];
 }
 
 - (void)initHeader {
@@ -377,16 +428,23 @@
 		self.navigationItem.rightBarButtonItem = button;
 		return;
 	}else if([self isInAlbum]) {
-		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"信息" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareForAlbumInfo)];
-//		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showOverallActionsheet)];
 		self.navigationItem.rightBarButtonItem = button;
 		return;
 	}else {
 		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(showRatioActionsheet)];
-//		button.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 		self.navigationItem.rightBarButtonItem = button;
 		return;
 	}
+//	}else if([self isInAlbum]) {
+//		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"信息" style:UIBarButtonItemStyleBordered target:self action:@selector(prepareForAlbumInfo)];
+//		self.navigationItem.rightBarButtonItem = button;
+//		return;
+//	}else {
+//		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"设置" style:UIBarButtonItemStyleBordered target:self action:@selector(showRatioActionsheet)];
+//		self.navigationItem.rightBarButtonItem = button;
+//		return;
+//	}
 }
 
 - (BOOL)isVisible {
@@ -816,14 +874,14 @@
 	}
 	
 	if([_cblService modifyClipDesc:newDesc withIndex:clipIndexInAlbum forAlbum:_album]) {
-		[self refreshScreen];
+		[self refreshScreen:YES];
 	}
 }
 
 - (void)deleteClip {
 	NSInteger clipIndexInAlbum = ((ArticleEntity *)data[_indexOfSelectedClip]).tag;
 	if([_cblService deleteClipWithIndex:clipIndexInAlbum forAlbum:_album]) {
-		[self refreshScreen];
+		[self refreshScreen:YES];
 	}
 }
 
@@ -875,6 +933,7 @@
 }
 
 -(void)prepareForAlbumInfo {
+	
 	AlbumInfoViewController *ctr = [[UIStoryboard storyboardWithName:@"favorite" bundle:nil] instantiateViewControllerWithIdentifier:@"albumInfo"];
 	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
 	ctr.name = _album.title;
@@ -895,7 +954,7 @@
 		[self setTitle:title];
 		[self setSummary:desc];
 		[self initHeader];
-		[self refreshScreen];
+		[self refreshScreen:YES];
 	}
 }
 
@@ -916,13 +975,33 @@
 
 #pragma mark - Action Sheet for album operation
 
+- (void)showOverallActionsheet {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self
+													cancelButtonTitle:@"取消"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:@"设置动图比例", @"根据描述过滤", @"修改收藏夹名称", nil];
+	actionSheet.tag = 1;
+	[actionSheet showInView:self.view];
+}
+
+- (void)showRatioActionsheet {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"设置动图比例"
+															 delegate:self
+													cancelButtonTitle:@"取消"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:@"4:3", @"16:10", @"16:9", nil];
+	actionSheet.tag = 2;
+	[actionSheet showInView:self.view];
+}
+
 - (void)showAlbumActionsheet {
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"操作此动图"
 															 delegate:self
 													cancelButtonTitle:@"取消"
 											   destructiveButtonTitle:@"删除动图"
 													otherButtonTitles:@"修改描述", @"加入其他收藏夹", nil];
-	actionSheet.tag = 1;
+	actionSheet.tag = 3;
 	[actionSheet showInView:self.view];
 }
 
@@ -930,6 +1009,34 @@
 clickedButtonAtIndex:(NSInteger)buttonIndex {
 	
 	if(actionSheet.tag == 1) {
+		switch (buttonIndex) {
+			case 0:
+				[self showRatioActionsheet];
+				break;
+			case 1:
+				[self showSearchbar];
+				break;
+			case 2:
+				[self prepareForAlbumInfo];
+				break;
+			default:
+				break;
+		}
+	}else if (actionSheet.tag == 2){
+		switch (buttonIndex) {
+			case 0:
+				[self changeClipRatio:ratio4_3];
+				break;
+			case 1:
+				[self changeClipRatio:ratio16_10];
+				break;
+			case 2:
+				[self changeClipRatio:ratio16_9];
+				break;
+			default:
+				break;
+		}
+	}else if(actionSheet.tag == 3){
 		clipActionType type = noAction;
 		switch (buttonIndex) {
 			case 0:
@@ -945,20 +1052,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 				break;
 		}
 		[self performAlbumAction:type];
-	}else if (actionSheet.tag == 2){
-		switch (buttonIndex) {
-			case 0:
-				[self changeClipRatio:ratio4_3];
-				break;
-			case 1:
-				[self changeClipRatio:ratio16_10];
-				break;
-			case 2:
-				[self changeClipRatio:ratio16_9];
-				break;
-			default:
-				break;
-		}
 	}
 }
 
@@ -972,25 +1065,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 - (void)changeClipRatioWithWidth:(CGFloat)width withHeight:(CGFloat)height {
 	[self setClipWidth:width withHeight:height];
-	[self.tableView reloadData];
-	[self autoPlayFullyVisibleImages];
+	[self refreshScreen:NO];
 }
 
 - (void)changeClipRatio:(double)ratio {
 	[self setRatioSetting:ratio];
 	[self setClipRatio:ratio];
-	[self.tableView reloadData];
-	[self autoPlayFullyVisibleImages];
-}
-
-- (void)showRatioActionsheet {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"设置动图比例"
-															 delegate:self
-													cancelButtonTitle:@"取消"
-											   destructiveButtonTitle:nil
-													otherButtonTitles:@"4:3", @"16:10", @"16:9", nil];
-	actionSheet.tag = 2;
-	[actionSheet showInView:self.view];
+	[self refreshScreen:NO];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -1014,8 +1095,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 }
 
 #pragma mark - Help
-- (void)refreshScreen {
-	[self initData];
+
+- (void)refreshScreen:(BOOL)reloadData{
+	if(reloadData){
+		[self initData];
+	}
 	[self.tableView reloadData];
 	[self autoPlayFullyVisibleImages];
 }

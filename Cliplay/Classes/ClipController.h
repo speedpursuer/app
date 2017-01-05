@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, clipActionType) {
 	noAction,
 };
 
-@interface ClipController : UITableViewController <UIActionSheetDelegate, UIAlertViewDelegate>
+@interface ClipController : UITableViewController <UIActionSheetDelegate, UIAlertViewDelegate, UISearchBarDelegate, CNPPopupControllerDelegate>
 @property (nonatomic, strong) NSArray *articleDicts;
 @property (nonatomic, strong) NSArray *articleURLs;
 @property (nonatomic, strong) Album *album;

@@ -280,7 +280,7 @@
 	_shareBtn.hidden = YES;
 	_albumBtn.hidden = YES;
 	_webImageView.autoPlayAnimatedImage = NO;
-	[self unSetBorder];
+	[self setInitBorder];
 	
 	[_webImageView yy_setImageWithURL:url
 						  placeholder:nil
@@ -308,6 +308,7 @@
 									   _self.shareBtn.hidden = NO;
 									   _self.albumBtn.hidden = NO;
 									   
+									   [_self unSetBorder];
 									   [_self updateAutoplay];
 									   [_self updateCommentQty];
 									   [_self updateHeartButton:[url absoluteString]];
@@ -383,10 +384,16 @@
 	[_webImageView.layer setCornerRadius: 5.0];
 }
 
+- (void)setInitBorder {
+	[_webImageView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
+	[_webImageView.layer setBorderWidth: 2.0];
+	[_webImageView.layer setCornerRadius: 0.0];
+}
+
 - (void)unSetBorder {
-//	if(!_downLoaded) {
-//		return;
-//	}
+	if(!_downLoaded) {
+		return;
+	}
 	[_webImageView.layer setBorderColor: [[UIColor clearColor] CGColor]];
 	[_webImageView.layer setBorderWidth: 0.0];
 	[_webImageView.layer setCornerRadius: 0.0];

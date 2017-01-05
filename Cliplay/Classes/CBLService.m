@@ -213,9 +213,33 @@
 	}
 }
 
+- (void)updateAlbumSeq {
+	
+	NSMutableArray *albumIDs = [[NSMutableArray alloc] initWithArray:_albumSeq.albumIDs];
+	NSMutableArray *allAlbums = [[NSMutableArray alloc] init];
+	
+	CBLQuery* query = [self queryAllAlbums];
+	NSError *error;
+	CBLQueryEnumerator* result = [query run: &error];
+	
+	for (CBLQueryRow* row in result) {
+		CBLDocument *doc = row.document;
+		[allAlbums addObject:doc.documentID];
+	}
+	
+	[allAlbums removeObjectsInArray:albumIDs];
+	
+	for(NSString *albumID in allAlbums) {
+		[albumIDs addObject:albumID];
+	}
+	
+	[self saveAlbumSeq:[albumIDs copy]];
+}
+
+
 - (NSArray *)getAllAlbums {
 	
-	if(!_albumSeq.albumIDs) {
+	if(!_albumSeq.albumIDs || _albumSeq.albumIDs.count == 0) {
 		return [self getAllAlbumsWithoutOrder];
 	}
 	
@@ -325,6 +349,9 @@
 
 #pragma mark - Sync
 - (void)syncToRemote {
+	
+	if(!_isSynced) return;
+	
 	NSURL *syncUrl = [NSURL URLWithString:cbserverURL];
 	
 	_push = [_database createPushReplication:syncUrl];
@@ -411,6 +438,7 @@
 			
 			//Resolve conflict and mark pull complete
 			if([self processConflict]) {
+				[self updateAlbumSeq];
 				[self setDidSynced];
 			};
 		}

@@ -21,6 +21,8 @@
 	NSAssert(NO, @"Unimplemented setInitialValue method +[%@ docType]", [self class]);
 }
 -(void)cleanEmptyChanges {
-	[self revertChanges];
+	if(!self.isNew) {
+		[self revertChanges];
+	}
 }
 @end

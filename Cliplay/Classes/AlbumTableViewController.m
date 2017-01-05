@@ -219,7 +219,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 		[self setEditing:YES];
 		item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(toggleEditMode)];
 	}
-	item.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
+//	item.tintColor = [UIColor colorWithRed:255.0 / 255.0 green:64.0 / 255.0 blue:0.0 / 255.0 alpha:1.0];
 	self.navigationItem.rightBarButtonItem = item;
 }
 
