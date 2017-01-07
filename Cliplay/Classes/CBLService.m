@@ -239,49 +239,35 @@
 
 - (NSArray *)getAllAlbums {
 	
-	if(!_albumSeq.albumIDs || _albumSeq.albumIDs.count == 0) {
-		return [self getAllAlbumsWithoutOrder];
-	}
-	
 	CBLQuery* query = [self queryAllAlbums];
-	
 	NSError *error;
-	NSMutableArray *albums = [[NSMutableArray alloc] init];
-	NSMutableDictionary *dict = [NSMutableDictionary new];
-	
 	CBLQueryEnumerator* result = [query run: &error];
-	for (CBLQueryRow* row in result) {
-		CBLDocument *doc = row.document;
-		Album *album = [Album modelForDocument:doc];
-		[dict setObject:album forKey:doc.documentID];
-	}
 	
-	NSArray *order = _albumSeq.albumIDs;
-	
-	for(NSString *key in order) {
-		id album = [dict objectForKey:key];
-		if(album) {
+	if(result.count != _albumSeq.albumIDs.count) {
+		NSMutableArray *albums = [[NSMutableArray alloc] init];
+		for (CBLQueryRow* row in result) {
+			CBLDocument *doc = row.document;
+			Album *album = [Album modelForDocument:doc];
 			[albums addObject:album];
 		}
+		return [albums copy];
+	}else {
+		NSMutableArray *albums = [[NSMutableArray alloc] init];
+		NSMutableDictionary *dict = [NSMutableDictionary new];
+		for (CBLQueryRow* row in result) {
+			CBLDocument *doc = row.document;
+			Album *album = [Album modelForDocument:doc];
+			[dict setObject:album forKey:doc.documentID];
+		}
+		
+		for(NSString *key in _albumSeq.albumIDs) {
+			id album = [dict objectForKey:key];
+			if(album) {
+				[albums addObject:album];
+			}
+		}
+		return [albums copy];
 	}
-	
-	return [albums copy];
-}
-
-- (NSArray *)getAllAlbumsWithoutOrder {
-	CBLQuery* query = [self queryAllAlbums];
-	
-	NSError *error;
-	NSMutableArray *albums = [[NSMutableArray alloc] init];
-	
-	CBLQueryEnumerator* result = [query run: &error];
-	for (CBLQueryRow* row in result) {
-		CBLDocument *doc = row.document;
-		Album *album = [Album modelForDocument:doc];
-		[albums addObject:album];
-	}
-	
-	return [albums copy];
 }
 
 - (CBLQuery *)queryAllAlbums {

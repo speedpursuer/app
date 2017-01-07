@@ -29,12 +29,12 @@ typedef NS_ENUM(NSInteger, clipActionType) {
 @property (nonatomic, strong) Album *album;
 @property (nonatomic, strong) NSString *header;
 @property (nonatomic, strong) NSString *summary;
-@property (nonatomic, assign) BOOL fullScreen;
 @property (nonatomic, assign) BOOL showInfo;
 @property (nonatomic, strong) NSString *postID;
 @property (nonatomic, assign) BOOL favorite;
 @property (nonatomic, assign) BOOL fetchMode;
 @property (strong) DOFavoriteButton *infoButton;
+//@property (nonatomic, assign) BOOL fullScreen;
 
 - (void)popupControllerDidDismiss:(CNPPopupController *)controller;
 - (NSString *)getCommentQty:(NSString *)clipID;

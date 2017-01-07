@@ -53,6 +53,7 @@
 @property (nonatomic, strong) JDFPeekabooCoordinator *scrollCoordinator;
 @property (nonatomic, weak) UISearchBar *searchBar;
 @property NSString *searchKeywords;
+@property BOOL playStopped;
 //@property NSArray *filteredClips;
 //@property BOOL didAppear;
 //@property NSInteger currMinIndex;
@@ -111,9 +112,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];	
-	if(_fullScreen) {
+	if(_playStopped) {
 		[self autoPlayFullyVisibleImages];
-		_fullScreen = false;
 	}else{
 		[self fetchPostComments:NO];
 	}
@@ -645,6 +645,7 @@
 }
 
 - (void)autoPlayFullyVisibleImages {
+	_playStopped = NO;
 	for (UITableViewCell *cell in [self.tableView visibleCells]) {
 		if([cell isKindOfClass:[ClipCell class]]) {
 			ClipCell *_cell = (ClipCell *) cell;
@@ -660,6 +661,7 @@
 }
 
 - (void)stopPlayingAllImages {
+	_playStopped = YES;
 	for (UITableViewCell *cell in [self.tableView visibleCells]) {
 		if([cell isKindOfClass:[ClipCell class]]) {
 			ClipCell *_cell = (ClipCell *) cell;
@@ -892,8 +894,6 @@
 	ctr.currDesc = desc;
 	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
 	
-	_fullScreen = true;
-	
 	UINavigationController *navigationController =
 	[[UINavigationController alloc] initWithRootViewController:ctr];
 	navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -938,8 +938,6 @@
 	ctr.modalPresentationStyle = UIModalPresentationCurrentContext;
 	ctr.name = _album.title;
 	ctr.desc = _album.desc;
-	
-	_fullScreen = true;
 	
 	UINavigationController *navigationController =
 	[[UINavigationController alloc] initWithRootViewController:ctr];

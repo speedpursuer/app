@@ -197,19 +197,7 @@
 		
 		if(!_self.downLoaded) return;
 		
-		ClipController* tc = [_self getViewCtr];
-		ClipPlayController *clipCtr = [ClipPlayController new];
-		tc.fullScreen = true;
-		clipCtr.clipURL = [[_view yy_imageURL] absoluteString];
-		clipCtr.favorite = TRUE;
-		clipCtr.showLike = FALSE;
-		clipCtr.standalone = false;
-		clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
-		clipCtr.delegate = tc;
-		[tc recordSlowPlayWithUrl:[[_view yy_imageURL] absoluteString]];
-		
-		[tc presentViewController:clipCtr animated:YES completion:nil];
-		
+		[_self showClipView:[[_view yy_imageURL] absoluteString]];
 	}];
 	
 	doubleTap.numberOfTapsRequired = 1;
@@ -220,7 +208,6 @@
 - (void)showClipView:(NSString*)url{
 	
 	ClipController* tc = [self getViewCtr];
-	tc.fullScreen = true;
 	
 	ClipPlayController *clipCtr = [ClipPlayController new];
 	
@@ -230,7 +217,7 @@
 	clipCtr.standalone = false;
 	
 	clipCtr.modalPresentationStyle = UIModalPresentationCurrentContext;
-	clipCtr.delegate = self;
+	clipCtr.delegate = tc;
 	
 	[tc presentViewController:clipCtr animated:YES completion:nil];
 }
