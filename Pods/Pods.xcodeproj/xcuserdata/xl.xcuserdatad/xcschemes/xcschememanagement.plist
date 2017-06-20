@@ -74,6 +74,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TLYShyNavBar.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>TTTAttributedLabel.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -112,7 +117,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>055201C3BB640B0103CF2320E680CCAA</key>
+		<key>0D1A6AAD755E1DA5D230BDB23C8723DB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,17 +132,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>33E87EC8303A7C7CB6BE7AC4953922F3</key>
+		<key>530E53DDB2E20EE11F609F3C478C1735</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>611A56531AE8BFDB2320359150B8A900</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>61BA909A01DFF001D952CAF2A87C1976</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,11 +162,6 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>89F1303E02E91D0EAEA843175039C830</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>9B412E0D1AA7CFCC3B6CBEC582819D45</key>
 		<dict>
 			<key>primary</key>
@@ -182,17 +177,37 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B00C774D1AEB86404E42F72D8E9C4AEC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B191C97F6DB9408C6B5B03E30A63F604</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B2B0F87BC788FA547E5356A9006F455A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CE59E037D09B1B39E14F2DA740610E32</key>
+		<key>B9BFBE2EE6AD39B462DB876604F49271</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F13C2142BBB3D9612CB10A8883DDE4E8</key>
+		<key>BE40F41277B4E62ADBD3A7EE5F1DD29F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C969DF9FF07A2A651211FC5266E4BC9A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EBB0A4BE993EC4F490C0E7293B23ED7E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -202,12 +217,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F93E21E80A838C63C22C2C9599C19A53</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FF5690DF15F5696516521EFD29BA8FC7</key>
+		<key>FB6AE2552807FBA32E94F1A4CB9D26BE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

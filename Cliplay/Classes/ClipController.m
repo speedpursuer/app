@@ -21,7 +21,8 @@
 #import "AlbumInfoViewController.h"
 #import <STPopup/STPopup.h>
 #import "CBLService.h"
-#import <JDFPeekaboo/JDFPeekabooCoordinator.h>
+#import <TLYShyNavBar/TLYShyNavBarManager.h>
+//#import <JDFPeekaboo/JDFPeekabooCoordinator.h>
 
 #define cellMargin 10
 //#define kCellHeight ceil((kScreenWidth) * 10.0 / 16.0)
@@ -50,10 +51,11 @@
 @property NSInteger currIndex;
 @property BOOL isScrollingDown;
 @property BOOL hasWifi;
-@property (nonatomic, strong) JDFPeekabooCoordinator *scrollCoordinator;
+//@property (nonatomic, strong) JDFPeekabooCoordinator *scrollCoordinator;
 @property (nonatomic, weak) UISearchBar *searchBar;
 @property NSString *searchKeywords;
 @property BOOL playStopped;
+@property (nonatomic, weak) UITableView *tableView;
 //@property NSArray *filteredClips;
 //@property BOOL didAppear;
 //@property NSInteger currMinIndex;
@@ -85,6 +87,8 @@
 	
 	[self setClipRatio:[self getRatioSetting]];
 	
+	[self setupTableView];
+	
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -95,7 +99,7 @@
 	
 	[self registerReusableCell];
 	
-	[self setUpScrollCoordinator];
+//	[self setUpScrollCoordinator];
 	
 	[self addInfoIcon];
 	
@@ -132,10 +136,11 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	[self.scrollCoordinator disable];
+//	[self.scrollCoordinator disable];
 	if(![self isVisible]){
 		[self stopPlayingAllImages];
 		if(![self presentedViewController]){
+			self.shyNavBarManager.scrollView = nil;
 			[_backgroudManager.queue cancelAllOperations];
 			[_defaultManage.queue cancelAllOperations];
 			[[YYImageCache sharedCache].memoryCache removeAllObjects];
@@ -145,7 +150,22 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	[self.scrollCoordinator enable];
+//	[self.scrollCoordinator enable];
+}
+
+- (void)setupTableView {
+	CGRect tableViewFrame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
+	UITableView *tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:UITableViewStylePlain];
+	[self.view addSubview:tableView];
+	self.tableView = tableView;
+	[self.tableView setDelegate:self];
+	[self.tableView setDataSource:self];
+	[self setupNavAutoHide];
+}
+
+- (void)setupNavAutoHide {
+	self.tableView.contentInset = UIEdgeInsetsMake(64,0,0,0);
+	self.shyNavBarManager.scrollView = self.tableView;
 }
 
 #pragma mark - Search
@@ -234,6 +254,7 @@
 }
 
 - (void)dealloc {
+	NSLog(@"dealloc!!!!!");
 	[_defaultManage.queue removeObserver:self forKeyPath:@"operationCount"];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
@@ -317,12 +338,12 @@
 }
 
 #pragma mark - Initialization
-- (void)setUpScrollCoordinator {
-	self.scrollCoordinator = [[JDFPeekabooCoordinator alloc] init];
-	self.scrollCoordinator.scrollView = self.tableView;
-	self.scrollCoordinator.topView = self.navigationController.navigationBar;
-	self.scrollCoordinator.topViewMinimisedHeight = 20.0f;
-}
+//- (void)setUpScrollCoordinator {
+//	self.scrollCoordinator = [[JDFPeekabooCoordinator alloc] init];
+//	self.scrollCoordinator.scrollView = self.tableView;
+//	self.scrollCoordinator.topView = self.navigationController.navigationBar;
+//	self.scrollCoordinator.topViewMinimisedHeight = 20.0f;
+//}
 
 -(void)registerReusableCell {
 	

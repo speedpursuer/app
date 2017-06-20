@@ -307,6 +307,7 @@
 #pragma mark - Favorite
 - (void)loadFavorite {
 	_uuid = [FCUUID uuidForDevice];
+//	_uuid = @"fd5f1034aacc4a608ef6678357012f99";
 	_favorite = [Favorite getFavoriteInDatabase:_database withUUID:_uuid];
 }
 

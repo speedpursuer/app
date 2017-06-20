@@ -963,6 +963,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.iCloud = {
+								enabled = 0;
+							};
 						};
 					};
 					76896FFE1D94CCE10007AA70 = {
@@ -1317,7 +1320,7 @@
 					"$(inherited)",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lee.cliplay;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lee.cliplay-new";
 				PRODUCT_NAME = Cliplay;
 				PROVISIONING_PROFILE = "";
 				"SDKROOT[arch=*]" = iphoneos;
@@ -1367,7 +1370,7 @@
 					"$(inherited)",
 					"-fobjc-arc",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lee.cliplay;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lee.cliplay-new";
 				PRODUCT_NAME = Cliplay;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
